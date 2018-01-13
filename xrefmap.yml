@@ -1,0 +1,15 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: Ipfs.Engine
+  name: Ipfs.Engine
+  href: api/Ipfs.Engine.html
+  commentId: N:Ipfs.Engine
+  fullName: Ipfs.Engine
+  nameWithType: Ipfs.Engine
+- uid: Ipfs.Engine.IpfsEngine
+  name: IpfsEngine
+  href: api/Ipfs.Engine.IpfsEngine.html
+  commentId: T:Ipfs.Engine.IpfsEngine
+  fullName: Ipfs.Engine.IpfsEngine
+  nameWithType: IpfsEngine

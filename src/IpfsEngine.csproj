@@ -15,7 +15,7 @@
     <PackageId>Ipfs.Engine</PackageId>
     <Authors>Richard Schneider</Authors>
     <Title>IPFS Engine</Title>
-    <Description>An embedded IPFS engine for .Nett</Description>
+    <Description>An embedded IPFS engine for .Net</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Copyright>© 2018 Richard Schneider</Copyright>

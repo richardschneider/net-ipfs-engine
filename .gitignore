@@ -200,5 +200,5 @@ FakesAssemblies/
 *.opt
 
 # VS 2017 creates this
-src/Ipfs.Api.xml
+src/Ipfs.Engine.xml
 

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard14;netstandard2;net45</TargetFrameworks>
+    <AssemblyName>Ipfs.Engine</AssemblyName>
+    <RootNamespace>Ipfs.Engine</RootNamespace>
+    <DocumentationFile>Ipfs.Engine.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    
+    <!-- developer build is always 0.42 -->
+    <AssemblyVersion>0.42</AssemblyVersion>
+    <Version>0.42</Version>
+    
+    <!-- Nuget specs -->
+    <PackageId>Ipfs.Engine</PackageId>
+    <Authors>Richard Schneider</Authors>
+    <Title>IPFS Engine</Title>
+    <Description>An embedded IPFS engine for .Nett</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Copyright>© 2018 Richard Schneider</Copyright>
+    <PackageTags>ipfs peer-to-peer p2p distributed file-system web</PackageTags>
+    <IncludeSymbols>True</IncludeSymbols>
+    <PackageLicenseUrl>https://github.com/richardschneider/net-ipfs-engine/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-engine</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/ipfs/logo/blob/master/platform-icons/osx-menu-bar.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ipfs.Core" Version="0.18.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+ 
+</Project>

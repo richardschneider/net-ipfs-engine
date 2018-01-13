@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
+using System.Reflection;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -23,7 +24,12 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<Dictionary<string, string>> VersionAsync(CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var version = typeof(GenericApi).GetTypeInfo().Assembly.GetName().Version;
+            return Task.FromResult(new Dictionary<string, string>
+            {
+                { "Version", $"{version.Major}.{version.Minor}.{version.Revision}" },
+                { "Repo", "0" }
+            });
         }
     }
 }

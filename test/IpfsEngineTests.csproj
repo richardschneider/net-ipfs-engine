@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
     <DebugType>full</DebugType>
-    <RootNamespace>Ipfs</RootNamespace>
+    <RootNamespace>Ipfs.Engine</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard14;netstandard2;net45</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard14;netstandard2</TargetFrameworks>
     <AssemblyName>Ipfs.Engine</AssemblyName>
     <RootNamespace>Ipfs.Engine</RootNamespace>
     <DocumentationFile>Ipfs.Engine.xml</DocumentationFile>
@@ -26,9 +26,35 @@
     <PackageIconUrl>https://github.com/ipfs/logo/blob/master/platform-icons/osx-menu-bar.png</PackageIconUrl>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard14'">
+    <DefineConstants>NETSTANDARD14</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2'">
+    <DefineConstants>NETSTANDARD2</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461'">
+    <DefineConstants>NET461</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Ipfs.Core" Version="0.18.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
- 
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard14'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.5" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
+  </ItemGroup>
 </Project>

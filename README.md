@@ -10,6 +10,8 @@ An embedded IPFS engine implemented in C#. More information, including the class
 
 [![IPFS Core API](https://github.com/ipfs/interface-ipfs-core/raw/master/img/badge.png)](https://github.com/ipfs/interface-ipfs-core)
 
+This is **ALPHA CODE** and is not yet ready for prime time. 
+
 ## Features
 
 - An embedded implementation of IPFS, no need for a "IPFS daemon"

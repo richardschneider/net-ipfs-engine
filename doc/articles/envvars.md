@@ -5,4 +5,5 @@ are used  to control the behaviour of the library
 
 | Name | Description |
 | --- | --- |
-| IpfsHttpUrl | The default URL to the IPFS HTTP API server. See [DefaultApiUri](xref:Ipfs.Api.IpfsClient.DefaultApiUri) for more details. |
+| HOME | The user's home directory |
+| HOMEPATH | same as `HOME` |

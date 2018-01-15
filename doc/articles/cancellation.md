@@ -14,7 +14,7 @@ var cts = new CancellationTokenSource(500);
 try
 {
 	await Task.Delay(1000);
-	var peer = await ipfs.IdAsync(cts.Token);
+	var peer = await ipfs.Generic.IdAsync(cts.Token);
 	Assert.Fail("Did not throw TaskCanceledException");
 }
 catch (TaskCanceledException)

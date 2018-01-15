@@ -6,20 +6,20 @@ which does not block current thread.
 This means that callers should **normally** use the `async/await` paradigm
 
 ```cs
-async Task<string> AddText()
+async Task<Cid> AddText()
 {
-	var result = await ipfs.FileSystem.AddTextAsync("I am pinned");
-	return result.Hash;
+	var data = await ipfs.FileSystem.AddTextAsync("I am pinned");
+	return data.Id;
 }
 ```
 
 If a synchronous operation is required, then this can work
 
 ```cs
-string AddText()
+Cid AddText()
 {
-	var result = ipfs.FileSystem.AddTextAsync("I am pinned").Result;
-	return result.Hash;
+	var data = ipfs.FileSystem.AddTextAsync("I am pinned").Result;
+	return data.Id;
 }
 ```
 

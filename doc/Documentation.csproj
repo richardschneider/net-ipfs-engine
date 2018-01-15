@@ -91,6 +91,7 @@
     <Content Include="articles\cancellation.md" />
     <Content Include="articles\async.md" />
     <Content Include="articles\envvars.md" />
+    <Content Include="articles\repository.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

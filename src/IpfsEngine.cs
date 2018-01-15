@@ -42,6 +42,11 @@ namespace Ipfs.Engine
             Swarm = new SwarmApi(this);
         }
 
+        /// <summary>
+        ///   The configuration options.
+        /// </summary>
+        public IpfsEngineOptions Options { get; set; } = new IpfsEngineOptions();
+
         /// <inheritdoc />
         public IBitswapApi Bitswap { get; private set; }
 
@@ -83,25 +88,24 @@ namespace Ipfs.Engine
 
         internal async Task<Repository> Repository(CancellationToken cancel = default(CancellationToken))
         {
+            Repository repo = new Repository
+            {
+                Options = Options.Repository
+            };
+
             if (repositoryInited)
             {
-                return await Task.FromResult(new Repository());
+                return await Task.FromResult(repo);
             }
 
-            Repository repo = null;
+            ;
             lock (this)
             {
                 if (!repositoryInited)
                 {
-                    repo = new Repository
-                    {
-
-                    };
                     repositoryInited = true;
                 }
             }
-            if (repo == null)
-                repo = new Repository();
             await repo.CreateAsync(cancel);
             return repo;
         }

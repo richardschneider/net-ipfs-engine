@@ -21,31 +21,22 @@ namespace Ipfs.Engine
                 new MSCommonLoggingProvider(log)
             });
 #endif
-        /// <summary>
-        ///   The directory of the repository.
-        /// </summary>
-        public string Folder { get; set; } 
-            = Path.Combine(
-                Environment.GetEnvironmentVariable("HOME") ?? 
-                Environment.GetEnvironmentVariable("HOMEPATH"),
-                ".csipfs");
 
-        string databaseFqn;
+        public RepositoryOptions Options { get; set; } = new RepositoryOptions();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!Directory.Exists(Folder))
+            if (!Directory.Exists(Options.Folder))
             {
-                log.DebugFormat("creating folder '{0}'", Folder);
-                Directory.CreateDirectory(Folder);
+                log.DebugFormat("creating folder '{0}'", Options.Folder);
+                Directory.CreateDirectory(Options.Folder);
             }
-            databaseFqn = Path.Combine(Folder, "ipfs.db");
-            log.DebugFormat("using '{0}'", databaseFqn);
+            log.DebugFormat("using '{0}'", Options.DatabaseName);
             optionsBuilder
 #if !NETSTANDARD14
                 .UseLoggerFactory(MyLoggerFactory)
 #endif
-                .UseSqlite($"Data Source={databaseFqn}");
+                .UseSqlite($"Data Source={Options.DatabaseName}");
         }
 
         public async Task CreateAsync(CancellationToken cancel = default(CancellationToken))
@@ -56,7 +47,7 @@ namespace Ipfs.Engine
 
         public async Task<bool> DeleteAsync(CancellationToken cancel = default(CancellationToken))
         {
-            log.DebugFormat("removing '{0}'", databaseFqn);
+            log.DebugFormat("removing '{0}'", Options.DatabaseName);
             return await this.Database.EnsureDeletedAsync(cancel);
         }
 

@@ -19,6 +19,8 @@ namespace Ipfs.Engine
     {
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));
 
+        Repository repository;
+
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
         /// </summary>
@@ -78,6 +80,27 @@ namespace Ipfs.Engine
 
         /// <inheritdoc />
         public ISwarmApi Swarm { get; private set; }
+
+        internal async Task<Repository> Repository(CancellationToken cancel = default(CancellationToken))
+        {
+            if (repository != null)
+            {
+                return await Task.FromResult(repository);
+            }
+
+            lock (this)
+            {
+                if (repository == null)
+                {
+                    repository = new Repository
+                    {
+
+                    };
+                }
+            }
+            await repository.CreateAsync(cancel);
+            return repository;
+        }
 
     }
 }

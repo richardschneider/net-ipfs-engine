@@ -7,13 +7,20 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Ipfs.Engine
 {
     class Repository : DbContext
     {
         static ILog log = LogManager.GetLogger(typeof(Repository));
-
+#if !NETSTANDARD14
+        public static readonly LoggerFactory MyLoggerFactory
+            = new LoggerFactory(new ILoggerProvider[] 
+            {
+                new MSCommonLoggingProvider(log)
+            });
+#endif
         /// <summary>
         ///   The directory of the repository.
         /// </summary>
@@ -34,7 +41,11 @@ namespace Ipfs.Engine
             }
             databaseFqn = Path.Combine(Folder, "ipfs.db");
             log.DebugFormat("using '{0}'", databaseFqn);
-            optionsBuilder.UseSqlite($"Data Source={databaseFqn}");
+            optionsBuilder
+#if !NETSTANDARD14
+                .UseLoggerFactory(MyLoggerFactory)
+#endif
+                .UseSqlite($"Data Source={databaseFqn}");
         }
 
         public async Task CreateAsync(CancellationToken cancel = default(CancellationToken))

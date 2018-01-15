@@ -80,7 +80,7 @@ that forces the getting of info on the local IPFS server to be cancelled</p>
 try
 {
     await Task.Delay(1000);
-    var peer = await ipfs.IdAsync(cts.Token);
+    var peer = await ipfs.Generic.IdAsync(cts.Token);
     Assert.Fail(&quot;Did not throw TaskCanceledException&quot;);
 }
 catch (TaskCanceledException)

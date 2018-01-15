@@ -19,7 +19,7 @@ namespace Ipfs.Engine
     {
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));
 
-        Repository repository;
+        bool repositoryInited;
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
@@ -83,23 +83,27 @@ namespace Ipfs.Engine
 
         internal async Task<Repository> Repository(CancellationToken cancel = default(CancellationToken))
         {
-            if (repository != null)
+            if (repositoryInited)
             {
-                return await Task.FromResult(repository);
+                return await Task.FromResult(new Repository());
             }
 
+            Repository repo = null;
             lock (this)
             {
-                if (repository == null)
+                if (!repositoryInited)
                 {
-                    repository = new Repository
+                    repo = new Repository
                     {
 
                     };
+                    repositoryInited = true;
                 }
             }
-            await repository.CreateAsync(cancel);
-            return repository;
+            if (repo == null)
+                repo = new Repository();
+            await repo.CreateAsync(cancel);
+            return repo;
         }
 
     }

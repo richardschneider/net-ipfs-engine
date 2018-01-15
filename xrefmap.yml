@@ -145,6 +145,18 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.Object
   fullName: Ipfs.Engine.IpfsEngine.Object
   nameWithType: IpfsEngine.Object
+- uid: Ipfs.Engine.IpfsEngine.Options
+  name: Options
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Options
+  commentId: P:Ipfs.Engine.IpfsEngine.Options
+  fullName: Ipfs.Engine.IpfsEngine.Options
+  nameWithType: IpfsEngine.Options
+- uid: Ipfs.Engine.IpfsEngine.Options*
+  name: Options
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Options_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.Options
+  fullName: Ipfs.Engine.IpfsEngine.Options
+  nameWithType: IpfsEngine.Options
 - uid: Ipfs.Engine.IpfsEngine.Pin
   name: Pin
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Pin
@@ -181,6 +193,24 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.Swarm
   fullName: Ipfs.Engine.IpfsEngine.Swarm
   nameWithType: IpfsEngine.Swarm
+- uid: Ipfs.Engine.IpfsEngineOptions
+  name: IpfsEngineOptions
+  href: api/Ipfs.Engine.IpfsEngineOptions.html
+  commentId: T:Ipfs.Engine.IpfsEngineOptions
+  fullName: Ipfs.Engine.IpfsEngineOptions
+  nameWithType: IpfsEngineOptions
+- uid: Ipfs.Engine.IpfsEngineOptions.Repository
+  name: Repository
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Repository
+  commentId: P:Ipfs.Engine.IpfsEngineOptions.Repository
+  fullName: Ipfs.Engine.IpfsEngineOptions.Repository
+  nameWithType: IpfsEngineOptions.Repository
+- uid: Ipfs.Engine.IpfsEngineOptions.Repository*
+  name: Repository
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Repository_
+  commentId: Overload:Ipfs.Engine.IpfsEngineOptions.Repository
+  fullName: Ipfs.Engine.IpfsEngineOptions.Repository
+  nameWithType: IpfsEngineOptions.Repository
 - uid: Ipfs.Engine.Migrations
   name: Ipfs.Engine.Migrations
   href: api/Ipfs.Engine.Migrations.html
@@ -229,3 +259,33 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Initial.Up
   fullName: Ipfs.Engine.Migrations.Initial.Up
   nameWithType: Initial.Up
+- uid: Ipfs.Engine.RepositoryOptions
+  name: RepositoryOptions
+  href: api/Ipfs.Engine.RepositoryOptions.html
+  commentId: T:Ipfs.Engine.RepositoryOptions
+  fullName: Ipfs.Engine.RepositoryOptions
+  nameWithType: RepositoryOptions
+- uid: Ipfs.Engine.RepositoryOptions.DatabaseName
+  name: DatabaseName
+  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_DatabaseName
+  commentId: P:Ipfs.Engine.RepositoryOptions.DatabaseName
+  fullName: Ipfs.Engine.RepositoryOptions.DatabaseName
+  nameWithType: RepositoryOptions.DatabaseName
+- uid: Ipfs.Engine.RepositoryOptions.DatabaseName*
+  name: DatabaseName
+  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_DatabaseName_
+  commentId: Overload:Ipfs.Engine.RepositoryOptions.DatabaseName
+  fullName: Ipfs.Engine.RepositoryOptions.DatabaseName
+  nameWithType: RepositoryOptions.DatabaseName
+- uid: Ipfs.Engine.RepositoryOptions.Folder
+  name: Folder
+  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_Folder
+  commentId: P:Ipfs.Engine.RepositoryOptions.Folder
+  fullName: Ipfs.Engine.RepositoryOptions.Folder
+  nameWithType: RepositoryOptions.Folder
+- uid: Ipfs.Engine.RepositoryOptions.Folder*
+  name: Folder
+  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_Folder_
+  commentId: Overload:Ipfs.Engine.RepositoryOptions.Folder
+  fullName: Ipfs.Engine.RepositoryOptions.Folder
+  nameWithType: RepositoryOptions.Folder

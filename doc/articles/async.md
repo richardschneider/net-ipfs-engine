@@ -22,3 +22,5 @@ string AddText()
 	return result.Hash;
 }
 ```
+
+Or use `.Wait()` instead of `.Result` when the operation returns nothing.

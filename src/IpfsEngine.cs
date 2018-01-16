@@ -10,6 +10,7 @@ using System.Threading;
 using Ipfs.CoreApi;
 using Ipfs.Engine.CoreApi;
 using Ipfs.Engine.Cryptography;
+using System.Reflection;
 
 namespace Ipfs.Engine
 {
@@ -22,6 +23,7 @@ namespace Ipfs.Engine
 
         bool repositoryInited;
         KeyChain keyChain;
+        Peer localPeer = new Peer();
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
@@ -122,7 +124,7 @@ namespace Ipfs.Engine
         ///   A task that represents the asynchronous operation. The task's result is
         ///   the <see cref="keyChain"/>.
         /// </returns>
-        public Task<KeyChain> KeyChain(CancellationToken cancel = default(CancellationToken))
+        public async Task<KeyChain> KeyChain(CancellationToken cancel = default(CancellationToken))
         {
             if (keyChain == null)
             {
@@ -136,8 +138,39 @@ namespace Ipfs.Engine
                         };
                      }
                 }
+
+                // Maybe create "self" key, this is the local peer's id.
+                var self = await keyChain.FindKeyByNameAsync("self", cancel);
+                if (self == null)
+                {
+                    self = await keyChain.CreateAsync("self", null, 0, cancel);
+                }
             }
-            return Task.FromResult(keyChain);
+            return keyChain;
+        }
+
+        /// <summary>
+        ///   Provides access to the local peer.
+        /// </summary>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result is
+        ///   a <see cref="Peer"/>.
+        /// </returns>
+        public async Task<Peer> LocalPeer(CancellationToken cancel = default(CancellationToken))
+        {
+            if (localPeer.Id == null)
+            {
+                var keyChain = await KeyChain(cancel);
+                var self = await keyChain.FindKeyByNameAsync("self", cancel);
+                localPeer.Id = self.Id;
+                localPeer.ProtocolVersion = "ipfs/0.1.0";
+                var version = typeof(IpfsEngine).GetTypeInfo().Assembly.GetName().Version;
+                localPeer.AgentVersion = $"net-ipfs/{version.Major}.{version.Minor}.{version.Revision}";
+            }
+            return localPeer;
         }
     }
 }

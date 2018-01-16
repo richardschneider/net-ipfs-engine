@@ -12,7 +12,6 @@ namespace Ipfs.Engine
         const string marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
 
         [TestMethod]
-        [Ignore()]
         public async Task Local_Info()
         {
             var ipfs = TestFixture.Ipfs;

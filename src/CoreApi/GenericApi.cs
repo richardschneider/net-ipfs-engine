@@ -17,8 +17,13 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task<Peer> IdAsync(MultiHash peer = null, CancellationToken cancel = default(CancellationToken))
+        public async Task<Peer> IdAsync(MultiHash peer = null, CancellationToken cancel = default(CancellationToken))
         {
+            if (peer == null)
+            {
+                return await ipfs.LocalPeer(cancel);
+            }
+
             throw new NotImplementedException();
         }
 

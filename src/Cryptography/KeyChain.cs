@@ -32,9 +32,38 @@ namespace Ipfs.Engine.Cryptography
         /// </summary>
         public KeyChainOptions Options { get; set; } = new KeyChainOptions();
 
+        /// <summary>
+        ///   Find a key by its name.
+        /// </summary>
+        /// <param name="name">
+        ///   The local name of the key.
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result is
+        ///   an <see cref="IKey"/> or <b>null</b> if the the key is not defined.
+        /// </returns>
+        public async Task<IKey> FindKeyByNameAsync(string name, CancellationToken cancel = default(CancellationToken))
+        {
+            using (var repo = await ipfs.Repository(cancel))
+            {
+                return await repo.Keys
+                    .Where(k => k.Name == name)
+                    .FirstOrDefaultAsync(cancel);
+            }
+        }
+
         /// <inheritdoc />
         public async Task<IKey> CreateAsync(string name, string keyType, int size, CancellationToken cancel = default(CancellationToken))
         {
+            // Apply defaults.
+            if (string.IsNullOrWhiteSpace(keyType))
+                keyType = Options.DefaultKeyType;
+            if (size < 1)
+                size = Options.DefaultKeySize;
+
             var keyInfo = new KeyInfo
             {
                 Name = name,

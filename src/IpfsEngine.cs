@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Ipfs.CoreApi;
 using Ipfs.Engine.CoreApi;
+using Ipfs.Engine.Cryptography;
 
 namespace Ipfs.Engine
 {
@@ -20,6 +21,7 @@ namespace Ipfs.Engine
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));
 
         bool repositoryInited;
+        KeyChain keyChain;
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
@@ -110,5 +112,32 @@ namespace Ipfs.Engine
             return repo;
         }
 
+        /// <summary>
+        ///   Provides access to the <see cref="KeyChain"/>.
+        /// </summary>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result is
+        ///   the <see cref="keyChain"/>.
+        /// </returns>
+        public Task<KeyChain> KeyChain(CancellationToken cancel = default(CancellationToken))
+        {
+            if (keyChain == null)
+            {
+                lock (this)
+                {
+                    if (keyChain == null)
+                    {
+                        keyChain = new KeyChain(this)
+                        {
+                            Options = Options.KeyChain
+                        };
+                     }
+                }
+            }
+            return Task.FromResult(keyChain);
+        }
     }
 }

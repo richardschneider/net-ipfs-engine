@@ -17,34 +17,40 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task<IKey> CreateAsync(string name, string keyType, int size, CancellationToken cancel = default(CancellationToken))
+        public async Task<IKey> CreateAsync(string name, string keyType, int size, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var keyChain = await ipfs.KeyChain(cancel);
+            return await keyChain.CreateAsync(name, keyType, size, cancel);
         }
 
-        public Task<string> Export(string name, SecureString password, CancellationToken cancel = default(CancellationToken))
+        public async Task<string> Export(string name, SecureString password, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var keyChain = await ipfs.KeyChain(cancel);
+            return await keyChain.Export(name, password, cancel);
         }
 
-        public Task<IKey> Import(string name, string pem, SecureString password = null, CancellationToken cancel = default(CancellationToken))
+        public async Task<IKey> Import(string name, string pem, SecureString password = null, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var keyChain = await ipfs.KeyChain(cancel);
+            return await keyChain.Import(name, pem, password, cancel);
         }
 
-        public Task<IEnumerable<IKey>> ListAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task<IEnumerable<IKey>> ListAsync(CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var keyChain = await ipfs.KeyChain(cancel);
+            return await keyChain.ListAsync(cancel);
         }
 
-        public Task<IKey> RemoveAsync(string name, CancellationToken cancel = default(CancellationToken))
+        public async Task<IKey> RemoveAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var keyChain = await ipfs.KeyChain(cancel);
+            return await keyChain.RemoveAsync(name, cancel);
         }
 
-        public Task<IKey> RenameAsync(string oldName, string newName, CancellationToken cancel = default(CancellationToken))
+        public async Task<IKey> RenameAsync(string oldName, string newName, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var keyChain = await ipfs.KeyChain(cancel);
+            return await keyChain.RenameAsync(oldName, newName, cancel);
         }
     }
 }

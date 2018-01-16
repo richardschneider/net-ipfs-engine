@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ipfs.Engine.Cryptography;
 
 namespace Ipfs.Engine
 {
@@ -15,5 +16,10 @@ namespace Ipfs.Engine
         ///   Repository options.
         /// </summary>
         public RepositoryOptions Repository { get; set; } = new RepositoryOptions();
+
+        /// <summary>
+        ///   KeyChain options.
+        /// </summary>
+        public KeyChainOptions KeyChain { get; set; } = new KeyChainOptions();
     }
 }

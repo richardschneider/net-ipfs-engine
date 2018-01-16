@@ -52,6 +52,8 @@ namespace Ipfs.Engine
         }
 
         public DbSet<Config> Configs { get; set; }
+        public DbSet<Cryptography.KeyInfo> Keys { get; set; }
+        public DbSet<Cryptography.EncryptedKey> EncryptedKeys { get; set; }
 
         public class Config
         {

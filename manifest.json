@@ -5,11 +5,47 @@
   "files": [
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.KeyChain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.KeyChain.html",
+          "hash": "RrzpiuudHrRV4FU6skUYxA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.KeyChainOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.KeyChainOptions.html",
+          "hash": "q/eUauAbYV0x3V5ORy1j0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.html",
+          "hash": "ftp40RnUoDgeMfKKkQKcgA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Ipfs.Engine.IpfsEngine.yml",
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.IpfsEngine.html",
-          "hash": "Tl/up7SuyZhRybU76nSKaw=="
+          "hash": "bU3DTHn05QHu6FRmWiq7Lw=="
         }
       },
       "is_incremental": false,
@@ -21,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.IpfsEngineOptions.html",
-          "hash": "/qhmDLVaOUDJw/8ehRegQg=="
+          "hash": "MXwoyFjFtTRwUZQO6kWMdA=="
         }
       },
       "is_incremental": false,
@@ -41,11 +77,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Migrations.Keys.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Migrations.Keys.html",
+          "hash": "zWjC6pHD9C2cEJ+twiZyYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Ipfs.Engine.Migrations.yml",
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Migrations.html",
-          "hash": "Cb7G1wDejgsqQ8yEogUnEw=="
+          "hash": "r4nGg5Q4AQpXFtjfwr/QrA=="
         }
       },
       "is_incremental": false,
@@ -81,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "wUACT4VWjAahqyxWFHIZXw=="
+          "hash": "qq2/oeaiERqoxrGFL5vKEw=="
         }
       },
       "is_incremental": false,
@@ -230,11 +278,11 @@
           "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
+        "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },

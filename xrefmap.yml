@@ -7,6 +7,156 @@ references:
   commentId: N:Ipfs.Engine
   fullName: Ipfs.Engine
   nameWithType: Ipfs.Engine
+- uid: Ipfs.Engine.Cryptography
+  name: Ipfs.Engine.Cryptography
+  href: api/Ipfs.Engine.Cryptography.html
+  commentId: N:Ipfs.Engine.Cryptography
+  fullName: Ipfs.Engine.Cryptography
+  nameWithType: Ipfs.Engine.Cryptography
+- uid: Ipfs.Engine.Cryptography.KeyChain
+  name: KeyChain
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html
+  commentId: T:Ipfs.Engine.Cryptography.KeyChain
+  fullName: Ipfs.Engine.Cryptography.KeyChain
+  nameWithType: KeyChain
+- uid: Ipfs.Engine.Cryptography.KeyChain.#ctor(Ipfs.Engine.IpfsEngine)
+  name: KeyChain(IpfsEngine)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain__ctor_Ipfs_Engine_IpfsEngine_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.#ctor(Ipfs.Engine.IpfsEngine)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.KeyChain(Ipfs.Engine.IpfsEngine)
+  nameWithType: KeyChain.KeyChain(IpfsEngine)
+- uid: Ipfs.Engine.Cryptography.KeyChain.#ctor*
+  name: KeyChain
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain__ctor_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.#ctor
+  fullName: Ipfs.Engine.Cryptography.KeyChain.KeyChain
+  nameWithType: KeyChain.KeyChain
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)
+  name: CreateAsync(String, String, Int32, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String, System.String, System.Int32, CancellationToken)
+  nameWithType: KeyChain.CreateAsync(String, String, Int32, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync*
+  name: CreateAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.CreateAsync
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync
+  nameWithType: KeyChain.CreateAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.Export(System.String,SecureString,CancellationToken)
+  name: Export(String, SecureString, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Export_System_String_SecureString_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.Export(System.String,SecureString,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.Export(System.String, SecureString, CancellationToken)
+  nameWithType: KeyChain.Export(String, SecureString, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.Export*
+  name: Export
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Export_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.Export
+  fullName: Ipfs.Engine.Cryptography.KeyChain.Export
+  nameWithType: KeyChain.Export
+- uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
+  name: FindKeyByNameAsync(String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String, CancellationToken)
+  nameWithType: KeyChain.FindKeyByNameAsync(String, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync*
+  name: FindKeyByNameAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
+  fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
+  nameWithType: KeyChain.FindKeyByNameAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.Import(System.String,System.String,SecureString,CancellationToken)
+  name: Import(String, String, SecureString, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Import_System_String_System_String_SecureString_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.Import(System.String,System.String,SecureString,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.Import(System.String, System.String, SecureString, CancellationToken)
+  nameWithType: KeyChain.Import(String, String, SecureString, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.Import*
+  name: Import
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Import_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.Import
+  fullName: Ipfs.Engine.Cryptography.KeyChain.Import
+  nameWithType: KeyChain.Import
+- uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
+  name: ListAsync(CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
+  nameWithType: KeyChain.ListAsync(CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync*
+  name: ListAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ListAsync
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync
+  nameWithType: KeyChain.ListAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.Options
+  name: Options
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Options
+  commentId: P:Ipfs.Engine.Cryptography.KeyChain.Options
+  fullName: Ipfs.Engine.Cryptography.KeyChain.Options
+  nameWithType: KeyChain.Options
+- uid: Ipfs.Engine.Cryptography.KeyChain.Options*
+  name: Options
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Options_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.Options
+  fullName: Ipfs.Engine.Cryptography.KeyChain.Options
+  nameWithType: KeyChain.Options
+- uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
+  name: RemoveAsync(String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String, CancellationToken)
+  nameWithType: KeyChain.RemoveAsync(String, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync*
+  name: RemoveAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync
+  nameWithType: KeyChain.RemoveAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)
+  name: RenameAsync(String, String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String, System.String, CancellationToken)
+  nameWithType: KeyChain.RenameAsync(String, String, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync*
+  name: RenameAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.RenameAsync
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync
+  nameWithType: KeyChain.RenameAsync
+- uid: Ipfs.Engine.Cryptography.KeyChainOptions
+  name: KeyChainOptions
+  href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html
+  commentId: T:Ipfs.Engine.Cryptography.KeyChainOptions
+  fullName: Ipfs.Engine.Cryptography.KeyChainOptions
+  nameWithType: KeyChainOptions
+- uid: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeySize
+  name: DefaultKeySize
+  href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_DefaultKeySize
+  commentId: P:Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeySize
+  fullName: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeySize
+  nameWithType: KeyChainOptions.DefaultKeySize
+- uid: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeySize*
+  name: DefaultKeySize
+  href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_DefaultKeySize_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeySize
+  fullName: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeySize
+  nameWithType: KeyChainOptions.DefaultKeySize
+- uid: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
+  name: DefaultKeyType
+  href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_DefaultKeyType
+  commentId: P:Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
+  fullName: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
+  nameWithType: KeyChainOptions.DefaultKeyType
+- uid: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType*
+  name: DefaultKeyType
+  href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_DefaultKeyType_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
+  fullName: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
+  nameWithType: KeyChainOptions.DefaultKeyType
 - uid: Ipfs.Engine.IpfsEngine
   name: IpfsEngine
   href: api/Ipfs.Engine.IpfsEngine.html
@@ -121,6 +271,30 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.Key
   fullName: Ipfs.Engine.IpfsEngine.Key
   nameWithType: IpfsEngine.Key
+- uid: Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
+  name: KeyChain(CancellationToken)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_CancellationToken_
+  commentId: M:Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
+  fullName: Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
+  nameWithType: IpfsEngine.KeyChain(CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.KeyChain*
+  name: KeyChain
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.KeyChain
+  fullName: Ipfs.Engine.IpfsEngine.KeyChain
+  nameWithType: IpfsEngine.KeyChain
+- uid: Ipfs.Engine.IpfsEngine.LocalPeer(CancellationToken)
+  name: LocalPeer(CancellationToken)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_LocalPeer_CancellationToken_
+  commentId: M:Ipfs.Engine.IpfsEngine.LocalPeer(CancellationToken)
+  fullName: Ipfs.Engine.IpfsEngine.LocalPeer(CancellationToken)
+  nameWithType: IpfsEngine.LocalPeer(CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.LocalPeer*
+  name: LocalPeer
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_LocalPeer_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.LocalPeer
+  fullName: Ipfs.Engine.IpfsEngine.LocalPeer
+  nameWithType: IpfsEngine.LocalPeer
 - uid: Ipfs.Engine.IpfsEngine.Name
   name: Name
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Name
@@ -199,6 +373,18 @@ references:
   commentId: T:Ipfs.Engine.IpfsEngineOptions
   fullName: Ipfs.Engine.IpfsEngineOptions
   nameWithType: IpfsEngineOptions
+- uid: Ipfs.Engine.IpfsEngineOptions.KeyChain
+  name: KeyChain
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_KeyChain
+  commentId: P:Ipfs.Engine.IpfsEngineOptions.KeyChain
+  fullName: Ipfs.Engine.IpfsEngineOptions.KeyChain
+  nameWithType: IpfsEngineOptions.KeyChain
+- uid: Ipfs.Engine.IpfsEngineOptions.KeyChain*
+  name: KeyChain
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_KeyChain_
+  commentId: Overload:Ipfs.Engine.IpfsEngineOptions.KeyChain
+  fullName: Ipfs.Engine.IpfsEngineOptions.KeyChain
+  nameWithType: IpfsEngineOptions.KeyChain
 - uid: Ipfs.Engine.IpfsEngineOptions.Repository
   name: Repository
   href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Repository
@@ -259,6 +445,48 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Initial.Up
   fullName: Ipfs.Engine.Migrations.Initial.Up
   nameWithType: Initial.Up
+- uid: Ipfs.Engine.Migrations.Keys
+  name: Keys
+  href: api/Ipfs.Engine.Migrations.Keys.html
+  commentId: T:Ipfs.Engine.Migrations.Keys
+  fullName: Ipfs.Engine.Migrations.Keys
+  nameWithType: Keys
+- uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
+  name: BuildTargetModel(ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
+  nameWithType: Keys.BuildTargetModel(ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel*
+  name: BuildTargetModel
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_
+  commentId: Overload:Ipfs.Engine.Migrations.Keys.BuildTargetModel
+  fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel
+  nameWithType: Keys.BuildTargetModel
+- uid: Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
+  name: Down(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
+  nameWithType: Keys.Down(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.Down*
+  name: Down
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_
+  commentId: Overload:Ipfs.Engine.Migrations.Keys.Down
+  fullName: Ipfs.Engine.Migrations.Keys.Down
+  nameWithType: Keys.Down
+- uid: Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
+  name: Up(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
+  nameWithType: Keys.Up(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.Up*
+  name: Up
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_
+  commentId: Overload:Ipfs.Engine.Migrations.Keys.Up
+  fullName: Ipfs.Engine.Migrations.Keys.Up
+  nameWithType: Keys.Up
 - uid: Ipfs.Engine.RepositoryOptions
   name: RepositoryOptions
   href: api/Ipfs.Engine.RepositoryOptions.html

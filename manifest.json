@@ -9,7 +9,19 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Cryptography.KeyChain.html",
-          "hash": "RrzpiuudHrRV4FU6skUYxA=="
+          "hash": "wLyhy0zEazPwhqfAA13mbQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.KeyChainDekOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html",
+          "hash": "3tbgibvbbrHCCAxgrDC5aQ=="
         }
       },
       "is_incremental": false,
@@ -21,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Cryptography.KeyChainOptions.html",
-          "hash": "q/eUauAbYV0x3V5ORy1j0g=="
+          "hash": "IMBXBmJDG2Dr2vrswbWCYg=="
         }
       },
       "is_incremental": false,
@@ -33,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Cryptography.html",
-          "hash": "ftp40RnUoDgeMfKKkQKcgA=="
+          "hash": "IRf8T5CpiGFWV+0v8+wtCA=="
         }
       },
       "is_incremental": false,
@@ -45,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.IpfsEngine.html",
-          "hash": "bU3DTHn05QHu6FRmWiq7Lw=="
+          "hash": "QsYIwEHdCG+KOgZAkeW8Vw=="
         }
       },
       "is_incremental": false,
@@ -129,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "qq2/oeaiERqoxrGFL5vKEw=="
+          "hash": "LE52zPg9XaH24JLReE3qOg=="
         }
       },
       "is_incremental": false,

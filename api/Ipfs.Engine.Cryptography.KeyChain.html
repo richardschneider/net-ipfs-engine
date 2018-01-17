@@ -81,11 +81,15 @@
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
     <div class="level1"><span class="xref">KeyChain</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IPasswordFinder</span></div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.Cryptography.html">Ipfs.Engine.Cryptography</a></h6>
   <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
   <h5 id="Ipfs_Engine_Cryptography_KeyChain_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class KeyChain : CoreApi.IKeyApi</code></pre>
+    <pre><code class="lang-csharp hljs">public class KeyChain : CoreApi.IKeyApi, IPasswordFinder</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -94,7 +98,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain__ctor_Ipfs_Engine_IpfsEngine_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.%23ctor(Ipfs.Engine.IpfsEngine)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L25">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L39">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain__ctor_" data-uid="Ipfs.Engine.Cryptography.KeyChain.#ctor*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain__ctor_Ipfs_Engine_IpfsEngine_" data-uid="Ipfs.Engine.Cryptography.KeyChain.#ctor(Ipfs.Engine.IpfsEngine)">KeyChain(IpfsEngine)</h4>
@@ -130,7 +134,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_Options.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.Options%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L33">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L47">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_Options_" data-uid="Ipfs.Engine.Cryptography.KeyChain.Options*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain_Options" data-uid="Ipfs.Engine.Cryptography.KeyChain.Options">Options</h4>
@@ -163,7 +167,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String%2CSystem.String%2CSystem.Int32%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L59">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L125">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_CreateAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateAsync*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)">CreateAsync(String, String, Int32, CancellationToken)</h4>
@@ -225,7 +229,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_Export_System_String_SecureString_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.Export(System.String%2CSecureString%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L87">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L188">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_Export_" data-uid="Ipfs.Engine.Cryptography.KeyChain.Export*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain_Export_System_String_SecureString_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.Export(System.String,SecureString,CancellationToken)">Export(String, SecureString, CancellationToken)</h4>
@@ -282,7 +286,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L48">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L114">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)">FindKeyByNameAsync(String, CancellationToken)</h4>
@@ -339,7 +343,7 @@ an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defi
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_Import_System_String_System_String_SecureString_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.Import(System.String%2CSystem.String%2CSecureString%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L93">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L194">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_Import_" data-uid="Ipfs.Engine.Cryptography.KeyChain.Import*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain_Import_System_String_System_String_SecureString_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.Import(System.String,System.String,SecureString,CancellationToken)">Import(String, String, SecureString, CancellationToken)</h4>
@@ -401,7 +405,7 @@ an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defi
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L99">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L200">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_ListAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ListAsync*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)">ListAsync(CancellationToken)</h4>
@@ -448,7 +452,7 @@ an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defi
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L108">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L209">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RemoveAsync*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)">RemoveAsync(String, CancellationToken)</h4>
@@ -500,7 +504,7 @@ an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defi
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String%2CSystem.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L124">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L225">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_RenameAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RenameAsync*"></a>
   <h4 id="Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)">RenameAsync(String, String, CancellationToken)</h4>
@@ -552,6 +556,72 @@ an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defi
       </tr>
     </tbody>
   </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char%5B%5D%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L69">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync*"></a>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)">SetPassphraseAsync(Char[], CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Sets the passphrase for the key chain.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SetPassphraseAsync(char[] passphrase, CancellationToken cancel = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.char(v=vs.110).aspx">Char</a>[]</td>
+        <td><span class="parametername">passphrase</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">CancellationToken</span></td>
+        <td><span class="parametername">cancel</span></td>
+        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td><p>A task that represents the asynchronous operation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___CancellationToken__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The <code data-dev-comment-type="paramref" class="paramref">passphrase</code> is used to generate a DEK (derived encryption
+key).  The DEK is then used to encrypt the stored keys.
+<p>
+Neither the <code data-dev-comment-type="paramref" class="paramref">passphrase</code> nor the DEK are stored.
+</p></p>
+</div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IPasswordFinder</span>
+  </div>
 </article>
           </div>
           
@@ -563,7 +633,7 @@ an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defi
                     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L15" class="contribution-link">View Source</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L26" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

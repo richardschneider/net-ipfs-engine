@@ -127,6 +127,75 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.RenameAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync
   nameWithType: KeyChain.RenameAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)
+  name: SetPassphraseAsync(Char[], CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)
+  name.vb: SetPassphraseAsync(Char(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[], CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char(), CancellationToken)
+  nameWithType: KeyChain.SetPassphraseAsync(Char[], CancellationToken)
+  nameWithType.vb: KeyChain.SetPassphraseAsync(Char(), CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync*
+  name: SetPassphraseAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync
+  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync
+  nameWithType: KeyChain.SetPassphraseAsync
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions
+  name: KeyChainDekOptions
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html
+  commentId: T:Ipfs.Engine.Cryptography.KeyChainDekOptions
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions
+  nameWithType: KeyChainDekOptions
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.Hash
+  name: Hash
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_Hash
+  commentId: P:Ipfs.Engine.Cryptography.KeyChainDekOptions.Hash
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.Hash
+  nameWithType: KeyChainDekOptions.Hash
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.Hash*
+  name: Hash
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_Hash_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChainDekOptions.Hash
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.Hash
+  nameWithType: KeyChainDekOptions.Hash
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount
+  name: IterationCount
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_IterationCount
+  commentId: P:Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount
+  nameWithType: KeyChainDekOptions.IterationCount
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount*
+  name: IterationCount
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_IterationCount_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount
+  nameWithType: KeyChainDekOptions.IterationCount
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength
+  name: KeyLength
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_KeyLength
+  commentId: P:Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength
+  nameWithType: KeyChainDekOptions.KeyLength
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength*
+  name: KeyLength
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_KeyLength_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength
+  nameWithType: KeyChainDekOptions.KeyLength
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt
+  name: Salt
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_Salt
+  commentId: P:Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt
+  nameWithType: KeyChainDekOptions.Salt
+- uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt*
+  name: Salt
+  href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_Salt_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt
+  fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt
+  nameWithType: KeyChainDekOptions.Salt
 - uid: Ipfs.Engine.Cryptography.KeyChainOptions
   name: KeyChainOptions
   href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html
@@ -157,18 +226,33 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
   fullName: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
   nameWithType: KeyChainOptions.DefaultKeyType
+- uid: Ipfs.Engine.Cryptography.KeyChainOptions.Dek
+  name: Dek
+  href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_Dek
+  commentId: P:Ipfs.Engine.Cryptography.KeyChainOptions.Dek
+  fullName: Ipfs.Engine.Cryptography.KeyChainOptions.Dek
+  nameWithType: KeyChainOptions.Dek
+- uid: Ipfs.Engine.Cryptography.KeyChainOptions.Dek*
+  name: Dek
+  href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_Dek_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChainOptions.Dek
+  fullName: Ipfs.Engine.Cryptography.KeyChainOptions.Dek
+  nameWithType: KeyChainOptions.Dek
 - uid: Ipfs.Engine.IpfsEngine
   name: IpfsEngine
   href: api/Ipfs.Engine.IpfsEngine.html
   commentId: T:Ipfs.Engine.IpfsEngine
   fullName: Ipfs.Engine.IpfsEngine
   nameWithType: IpfsEngine
-- uid: Ipfs.Engine.IpfsEngine.#ctor
-  name: IpfsEngine()
-  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor
-  commentId: M:Ipfs.Engine.IpfsEngine.#ctor
-  fullName: Ipfs.Engine.IpfsEngine.IpfsEngine()
-  nameWithType: IpfsEngine.IpfsEngine()
+- uid: Ipfs.Engine.IpfsEngine.#ctor(System.Char[])
+  name: IpfsEngine(Char[])
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_System_Char___
+  commentId: M:Ipfs.Engine.IpfsEngine.#ctor(System.Char[])
+  name.vb: IpfsEngine(Char())
+  fullName: Ipfs.Engine.IpfsEngine.IpfsEngine(System.Char[])
+  fullName.vb: Ipfs.Engine.IpfsEngine.IpfsEngine(System.Char())
+  nameWithType: IpfsEngine.IpfsEngine(Char[])
+  nameWithType.vb: IpfsEngine.IpfsEngine(Char())
 - uid: Ipfs.Engine.IpfsEngine.#ctor*
   name: IpfsEngine
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_

@@ -11,7 +11,7 @@ namespace Ipfs.Engine
         [TestMethod]
         public void Can_Create()
         {
-            var ipfs = new IpfsEngine();
+            var ipfs = new IpfsEngine("this is not a secure pass phrase".ToCharArray());
             Assert.IsNotNull(ipfs);
         }
 

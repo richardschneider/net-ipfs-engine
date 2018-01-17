@@ -24,12 +24,15 @@ namespace Ipfs.Engine
         bool repositoryInited;
         KeyChain keyChain;
         Peer localPeer = new Peer();
+        char[] passphrase;
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
         /// </summary>
-        public IpfsEngine()
+        public IpfsEngine(char[] passphrase)
         {
+            this.passphrase = passphrase;
+
             // Init the core api inteface.
             Bitswap = new BitswapApi(this);
             Block = new BlockApi(this);
@@ -139,6 +142,8 @@ namespace Ipfs.Engine
                      }
                 }
 
+                await keyChain.SetPassphraseAsync(passphrase);
+                
                 // Maybe create "self" key, this is the local peer's id.
                 var self = await keyChain.FindKeyByNameAsync("self", cancel);
                 if (self == null)

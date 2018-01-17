@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.OpenSsl;
@@ -21,11 +23,12 @@ namespace Ipfs.Engine.Cryptography
     /// <summary>
     ///   A secure key chain.
     /// </summary>
-    public class KeyChain : Ipfs.CoreApi.IKeyApi
+    public class KeyChain : Ipfs.CoreApi.IKeyApi, IPasswordFinder
     {
         static ILog log = LogManager.GetLogger(typeof(KeyChain));
 
         IpfsEngine ipfs;
+        char[] dek;
 
         /// <summary>
         ///   Create a new instance of the <see cref="KeyChain"/> class.
@@ -42,6 +45,58 @@ namespace Ipfs.Engine.Cryptography
         ///   The configuration options.
         /// </summary>
         public KeyChainOptions Options { get; set; } = new KeyChainOptions();
+
+        /// <summary>
+        ///   Sets the passphrase for the key chain.
+        /// </summary>
+        /// <param name="passphrase"></param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        /// <exception cref="UnauthorizedAccessException">
+        ///   When the <paramref name="passphrase"/> is wrong.
+        /// </exception>
+        /// <remarks>
+        ///   The <paramref name="passphrase"/> is used to generate a DEK (derived encryption
+        ///   key).  The DEK is then used to encrypt the stored keys.
+        ///   <para>
+        ///   Neither the <paramref name="passphrase"/> nor the DEK are stored.
+        ///   </para>
+        /// </remarks>
+        public async Task SetPassphraseAsync (char[] passphrase, CancellationToken cancel = default(CancellationToken))
+        {
+            // TODO: Verify DEK options.
+            // TODO: get digest based on Options.Hash
+            var pdb = new Pkcs5S2ParametersGenerator(new Sha256Digest());
+            pdb.Init(
+                Encoding.UTF8.GetBytes(passphrase),
+                Encoding.UTF8.GetBytes(Options.Dek.Salt),
+                Options.Dek.IterationCount);
+            var key = (KeyParameter)pdb.GenerateDerivedMacParameters(Options.Dek.KeyLength * 8);
+            dek = key.GetKey().ToBase64NoPad().ToCharArray();
+
+            // Verify that that pass phrase is okay, by reading a key.
+            using (var repo = await ipfs.Repository(cancel))
+            {
+                var akey = await repo.EncryptedKeys.FirstOrDefaultAsync(cancel);
+                if (akey != null)
+                {
+                    try
+                    {
+                        UseEncryptedKey(akey, _ => { });
+                    }
+                    catch (Exception e)
+                    {
+                        throw new UnauthorizedAccessException("The pass phrase is wrong.", e);
+                    }
+                }
+            }
+
+            log.Debug("Pass phrase is okay");
+        }
 
         /// <summary>
         ///   Find a key by its name.
@@ -101,8 +156,7 @@ namespace Ipfs.Engine.Cryptography
             {
                 var pkcs8 = new Pkcs8Generator(keyPair.Private, Pkcs8Generator.PbeSha1_3DES)
                 {
-                    // TODO: need the dek
-                    Password = "hello".ToCharArray()
+                    Password = dek
                 };
                 var pw = new PemWriter(sw);
                 pw.WriteObject(pkcs8);
@@ -183,6 +237,16 @@ namespace Ipfs.Engine.Cryptography
             }
         }
 
+        void UseEncryptedKey(EncryptedKey key, Action<AsymmetricKeyParameter> action)
+        {
+            using (var sr = new StringReader(key.Pem))
+            {
+                var reader = new PemReader(sr, this);
+                var privateKey = (AsymmetricKeyParameter)reader.ReadObject();
+                action(privateKey);
+            }
+        }
+
         /// <summary>
         ///   Create a key ID for the key.
         /// </summary>
@@ -209,6 +273,11 @@ namespace Ipfs.Engine.Cryptography
                 return MultiHash.ComputeHash(ms, "sha2-256");
             }
 
+        }
+
+        char[] IPasswordFinder.GetPassword()
+        {
+           return dek;
         }
     }
 }

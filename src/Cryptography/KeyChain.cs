@@ -1,6 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.Logging;
+using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Sec;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.X509;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -14,6 +23,8 @@ namespace Ipfs.Engine.Cryptography
     /// </summary>
     public class KeyChain : Ipfs.CoreApi.IKeyApi
     {
+        static ILog log = LogManager.GetLogger(typeof(KeyChain));
+
         IpfsEngine ipfs;
 
         /// <summary>
@@ -63,16 +74,52 @@ namespace Ipfs.Engine.Cryptography
                 keyType = Options.DefaultKeyType;
             if (size < 1)
                 size = Options.DefaultKeySize;
+            keyType = keyType.ToLowerInvariant();
 
+            // Create the key pair.
+            log.DebugFormat("Creating {0} key named '{1}'", keyType, name);
+            IAsymmetricCipherKeyPairGenerator g;
+            switch (keyType)
+            {
+                case "rsa":
+                    g = GeneratorUtilities.GetKeyPairGenerator("RSA");
+                    g.Init(new RsaKeyGenerationParameters(
+                        BigInteger.ValueOf(0x10001), new SecureRandom(), size, 25));
+                    break;
+                default:
+                    throw new Exception($"Invalid key type '{keyType}'.");
+            }
+            var keyPair = g.GenerateKeyPair();
+            log.Debug("Created key");
+
+            // Create the key ID
+            var keyId = CreateKeyId(keyType, keyPair);
+
+            // Create the PKCS #8 container for the key
+            string pem;
+            using (var sw = new StringWriter())
+            {
+                var pkcs8 = new Pkcs8Generator(keyPair.Private, Pkcs8Generator.PbeSha1_3DES)
+                {
+                    // TODO: need the dek
+                    Password = "hello".ToCharArray()
+                };
+                var pw = new PemWriter(sw);
+                pw.WriteObject(pkcs8);
+                pw.Writer.Flush();
+                pem = sw.ToString();
+            }
+
+            // Store the key in the repository.
             var keyInfo = new KeyInfo
             {
                 Name = name,
-                Id = "QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4"
+                Id = keyId
             };
             var key = new EncryptedKey
             {
                 Name = name,
-                Pem = "pem"
+                Pem = pem
             };
             using (var repo = await ipfs.Repository(cancel))
             {
@@ -134,6 +181,34 @@ namespace Ipfs.Engine.Cryptography
 
                 return keyInfo;
             }
+        }
+
+        /// <summary>
+        ///   Create a key ID for the key.
+        /// </summary>
+        /// <param name="keyType"></param>
+        /// <param name="keyPair"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///   The key id is the SHA-256 multihash of its public key. The public key is 
+        ///   a protobuf encoding containing a type and 
+        ///   the DER encoding of the PKCS SubjectPublicKeyInfo.
+        /// </remarks>
+        MultiHash CreateKeyId (string keyType, AsymmetricCipherKeyPair keyPair)
+        {
+            var spki = SubjectPublicKeyInfoFactory
+                .CreateSubjectPublicKeyInfo(keyPair.Public)
+                .GetDerEncoded();
+
+            // TODO: add protobuf cruft.
+            using (var ms = new MemoryStream())
+            {
+                ms.Write(spki, 0, spki.Length);
+
+                ms.Position = 0;
+                return MultiHash.ComputeHash(ms, "sha2-256");
+            }
+
         }
     }
 }

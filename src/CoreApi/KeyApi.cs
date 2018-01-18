@@ -23,16 +23,16 @@ namespace Ipfs.Engine.CoreApi
             return await keyChain.CreateAsync(name, keyType, size, cancel);
         }
 
-        public async Task<string> Export(string name, SecureString password, CancellationToken cancel = default(CancellationToken))
+        public async Task<string> ExportAsync(string name, char[] password, CancellationToken cancel = default(CancellationToken))
         {
             var keyChain = await ipfs.KeyChain(cancel);
-            return await keyChain.Export(name, password, cancel);
+            return await keyChain.ExportAsync(name, password, cancel);
         }
 
-        public async Task<IKey> Import(string name, string pem, SecureString password = null, CancellationToken cancel = default(CancellationToken))
+        public async Task<IKey> ImportAsync(string name, string pem, char[] password = null, CancellationToken cancel = default(CancellationToken))
         {
             var keyChain = await ipfs.KeyChain(cancel);
-            return await keyChain.Import(name, pem, password, cancel);
+            return await keyChain.ImportAsync(name, pem, password, cancel);
         }
 
         public async Task<IEnumerable<IKey>> ListAsync(CancellationToken cancel = default(CancellationToken))

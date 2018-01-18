@@ -23,7 +23,7 @@ namespace Ipfs.Engine.Cryptography
     /// <summary>
     ///   A secure key chain.
     /// </summary>
-    public class KeyChain : Ipfs.CoreApi.IKeyApi, IPasswordFinder
+    public class KeyChain : Ipfs.CoreApi.IKeyApi
     {
         static ILog log = LogManager.GetLogger(typeof(KeyChain));
 
@@ -147,53 +147,58 @@ namespace Ipfs.Engine.Cryptography
             var keyPair = g.GenerateKeyPair();
             log.Debug("Created key");
 
-            // Create the key ID
-            var keyId = CreateKeyId(keyType, keyPair);
+            return await AddPrivateKeyAsync(name, keyPair, cancel);
+        }
 
-            // Create the PKCS #8 container for the key
-            string pem;
-            using (var sw = new StringWriter())
-            {
-                var pkcs8 = new Pkcs8Generator(keyPair.Private, Pkcs8Generator.PbeSha1_3DES)
-                {
-                    Password = dek
-                };
-                var pw = new PemWriter(sw);
-                pw.WriteObject(pkcs8);
-                pw.Writer.Flush();
-                pem = sw.ToString();
-            }
-
-            // Store the key in the repository.
-            var keyInfo = new KeyInfo
-            {
-                Name = name,
-                Id = keyId
-            };
-            var key = new EncryptedKey
-            {
-                Name = name,
-                Pem = pem
-            };
+        /// <inheritdoc />
+        public async Task<string> ExportAsync(string name, char[] password, CancellationToken cancel = default(CancellationToken))
+        {
+            string pem = "";
             using (var repo = await ipfs.Repository(cancel))
             {
-                await repo.AddAsync(keyInfo, cancel);
-                await repo.AddAsync(key, cancel);
-                await repo.SaveChangesAsync(cancel);
-                return keyInfo;
+                var pk = new string[] { name };
+                var key = await repo.EncryptedKeys
+                    .Where(k => k.Name == name)
+                    .FirstAsync(cancel);
+                UseEncryptedKey(key, pkey => 
+                {
+                    using (var sw = new StringWriter())
+                    {
+                        var pkcs8 = new Pkcs8Generator(pkey, Pkcs8Generator.PbeSha1_3DES)
+                        {
+                            Password = password
+                        };
+                        var pw = new PemWriter(sw);
+                        pw.WriteObject(pkcs8);
+                        pw.Writer.Flush();
+                        pem = sw.ToString();
+                    }
+                });
             }
+
+            return pem;
         }
 
         /// <inheritdoc />
-        public Task<string> Export(string name, SecureString password, CancellationToken cancel = default(CancellationToken))
+        public async Task<IKey> ImportAsync(string name, string pem, char[] password = null, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public Task<IKey> Import(string name, string pem, SecureString password = null, CancellationToken cancel = default(CancellationToken))
-        {
-            throw new NotImplementedException();
+            AsymmetricKeyParameter key;
+            using (var sr = new StringReader(pem))
+            using (var pf = new PassowrdFinder { Password = password })
+            {
+                var reader = new PemReader(sr, pf);
+                try
+                {
+                    key = (AsymmetricKeyParameter)reader.ReadObject();
+                }
+                catch (Exception e)
+                {
+                    throw new UnauthorizedAccessException("The password is wrong.", e);
+                }
+            }
+            // TODO: The following fails.
+            var keyPair = new AsymmetricCipherKeyPair(key, key);
+            return await AddPrivateKeyAsync(name, keyPair, cancel);
         }
 
         /// <inheritdoc />
@@ -240,28 +245,67 @@ namespace Ipfs.Engine.Cryptography
         void UseEncryptedKey(EncryptedKey key, Action<AsymmetricKeyParameter> action)
         {
             using (var sr = new StringReader(key.Pem))
+            using (var pf = new PassowrdFinder { Password = dek })
             {
-                var reader = new PemReader(sr, this);
+                var reader = new PemReader(sr, pf);
                 var privateKey = (AsymmetricKeyParameter)reader.ReadObject();
                 action(privateKey);
+            }
+        }
+
+        async Task<IKey> AddPrivateKeyAsync(string name, AsymmetricCipherKeyPair keyPair, CancellationToken cancel)
+        {
+            // Create the key ID
+            var keyId = CreateKeyId(keyPair.Public);
+
+            // Create the PKCS #8 container for the key
+            string pem;
+            using (var sw = new StringWriter())
+            {
+                var pkcs8 = new Pkcs8Generator(keyPair.Private, Pkcs8Generator.PbeSha1_3DES)
+                {
+                    Password = dek
+                };
+                var pw = new PemWriter(sw);
+                pw.WriteObject(pkcs8);
+                pw.Writer.Flush();
+                pem = sw.ToString();
+            }
+
+            // Store the key in the repository.
+            var keyInfo = new KeyInfo
+            {
+                Name = name,
+                Id = keyId
+            };
+            var key = new EncryptedKey
+            {
+                Name = name,
+                Pem = pem
+            };
+            using (var repo = await ipfs.Repository(cancel))
+            {
+                await repo.AddAsync(keyInfo, cancel);
+                await repo.AddAsync(key, cancel);
+                await repo.SaveChangesAsync(cancel);
+                return keyInfo;
             }
         }
 
         /// <summary>
         ///   Create a key ID for the key.
         /// </summary>
-        /// <param name="keyType"></param>
-        /// <param name="keyPair"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
         /// <remarks>
         ///   The key id is the SHA-256 multihash of its public key. The public key is 
         ///   a protobuf encoding containing a type and 
         ///   the DER encoding of the PKCS SubjectPublicKeyInfo.
         /// </remarks>
-        MultiHash CreateKeyId (string keyType, AsymmetricCipherKeyPair keyPair)
+        MultiHash CreateKeyId (AsymmetricKeyParameter key)
         {
             var spki = SubjectPublicKeyInfoFactory
-                .CreateSubjectPublicKeyInfo(keyPair.Public)
+                .CreateSubjectPublicKeyInfo(key)
                 .GetDerEncoded();
 
             // TODO: add protobuf cruft.
@@ -275,9 +319,19 @@ namespace Ipfs.Engine.Cryptography
 
         }
 
-        char[] IPasswordFinder.GetPassword()
+        class PassowrdFinder : IPasswordFinder, IDisposable
         {
-           return dek;
+            public char[] Password;
+
+            public void Dispose()
+            {
+                Password = null;
+            }
+
+            public char[] GetPassword()
+            {
+               return Password;
+            }
         }
     }
 }

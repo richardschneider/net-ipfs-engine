@@ -32,6 +32,45 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Export_Import()
+        {
+            var password = "password".ToCharArray();
+            var ipfs = TestFixture.Ipfs;
+            var pem = await ipfs.Key.ExportAsync("self", password);
+            StringAssert.StartsWith(pem, "-----BEGIN ENCRYPTED PRIVATE KEY-----");
+
+            var keys = await ipfs.Key.ListAsync();
+            var self = keys.Single(k => k.Name == "self");
+
+            var clone = await ipfs.Key.ImportAsync("clone", pem, password);
+            Assert.AreEqual("clone", clone.Name);
+            Assert.AreEqual(self.Id, clone.Id);
+        }
+
+        [TestMethod]
+        public void Export_Unknown_Key()
+        {
+            var password = "password".ToCharArray();
+            var ipfs = TestFixture.Ipfs;
+            ExceptionAssert.Throws<Exception>(() => { var x = ipfs.Key.ExportAsync("unknow", password).Result; });
+        }
+
+        [TestMethod]
+        public async Task Import_Wrong_Password()
+        {
+            var password = "password".ToCharArray();
+            var ipfs = TestFixture.Ipfs;
+            var pem = await ipfs.Key.ExportAsync("self", password);
+
+            var wrong = "wrong password".ToCharArray();
+            ExceptionAssert.Throws<UnauthorizedAccessException>(() => 
+            {
+                var x = ipfs.Key.ImportAsync("clone", pem, wrong).Result;
+            });
+        }
+
+
+        [TestMethod]
         public async Task Create_RSA_Key()
         {
             var name = "net-engine-test-create";

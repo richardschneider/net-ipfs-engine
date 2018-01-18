@@ -40,11 +40,10 @@ namespace Ipfs.Engine.Cryptography
         public KeyChainDekOptions Dek { get; set; } = new KeyChainDekOptions();
     }
 
-
     /// <summary>
     ///   Options to generate the derived encryption key.
     /// </summary>
-    /// <seealso href="https://cryptosense.com/parametesr-choice-for-pbkdf2"/>
+    /// <seealso href="https://cryptosense.com/parameter-choice-for-pbkdf2/"/>
     public class KeyChainDekOptions
     {
         /// <summary>

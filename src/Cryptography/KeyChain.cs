@@ -198,12 +198,14 @@ namespace Ipfs.Engine.Cryptography
                 var reader = new PemReader(sr, pf);
                 try
                 {
-                    key = (AsymmetricKeyParameter)reader.ReadObject();
+                    key = reader.ReadObject() as AsymmetricKeyParameter;
                 }
                 catch (Exception e)
                 {
                     throw new UnauthorizedAccessException("The password is wrong.", e);
                 }
+                if (key == null || !key.IsPrivate)
+                    throw new InvalidDataException("Not a valid PEM private key");
             }
             // TODO: The following fails.
             var keyPair = new AsymmetricCipherKeyPair(key, key);

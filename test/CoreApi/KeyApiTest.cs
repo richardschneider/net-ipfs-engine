@@ -94,6 +94,29 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Create_Bitcoin_Key()
+        {
+            var name = "test-bitcoin";
+            var ipfs = TestFixture.Ipfs;
+            var key = await ipfs.Key.CreateAsync(name, "secp256k1", 0);
+            try
+            {
+                Assert.IsNotNull(key);
+                Assert.IsNotNull(key.Id);
+                Assert.AreEqual(name, key.Name);
+
+                var keys = await ipfs.Key.ListAsync();
+                var clone = keys.Single(k => k.Name == name);
+                Assert.AreEqual(key.Name, clone.Name);
+                Assert.AreEqual(key.Id, clone.Id);
+            }
+            finally
+            {
+                await ipfs.Key.RemoveAsync(name);
+            }
+        }
+
+        [TestMethod]
         public async Task Remove_Key()
         {
             var name = "net-engine-test-remove";

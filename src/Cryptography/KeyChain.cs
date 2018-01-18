@@ -1,6 +1,7 @@
 ﻿using Common.Logging;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Sec;
+using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Generators;
@@ -140,6 +141,14 @@ namespace Ipfs.Engine.Cryptography
                     g = GeneratorUtilities.GetKeyPairGenerator("RSA");
                     g.Init(new RsaKeyGenerationParameters(
                         BigInteger.ValueOf(0x10001), new SecureRandom(), size, 25));
+                    break;
+                case "secp256k1":
+                    X9ECParameters ecP = ECNamedCurveTable.GetByName(keyType);
+                    if (ecP == null)
+                        throw new Exception("unknown curve name: " + keyType);
+                    var domain= new ECDomainParameters(ecP.Curve, ecP.G, ecP.N, ecP.H, ecP.GetSeed());
+                    g = GeneratorUtilities.GetKeyPairGenerator("EC");
+                    g.Init(new ECKeyGenerationParameters(domain, new SecureRandom()));
                     break;
                 default:
                     throw new Exception($"Invalid key type '{keyType}'.");

@@ -18,6 +18,9 @@ namespace Ipfs.Engine.Cryptography.Proto
         public byte[] Data;
     }
 
+    // PrivateKey message is not currently used.  Hopefully it never will be
+    // because it could introduce a huge security hole.
+#if false
     [ProtoContract]
     class PrivateKey
     {
@@ -26,4 +29,5 @@ namespace Ipfs.Engine.Cryptography.Proto
         [ProtoMember(2, IsRequired = true)]
         public byte[] Data;
     }
+#endif
 }

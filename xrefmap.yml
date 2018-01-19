@@ -43,18 +43,21 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.CreateAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync
   nameWithType: KeyChain.CreateAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.Export(System.String,SecureString,CancellationToken)
-  name: Export(String, SecureString, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Export_System_String_SecureString_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.Export(System.String,SecureString,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.Export(System.String, SecureString, CancellationToken)
-  nameWithType: KeyChain.Export(String, SecureString, CancellationToken)
-- uid: Ipfs.Engine.Cryptography.KeyChain.Export*
-  name: Export
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Export_
-  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.Export
-  fullName: Ipfs.Engine.Cryptography.KeyChain.Export
-  nameWithType: KeyChain.Export
+- uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
+  name: ExportAsync(String, Char[], CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
+  name.vb: ExportAsync(String, Char(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char[], CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char(), CancellationToken)
+  nameWithType: KeyChain.ExportAsync(String, Char[], CancellationToken)
+  nameWithType.vb: KeyChain.ExportAsync(String, Char(), CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync*
+  name: ExportAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ExportAsync
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync
+  nameWithType: KeyChain.ExportAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
   name: FindKeyByNameAsync(String, CancellationToken)
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_
@@ -67,18 +70,21 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
   nameWithType: KeyChain.FindKeyByNameAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.Import(System.String,System.String,SecureString,CancellationToken)
-  name: Import(String, String, SecureString, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Import_System_String_System_String_SecureString_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.Import(System.String,System.String,SecureString,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.Import(System.String, System.String, SecureString, CancellationToken)
-  nameWithType: KeyChain.Import(String, String, SecureString, CancellationToken)
-- uid: Ipfs.Engine.Cryptography.KeyChain.Import*
-  name: Import
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Import_
-  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.Import
-  fullName: Ipfs.Engine.Cryptography.KeyChain.Import
-  nameWithType: KeyChain.Import
+- uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)
+  name: ImportAsync(String, String, Char[], CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)
+  name.vb: ImportAsync(String, String, Char(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char[], CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char(), CancellationToken)
+  nameWithType: KeyChain.ImportAsync(String, String, Char[], CancellationToken)
+  nameWithType.vb: KeyChain.ImportAsync(String, String, Char(), CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync*
+  name: ImportAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ImportAsync
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync
+  nameWithType: KeyChain.ImportAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
   name: ListAsync(CancellationToken)
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_

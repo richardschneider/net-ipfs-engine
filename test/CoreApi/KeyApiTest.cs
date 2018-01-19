@@ -43,6 +43,7 @@ namespace Ipfs.Engine
             var keys = await ipfs.Key.ListAsync();
             var self = keys.Single(k => k.Name == "self");
 
+            await ipfs.Key.RemoveAsync("clone");
             var clone = await ipfs.Key.ImportAsync("clone", pem, password);
             Assert.AreEqual("clone", clone.Name);
             Assert.AreEqual(self.Id, clone.Id);
@@ -106,6 +107,8 @@ Rw==
 ";
             var password = "password".ToCharArray();
             var ipfs = TestFixture.Ipfs;
+
+            await ipfs.Key.RemoveAsync("jsipfs");
             var key = await ipfs.Key.ImportAsync("jsipfs", pem, password);
             Assert.AreEqual("jsipfs", key.Name);
             Assert.AreEqual("QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb", key.Id);
@@ -189,7 +192,7 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
         {
             var name = "net-engine-test-remove";
             var ipfs = TestFixture.Ipfs;
-            var key = await ipfs.Key.CreateAsync(name, "rsa", 2048);
+            var key = await ipfs.Key.CreateAsync(name, "secp256k1", 0);
             var keys = await ipfs.Key.ListAsync();
             var clone = keys.Single(k => k.Name == name);
             Assert.IsNotNull(clone);
@@ -201,6 +204,35 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
 
             keys = await ipfs.Key.ListAsync();
             Assert.IsFalse(keys.Any(k => k.Name == name));
+        }
+
+        [TestMethod]
+        public async Task Rename_Key()
+        {
+            var name = "net-engine-test-rename0";
+            var newName = "net-engine-test-rename1";
+            var ipfs = TestFixture.Ipfs;
+
+            await ipfs.Key.RemoveAsync(name);
+            await ipfs.Key.RemoveAsync(newName);
+            var key = await ipfs.Key.CreateAsync(name, "secp256k1", 0);
+            var renamed = await ipfs.Key.RenameAsync(name, newName);
+            Assert.AreEqual(key.Id, renamed.Id);
+            Assert.AreEqual(newName, renamed.Name);
+
+            var keys = await ipfs.Key.ListAsync();
+            Assert.IsTrue(keys.Any(k => k.Name == newName));
+            Assert.IsFalse(keys.Any(k => k.Name == name));
+        }
+
+        [TestMethod]
+        public async Task Remove_Unknown_Key()
+        {
+            var name = "net-engine-test-remove-unknown";
+            var ipfs = TestFixture.Ipfs;
+
+            var removed = await ipfs.Key.RemoveAsync(name);
+            Assert.IsNull(removed);
         }
 
     }

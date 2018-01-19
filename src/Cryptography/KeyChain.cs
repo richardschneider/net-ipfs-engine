@@ -193,7 +193,7 @@ namespace Ipfs.Engine.Cryptography
         {
             AsymmetricKeyParameter key;
             using (var sr = new StringReader(pem))
-            using (var pf = new PassowrdFinder { Password = password })
+            using (var pf = new PasswordFinder { Password = password })
             {
                 var reader = new PemReader(sr, pf);
                 try
@@ -207,8 +207,17 @@ namespace Ipfs.Engine.Cryptography
                 if (key == null || !key.IsPrivate)
                     throw new InvalidDataException("Not a valid PEM private key");
             }
-            // TODO: The following fails.
-            var keyPair = new AsymmetricCipherKeyPair(key, key);
+
+            // Get the public key.
+            AsymmetricCipherKeyPair keyPair = null;
+            if (key is RsaPrivateCrtKeyParameters rsa)
+            {
+                var pub = new RsaKeyParameters(false, rsa.Modulus, rsa.PublicExponent);
+                keyPair = new AsymmetricCipherKeyPair(pub, key);
+            }
+            if (keyPair == null)
+                throw new NotSupportedException($"The key type {key.GetType().Name} is not supported.");
+
             return await AddPrivateKeyAsync(name, keyPair, cancel);
         }
 
@@ -228,11 +237,13 @@ namespace Ipfs.Engine.Cryptography
             {
                 var pk = new string[] { name };
                 var keyInfo = await repo.Keys.FindAsync(pk, cancel);
-                repo.Keys.Remove(keyInfo);
-                var key = await repo.EncryptedKeys.FindAsync(pk, cancel);
-                repo.EncryptedKeys.Remove(key);
-                await repo.SaveChangesAsync(cancel);
-
+                if (keyInfo != null)
+                {
+                    repo.Keys.Remove(keyInfo);
+                    var key = await repo.EncryptedKeys.FindAsync(pk, cancel);
+                    repo.EncryptedKeys.Remove(key);
+                    await repo.SaveChangesAsync(cancel);
+                }
                 return keyInfo;
             }
         }
@@ -244,9 +255,26 @@ namespace Ipfs.Engine.Cryptography
             {
                 var pk = new string[] { oldName };
                 var keyInfo = await repo.Keys.FindAsync(pk, cancel);
+                if (keyInfo == null)
+                    return null;
+
                 var key = await repo.EncryptedKeys.FindAsync(pk, cancel);
-                key.Name = newName;
-                keyInfo.Name = newName;
+                repo.Keys.Remove(keyInfo);
+                repo.EncryptedKeys.Remove(key);
+                await repo.SaveChangesAsync(cancel);
+
+                keyInfo = new KeyInfo
+                {
+                    Id = keyInfo.Id,
+                    Name = newName
+                };
+                key = new EncryptedKey
+                {
+                    Name = newName,
+                    Pem = key.Pem
+                };
+                await repo.AddAsync(keyInfo, cancel);
+                await repo.AddAsync(key, cancel);
                 await repo.SaveChangesAsync(cancel);
 
                 return keyInfo;
@@ -256,7 +284,7 @@ namespace Ipfs.Engine.Cryptography
         void UseEncryptedKey(EncryptedKey key, Action<AsymmetricKeyParameter> action)
         {
             using (var sr = new StringReader(key.Pem))
-            using (var pf = new PassowrdFinder { Password = dek })
+            using (var pf = new PasswordFinder { Password = dek })
             {
                 var reader = new PemReader(sr, pf);
                 var privateKey = (AsymmetricKeyParameter)reader.ReadObject();
@@ -299,6 +327,8 @@ namespace Ipfs.Engine.Cryptography
                 await repo.AddAsync(keyInfo, cancel);
                 await repo.AddAsync(key, cancel);
                 await repo.SaveChangesAsync(cancel);
+
+                log.DebugFormat("Added key '{0}' with ID {1}", name, keyId);
                 return keyInfo;
             }
         }
@@ -319,6 +349,8 @@ namespace Ipfs.Engine.Cryptography
                 .CreateSubjectPublicKeyInfo(key)
                 .GetDerEncoded();
 
+            log.DebugFormat("SPKI {0}", Convert.ToBase64String(spki));
+
             // TODO: add protobuf cruft.
             using (var ms = new MemoryStream())
             {
@@ -330,7 +362,7 @@ namespace Ipfs.Engine.Cryptography
 
         }
 
-        class PassowrdFinder : IPasswordFinder, IDisposable
+        class PasswordFinder : IPasswordFinder, IDisposable
         {
             public char[] Password;
 

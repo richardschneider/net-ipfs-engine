@@ -105,6 +105,7 @@ FTrAh+xquPCw1yhbkeFtSVuUUqxQeXi9Zyq6kbeX+56HabAWPr3bg43zecFMM4tK
 Rw==
 -----END ENCRYPTED PRIVATE KEY-----
 ";
+            var spki = "CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCfBYU9c0n28u02N/XCJY8yIsRqRVO5Zw+6kDHCremt2flHT4AaWnwGLAG9YyQJbRTvWN9nW2LK7Pv3uoIlvUSTnZEP0SXB5oZeqtxUdi6tuvcyqTIfsUSanLQucYITq8Qw3IMBzk+KpWNm98g9A/Xy30MkUS8mrBIO9pHmIZa55fvclDkTvLxjnGWA2avaBfJvHgMSTu0D2CQcmJrvwyKMhLCSIbQewZd2V7vc6gtxbRovKlrIwDTmDBXbfjbLljOuzg2yBLyYxXlozO9blpttbnOpU4kTspUVJXglmjsv7YSIJS3UKt3544l/srHbqlwC5CgOgjlwNfYPadO8kmBfAgMBAAE=";
             var password = "password".ToCharArray();
             var ipfs = TestFixture.Ipfs;
 
@@ -112,6 +113,10 @@ Rw==
             var key = await ipfs.Key.ImportAsync("jsipfs", pem, password);
             Assert.AreEqual("jsipfs", key.Name);
             Assert.AreEqual("QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb", key.Id);
+
+            var keychain = await ipfs.KeyChain();
+            var pubkey = await keychain.GetPublicKeyAsync("jsipfs");
+            Assert.AreEqual(spki, pubkey);
         }
 
         [TestMethod]

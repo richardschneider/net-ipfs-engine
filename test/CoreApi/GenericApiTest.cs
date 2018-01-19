@@ -17,6 +17,13 @@ namespace Ipfs.Engine
             var ipfs = TestFixture.Ipfs;
             var peer = await ipfs.Generic.IdAsync();
             Assert.IsInstanceOfType(peer, typeof(Peer));
+            Assert.IsNotNull(peer.Addresses);
+            StringAssert.StartsWith(peer.AgentVersion, "net-ipfs/");
+            Assert.IsNotNull(peer.Id);
+            StringAssert.StartsWith(peer.ProtocolVersion, "ipfs/");
+            Assert.IsNotNull(peer.PublicKey);
+
+            Assert.IsTrue(peer.IsValid());
         }
 
         [TestMethod]

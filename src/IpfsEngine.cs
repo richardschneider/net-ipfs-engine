@@ -171,6 +171,7 @@ namespace Ipfs.Engine
                 var keyChain = await KeyChain(cancel);
                 var self = await keyChain.FindKeyByNameAsync("self", cancel);
                 localPeer.Id = self.Id;
+                localPeer.PublicKey = await keyChain.GetPublicKeyAsync("self", cancel);
                 localPeer.ProtocolVersion = "ipfs/0.1.0";
                 var version = typeof(IpfsEngine).GetTypeInfo().Assembly.GetName().Version;
                 localPeer.AgentVersion = $"net-ipfs/{version.Major}.{version.Minor}.{version.Revision}";

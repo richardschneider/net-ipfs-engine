@@ -122,6 +122,63 @@ namespace Ipfs.Engine.Cryptography
             }
         }
 
+        /// <summary>
+        ///   Gets the IPFS encoded public key for the specified key.
+        /// </summary>
+        /// <param name="name">
+        ///   The local name of the key.
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result is
+        ///   the IPFS encoded public key.
+        /// </returns>
+        /// <remarks>
+        ///   The IPFS public key is the base-64 encoding of a protobuf encoding containing 
+        ///   a type and the DER encoding of the PKCS Subject Public Key Info.
+        /// </remarks>
+        /// <seealso href="https://tools.ietf.org/html/rfc5280#section-4.1.2.7"/>
+        public async Task<string> GetPublicKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
+        {
+            string result = null;
+            using (var repo = await ipfs.Repository(cancel))
+            {
+                var ekey = await repo.EncryptedKeys
+                    .Where(k => k.Name == name)
+                    .FirstOrDefaultAsync(cancel);
+                if (ekey != null)
+                {
+                    UseEncryptedKey(ekey, key =>
+                    {
+                        var kp = GetKeyPairFromPrivateKey(key);
+                        var spki = SubjectPublicKeyInfoFactory
+                            .CreateSubjectPublicKeyInfo(kp.Public)
+                            .GetDerEncoded();
+                        // Add protobuf cruft.
+                        var publicKey = new Proto.PublicKey
+                        {
+                            Data = spki
+                        };
+                        if (kp.Public is RsaKeyParameters)
+                            publicKey.Type = Proto.KeyType.RSA;
+                        else if (kp.Public is ECPublicKeyParameters)
+                            publicKey.Type = Proto.KeyType.Secp256k1;
+                        else
+                            throw new NotSupportedException($"The key type {kp.Public.GetType().Name} is not supported.");
+
+                        using (var ms = new MemoryStream())
+                        {
+                            ProtoBuf.Serializer.Serialize(ms, publicKey);
+                            result = Convert.ToBase64String(ms.ToArray());
+                        }
+                    });
+                }
+            }
+            return result;
+        }
+
         /// <inheritdoc />
         public async Task<IKey> CreateAsync(string name, string keyType, int size, CancellationToken cancel = default(CancellationToken))
         {
@@ -208,17 +265,7 @@ namespace Ipfs.Engine.Cryptography
                     throw new InvalidDataException("Not a valid PEM private key");
             }
 
-            // Get the public key.
-            AsymmetricCipherKeyPair keyPair = null;
-            if (key is RsaPrivateCrtKeyParameters rsa)
-            {
-                var pub = new RsaKeyParameters(false, rsa.Modulus, rsa.PublicExponent);
-                keyPair = new AsymmetricCipherKeyPair(pub, key);
-            }
-            if (keyPair == null)
-                throw new NotSupportedException($"The key type {key.GetType().Name} is not supported.");
-
-            return await AddPrivateKeyAsync(name, keyPair, cancel);
+            return await AddPrivateKeyAsync(name, GetKeyPairFromPrivateKey(key), cancel);
         }
 
         /// <inheritdoc />
@@ -368,6 +415,20 @@ namespace Ipfs.Engine.Cryptography
                 return MultiHash.ComputeHash(ms, "sha2-256");
             }
 
+        }
+
+        AsymmetricCipherKeyPair GetKeyPairFromPrivateKey(AsymmetricKeyParameter privateKey)
+        {
+            AsymmetricCipherKeyPair keyPair = null;
+            if (privateKey is RsaPrivateCrtKeyParameters rsa)
+            {
+                var pub = new RsaKeyParameters(false, rsa.Modulus, rsa.PublicExponent);
+                keyPair = new AsymmetricCipherKeyPair(pub, privateKey);
+            }
+            if (keyPair == null)
+                throw new NotSupportedException($"The key type {privateKey.GetType().Name} is not supported.");
+
+            return keyPair;
         }
 
         class PasswordFinder : IPasswordFinder, IDisposable

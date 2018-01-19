@@ -245,5 +245,15 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
             Assert.IsNull(renamed);
         }
 
+        [TestMethod]
+        public void Create_Unknown_KeyType()
+        {
+            var ipfs = TestFixture.Ipfs;
+
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = ipfs.Key.CreateAsync("unknown", "unknown", 0).Result;
+            });
+        }
     }
 }

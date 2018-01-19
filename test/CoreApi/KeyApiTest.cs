@@ -235,5 +235,15 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
             Assert.IsNull(removed);
         }
 
+        [TestMethod]
+        public async Task Rename_Unknown_Key()
+        {
+            var name = "net-engine-test-rename-unknown";
+            var ipfs = TestFixture.Ipfs;
+
+            var renamed = await ipfs.Key.RenameAsync(name, "foobar");
+            Assert.IsNull(renamed);
+        }
+
     }
 }

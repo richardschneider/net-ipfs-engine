@@ -349,13 +349,21 @@ namespace Ipfs.Engine.Cryptography
                 .CreateSubjectPublicKeyInfo(key)
                 .GetDerEncoded();
 
-            log.DebugFormat("SPKI {0}", Convert.ToBase64String(spki));
+            // Add protobuf cruft.
+            var publicKey = new Proto.PublicKey
+            {
+                Data = spki
+            };
+            if (key is RsaKeyParameters)
+                publicKey.Type = Proto.KeyType.RSA;
+            else if (key is ECPublicKeyParameters)
+                publicKey.Type = Proto.KeyType.Secp256k1;
+            else
+                throw new NotSupportedException($"The key type {key.GetType().Name} is not supported.");
 
-            // TODO: add protobuf cruft.
             using (var ms = new MemoryStream())
             {
-                ms.Write(spki, 0, spki.Length);
-
+                ProtoBuf.Serializer.Serialize(ms, publicKey);
                 ms.Position = 0;
                 return MultiHash.ComputeHash(ms, "sha2-256");
             }

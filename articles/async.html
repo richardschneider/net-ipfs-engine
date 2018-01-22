@@ -69,7 +69,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="asynchronous-io">Asynchronous I/O</h1>
 
-<p>All requests to the IPFS server are <a href="https://docs.microsoft.com/en-us/dotnet/csharp/async">asynchronous</a>,
+<p>All requests to the IPFS engine are <a href="https://docs.microsoft.com/en-us/dotnet/csharp/async">asynchronous</a>,
 which does not block current thread.</p>
 <p>This means that callers should <strong>normally</strong> use the <code>async/await</code> paradigm</p>
 <pre><code class="lang-cs">async Task&lt;Cid&gt; AddText()

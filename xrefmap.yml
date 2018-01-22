@@ -301,6 +301,18 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.Block
   fullName: Ipfs.Engine.IpfsEngine.Block
   nameWithType: IpfsEngine.Block
+- uid: Ipfs.Engine.IpfsEngine.Bootstrap
+  name: Bootstrap
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Bootstrap
+  commentId: P:Ipfs.Engine.IpfsEngine.Bootstrap
+  fullName: Ipfs.Engine.IpfsEngine.Bootstrap
+  nameWithType: IpfsEngine.Bootstrap
+- uid: Ipfs.Engine.IpfsEngine.Bootstrap*
+  name: Bootstrap
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Bootstrap_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.Bootstrap
+  fullName: Ipfs.Engine.IpfsEngine.Bootstrap
+  nameWithType: IpfsEngine.Bootstrap
 - uid: Ipfs.Engine.IpfsEngine.Config
   name: Config
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Config

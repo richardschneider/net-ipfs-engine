@@ -1,0 +1,1 @@
+Peer2Peer will eventually move to its own Github repo and Nuget package.

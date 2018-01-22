@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Peer2Peer</name>
+    </assembly>
+    <members>
+        <member name="T:Peer2Peer.Discovery.Bootstrap">
+            <summary>
+              Discovers the pre-configured peers.
+            </summary>
+        </member>
+        <member name="E:Peer2Peer.Discovery.Bootstrap.PeerDiscovered">
+            <inheritdoc />
+        </member>
+        <member name="P:Peer2Peer.Discovery.Bootstrap.Addresses">
+            <summary>
+              The addresses of the pre-configured peers.
+            </summary>
+            <value>
+              Each address must end with the ipfs protocol and the public ID
+              of the peer.  For example "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+            </value>
+        </member>
+        <member name="M:Peer2Peer.Discovery.Bootstrap.Start">
+            <inheritdoc />
+        </member>
+        <member name="M:Peer2Peer.Discovery.Bootstrap.Stop">
+            <inheritdoc />
+        </member>
+        <member name="T:Peer2Peer.Discovery.IPeerDiscovery">
+            <summary>
+              Describes a service that finds a peer.
+            </summary>
+            <remarks>
+              All discovery services must raise the <see cref="E:Peer2Peer.Discovery.IPeerDiscovery.PeerDiscovered"/> event.
+            </remarks>
+        </member>
+        <member name="E:Peer2Peer.Discovery.IPeerDiscovery.PeerDiscovered">
+            <summary>
+              Raised when a peer is discovered.
+            </summary>
+        </member>
+        <member name="T:Peer2Peer.Discovery.PeerDiscoveredEventArgs">
+            <summary>
+              The event data.
+            </summary>
+        </member>
+        <member name="P:Peer2Peer.Discovery.PeerDiscoveredEventArgs.Peer">
+            <summary>
+              The peer that was discovered.
+            </summary>
+            <value>
+              A peer with an ID and at least one multiaddress.
+            </value>
+        </member>
+        <member name="T:Peer2Peer.IService">
+            <summary>
+              A service can be started and stopped.
+            </summary>
+        </member>
+        <member name="M:Peer2Peer.IService.Start">
+            <summary>
+              Start the service.
+            </summary>
+        </member>
+        <member name="M:Peer2Peer.IService.Stop">
+            <summary>
+              Stop the service.
+            </summary>
+        </member>
+    </members>
+</doc>

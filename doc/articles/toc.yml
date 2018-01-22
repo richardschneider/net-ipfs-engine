@@ -7,5 +7,5 @@
       href: cancellation.md
 - name: Environment variables
   href: envvars.md
-  name: Repository
+- name: Repository
   href: repository.md

@@ -1,6 +1,6 @@
 ﻿# Asynchronous I/O
 
-All requests to the IPFS server are [asynchronous](https://docs.microsoft.com/en-us/dotnet/csharp/async),
+All requests to the IPFS engine are [asynchronous](https://docs.microsoft.com/en-us/dotnet/csharp/async),
 which does not block current thread.
 
 This means that callers should **normally** use the `async/await` paradigm

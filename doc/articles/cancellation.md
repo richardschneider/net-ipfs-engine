@@ -1,6 +1,6 @@
 # Cancelling a request
 
-All requests to the IPFS server can be cancelled by supplying 
+All requests to the IPFS engine can be cancelled by supplying 
 an optional [CancellationToken](xref:System.Threading.CancellationToken).  When 
 the token is cancelled, 
 a [TaskCanceledException](xref:System.Threading.Tasks.TaskCanceledException) 

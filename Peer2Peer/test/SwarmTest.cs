@@ -46,5 +46,40 @@ namespace Peer2Peer
             Assert.IsTrue(swarm.RegisterPeerAsync(venus).Result);
             Assert.IsTrue(swarm.KnownPeerAddresses.Contains(venus));
         }
+
+        [TestMethod]
+        public async Task NewPeerAddress_InvalidAddress()
+        {
+            var swarm = new Swarm();
+            await swarm.RegisterPeerAsync("/ip4/10.1.10.10/tcp/29087"); // missing ipfs protocol
+            Assert.AreEqual(0, swarm.KnownPeerAddresses.Count());
+        }
+
+        [TestMethod]
+        public async Task NewPeerAddress_Duplicate()
+        {
+            var swarm = new Swarm();
+            await swarm.RegisterPeerAsync(mars);
+            Assert.AreEqual(1, swarm.KnownPeerAddresses.Count());
+
+            await swarm.RegisterPeerAsync(mars);
+            Assert.AreEqual(1, swarm.KnownPeerAddresses.Count());
+        }
+
+        [TestMethod]
+        public async Task KnownPeers()
+        {
+            var swarm = new Swarm();
+            Assert.AreEqual(0, swarm.KnownPeers.Count());
+
+            await swarm.RegisterPeerAsync("/ip4/10.1.10.10/tcp/29087/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3");
+            Assert.AreEqual(1, swarm.KnownPeers.Count());
+
+            await swarm.RegisterPeerAsync("/ip4/10.1.10.11/tcp/29087/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3");
+            Assert.AreEqual(1, swarm.KnownPeers.Count());
+
+            await swarm.RegisterPeerAsync(venus);
+            Assert.AreEqual(2, swarm.KnownPeers.Count());
+        }
     }
 }

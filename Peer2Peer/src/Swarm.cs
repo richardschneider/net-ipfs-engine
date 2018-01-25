@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
 using System.Threading;
+using Common.Logging;
 
 namespace Peer2Peer
 {
@@ -14,6 +15,8 @@ namespace Peer2Peer
     /// </summary>
     public class Swarm : IService, IPolicy<MultiAddress>
     {
+        static ILog log = LogManager.GetLogger(typeof(Swarm));
+
         /// <summary>
         ///   Other nodes.
         /// </summary>
@@ -30,6 +33,30 @@ namespace Peer2Peer
         public IEnumerable<MultiAddress> KnownPeerAddresses
         {
             get { return others; }
+        }
+
+        /// <summary>
+        ///   Get the sequence of all known peers.
+        /// </summary>
+        /// <value>
+        ///   Contains any peer that has been
+        ///   <see cref="RegisterPeerAsync">discovered</see>.
+        /// </value>
+        /// <seealso cref="RegisterPeerAsync"/>
+        public IEnumerable<Peer> KnownPeers
+        {
+            get
+            {
+                return KnownPeerAddresses.GroupBy(
+                    a => a.Protocols.Last().Value,
+                    a => a,
+                    (k, v) => new Peer
+                    {
+                        Id = k,
+                        Addresses = v
+                    }
+                );
+            }
         }
 
         /// <summary>
@@ -52,12 +79,26 @@ namespace Peer2Peer
         /// </remarks>
         public async Task<bool> RegisterPeerAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            if (await IsAllowedAsync(address, cancel) && !others.Contains(address))
+            if (address.Protocols.Last().Name != "ipfs")
+            {
+                log.ErrorFormat("'{0}' missing ipfs protocol name", address);
+                return false;
+            }
+
+            if (others.Contains(address))
+            {
+                log.DebugFormat("Already registered {0}", address);
+                return false;
+            }
+
+            if (await IsAllowedAsync(address, cancel))
             {
                 others.Add(address);
+                log.DebugFormat("Registered {0}", address);
                 return true;
             }
 
+            log.WarnFormat("Not allowed {0}", address);
             return false;
         }
 

@@ -41,7 +41,7 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<IEnumerable<Peer>> AddressesAsync(CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            return Task.FromResult(ipfs.SwarmService.KnownPeers);
         }
 
         public Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))

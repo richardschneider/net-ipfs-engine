@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Peer2Peer
 {
     /// <summary>
-    ///   A service can be started and stopped.
+    ///   A service is async and can be started and stopped.
     /// </summary>
     public interface IService
     {

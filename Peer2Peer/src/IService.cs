@@ -14,11 +14,11 @@ namespace Peer2Peer
         /// <summary>
         ///   Start the service.
         /// </summary>
-        void Start();
+        Task StartAsync();
 
         /// <summary>
         ///   Stop the service.
         /// </summary>
-        void Stop();
+        Task StopAsync();
     }
 }

@@ -28,10 +28,10 @@ namespace Peer2Peer.Discovery
         public IEnumerable<MultiAddress> Addresses { get; set; }
 
         /// <inheritdoc />
-        public void Start()
+        public Task StartAsync()
         {
             if (Addresses == null)
-                return;
+                return Task.CompletedTask;
             foreach (var ma in Addresses)
             {
                 var ipfs = ma.Protocols.Last();
@@ -49,11 +49,13 @@ namespace Peer2Peer.Discovery
                 };
                 OnPeerDiscovered(new PeerDiscoveredEventArgs { Peer = peer });
             }
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />
-        public void Stop()
+        public Task StopAsync()
         {
+            return Task.CompletedTask;
         }
 
         void OnPeerDiscovered(PeerDiscoveredEventArgs e)

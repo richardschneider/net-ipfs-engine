@@ -12,7 +12,7 @@ namespace Peer2Peer.Discovery
     public class BootstrapTest
     {
         [TestMethod]
-        public void NullList()
+        public async Task NullList()
         {
             var bootstrap = new Bootstrap { Addresses = null };
             int found = 0;
@@ -20,12 +20,12 @@ namespace Peer2Peer.Discovery
             {
                 ++found;
             };
-            bootstrap.Start();
+            await bootstrap.StartAsync();
             Assert.AreEqual(0, found);
         }
 
         [TestMethod]
-        public void Discovered()
+        public async Task Discovered()
         {
             var bootstrap = new Bootstrap
             {
@@ -45,12 +45,12 @@ namespace Peer2Peer.Discovery
                 Assert.AreEqual("/ip4/104.131.131.82/tcp/4001", e.Peer.Addresses.First());
                 ++found;
             };
-            bootstrap.Start();
+            await bootstrap.StartAsync();
             Assert.AreEqual(1, found);
         }
 
         [TestMethod]
-        public void Missing_ID_Is_Ignored()
+        public async Task Missing_ID_Is_Ignored()
         {
             var bootstrap = new Bootstrap
             {
@@ -71,7 +71,7 @@ namespace Peer2Peer.Discovery
                 Assert.AreEqual("/ip4/104.131.131.82/tcp/4001", e.Peer.Addresses.First());
                 ++found;
             };
-            bootstrap.Start();
+            await bootstrap.StartAsync();
             Assert.AreEqual(1, found);
         }
     }

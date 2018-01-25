@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Ipfs.CoreApi;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.Collections.Concurrent;
+using Peer2Peer;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -32,7 +34,8 @@ namespace Ipfs.Engine.CoreApi
             var strings = addrs.Select(a => a.ToString());
             await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel);
 
-            // TODO: Tell the swarm
+            ipfs.SwarmService.WhiteList.Add(address);
+
             return address;
         }
 
@@ -84,7 +87,13 @@ namespace Ipfs.Engine.CoreApi
             var strings = addrs.Select(a => a.ToString());
             await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel);
 
-            // TODO: Tell the swarm
+            var bag = new WhiteList<MultiAddress>();
+            foreach (var a in addrs)
+            {
+                bag.Add(a);
+            }
+            ipfs.SwarmService.WhiteList = bag;
+
             return address;
         }
     }

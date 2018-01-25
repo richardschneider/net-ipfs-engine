@@ -64,12 +64,12 @@ namespace Peer2Peer
         /// <summary>
         ///   The addresses that cannot be used.
         /// </summary>
-        public BlackList<MultiAddress> BlackList { get; } = new BlackList<MultiAddress>();
+        public BlackList<MultiAddress> BlackList { get; set;  } = new BlackList<MultiAddress>();
 
         /// <summary>
         ///   The addresses that can be used.
         /// </summary>
-        public WhiteList<MultiAddress> WhiteList { get; } = new WhiteList<MultiAddress>();
+        public WhiteList<MultiAddress> WhiteList { get; set;  } = new WhiteList<MultiAddress>();
 
         /// <inheritdoc />
         public Task StartAsync()

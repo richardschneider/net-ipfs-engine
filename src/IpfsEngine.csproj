@@ -59,4 +59,8 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Peer2Peer\src\Peer2Peer.csproj" />
+  </ItemGroup>
 </Project>

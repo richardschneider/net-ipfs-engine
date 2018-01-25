@@ -10,6 +10,7 @@ using System.Threading;
 using Ipfs.CoreApi;
 using Ipfs.Engine.CoreApi;
 using Ipfs.Engine.Cryptography;
+using Peer2Peer;
 using System.Reflection;
 
 namespace Ipfs.Engine
@@ -182,5 +183,10 @@ namespace Ipfs.Engine
             }
             return localPeer;
         }
+
+        /// <summary>
+        ///   Manages communication with other peers.
+        /// </summary>
+        public Swarm SwarmService { get; } = new Swarm();
     }
 }

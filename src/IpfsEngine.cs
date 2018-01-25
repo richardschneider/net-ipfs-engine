@@ -146,7 +146,7 @@ namespace Ipfs.Engine
                      }
                 }
 
-                await keyChain.SetPassphraseAsync(passphrase);
+                await keyChain.SetPassphraseAsync(passphrase, cancel);
                 
                 // Maybe create "self" key, this is the local peer's id.
                 var self = await keyChain.FindKeyByNameAsync("self", cancel);

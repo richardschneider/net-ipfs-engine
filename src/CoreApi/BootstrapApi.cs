@@ -60,7 +60,6 @@ namespace Ipfs.Engine.CoreApi
         {
             try
             {
-
                 var json = await ipfs.Config.GetAsync("Bootstrap", cancel);
                 if (json == null)
                     return new MultiAddress[0];

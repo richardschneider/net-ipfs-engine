@@ -481,6 +481,18 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.Swarm
   fullName: Ipfs.Engine.IpfsEngine.Swarm
   nameWithType: IpfsEngine.Swarm
+- uid: Ipfs.Engine.IpfsEngine.SwarmService
+  name: SwarmService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_SwarmService
+  commentId: P:Ipfs.Engine.IpfsEngine.SwarmService
+  fullName: Ipfs.Engine.IpfsEngine.SwarmService
+  nameWithType: IpfsEngine.SwarmService
+- uid: Ipfs.Engine.IpfsEngine.SwarmService*
+  name: SwarmService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_SwarmService_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.SwarmService
+  fullName: Ipfs.Engine.IpfsEngine.SwarmService
+  nameWithType: IpfsEngine.SwarmService
 - uid: Ipfs.Engine.IpfsEngineOptions
   name: IpfsEngineOptions
   href: api/Ipfs.Engine.IpfsEngineOptions.html

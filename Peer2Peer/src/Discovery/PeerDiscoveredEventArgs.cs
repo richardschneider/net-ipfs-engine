@@ -13,11 +13,12 @@ namespace Peer2Peer.Discovery
     public class PeerDiscoveredEventArgs : EventArgs
     {
         /// <summary>
-        ///   The peer that was discovered.
+        ///   The address of the peer that was discovered.
         /// </summary>
         /// <value>
-        ///   A peer with an ID and at least one multiaddress.
+        ///   The address must end with the ipfs protocol and the public ID
+        ///   of the peer.  For example "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
         /// </value>
-        public Peer Peer { get; set; }
+        public MultiAddress Address { get; set; }
     }
 }

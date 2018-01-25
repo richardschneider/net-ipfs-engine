@@ -40,14 +40,7 @@ namespace Peer2Peer.Discovery
                     log.ErrorFormat("'{0}' missing ipfs protocol name", ma);
                     continue;
                 }
-                var addr = new MultiAddress();
-                addr.Protocols.AddRange(ma.Protocols.Take(ma.Protocols.Count - 1));
-                var peer = new Peer
-                {
-                    Id = ipfs.Value,
-                    Addresses = new MultiAddress[] { addr }
-                };
-                OnPeerDiscovered(new PeerDiscoveredEventArgs { Peer = peer });
+                OnPeerDiscovered(new PeerDiscoveredEventArgs { Address = ma });
             }
             return Task.CompletedTask;
         }

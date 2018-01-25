@@ -38,11 +38,8 @@ namespace Peer2Peer.Discovery
             bootstrap.PeerDiscovered += (s, e) =>
             {
                 Assert.IsNotNull(e);
-                Assert.IsNotNull(e.Peer);
-                Assert.AreEqual("QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ", e.Peer.Id);
-                Assert.IsNotNull(e.Peer.Addresses);
-                Assert.AreEqual(1, e.Peer.Addresses.Count());
-                Assert.AreEqual("/ip4/104.131.131.82/tcp/4001", e.Peer.Addresses.First());
+                Assert.IsNotNull(e.Address);
+                Assert.AreEqual(bootstrap.Addresses.First(), e.Address);
                 ++found;
             };
             await bootstrap.StartAsync();
@@ -64,11 +61,8 @@ namespace Peer2Peer.Discovery
             bootstrap.PeerDiscovered += (s, e) =>
             {
                 Assert.IsNotNull(e);
-                Assert.IsNotNull(e.Peer);
-                Assert.AreEqual("QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ", e.Peer.Id);
-                Assert.IsNotNull(e.Peer.Addresses);
-                Assert.AreEqual(1, e.Peer.Addresses.Count());
-                Assert.AreEqual("/ip4/104.131.131.82/tcp/4001", e.Peer.Addresses.First());
+                Assert.IsNotNull(e.Address);
+                Assert.AreEqual(bootstrap.Addresses.Last(), e.Address);
                 ++found;
             };
             await bootstrap.StartAsync();

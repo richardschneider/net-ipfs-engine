@@ -21,10 +21,10 @@
               of the peer.  For example "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
             </value>
         </member>
-        <member name="M:Peer2Peer.Discovery.Bootstrap.Start">
+        <member name="M:Peer2Peer.Discovery.Bootstrap.StartAsync">
             <inheritdoc />
         </member>
-        <member name="M:Peer2Peer.Discovery.Bootstrap.Stop">
+        <member name="M:Peer2Peer.Discovery.Bootstrap.StopAsync">
             <inheritdoc />
         </member>
         <member name="T:Peer2Peer.Discovery.IPeerDiscovery">
@@ -58,12 +58,12 @@
               A service can be started and stopped.
             </summary>
         </member>
-        <member name="M:Peer2Peer.IService.Start">
+        <member name="M:Peer2Peer.IService.StartAsync">
             <summary>
               Start the service.
             </summary>
         </member>
-        <member name="M:Peer2Peer.IService.Stop">
+        <member name="M:Peer2Peer.IService.StopAsync">
             <summary>
               Stop the service.
             </summary>

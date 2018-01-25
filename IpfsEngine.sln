@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peer2Peer", "Peer2Peer\src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peer2PeerTests", "Peer2Peer\test\Peer2PeerTests.csproj", "{B0977D09-CBA2-4D4B-BE66-08CE6D63DE1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerTalkSpike", "PeerTalkSpike\PeerTalkSpike.csproj", "{E6EF58BD-050B-4CDF-8CA5-073882D00890}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{B0977D09-CBA2-4D4B-BE66-08CE6D63DE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0977D09-CBA2-4D4B-BE66-08CE6D63DE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0977D09-CBA2-4D4B-BE66-08CE6D63DE1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6EF58BD-050B-4CDF-8CA5-073882D00890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6EF58BD-050B-4CDF-8CA5-073882D00890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6EF58BD-050B-4CDF-8CA5-073882D00890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6EF58BD-050B-4CDF-8CA5-073882D00890}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

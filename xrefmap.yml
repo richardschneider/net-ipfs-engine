@@ -349,6 +349,18 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.Dht
   fullName: Ipfs.Engine.IpfsEngine.Dht
   nameWithType: IpfsEngine.Dht
+- uid: Ipfs.Engine.IpfsEngine.Dispose
+  name: Dispose()
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dispose
+  commentId: M:Ipfs.Engine.IpfsEngine.Dispose
+  fullName: Ipfs.Engine.IpfsEngine.Dispose()
+  nameWithType: IpfsEngine.Dispose()
+- uid: Ipfs.Engine.IpfsEngine.Dispose*
+  name: Dispose
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dispose_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.Dispose
+  fullName: Ipfs.Engine.IpfsEngine.Dispose
+  nameWithType: IpfsEngine.Dispose
 - uid: Ipfs.Engine.IpfsEngine.FileSystem
   name: FileSystem
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_FileSystem
@@ -469,6 +481,30 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.PubSub
   fullName: Ipfs.Engine.IpfsEngine.PubSub
   nameWithType: IpfsEngine.PubSub
+- uid: Ipfs.Engine.IpfsEngine.StartAsync
+  name: StartAsync()
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StartAsync
+  commentId: M:Ipfs.Engine.IpfsEngine.StartAsync
+  fullName: Ipfs.Engine.IpfsEngine.StartAsync()
+  nameWithType: IpfsEngine.StartAsync()
+- uid: Ipfs.Engine.IpfsEngine.StartAsync*
+  name: StartAsync
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StartAsync_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.StartAsync
+  fullName: Ipfs.Engine.IpfsEngine.StartAsync
+  nameWithType: IpfsEngine.StartAsync
+- uid: Ipfs.Engine.IpfsEngine.StopAsync
+  name: StopAsync()
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StopAsync
+  commentId: M:Ipfs.Engine.IpfsEngine.StopAsync
+  fullName: Ipfs.Engine.IpfsEngine.StopAsync()
+  nameWithType: IpfsEngine.StopAsync()
+- uid: Ipfs.Engine.IpfsEngine.StopAsync*
+  name: StopAsync
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StopAsync_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.StopAsync
+  fullName: Ipfs.Engine.IpfsEngine.StopAsync
+  nameWithType: IpfsEngine.StopAsync
 - uid: Ipfs.Engine.IpfsEngine.Swarm
   name: Swarm
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Swarm

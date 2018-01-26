@@ -28,7 +28,10 @@ namespace Ipfs.Engine
         [AssemblyCleanup]
         public static void Cleanup()
         {
-            Directory.Delete(Ipfs.Options.Repository.Folder, true);
+            if (Directory.Exists(Ipfs.Options.Repository.Folder))
+            {
+                Directory.Delete(Ipfs.Options.Repository.Folder, true);
+            }
         }
     }
 }

@@ -115,12 +115,17 @@ namespace Peer2Peer
         /// <inheritdoc />
         public Task StartAsync()
         {
+            log.Debug("Starting");
+
             return Task.CompletedTask;
         }
 
         /// <inheritdoc />
         public Task StopAsync()
         {
+            log.Debug("Stopping");
+
+            others = new ConcurrentBag<MultiAddress>();
             return Task.CompletedTask;
         }
 

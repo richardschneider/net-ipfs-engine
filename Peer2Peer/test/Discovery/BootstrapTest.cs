@@ -47,6 +47,32 @@ namespace Peer2Peer.Discovery
         }
 
         [TestMethod]
+        public async Task Stop_Removes_EventHandlers()
+        {
+            var bootstrap = new Bootstrap
+            {
+                Addresses = new MultiAddress[]
+                {
+                    "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+                }
+            };
+            int found = 0;
+            bootstrap.PeerDiscovered += (s, e) =>
+            {
+                Assert.IsNotNull(e);
+                Assert.IsNotNull(e.Address);
+                Assert.AreEqual(bootstrap.Addresses.First(), e.Address);
+                ++found;
+            };
+            await bootstrap.StartAsync();
+            Assert.AreEqual(1, found);
+            await bootstrap.StopAsync();
+
+            await bootstrap.StartAsync();
+            Assert.AreEqual(1, found);
+        }
+
+        [TestMethod]
         public async Task Missing_ID_Is_Ignored()
         {
             var bootstrap = new Bootstrap

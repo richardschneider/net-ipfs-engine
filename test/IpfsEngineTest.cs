@@ -31,5 +31,19 @@ namespace Ipfs.Engine
                 var _ = ipfs2.KeyChain().Result;
             });
         }
+
+        [TestMethod]
+        public async Task Can_Start_And_Stop()
+        {
+            var ipfs = TestFixture.Ipfs;
+            await ipfs.StartAsync();
+            await ipfs.StopAsync();
+
+            await ipfs.StartAsync();
+            await ipfs.StopAsync();
+
+            await ipfs.StartAsync();
+            ExceptionAssert.Throws<Exception>(() => ipfs.StartAsync().Wait());
+        }
     }
 }

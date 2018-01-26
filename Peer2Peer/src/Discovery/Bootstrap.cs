@@ -48,6 +48,7 @@ namespace Peer2Peer.Discovery
         /// <inheritdoc />
         public Task StopAsync()
         {
+            PeerDiscovered = null;
             return Task.CompletedTask;
         }
 

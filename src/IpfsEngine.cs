@@ -18,7 +18,7 @@ namespace Ipfs.Engine
     /// <summary>
     ///   TODO
     /// </summary>
-    public partial class IpfsEngine : ICoreApi
+    public partial class IpfsEngine : ICoreApi, IService, IDisposable
     {
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));
 
@@ -26,6 +26,7 @@ namespace Ipfs.Engine
         KeyChain keyChain;
         Peer localPeer = new Peer();
         char[] passphrase;
+        List<Task> stopTasks = new List<Task>();
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
@@ -182,6 +183,85 @@ namespace Ipfs.Engine
                 localPeer.AgentVersion = $"net-ipfs/{version.Major}.{version.Minor}.{version.Revision}";
             }
             return localPeer;
+        }
+
+        /// <summary>
+        ///   Starts the services.
+        /// </summary>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        /// <remarks>
+        ///   Starts the various IPFS and Peer2Peer services.  This should
+        ///   be called after any configuration changes.
+        /// </remarks>
+        /// <exception cref="Exception">
+        ///   When the engine is already started.
+        /// </exception>
+        public async Task StartAsync()
+        {
+            if (stopTasks.Count > 0)
+            {
+                throw new Exception("Already started");
+            }
+
+            var tasks = new List<Task>
+            {
+                new Task(async () =>
+                {
+                    var bootstrap = new Peer2Peer.Discovery.Bootstrap
+                    {
+                        Addresses = await this.Bootstrap.ListAsync()
+                    };
+                    bootstrap.PeerDiscovered += async (s,e) => 
+                    {
+                        await SwarmService.RegisterPeerAsync(e.Address);
+                    };
+                    await bootstrap.StartAsync();
+                    stopTasks.Add(new Task(async () => await bootstrap.StopAsync()));
+                }),
+                new Task(async () =>
+                {
+                    await SwarmService.StartAsync();
+                    stopTasks.Add(new Task(async () => await SwarmService.StopAsync()));
+                })
+            };
+
+            foreach(var task in tasks)
+            {
+                task.Start();
+            }
+            await Task.WhenAll(tasks);
+        }
+
+        /// <summary>
+        ///   Stops the running services.
+        /// </summary>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        /// <remarks>
+        ///   Multiple calls are okay.
+        /// </remarks>
+        public async Task StopAsync()
+        {
+            foreach (var task in stopTasks)
+            {
+                task.Start();
+            }
+            await Task.WhenAll(stopTasks);
+            stopTasks = new List<Task>();
+        }
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <remarks>
+        ///   Waits for <see cref="StopAsync"/> to complete.
+        /// </remarks>
+        public void Dispose()
+        {
+            StopAsync().Wait();
         }
 
         /// <summary>

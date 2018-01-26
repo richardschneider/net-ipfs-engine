@@ -54,12 +54,29 @@ namespace Ipfs.Engine
         public DbSet<Config> Configs { get; set; }
         public DbSet<Cryptography.KeyInfo> Keys { get; set; }
         public DbSet<Cryptography.EncryptedKey> EncryptedKeys { get; set; }
+        public DbSet<BlockInfo> BlockInfos { get; set; }
+        public DbSet<BlockValue> BlockValues { get; set; }
 
         public class Config
         {
             [Key]
             public string Name { get; set; }
             public string Value { get; set; }
+        }
+
+        public class BlockInfo
+        {
+            [Key]
+            public string Cid { get; set; }
+            public bool Pinned { get; set; }
+            public long DataSize { get; set; }
+        }
+
+        public class BlockValue
+        {
+            [Key]
+            public string Cid { get; set; }
+            public byte[] Data { get; set; }
         }
     }
 }

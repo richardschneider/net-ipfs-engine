@@ -565,6 +565,48 @@ references:
   commentId: N:Ipfs.Engine.Migrations
   fullName: Ipfs.Engine.Migrations
   nameWithType: Ipfs.Engine.Migrations
+- uid: Ipfs.Engine.Migrations.Blocks
+  name: Blocks
+  href: api/Ipfs.Engine.Migrations.Blocks.html
+  commentId: T:Ipfs.Engine.Migrations.Blocks
+  fullName: Ipfs.Engine.Migrations.Blocks
+  nameWithType: Blocks
+- uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
+  name: BuildTargetModel(ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
+  nameWithType: Blocks.BuildTargetModel(ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel*
+  name: BuildTargetModel
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_
+  commentId: Overload:Ipfs.Engine.Migrations.Blocks.BuildTargetModel
+  fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel
+  nameWithType: Blocks.BuildTargetModel
+- uid: Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
+  name: Down(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
+  nameWithType: Blocks.Down(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.Down*
+  name: Down
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_
+  commentId: Overload:Ipfs.Engine.Migrations.Blocks.Down
+  fullName: Ipfs.Engine.Migrations.Blocks.Down
+  nameWithType: Blocks.Down
+- uid: Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
+  name: Up(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
+  nameWithType: Blocks.Up(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.Up*
+  name: Up
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_
+  commentId: Overload:Ipfs.Engine.Migrations.Blocks.Up
+  fullName: Ipfs.Engine.Migrations.Blocks.Up
+  nameWithType: Blocks.Up
 - uid: Ipfs.Engine.Migrations.Initial
   name: Initial
   href: api/Ipfs.Engine.Migrations.Initial.html

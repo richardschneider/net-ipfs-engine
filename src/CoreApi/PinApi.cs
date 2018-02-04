@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -21,9 +22,15 @@ namespace Ipfs.Engine.CoreApi
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Cid>> ListAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task<IEnumerable<Cid>> ListAsync(CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            using (var repo = await ipfs.Repository(cancel))
+            {
+                var pins = await repo.BlockInfos
+                    .Where(b => b.Pinned)
+                    .ToArrayAsync(cancel);
+                return pins.Select(pin => (Cid)pin.Cid);
+            }
         }
 
         public Task<IEnumerable<Cid>> RemoveAsync(Cid id, bool recursive = true, CancellationToken cancel = default(CancellationToken))

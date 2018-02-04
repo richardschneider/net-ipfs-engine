@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Peer2Peer;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -11,10 +12,19 @@ namespace PeerTalkSpike
         {
             Console.WriteLine("Hello World!");
 
-            //ClientConnect();
-            ServerListen();
+            ClientConnect();
+            //ServerListen();
         }
         
+        static byte[] EncodeMessage(string msg)
+        {
+            var bytes = new byte[msg.Length + 2];
+            bytes[0] = (byte)(msg.Length + 1);
+            bytes[bytes.Length - 1] = (byte)'\n';
+            msg.ToCharArray().Select(c => (byte)c).ToArray().CopyTo(bytes, 1);
+            return bytes;
+        }
+
         static void ServerListen()
         {
             var localEndPoint = new IPEndPoint(IPAddress.Any, 4009);
@@ -47,28 +57,20 @@ namespace PeerTalkSpike
 
         static void ClientConnect()
         { 
-            var peer = new Socket(
+            var socket = new Socket(
                 AddressFamily.InterNetwork,
                 SocketType.Stream,
                 ProtocolType.Tcp);
-            peer.Connect("127.0.0.1", 4002);
+            socket.Connect("127.0.0.1", 4002);
+            var peer = new NetworkStream(socket);
 
-            int bytes = 0;
-            var buffer = new byte[1];
-            do
+            var got = Message.ReadString(peer);
+            Message.Write("/multistream/1.0.0", peer);
+            Message.Write("ls", peer);
+            while (true)
             {
-                bytes = peer.Receive(buffer);
-                Console.WriteLine(string.Format("got byte 0x{0:x2} '{1}'", buffer[0], (char)buffer[0]));
-                if (buffer[0] == 0x0a)
-                {
-                    var x = "/plaintext/1.0.0\n";
-                    var r = new byte[x.Length + 1];
-                    r[0] = (byte)x.Length;
-                    x.ToCharArray().Select(c => (byte)c).ToArray().CopyTo(r, 1);
-                    peer.Send(r);
-                    Console.Write("sent " + x);
-                }
-            } while (bytes != 0);
+                got = Message.ReadString(peer);
+            }
         }
     }
 }

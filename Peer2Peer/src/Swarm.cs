@@ -69,7 +69,7 @@ namespace Peer2Peer
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
         /// <returns>
-        ///    A task that represents the asynchronous get operation. The task's result
+        ///    A task that represents the asynchronous operation. The task's result
         ///    is <b>true</b> if the <paramref name="address"/> is registered.
         /// </returns>
         /// <remarks>

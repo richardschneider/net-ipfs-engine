@@ -39,5 +39,8 @@
   <ItemGroup>
     <PackageReference Include="Ipfs.Core" Version="0.18.3" />
   </ItemGroup>
-  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard14'">
+    <PackageReference Include="System.Net.NameResolution" Version="4.3.0.0" />
+  </ItemGroup>
+
 </Project>

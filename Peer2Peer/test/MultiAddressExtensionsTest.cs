@@ -38,6 +38,26 @@ namespace Peer2Peer
         }
 
         [TestMethod]
+        public async Task Resolving_HTTP()
+        {
+            var r = await new MultiAddress("/ip4/127.0.0.1/http").ResolveAsync();
+            Assert.AreEqual("/ip4/127.0.0.1/http/tcp/80", r.First());
+
+            r = await new MultiAddress("/ip4/127.0.0.1/http/tcp/8080").ResolveAsync();
+            Assert.AreEqual("/ip4/127.0.0.1/http/tcp/8080", r.First());
+        }
+
+        [TestMethod]
+        public async Task Resolving_HTTPS()
+        {
+            var r = await new MultiAddress("/ip4/127.0.0.1/https").ResolveAsync();
+            Assert.AreEqual("/ip4/127.0.0.1/https/tcp/443", r.First());
+
+            r = await new MultiAddress("/ip4/127.0.0.1/https/tcp/4433").ResolveAsync();
+            Assert.AreEqual("/ip4/127.0.0.1/https/tcp/4433", r.First());
+        }
+
+        [TestMethod]
         public void Resolving_Unknown()
         {
             ExceptionAssert.Throws<SocketException>(() =>

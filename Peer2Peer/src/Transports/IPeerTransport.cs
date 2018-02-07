@@ -29,5 +29,38 @@ namespace Peer2Peer.Transports
         ///   is a duplex <see cref="Stream"/> or <b>null</b>.
         /// </returns>
         Task<Stream> ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken));
+
+        /// <summary>
+        ///   Listen to any peer connections on the specified address.
+        /// </summary>
+        /// <param name="address">
+        ///   The address to listen on.
+        /// </param>
+        /// <param name="handler">
+        ///   The action to perform when a peer connection is received.
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the connection listener.  When cancelled, the <see cref="OperationCanceledException"/>
+        ///   is <b>NOT</b> raised.
+        /// </param>
+        /// <returns>
+        ///   The actual address of the listener.
+        /// </returns>
+        /// <remarks>
+        ///   The <paramref name="handler"/> is invoked on the peer listener thread. If
+        ///   it throws, then the connection is closed but the listener remains
+        ///   active.  It is passed a duplex stream, the local address and the remote
+        ///   address.
+        ///   <para>
+        ///   To stop listening, the <paramref name="cancel"/> parameter 
+        ///   must be supplied and then use the <see cref="CancellationTokenSource.Cancel()"/>
+        ///   method.
+        ///   </para>
+        ///   <para>
+        ///   For socket based transports (tcp or upd), if the port is not defined 
+        ///   or is zero an ephermal port is assigned.
+        ///   </para>
+        /// </remarks>
+        MultiAddress Listen(MultiAddress address, Action<Stream, MultiAddress, MultiAddress> handler, CancellationToken cancel);
     }
 }

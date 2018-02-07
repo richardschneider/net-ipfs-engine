@@ -46,6 +46,7 @@ before_build:
 
 build_script:
   - dotnet build -c %CONFIGURATION% -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
+  - dotnet build -c %CONFIGURATION% --no-restore ./Peer2Peer/src
   - dotnet pack -c %CONFIGURATION% --no-build --no-restore -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
 
 after_build:
@@ -61,6 +62,7 @@ after_build:
 
 test_script:
   - dotnet test -c %CONFIGURATION% --no-build --no-restore test
+  - dotnet test -c %CONFIGURATION% --no-build --no-restore ./Peer2Peer/test
 
 after_test: 
 # Generate coverage report

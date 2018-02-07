@@ -23,6 +23,30 @@ namespace Peer2Peer.Transports
         }
 
         [TestMethod]
+        public void Connect_Missing_TCP_Port()
+        {
+            var tcp = new Tcp();
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = tcp.ConnectAsync("/ip4/127.0.0.1/udp/32700").Result;
+            });
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = tcp.ConnectAsync("/ip4/127.0.0.1").Result;
+            });
+        }
+
+        [TestMethod]
+        public void Connect_Missing_IP_Address()
+        {
+            var tcp = new Tcp();
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = tcp.ConnectAsync("/tcp/32700").Result;
+            });
+        }
+
+        [TestMethod]
         public void Connect_Unknown_Address()
         {
             var tcp = new Tcp();

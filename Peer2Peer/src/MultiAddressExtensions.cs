@@ -21,6 +21,9 @@ namespace Peer2Peer
             { AddressFamily.InterNetworkV6, "/ip6/" },
         };
 
+        static MultiAddress http = new MultiAddress("/tcp/80");
+        static MultiAddress https = new MultiAddress("/tcp/443");
+
         /// <summary>
         ///   Creates a clone of the multiaddress.
         /// </summary>
@@ -58,11 +61,33 @@ namespace Peer2Peer
         ///   When the <see cref="NetworkProtocol.Name"/> starts with "dns", then a DNS
         ///   lookup is performed to get all the IP addresses for the host name.  "dn4" and "dns6"
         ///   will filter the result for IPv4 and IPV6 addresses.
+        ///   <para>
+        ///   When the <see cref="NetworkProtocol.Name"/> is "http" or "https", then
+        ///   a "tcp/80" or "tcp/443" is respectively added.
+        ///   </para>
         /// </remarks>
         public static async Task<List<MultiAddress>> ResolveAsync(this MultiAddress multiaddress, CancellationToken cancel = default(CancellationToken))
         {
             var list = new List<MultiAddress>();
-            var i = multiaddress.Protocols.FindIndex(ma => ma.Name.StartsWith("dns"));
+
+            // HTTP
+            var i = multiaddress.Protocols.FindIndex(ma => ma.Name == "http");
+            if (i >= 0 && !multiaddress.Protocols.Any(p => p.Name == "tcp"))
+            {
+                multiaddress = multiaddress.Clone();
+                multiaddress.Protocols.InsertRange(i + 1, http.Protocols);
+            }
+
+            // HTTPS
+            i = multiaddress.Protocols.FindIndex(ma => ma.Name == "https");
+            if (i >= 0 && !multiaddress.Protocols.Any(p => p.Name == "tcp"))
+            {
+                multiaddress = multiaddress.Clone();
+                multiaddress.Protocols.InsertRange(i + 1, https.Protocols);
+            }
+
+            // DNS*
+            i = multiaddress.Protocols.FindIndex(ma => ma.Name.StartsWith("dns"));
             if (i < 0)
             {
                 list.Add(multiaddress);

@@ -31,9 +31,7 @@ namespace Peer2Peer
             var dns = await new MultiAddress("/dns/libp2p.io/tcp/5001").ResolveAsync();
             Assert.AreNotEqual(0, dns.Count);
             var dns4 = await new MultiAddress("/dns4/libp2p.io/tcp/5001").ResolveAsync();
-            Assert.AreNotEqual(0, dns4.Count);
             var dns6 = await new MultiAddress("/dns6/libp2p.io/tcp/5001").ResolveAsync();
-            Assert.AreNotEqual(0, dns6.Count);
             Assert.AreEqual(dns.Count, dns4.Count + dns6.Count);
         }
 

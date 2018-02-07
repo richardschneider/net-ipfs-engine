@@ -4,6 +4,23 @@
         <name>Peer2Peer</name>
     </assembly>
     <members>
+        <member name="T:Peer2Peer.BlackList`1">
+            <summary>
+              A sequence of targets that are not approved.
+            </summary>
+            <typeparam name="T">
+              The type of object that the rule applies to.
+            </typeparam>
+            <remarks>
+              Only targets that are not defined will pass.
+            </remarks>
+        </member>
+        <member name="M:Peer2Peer.BlackList`1.IsAllowedAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Peer2Peer.BlackList`1.IsNotAllowedAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:Peer2Peer.Discovery.Bootstrap">
             <summary>
               Discovers the pre-configured peers.
@@ -45,17 +62,56 @@
               The event data.
             </summary>
         </member>
-        <member name="P:Peer2Peer.Discovery.PeerDiscoveredEventArgs.Peer">
+        <member name="P:Peer2Peer.Discovery.PeerDiscoveredEventArgs.Address">
             <summary>
-              The peer that was discovered.
+              The address of the peer that was discovered.
             </summary>
             <value>
-              A peer with an ID and at least one multiaddress.
+              The address must end with the ipfs protocol and the public ID
+              of the peer.  For example "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
             </value>
+        </member>
+        <member name="T:Peer2Peer.IPolicy`1">
+            <summary>
+              A rule that must be enforced.
+            </summary>
+            <typeparam name="T">
+              The type of object that the rule applies to.
+            </typeparam>
+        </member>
+        <member name="M:Peer2Peer.IPolicy`1.IsAllowedAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+              Determines if the target passes the rule.
+            </summary>
+            <param name="target">
+              An object to test against the rule.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>
+              A task that represents the asynchronous operation. The task's result is
+              <b>true</b> if the <paramref name="target"/> passes the rule.
+            </returns>
+        </member>
+        <member name="M:Peer2Peer.IPolicy`1.IsNotAllowedAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+              Determines if the target fails the rule.
+            </summary>
+            <param name="target">
+              An object to test against the rule.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>
+              A task that represents the asynchronous operation. The task's result is
+              <b>true</b> if the <paramref name="target"/> fails the rule.
+            </returns>
         </member>
         <member name="T:Peer2Peer.IService">
             <summary>
-              A service can be started and stopped.
+              A service is async and can be started and stopped.
             </summary>
         </member>
         <member name="M:Peer2Peer.IService.StartAsync">
@@ -67,6 +123,299 @@
             <summary>
               Stop the service.
             </summary>
+        </member>
+        <member name="T:Peer2Peer.Message">
+            <summary>
+              A message that is exchanged between peers.
+            </summary>
+            <remarks>
+              A message consists of
+              <list type="bullet">
+                 <item><description>A <see cref="T:Ipfs.Varint"/> length prefix</description></item>
+                 <item><description>The payload</description></item>
+                 <item><description>A terminating newline</description></item>
+              </list>
+            </remarks>
+        </member>
+        <member name="M:Peer2Peer.Message.ReadBytes(System.IO.Stream)">
+            <summary>
+              Read the message as a sequence of bytes from the <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="stream">
+              The <see cref="T:System.IO.Stream"/> to a peer.
+            </param>
+            <returns>
+              The byte representation of the message's payload.
+            </returns>
+            <exception cref="T:System.IO.InvalidDataException">
+              When the message is invalid.
+            </exception>
+            <remarks>
+              The return value has the length prefix and terminating newline removed.
+            </remarks>
+        </member>
+        <member name="M:Peer2Peer.Message.ReadString(System.IO.Stream)">
+            <summary>
+              Read the message as a <see cref="T:System.String"/> from the <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="stream">
+              The <see cref="T:System.IO.Stream"/> to a peer.
+            </param>
+            <returns>
+              The string representation of the message's payload.
+            </returns>
+            <exception cref="T:System.IO.InvalidDataException">
+              When the message is invalid.
+            </exception>
+            <remarks>
+              The return value has the length prefix and terminating newline removed.
+            </remarks>
+        </member>
+        <member name="M:Peer2Peer.Message.Write(System.String,System.IO.Stream)">
+            <summary>
+              Writes the binary representation of the message to the specified <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="message">
+              The message to write.  A newline is automatically appended.
+            </param>
+            <param name="stream">
+              The <see cref="T:System.IO.Stream"/> to a peer.
+            </param>
+        </member>
+        <member name="T:Peer2Peer.MultiAddressExtensions">
+            <summary>
+              Extensions to <see cref="T:Ipfs.MultiAddress"/>.
+            </summary>
+        </member>
+        <member name="M:Peer2Peer.MultiAddressExtensions.Clone(Ipfs.MultiAddress)">
+            <summary>
+              Creates a clone of the multiaddress.
+            </summary>
+            <param name="multiaddress">
+              The mutiaddress to clone.
+            </param>
+            <returns>
+              A new multiaddress with a copy of the <see cref="P:Ipfs.MultiAddress.Protocols"/>.
+            </returns>
+        </member>
+        <member name="M:Peer2Peer.MultiAddressExtensions.ResolveAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">
+            <summary>
+              The IP addresses for a host name.
+            </summary>
+            <param name="multiaddress">
+              The multiaddress to resolve.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>
+              A task that represents the asynchronous operation. The task's result
+              is a sequence of possible multiaddresses.
+            </returns>
+            <exception cref="T:System.Net.Sockets.SocketException">
+              The host name cannot be resolved.
+            </exception>
+            <remarks>
+              When the <see cref="P:Ipfs.NetworkProtocol.Name"/> starts with "dns", then a DNS
+              lookup is performed to get all the IP addresses for the host name.  "dn4" and "dns6"
+              will filter the result for IPv4 and IPV6 addresses.
+              <para>
+              When the <see cref="P:Ipfs.NetworkProtocol.Name"/> is "http" or "https", then
+              a "tcp/80" or "tcp/443" is respectively added.
+              </para>
+            </remarks>
+        </member>
+        <member name="T:Peer2Peer.Policy`1">
+            <summary>
+              A base for defining a policy.
+            </summary>
+            <typeparam name="T">
+              The type of object that the rule applies to.
+            </typeparam>
+        </member>
+        <member name="M:Peer2Peer.Policy`1.IsAllowedAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Peer2Peer.Policy`1.IsNotAllowedAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Peer2Peer.PolicyAlways`1">
+            <summary>
+              A rule that always passes.
+            </summary>
+            <typeparam name="T">
+              The type of object that the rule applies to.
+            </typeparam>
+        </member>
+        <member name="M:Peer2Peer.PolicyAlways`1.IsAllowedAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Peer2Peer.PolicyNever`1">
+            <summary>
+              A rule that always fails.
+            </summary>
+            <typeparam name="T">
+              The type of object that the rule applies to.
+            </typeparam>
+        </member>
+        <member name="M:Peer2Peer.PolicyNever`1.IsAllowedAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Peer2Peer.Swarm">
+            <summary>
+              Manages communication with other peers.
+            </summary>
+        </member>
+        <member name="F:Peer2Peer.Swarm.others">
+            <summary>
+              Other nodes.
+            </summary>
+        </member>
+        <member name="P:Peer2Peer.Swarm.KnownPeerAddresses">
+            <summary>
+              Get the sequence of all known peer addresses.
+            </summary>
+            <value>
+              Contains any peer address that has been
+              <see cref="M:Peer2Peer.Swarm.RegisterPeerAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">discovered</see>.
+            </value>
+            <seealso cref="M:Peer2Peer.Swarm.RegisterPeerAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)"/>
+        </member>
+        <member name="P:Peer2Peer.Swarm.KnownPeers">
+            <summary>
+              Get the sequence of all known peers.
+            </summary>
+            <value>
+              Contains any peer that has been
+              <see cref="M:Peer2Peer.Swarm.RegisterPeerAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">discovered</see>.
+            </value>
+            <seealso cref="M:Peer2Peer.Swarm.RegisterPeerAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)"/>
+        </member>
+        <member name="M:Peer2Peer.Swarm.RegisterPeerAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">
+            <summary>
+              Register that a peer's address has been discovered.
+            </summary>
+            <param name="address">
+              An address to the peer. 
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>
+               A task that represents the asynchronous operation. The task's result
+               is <b>true</b> if the <paramref name="address"/> is registered.
+            </returns>
+            <remarks>
+              If the <paramref name="address"/> is not already known, then it is
+              added to the <see cref="P:Peer2Peer.Swarm.KnownPeerAddresses"/> unless the <see cref="P:Peer2Peer.Swarm.BlackList"/>
+              or <see cref="P:Peer2Peer.Swarm.WhiteList"/> policies forbid it.
+            </remarks>
+        </member>
+        <member name="P:Peer2Peer.Swarm.BlackList">
+            <summary>
+              The addresses that cannot be used.
+            </summary>
+        </member>
+        <member name="P:Peer2Peer.Swarm.WhiteList">
+            <summary>
+              The addresses that can be used.
+            </summary>
+        </member>
+        <member name="M:Peer2Peer.Swarm.StartAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:Peer2Peer.Swarm.StopAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:Peer2Peer.Swarm.IsAllowedAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Peer2Peer.Swarm.IsNotAllowedAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Peer2Peer.Transports.IPeerTransport">
+            <summary>
+              Establishes a duplex stream between two peers
+              over a specific network transport.
+            </summary>
+        </member>
+        <member name="M:Peer2Peer.Transports.IPeerTransport.ConnectAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">
+            <summary>
+              Connect to a peer.
+            </summary>
+            <param name="address">
+              The address of the peer.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, a <b>null</b> is returned.
+            </param>
+            <returns>
+              A task that represents the asynchronous operation. The task's result
+              is a duplex <see cref="T:System.IO.Stream"/> or <b>null</b>.
+            </returns>
+        </member>
+        <member name="M:Peer2Peer.Transports.IPeerTransport.Listen(Ipfs.MultiAddress,System.Action{System.IO.Stream,Ipfs.MultiAddress,Ipfs.MultiAddress},System.Threading.CancellationToken)">
+            <summary>
+              Listen to any peer connections on the specified address.
+            </summary>
+            <param name="address">
+              The address to listen on.
+            </param>
+            <param name="handler">
+              The action to perform when a peer connection is received.
+            </param>
+            <param name="cancel">
+              Is used to stop the connection listener.  When cancelled, the <see cref="T:System.OperationCanceledException"/>
+              is <b>NOT</b> raised.
+            </param>
+            <returns>
+              The actual address of the listener.
+            </returns>
+            <remarks>
+              The <paramref name="handler"/> is invoked on the peer listener thread. If
+              it throws, then the connection is closed but the listener remains
+              active.  It is passed a duplex stream, the local address and the remote
+              address.
+              <para>
+              To stop listening, the <paramref name="cancel"/> parameter 
+              must be supplied and then use the <see cref="M:System.Threading.CancellationTokenSource.Cancel"/>
+              method.
+              </para>
+              <para>
+              For socket based transports (tcp or upd), if the port is not defined 
+              or is zero an ephermal port is assigned.
+              </para>
+            </remarks>
+        </member>
+        <member name="T:Peer2Peer.Transports.Tcp">
+            <summary>
+              Establishes a duplex stream between two peers
+              over TCP.
+            </summary>
+        </member>
+        <member name="M:Peer2Peer.Transports.Tcp.ConnectAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Peer2Peer.Transports.Tcp.Listen(Ipfs.MultiAddress,System.Action{System.IO.Stream,Ipfs.MultiAddress,Ipfs.MultiAddress},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Peer2Peer.WhiteList`1">
+            <summary>
+              A sequence of targets that are approved.
+            </summary>
+            <typeparam name="T">
+              The type of object that the rule applies to.
+            </typeparam>
+            <remarks>
+              Only targets that are defined will pass.  If no targets are defined, then anything
+              passes.
+            </remarks>
+        </member>
+        <member name="M:Peer2Peer.WhiteList`1.IsAllowedAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Peer2Peer.WhiteList`1.IsNotAllowedAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
         </member>
     </members>
 </doc>

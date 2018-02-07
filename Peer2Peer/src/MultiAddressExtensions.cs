@@ -15,14 +15,17 @@ namespace Peer2Peer
     /// </summary>
     public static class MultiAddressExtensions
     {
-        static Dictionary<AddressFamily, string> supportedDnsAddressFamilies = new Dictionary<AddressFamily, string>
-        {
-            { AddressFamily.InterNetwork, "/ip4/" },
-            { AddressFamily.InterNetworkV6, "/ip6/" },
-        };
-
+        static Dictionary<AddressFamily, string> supportedDnsAddressFamilies = new Dictionary<AddressFamily, string>();
         static MultiAddress http = new MultiAddress("/tcp/80");
         static MultiAddress https = new MultiAddress("/tcp/443");
+
+        static MultiAddressExtensions()
+        {
+            if (Socket.OSSupportsIPv4)
+                supportedDnsAddressFamilies[AddressFamily.InterNetwork] = "/ip4/";
+            if (Socket.OSSupportsIPv6)
+                supportedDnsAddressFamilies[AddressFamily.InterNetworkV6] = "/ip6/";
+        }
 
         /// <summary>
         ///   Creates a clone of the multiaddress.

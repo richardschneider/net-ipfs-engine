@@ -1,4 +1,5 @@
 ﻿using Peer2Peer;
+using Peer2Peer.Transports;
 using System;
 using System.Linq;
 using System.Net;
@@ -16,15 +17,6 @@ namespace PeerTalkSpike
             //ServerListen();
         }
         
-        static byte[] EncodeMessage(string msg)
-        {
-            var bytes = new byte[msg.Length + 2];
-            bytes[0] = (byte)(msg.Length + 1);
-            bytes[bytes.Length - 1] = (byte)'\n';
-            msg.ToCharArray().Select(c => (byte)c).ToArray().CopyTo(bytes, 1);
-            return bytes;
-        }
-
         static void ServerListen()
         {
             var localEndPoint = new IPEndPoint(IPAddress.Any, 4009);
@@ -36,40 +28,38 @@ namespace PeerTalkSpike
             {
                 Socket handler = listener.Accept();
                 Console.WriteLine("Got a connection");
+                var peer = new NetworkStream(handler);
 
-                var x = "/multistream/1.0.0\n";
-                var r = new byte[x.Length + 1];
-                r[0] = (byte)x.Length;
-                x.ToCharArray().Select(c => (byte)c).ToArray().CopyTo(r, 1);
-                handler.Send(r);
-                Console.Write("sent " + x);
+                Message.Write("/multistream/1.0.0", peer);
+                Message.ReadString(peer);
 
-                int bytes = 0;
-                var buffer = new byte[1];
-                do
+                while (true)
                 {
-                    bytes = handler.Receive(buffer);
-                    Console.WriteLine(string.Format("got byte 0x{0:x2} '{1}'", buffer[0], (char)buffer[0]));
-                } while (bytes != 0);
-
+                    var msg = Message.ReadString(peer);
+                    if (msg == "/mplex/6.7.4")
+                    {
+                        Message.Write("n/a", peer);
+                    }
+                    else
+                    {
+                        Message.Write(msg, peer);
+                    }
+                }
             }
         }
 
         static void ClientConnect()
-        { 
-            var socket = new Socket(
-                AddressFamily.InterNetwork,
-                SocketType.Stream,
-                ProtocolType.Tcp);
-            socket.Connect("127.0.0.1", 4002);
-            var peer = new NetworkStream(socket);
+        {
+            var tcp = new Tcp();
+            var peer = tcp.ConnectAsync("/ip4/127.0.0.1/tcp/4002").Result;
 
             var got = Message.ReadString(peer);
             Message.Write("/multistream/1.0.0", peer);
-            Message.Write("ls", peer);
+            Message.Write("/plaintext/1.0.0", peer);
             while (true)
             {
-                got = Message.ReadString(peer);
+                var msg = Message.ReadString(peer);
+                Message.Write(msg, peer);
             }
         }
     }

@@ -143,11 +143,15 @@ namespace Peer2Peer
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
-        public Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
+        public async Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
+            if (!await IsAllowedAsync(address, cancel))
+            {
+                throw new Exception($"Communication with '{address}' is not allowed.");
+            }
+
             // TODO
             others.Add(address);
-            return Task.CompletedTask;
         }
 
         /// <summary>

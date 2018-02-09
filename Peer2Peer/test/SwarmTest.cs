@@ -81,5 +81,16 @@ namespace Peer2Peer
             await swarm.RegisterPeerAsync(venus);
             Assert.AreEqual(2, swarm.KnownPeers.Count());
         }
+
+        [TestMethod]
+        public void Connecting_To_Blacklisted_Address()
+        {
+            var swarm = new Swarm();
+            swarm.BlackList.Add(mars);
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                swarm.ConnectAsync(mars).Wait();
+            });
+        }
     }
 }

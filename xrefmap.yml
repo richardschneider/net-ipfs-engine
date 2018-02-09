@@ -409,12 +409,12 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.KeyChain
   fullName: Ipfs.Engine.IpfsEngine.KeyChain
   nameWithType: IpfsEngine.KeyChain
-- uid: Ipfs.Engine.IpfsEngine.LocalPeer(CancellationToken)
-  name: LocalPeer(CancellationToken)
-  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_LocalPeer_CancellationToken_
-  commentId: M:Ipfs.Engine.IpfsEngine.LocalPeer(CancellationToken)
-  fullName: Ipfs.Engine.IpfsEngine.LocalPeer(CancellationToken)
-  nameWithType: IpfsEngine.LocalPeer(CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.LocalPeer
+  name: LocalPeer
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_LocalPeer
+  commentId: P:Ipfs.Engine.IpfsEngine.LocalPeer
+  fullName: Ipfs.Engine.IpfsEngine.LocalPeer
+  nameWithType: IpfsEngine.LocalPeer
 - uid: Ipfs.Engine.IpfsEngine.LocalPeer*
   name: LocalPeer
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_LocalPeer_

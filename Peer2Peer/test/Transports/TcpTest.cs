@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -86,10 +87,12 @@ namespace Peer2Peer.Transports
             {
                 listenerAddress = tcp.Listen("/ip4/127.0.0.1", handler, cs.Token);
                 Assert.IsTrue(listenerAddress.Protocols.Any(p => p.Name == "tcp"));
-                var stream = await tcp.ConnectAsync(listenerAddress, cs.Token);
-                await Task.Delay(50);
-                Assert.IsNotNull(stream);
-                Assert.IsTrue(connected);
+                using (var stream = await tcp.ConnectAsync(listenerAddress, cs.Token))
+                {
+                    await Task.Delay(50);
+                    Assert.IsNotNull(stream);
+                    Assert.IsTrue(connected);
+                }
             }
             finally
             {
@@ -112,14 +115,55 @@ namespace Peer2Peer.Transports
             {
                 var addr = tcp.Listen("/ip4/127.0.0.1", handler, cs.Token);
                 Assert.IsTrue(addr.Protocols.Any(p => p.Name == "tcp"));
-                var stream = await tcp.ConnectAsync(addr, cs.Token);
-                await Task.Delay(50);
-                Assert.IsNotNull(stream);
-                Assert.IsTrue(called);
+                using (var stream = await tcp.ConnectAsync(addr, cs.Token))
+                {
+                    await Task.Delay(50);
+                    Assert.IsNotNull(stream);
+                    Assert.IsTrue(called);
+                }
             }
             finally
             {
                 cs.Cancel();
+            }
+        }
+
+        [TestMethod]
+        public async Task SendReceive()
+        {
+            var tcp = new Tcp();
+            using (var server = new HelloServer())
+            using (var stream = await tcp.ConnectAsync(server.Address))
+            {
+                var bytes = new byte[5];
+                await stream.ReadAsync(bytes, 0, bytes.Length);
+                Assert.AreEqual("hello", Encoding.UTF8.GetString(bytes));
+            }
+        }
+
+        class HelloServer : IDisposable
+        {
+            CancellationTokenSource cs = new CancellationTokenSource();
+
+            public HelloServer()
+            {
+                var tcp = new Tcp();
+                Address = tcp.Listen("/ip4/127.0.0.1", Handler, cs.Token);
+            }
+
+            public MultiAddress Address { get; set; }
+
+            public void Dispose()
+            {
+                cs.Cancel();
+            }
+
+            void Handler(Stream stream, MultiAddress local, MultiAddress remote)
+            {
+                var msg = Encoding.UTF8.GetBytes("hello");
+                stream.Write(msg, 0, msg.Length);
+                stream.Flush();
+                stream.Dispose();
             }
         }
     }

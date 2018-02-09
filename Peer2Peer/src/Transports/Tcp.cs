@@ -36,7 +36,11 @@ namespace Peer2Peer.Transports
                 ProtocolType.Tcp);
 
             // Handle cancellation of the connect attempt
-            cancel.Register(() => socket.Dispose());
+            cancel.Register(() =>
+            {
+                socket.Dispose();
+                socket = null;
+            });
 
             try
             {
@@ -56,10 +60,13 @@ namespace Peer2Peer.Transports
             if (cancel.IsCancellationRequested)
             {
                 log.Debug("cancel " + address);
-                socket.Dispose();
+                if (socket != null)
+                {
+                    socket.Dispose();
+                }
                 return null;
             }
-            return new NetworkStream(socket);
+            return new NetworkStream(socket, ownsSocket: true);
         }
 
         /// <inheritdoc />
@@ -108,7 +115,11 @@ namespace Peer2Peer.Transports
             log.Debug("listening on " + address);
 
             // Handle cancellation of the listener
-            cancel.Register(() => socket.Dispose());
+            cancel.Register(() => 
+            {
+                socket.Dispose();
+                socket = null;
+            });
 
             socket.Listen(10);
             try
@@ -124,7 +135,7 @@ namespace Peer2Peer.Transports
                     s.Append(endPoint.Port);
                     var remote = new MultiAddress(s.ToString());
                     log.Debug("connection from " + remote);
-                    var peer = new NetworkStream(conn);
+                    var peer = new NetworkStream(conn, ownsSocket: true);
                     try
                     {
                         handler(peer, address, remote);
@@ -147,7 +158,10 @@ namespace Peer2Peer.Transports
             }
             finally
             {
-                socket.Dispose();
+                if (socket != null)
+                {
+                    socket.Dispose();
+                }
             }
 
             log.Debug("stop listening on " + address);

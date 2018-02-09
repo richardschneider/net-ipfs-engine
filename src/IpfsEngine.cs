@@ -13,6 +13,7 @@ using Ipfs.Engine.Cryptography;
 using Peer2Peer;
 using System.Reflection;
 using Peer2Peer.Discovery;
+using Nito.AsyncEx;
 
 namespace Ipfs.Engine
 {
@@ -25,7 +26,6 @@ namespace Ipfs.Engine
 
         bool repositoryInited;
         KeyChain keyChain;
-        Peer localPeer = new Peer();
         char[] passphrase;
         List<Task> stopTasks = new List<Task>();
 
@@ -51,6 +51,21 @@ namespace Ipfs.Engine
             Pin = new PinApi(this);
             PubSub = new PubSubApi(this);
             Swarm = new SwarmApi(this);
+
+            // Async properties
+            LocalPeer = new AsyncLazy<Peer>(async () =>
+            {
+                log.Debug("Building local peer");
+                var keyChain = await KeyChain();
+                var self = await keyChain.FindKeyByNameAsync("self");
+                var localPeer = new Peer();
+                localPeer.Id = self.Id;
+                localPeer.PublicKey = await keyChain.GetPublicKeyAsync("self");
+                localPeer.ProtocolVersion = "ipfs/0.1.0";
+                var version = typeof(IpfsEngine).GetTypeInfo().Assembly.GetName().Version;
+                localPeer.AgentVersion = $"net-ipfs/{version.Major}.{version.Minor}.{version.Revision}";
+                return localPeer;
+            });
         }
 
         /// <summary>
@@ -164,27 +179,11 @@ namespace Ipfs.Engine
         /// <summary>
         ///   Provides access to the local peer.
         /// </summary>
-        /// <param name="cancel">
-        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
-        /// </param>
         /// <returns>
         ///   A task that represents the asynchronous operation. The task's result is
         ///   a <see cref="Peer"/>.
         /// </returns>
-        public async Task<Peer> LocalPeer(CancellationToken cancel = default(CancellationToken))
-        {
-            if (localPeer.Id == null)
-            {
-                var keyChain = await KeyChain(cancel);
-                var self = await keyChain.FindKeyByNameAsync("self", cancel);
-                localPeer.Id = self.Id;
-                localPeer.PublicKey = await keyChain.GetPublicKeyAsync("self", cancel);
-                localPeer.ProtocolVersion = "ipfs/0.1.0";
-                var version = typeof(IpfsEngine).GetTypeInfo().Assembly.GetName().Version;
-                localPeer.AgentVersion = $"net-ipfs/{version.Major}.{version.Minor}.{version.Revision}";
-            }
-            return localPeer;
-        }
+        public AsyncLazy<Peer> LocalPeer { get; private set; }
 
         /// <summary>
         ///   Starts the services.

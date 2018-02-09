@@ -21,7 +21,7 @@ namespace Ipfs.Engine.CoreApi
         {
             if (peer == null)
             {
-                return await ipfs.LocalPeer(cancel);
+                return await ipfs.LocalPeer;
             }
 
             throw new NotImplementedException();

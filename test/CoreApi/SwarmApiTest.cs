@@ -28,5 +28,21 @@ namespace Ipfs.Engine
             Assert.IsFalse(addrs.Any(a => a == somewhere));
         }
 
+        [TestMethod]
+        public async Task Connect_Disconnect()
+        {
+            var mars = "/dns/mars.i.ipfs.io/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
+            await ipfs.Swarm.ConnectAsync(mars);
+            try
+            {
+                var peers = await ipfs.Swarm.PeersAsync();
+                Assert.IsTrue(peers.Any(p => p.Id == "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3"));
+            }
+            finally
+            {
+                await ipfs.Swarm.DisconnectAsync(mars);
+            }
+        }
+
     }
 }

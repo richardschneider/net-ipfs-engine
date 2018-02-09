@@ -44,14 +44,14 @@ namespace Ipfs.Engine.CoreApi
             return Task.FromResult(ipfs.SwarmService.KnownPeers);
         }
 
-        public Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
+        public async Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            await ipfs.SwarmService.ConnectAsync(address, cancel);
         }
 
-        public Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
+        public async Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            await ipfs.SwarmService.DisconnectAsync(address, cancel);
         }
 
         public async Task<IEnumerable<MultiAddress>> ListAddressFiltersAsync(bool persist = false, CancellationToken cancel = default(CancellationToken))
@@ -74,7 +74,7 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<IEnumerable<Peer>> PeersAsync(CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            return Task.FromResult(ipfs.SwarmService.KnownPeers);
         }
 
         public async Task<MultiAddress> RemoveAddressFilterAsync(MultiAddress address, bool persist = false, CancellationToken cancel = default(CancellationToken))

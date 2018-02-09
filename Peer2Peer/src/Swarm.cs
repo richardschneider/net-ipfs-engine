@@ -126,6 +126,43 @@ namespace Peer2Peer
             log.Debug("Stopping");
 
             others = new ConcurrentBag<MultiAddress>();
+            BlackList = new BlackList<MultiAddress>();
+            WhiteList = new WhiteList<MultiAddress>();
+
+            return Task.CompletedTask;
+        }
+
+
+        /// <summary>
+        ///   Connect to a peer.
+        /// </summary>
+        /// <param name="address">
+        ///   An ipfs <see cref="MultiAddress"/>, such as
+        ///  <c>/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ</c>.
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        public Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
+        {
+            // TODO
+            others.Add(address);
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        ///   Disconnect from a peer.
+        /// </summary>
+        /// <param name="address">
+        ///   An ipfs <see cref="MultiAddress"/>, such as
+        ///  <c>/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ</c>.
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        public Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
+        {
+            // TODO
             return Task.CompletedTask;
         }
 

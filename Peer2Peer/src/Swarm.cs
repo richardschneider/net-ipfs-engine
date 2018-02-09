@@ -25,7 +25,7 @@ namespace Peer2Peer
         /// <summary>
         ///   Other nodes.
         /// </summary>
-        ConcurrentBag<MultiAddress> others = new ConcurrentBag<MultiAddress>();
+        ConcurrentDictionary<string, Peer> otherPeers = new ConcurrentDictionary<string, Peer>();
 
         /// <summary>
         ///   Get the sequence of all known peer addresses.
@@ -37,7 +37,12 @@ namespace Peer2Peer
         /// <seealso cref="RegisterPeerAsync"/>
         public IEnumerable<MultiAddress> KnownPeerAddresses
         {
-            get { return others; }
+            get
+            {
+                return otherPeers
+                    .Values
+                    .SelectMany(p => p.Addresses);
+            }
         }
 
         /// <summary>
@@ -52,15 +57,7 @@ namespace Peer2Peer
         {
             get
             {
-                return KnownPeerAddresses.GroupBy(
-                    a => a.Protocols.Last().Value,
-                    a => a,
-                    (k, v) => new Peer
-                    {
-                        Id = k,
-                        Addresses = v
-                    }
-                );
+                return otherPeers.Values;
             }
         }
 
@@ -90,30 +87,37 @@ namespace Peer2Peer
                 return false;
             }
 
-            var remoteId = address.Protocols
+            var peerId = address.Protocols
                 .Last(p => p.Name == "ipfs")
                 .Value;
-            if (remoteId == LocalPeer.Id)
+            if (peerId == LocalPeer.Id)
             {
                 log.Error("Cannot register to self.");
                 return false;
             }
 
-            if (others.Contains(address))
+            if (!await IsAllowedAsync(address, cancel))
             {
-                log.DebugFormat("Already registered {0}", address);
+                log.WarnFormat("Not allowed {0}", address);
                 return false;
             }
 
-            if (await IsAllowedAsync(address, cancel))
-            {
-                others.Add(address);
-                log.DebugFormat("Registered {0}", address);
-                return true;
-            }
-
-            log.WarnFormat("Not allowed {0}", address);
-            return false;
+            otherPeers.AddOrUpdate(peerId,
+                (id) => new Peer
+                {
+                    Id = id,
+                    Addresses = new List<MultiAddress> { address }
+                },
+                (id, peer) =>
+                {
+                    var addrs = (List<MultiAddress>)peer.Addresses;
+                    if (!addrs.Contains(address))
+                    {
+                        addrs.Add(address);
+                    }
+                    return peer;
+                });
+            return true;
         }
 
         /// <summary>
@@ -139,7 +143,7 @@ namespace Peer2Peer
         {
             log.Debug("Stopping");
 
-            others = new ConcurrentBag<MultiAddress>();
+            otherPeers.Clear();
             BlackList = new BlackList<MultiAddress>();
             WhiteList = new WhiteList<MultiAddress>();
 
@@ -172,7 +176,7 @@ namespace Peer2Peer
             }
 
             // TODO
-            others.Add(address);
+            await RegisterPeerAsync(address, cancel);
         }
 
         /// <summary>

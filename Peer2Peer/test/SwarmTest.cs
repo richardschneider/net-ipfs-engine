@@ -83,15 +83,19 @@ namespace Peer2Peer
         {
             var swarm = new Swarm { LocalPeer = self };
             Assert.AreEqual(0, swarm.KnownPeers.Count());
+            Assert.AreEqual(0, swarm.KnownPeerAddresses.Count());
 
             await swarm.RegisterPeerAsync("/ip4/10.1.10.10/tcp/29087/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3");
             Assert.AreEqual(1, swarm.KnownPeers.Count());
+            Assert.AreEqual(1, swarm.KnownPeerAddresses.Count());
 
             await swarm.RegisterPeerAsync("/ip4/10.1.10.11/tcp/29087/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3");
             Assert.AreEqual(1, swarm.KnownPeers.Count());
+            Assert.AreEqual(2, swarm.KnownPeerAddresses.Count());
 
             await swarm.RegisterPeerAsync(venus);
             Assert.AreEqual(2, swarm.KnownPeers.Count());
+            Assert.AreEqual(3, swarm.KnownPeerAddresses.Count());
         }
 
         [TestMethod]

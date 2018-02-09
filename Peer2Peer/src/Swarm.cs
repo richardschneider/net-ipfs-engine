@@ -90,6 +90,15 @@ namespace Peer2Peer
                 return false;
             }
 
+            var remoteId = address.Protocols
+                .Last(p => p.Name == "ipfs")
+                .Value;
+            if (remoteId == LocalPeer.Id)
+            {
+                log.Error("Cannot register to self.");
+                return false;
+            }
+
             if (others.Contains(address))
             {
                 log.DebugFormat("Already registered {0}", address);
@@ -153,6 +162,13 @@ namespace Peer2Peer
             if (!await IsAllowedAsync(address, cancel))
             {
                 throw new Exception($"Communication with '{address}' is not allowed.");
+            }
+            var remoteId = address.Protocols
+                .Last(p => p.Name == "ipfs")
+                .Value;
+            if (remoteId == LocalPeer.Id)
+            {
+                throw new Exception("Cannot connect to self.");
             }
 
             // TODO

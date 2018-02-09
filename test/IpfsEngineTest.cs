@@ -56,11 +56,11 @@ namespace Ipfs.Engine
             try
             {
                 var bootPeers = (await ipfs.Bootstrap.ListAsync()).ToArray();
-                var knownPeers = ipfs.SwarmService.KnownPeerAddresses.ToArray();
+                var knownPeers = (await ipfs.SwarmService).KnownPeerAddresses.ToArray();
                 while (bootPeers.Count() != knownPeers.Count())
                 {
                     await Task.Delay(50);
-                    knownPeers = ipfs.SwarmService.KnownPeerAddresses.ToArray();
+                    knownPeers = (await ipfs.SwarmService).KnownPeerAddresses.ToArray();
                 }
                 CollectionAssert.AreEquivalent(bootPeers, knownPeers);
             }

@@ -66,6 +66,14 @@ namespace Ipfs.Engine
                 localPeer.AgentVersion = $"net-ipfs/{version.Major}.{version.Minor}.{version.Revision}";
                 return localPeer;
             });
+            SwarmService = new AsyncLazy<Swarm>(async () =>
+            {
+                log.Debug("Building swarm service");
+                return new Swarm
+                {
+                    LocalPeer = await LocalPeer
+                };
+            });
         }
 
         /// <summary>
@@ -219,8 +227,9 @@ namespace Ipfs.Engine
                 }),
                 new Task(async () =>
                 {
-                    await SwarmService.StartAsync();
-                    stopTasks.Add(new Task(async () => await SwarmService.StopAsync()));
+                    var swarm = await SwarmService;
+                    await swarm.StartAsync();
+                    stopTasks.Add(new Task(async () => await swarm.StopAsync()));
                 })
             };
 
@@ -264,7 +273,7 @@ namespace Ipfs.Engine
         /// <summary>
         ///   Manages communication with other peers.
         /// </summary>
-        public Swarm SwarmService { get; } = new Swarm();
+        public AsyncLazy<Swarm> SwarmService { get; private set; } 
 
         /// <summary>
         ///   Fired when a peer is discovered.
@@ -278,7 +287,8 @@ namespace Ipfs.Engine
         {
             try
             {
-                await SwarmService.RegisterPeerAsync(e.Address);
+                var swarm = await SwarmService;
+                await swarm.RegisterPeerAsync(e.Address);
             }
             catch (Exception ex)
             {

@@ -18,6 +18,11 @@ namespace Peer2Peer
         static ILog log = LogManager.GetLogger(typeof(Swarm));
 
         /// <summary>
+        ///  The local peer.
+        /// </summary>
+        public Peer LocalPeer { get; set; }
+
+        /// <summary>
         ///   Other nodes.
         /// </summary>
         ConcurrentBag<MultiAddress> others = new ConcurrentBag<MultiAddress>();

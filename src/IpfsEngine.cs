@@ -12,6 +12,7 @@ using Ipfs.Engine.CoreApi;
 using Ipfs.Engine.Cryptography;
 using Peer2Peer;
 using System.Reflection;
+using Peer2Peer.Discovery;
 
 namespace Ipfs.Engine
 {
@@ -213,10 +214,7 @@ namespace Ipfs.Engine
                     {
                         Addresses = await this.Bootstrap.ListAsync()
                     };
-                    bootstrap.PeerDiscovered += async (s,e) => 
-                    {
-                        await SwarmService.RegisterPeerAsync(e.Address);
-                    };
+                    bootstrap.PeerDiscovered += OnPeerDiscovered;
                     await bootstrap.StartAsync();
                     stopTasks.Add(new Task(async () => await bootstrap.StopAsync()));
                 }),
@@ -268,5 +266,26 @@ namespace Ipfs.Engine
         ///   Manages communication with other peers.
         /// </summary>
         public Swarm SwarmService { get; } = new Swarm();
+
+        /// <summary>
+        ///   Fired when a peer is discovered.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <remarks>
+        ///   Registers the peer with the <see cref="SwarmService"/>.
+        /// </remarks>
+        async void OnPeerDiscovered(object sender, PeerDiscoveredEventArgs e)
+        {
+            try
+            {
+                await SwarmService.RegisterPeerAsync(e.Address);
+            }
+            catch (Exception ex)
+            {
+                log.Warn("failed to register peer " + e.Address, ex);
+                // eat it, nothing we can do.
+            }
+        }
     }
 }

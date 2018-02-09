@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,6 +45,29 @@ namespace Ipfs.Engine
 
             await ipfs.StartAsync();
             ExceptionAssert.Throws<Exception>(() => ipfs.StartAsync().Wait());
+            await ipfs.StopAsync();
+        }
+
+        [TestMethod]
+        public async Task Swarm_Gets_Bootstrap_Peers()
+        {
+            var ipfs = TestFixture.Ipfs;
+            await ipfs.StartAsync();
+            try
+            {
+                var bootPeers = (await ipfs.Bootstrap.ListAsync()).ToArray();
+                var knownPeers = ipfs.SwarmService.KnownPeerAddresses.ToArray();
+                while (bootPeers.Count() != knownPeers.Count())
+                {
+                    await Task.Delay(50);
+                    knownPeers = ipfs.SwarmService.KnownPeerAddresses.ToArray();
+                }
+                CollectionAssert.AreEquivalent(bootPeers, knownPeers);
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
         }
     }
 }

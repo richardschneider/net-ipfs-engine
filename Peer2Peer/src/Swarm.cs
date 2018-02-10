@@ -1,4 +1,5 @@
 ﻿using Ipfs;
+using Peer2Peer.Transports;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Collections.Concurrent;
 using System.Threading;
 using Common.Logging;
+using System.IO;
 
 namespace Peer2Peer
 {
@@ -26,6 +28,11 @@ namespace Peer2Peer
         ///   Other nodes.
         /// </summary>
         ConcurrentDictionary<string, Peer> otherPeers = new ConcurrentDictionary<string, Peer>();
+
+        /// <summary>
+        ///   Streams to other connected peers.
+        /// </summary>
+        ConcurrentDictionary<string, Stream> otherStreams = new ConcurrentDictionary<string, Stream>();
 
         /// <summary>
         ///   Get the sequence of all known peer addresses.
@@ -71,20 +78,22 @@ namespace Peer2Peer
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
         /// <returns>
-        ///    A task that represents the asynchronous operation. The task's result
-        ///    is <b>true</b> if the <paramref name="address"/> is registered.
+        ///   A task that represents the asynchronous operation. The task's result
+        ///   is the <see cref="Peer"/> that is registered.
         /// </returns>
+        /// <exception cref="Exception">
+        ///   The <see cref="BlackList"/> or <see cref="WhiteList"/> policies forbid it.
+        ///   Or the "ipfs" protocol name is missing.
+        /// </exception>
         /// <remarks>
         ///   If the <paramref name="address"/> is not already known, then it is
-        ///   added to the <see cref="KnownPeerAddresses"/> unless the <see cref="BlackList"/>
-        ///   or <see cref="WhiteList"/> policies forbid it.
+        ///   added to the <see cref="KnownPeerAddresses"/>.
         /// </remarks>
-        public async Task<bool> RegisterPeerAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
+        public async Task<Peer> RegisterPeerAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
             if (address.Protocols.Last().Name != "ipfs")
             {
-                log.ErrorFormat("'{0}' missing ipfs protocol name", address);
-                return false;
+                throw new Exception($"'{address}' missing ipfs protocol name.");
             }
 
             var peerId = address.Protocols
@@ -92,17 +101,15 @@ namespace Peer2Peer
                 .Value;
             if (peerId == LocalPeer.Id)
             {
-                log.Error("Cannot register to self.");
-                return false;
+               throw new Exception("Cannot register to self.");
             }
 
             if (!await IsAllowedAsync(address, cancel))
             {
-                log.WarnFormat("Not allowed {0}", address);
-                return false;
+                throw new Exception($"Communication with '{address}' is not allowed.");
             }
 
-            otherPeers.AddOrUpdate(peerId,
+            return otherPeers.AddOrUpdate(peerId,
                 (id) => new Peer
                 {
                     Id = id,
@@ -117,7 +124,6 @@ namespace Peer2Peer
                     }
                     return peer;
                 });
-            return true;
         }
 
         /// <summary>
@@ -139,15 +145,22 @@ namespace Peer2Peer
         }
 
         /// <inheritdoc />
-        public Task StopAsync()
+        public async Task StopAsync()
         {
             log.Debug("Stopping");
 
+            // TODO: Stop the listeners
+
+            // Disconnect from remote peers
+            foreach (var peer in otherPeers.Values.Where(p => p.ConnectedAddress != null))
+            {
+                await DisconnectAsync(peer.ConnectedAddress);
+            }
+
             otherPeers.Clear();
+            otherStreams.Clear();
             BlackList = new BlackList<MultiAddress>();
             WhiteList = new WhiteList<MultiAddress>();
-
-            return Task.CompletedTask;
         }
 
 
@@ -161,22 +174,80 @@ namespace Peer2Peer
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
-        public async Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result
+        ///   is the connected <see cref="Peer"/>.
+        /// </returns>
+        /// <remarks>
+        ///   If already connected to the peer, on any address, then nothing is done.
+        /// </remarks>
+        public async Task<Peer> ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            if (!await IsAllowedAsync(address, cancel))
+            var peer = await RegisterPeerAsync(address, cancel);
+
+            if (peer.ConnectedAddress != null)
             {
-                throw new Exception($"Communication with '{address}' is not allowed.");
-            }
-            var remoteId = address.Protocols
-                .Last(p => p.Name == "ipfs")
-                .Value;
-            if (remoteId == LocalPeer.Id)
-            {
-                throw new Exception("Cannot connect to self.");
+                return peer;
             }
 
-            // TODO
-            await RegisterPeerAsync(address, cancel);
+            // Establish a stream.
+            var addrs = await address.ResolveAsync(cancel);
+            var stream = await Dial(peer, addrs, cancel);
+            if (stream == null)
+            {
+                return null; // most likely a cancel
+            }
+            otherStreams[peer.Id.ToBase58()] = stream;
+
+            // TODO: Handshake
+
+            peer.ConnectedAddress = address;
+            return peer;
+        }
+
+        /// <summary>
+        ///   Establish a duplex stream between the local and remote peer.
+        /// </summary>
+        /// <param name="remote"></param>
+        /// <param name="addrs"></param>
+        /// <param name="cancel"></param>
+        /// <returns></returns>
+        async Task<Stream> Dial(Peer remote, List<MultiAddress> addrs, CancellationToken cancel)
+        {
+            var exceptions = new List<Exception>();
+            foreach (var addr in addrs)
+            {
+                try
+                {
+                    foreach (var protocol in addr.Protocols)
+                    {
+                        if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
+                        {
+                            var stream = await transport().ConnectAsync(addr, cancel);
+                            if (stream != null)
+                            {
+                                remote.ConnectedAddress = addr;
+                                return stream;
+                            }
+                        }
+                    }
+                    throw new Exception("Missing a transport protocol name.");
+                }
+                catch (Exception) when (cancel.IsCancellationRequested)
+                {
+                    return null;
+                }
+                catch (Exception e)
+                {
+                    exceptions.Add(new Exception($"Failed via '{addr}'.", e));
+                }
+            }
+
+            if (addrs.Count == 0)
+            {
+                exceptions.Add(new Exception("No known address."));
+            }
+            throw new AggregateException($"Peer '{remote.Id}' is not reachable.", exceptions);
         }
 
         /// <summary>
@@ -189,9 +260,34 @@ namespace Peer2Peer
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        /// <remarks>
+        ///   If the peer is not conected, then nothing happens.
+        /// </remarks>
         public Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            // TODO
+            var protocol = address.Protocols.LastOrDefault(p => p.Name == "ipfs");
+            if (protocol == null)
+            {
+                return Task.CompletedTask;
+            };
+
+            var peerId = protocol.Value;
+            if (otherPeers.TryGetValue(peerId, out Peer peer))
+            {
+                if (peer.ConnectedAddress != null)
+                {
+                    log.Debug($"disconnecting {peer.ConnectedAddress}");
+                    if (otherStreams.TryRemove(peerId, out Stream stream))
+                    {
+                        stream.Dispose();
+                    }
+                    peer.ConnectedAddress = null;
+                }
+            }
+
             return Task.CompletedTask;
         }
 

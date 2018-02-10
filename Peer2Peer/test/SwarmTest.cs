@@ -30,7 +30,10 @@ namespace Peer2Peer
         public void NewPeerAddress_Self()
         {
             var swarm = new Swarm { LocalPeer = self };
-            Assert.IsFalse(swarm.RegisterPeerAsync(earth).Result);
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = swarm.RegisterPeerAsync(earth).Result;
+            });
         }
 
         [TestMethod]
@@ -39,10 +42,13 @@ namespace Peer2Peer
             var swarm = new Swarm { LocalPeer = self };
             swarm.BlackList.Add(mars);
 
-            Assert.IsFalse(swarm.RegisterPeerAsync(mars).Result);
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = swarm.RegisterPeerAsync(mars).Result;
+            });
             Assert.IsFalse(swarm.KnownPeerAddresses.Contains(mars));
 
-            Assert.IsTrue(swarm.RegisterPeerAsync(venus).Result);
+            Assert.IsNotNull(swarm.RegisterPeerAsync(venus).Result);
             Assert.IsTrue(swarm.KnownPeerAddresses.Contains(venus));
         }
 
@@ -52,18 +58,24 @@ namespace Peer2Peer
             var swarm = new Swarm { LocalPeer = self };
             swarm.WhiteList.Add(venus);
 
-            Assert.IsFalse(swarm.RegisterPeerAsync(mars).Result);
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = swarm.RegisterPeerAsync(mars).Result;
+            });
             Assert.IsFalse(swarm.KnownPeerAddresses.Contains(mars));
 
-            Assert.IsTrue(swarm.RegisterPeerAsync(venus).Result);
+            Assert.IsNotNull(swarm.RegisterPeerAsync(venus).Result);
             Assert.IsTrue(swarm.KnownPeerAddresses.Contains(venus));
         }
 
         [TestMethod]
-        public async Task NewPeerAddress_InvalidAddress()
+        public void NewPeerAddress_InvalidAddress()
         {
             var swarm = new Swarm { LocalPeer = self };
-            await swarm.RegisterPeerAsync("/ip4/10.1.10.10/tcp/29087"); // missing ipfs protocol
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = swarm.RegisterPeerAsync("/ip4/10.1.10.10/tcp/29087").Result;
+            });
             Assert.AreEqual(0, swarm.KnownPeerAddresses.Count());
         }
 
@@ -96,6 +108,63 @@ namespace Peer2Peer
             await swarm.RegisterPeerAsync(venus);
             Assert.AreEqual(2, swarm.KnownPeers.Count());
             Assert.AreEqual(3, swarm.KnownPeerAddresses.Count());
+        }
+
+        [TestMethod]
+        public async Task Connect_Disconnect()
+        {
+            var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                var remotePeer = await swarm.ConnectAsync(remoteAddress);
+                Assert.IsNotNull(remotePeer.ConnectedAddress);
+
+                await swarm.DisconnectAsync(remoteAddress);
+                Assert.IsNull(remotePeer.ConnectedAddress);
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public void Connect_No_Transport()
+        {
+            var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
+            var remoteAddress = $"/ip4/127.0.0.1/ipfs/{remoteId}";
+            var swarm = new Swarm { LocalPeer = self };
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = swarm.ConnectAsync(remoteAddress).Result;
+            });
+        }
+
+        [TestMethod]
+        public void Connect_Refused()
+        {
+            var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4040/ipfs/{remoteId}";
+            var swarm = new Swarm { LocalPeer = self };
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = swarm.ConnectAsync(remoteAddress).Result;
+            });
+        }
+
+        [TestMethod]
+        public async Task Connect_Cancelled()
+        {
+            var cs = new CancellationTokenSource();
+            cs.Cancel();
+            var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
+            var swarm = new Swarm { LocalPeer = self };
+            var remotePeer = await swarm.ConnectAsync(remoteAddress, cs.Token);
+            Assert.IsNull(remotePeer);
         }
 
         [TestMethod]

@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ipfs.Core" Version="0.18.3" />
+    <PackageReference Include="semver" Version="2.0.4" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard14'">
     <PackageReference Include="System.Net.NameResolution" Version="4.3.0.0" />

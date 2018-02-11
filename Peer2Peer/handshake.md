@@ -26,6 +26,32 @@ The daemon's ID
 }
 ```
 
-| Local | Remote |
-| ===== | ====== |
-| a | b |
+## Messages
+
+Not the messages are not displayed with the length prefix nor newline suffix.
+
+| Local (port 58584)| Remote (port 4002) |
+| ----- | ------ |
+| /multistream/1.0.0 | |
+| | /multistream/1.0.0 |
+| /plaintext/1.0.0 | |
+| | /plaintext/1.0.0 |
+| /multistream/1.0.0 | |
+| | /multistream/1.0.0 |
+| /mplex/6.7.0 | |
+| | /mplex/6.7.0 |
+| | 0x08 0x00 |
+| | 0x0a 0x14 |
+| | /multistream/1.0.0 |
+| 0x09 0x14 | |
+| /multistream/1.0.0 | |
+| | 0x09 0x14 |
+| | /multistream/1.0.0 |
+| 0x0a 0x10 | |
+| | /ipfs/id/1.0.0 |
+| 0x09 0x10 | |
+| ipfs/id/1.0.0 | |
+| 0x09 0xad 0x04 | |
+| ... maybe addresses | |
+| | 0e 00 |
+

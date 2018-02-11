@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Peer2Peer.Protocols
@@ -31,21 +32,24 @@ namespace Peer2Peer.Protocols
         /// <param name="stream">
         ///   The <see cref="Stream"/> to a peer.
         /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
         /// <returns>
-        ///   The byte representation of the message's payload.
+        ///   A task that represents the asynchronous operation. The task's result
+        ///   is the byte representation of the message's payload.
         /// </returns>
         /// <exception cref="InvalidDataException">
         ///   When the message is invalid.
         /// </exception>
-        /// <remarks>
-        ///   The return value has the length prefix and terminating newline removed.
-        /// </remarks>
-        public static byte[] ReadBytes(Stream stream)
+        public static async Task<byte[]> ReadBytesAsync(Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            var length = stream.ReadVarint32();
+            var eol = new byte[1];
+            var length = await stream.ReadVarint32Async(cancel);
             var buffer = new byte[length - 1];
-            stream.Read(buffer, 0, length - 1);
-            if (stream.ReadByte() != newline[0])
+            await stream.ReadAsync(buffer, 0, length - 1, cancel);
+            await stream.ReadAsync(eol, 0, 1, cancel);
+            if (eol[0] != newline[0])
             {
                 throw new InvalidDataException("Missing terminating newline");
             }
@@ -58,8 +62,12 @@ namespace Peer2Peer.Protocols
         /// <param name="stream">
         ///   The <see cref="Stream"/> to a peer.
         /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
         /// <returns>
-        ///   The string representation of the message's payload.
+        ///   A task that represents the asynchronous operation. The task's result
+        ///   is the string representation of the message's payload.
         /// </returns>
         /// <exception cref="InvalidDataException">
         ///   When the message is invalid.
@@ -67,9 +75,9 @@ namespace Peer2Peer.Protocols
         /// <remarks>
         ///   The return value has the length prefix and terminating newline removed.
         /// </remarks>
-        public static string ReadString(Stream stream)
+        public static async Task<string> ReadStringAsync(Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            var payload = Encoding.UTF8.GetString(ReadBytes(stream));
+            var payload = Encoding.UTF8.GetString(await ReadBytesAsync(stream, cancel));
 
             log.Debug("received " + payload);
             return payload;
@@ -84,15 +92,21 @@ namespace Peer2Peer.Protocols
         /// <param name="stream">
         ///   The <see cref="Stream"/> to a peer.
         /// </param>
-        public static void Write(string message, Stream stream)
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        public static async Task WriteAsync(string message, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             log.Debug("sending " + message);
 
             var payload = Encoding.UTF8.GetBytes(message);
-            stream.WriteVarint(message.Length + 1);
-            stream.Write(payload, 0, payload.Length);
-            stream.Write(newline, 0, newline.Length);
-            stream.Flush();
+            await stream.WriteVarintAsync(message.Length + 1, cancel);
+            await stream.WriteAsync(payload, 0, payload.Length, cancel);
+            await stream.WriteAsync(newline, 0, newline.Length, cancel);
+            await stream.FlushAsync(cancel);
         }
     }
 }

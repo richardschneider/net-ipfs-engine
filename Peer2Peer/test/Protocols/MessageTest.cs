@@ -12,10 +12,10 @@ namespace Peer2Peer.Protocols
     public class MessageTest
     {
         [TestMethod]
-        public void Encoding()
+        public async Task Encoding()
         {
             var ms = new MemoryStream();
-            Message.Write("a", ms);
+            await Message.WriteAsync("a", ms);
             var buf = ms.ToArray();
             Assert.AreEqual(3, buf.Length);
             Assert.AreEqual(2, buf[0]);
@@ -24,13 +24,13 @@ namespace Peer2Peer.Protocols
         }
 
         [TestMethod]
-        public void RoundTrip()
+        public async Task RoundTrip()
         {
             var msg = "/foobar/0.42.0";
             var ms = new MemoryStream();
-            Message.Write(msg, ms);
+            await Message.WriteAsync(msg, ms);
             ms.Position = 0;
-            var result = Message.ReadString(ms);
+            var result = await Message.ReadStringAsync(ms);
             Assert.AreEqual(msg, result);
         }
     }

@@ -31,19 +31,19 @@ namespace PeerTalkSpike
                 Console.WriteLine("Got a connection");
                 var peer = new NetworkStream(handler);
 
-                Message.Write("/multistream/1.0.0", peer);
-                Message.ReadString(peer);
+                Message.WriteAsync("/multistream/1.0.0", peer).Wait();
+                Message.ReadStringAsync(peer).Wait();
 
                 while (true)
                 {
-                    var msg = Message.ReadString(peer);
+                    var msg = Message.ReadStringAsync(peer).Result;
                     if (msg == "/mplex/6.7.4")
                     {
-                        Message.Write("n/a", peer);
+                        Message.WriteAsync("na", peer).Wait();
                     }
                     else
                     {
-                        Message.Write(msg, peer);
+                        Message.WriteAsync(msg, peer).Wait();
                     }
                 }
             }
@@ -54,13 +54,13 @@ namespace PeerTalkSpike
             var tcp = new Tcp();
             var peer = tcp.ConnectAsync("/ip4/127.0.0.1/tcp/4002").Result;
 
-            var got = Message.ReadString(peer);
-            Message.Write("/multistream/1.0.0", peer);
-            Message.Write("/plaintext/1.0.0", peer);
+            var got = Message.ReadStringAsync(peer).Result;
+            Message.WriteAsync("/multistream/1.0.0", peer).Wait();
+            Message.WriteAsync("/plaintext/1.0.0", peer).Wait();
             while (true)
             {
-                var msg = Message.ReadString(peer);
-                Message.Write(msg, peer);
+                var msg = Message.ReadStringAsync(peer).Result;
+                Message.WriteAsync(msg, peer).Wait();
             }
         }
     }

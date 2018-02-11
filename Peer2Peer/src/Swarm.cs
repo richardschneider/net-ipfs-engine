@@ -25,14 +25,19 @@ namespace Peer2Peer
         public Peer LocalPeer { get; set; }
 
         /// <summary>
-        ///   Other nodes.
+        ///   Other nodes. Key is the bae58 hash of the peer ID.
         /// </summary>
         ConcurrentDictionary<string, Peer> otherPeers = new ConcurrentDictionary<string, Peer>();
 
         /// <summary>
-        ///   Streams to other connected peers.
+        ///   Streams to other connected peers. Key is the base58 hash of the peer ID.
         /// </summary>
         ConcurrentDictionary<string, Stream> otherStreams = new ConcurrentDictionary<string, Stream>();
+
+        /// <summary>
+        ///   Cancellation tokens for the listeners.
+        /// </summary>
+        ConcurrentDictionary<MultiAddress, CancellationTokenSource> listeners = new ConcurrentDictionary<MultiAddress, CancellationTokenSource>();
 
         /// <summary>
         ///   Get the sequence of all known peer addresses.
@@ -149,7 +154,11 @@ namespace Peer2Peer
         {
             log.Debug("Stopping");
 
-            // TODO: Stop the listeners
+            // Stop the listeners
+            foreach (var address in listeners.Keys)
+            {
+                await StopListeningAsync(address);
+            }
 
             // Disconnect from remote peers
             foreach (var peer in otherPeers.Values.Where(p => p.ConnectedAddress != null))
@@ -159,6 +168,7 @@ namespace Peer2Peer
 
             otherPeers.Clear();
             otherStreams.Clear();
+            listeners.Clear();
             BlackList = new BlackList<MultiAddress>();
             WhiteList = new WhiteList<MultiAddress>();
         }
@@ -287,6 +297,89 @@ namespace Peer2Peer
                     peer.ConnectedAddress = null;
                 }
             }
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        ///   Start listening on the specified <see cref="MultiAddress"/>.
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        /// <exception cref="Exception">
+        ///   Already listening on <paramref name="address"/>.
+        /// </exception>
+        /// <remarks>
+        ///   Allows other peers to <see cref="ConnectAsync(MultiAddress, CancellationToken)">connect</see>
+        ///   to the <paramref name="address"/>.
+        ///   <para>
+        ///   The addresses of the <see cref="LocalPeer"/> are updated.
+        ///   </para>
+        /// </remarks>
+        public Task<MultiAddress> StartListeningAsync(MultiAddress address)
+        {
+            var cancel = new CancellationTokenSource();
+
+            if (!listeners.TryAdd(address, cancel))
+            {
+                throw new Exception($"Already listening on '{address}'.");
+            }
+            if (!LocalPeer.Addresses.Contains(address))
+            {
+                var addresses = LocalPeer
+                    .Addresses
+                    .Concat(new MultiAddress[] { address })
+                    .ToArray();
+                LocalPeer.Addresses = addresses;
+            }
+
+            // Start a listener for the transport
+            foreach (var protocol in address.Protocols)
+            {
+                if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
+                {
+                    transport().Listen(address, OnRemoteConnect, cancel.Token);
+                    break;
+                }
+            }
+            // TODO: throw new Exception("Missing a transport protocol name.");
+
+            return Task.FromResult(new MultiAddress($"{address}/ipfs/{LocalPeer.Id}"));
+        }
+
+        private void OnRemoteConnect(Stream stream, MultiAddress local, MultiAddress remote)
+        {
+            log.Debug("Got remote connection");
+            log.Debug("local " + local);
+            log.Debug("remote " + remote);
+            // TODO: handshake to get remote identity
+        }
+
+        /// <summary>
+        ///   Stop listening on the specified <see cref="MultiAddress"/>.
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        /// <remarks>
+        ///   Allows other peers to <see cref="ConnectAsync(MultiAddress, CancellationToken)">connect</see>
+        ///   to the <paramref name="address"/>.
+        ///   <para>
+        ///   The addresses of the <see cref="LocalPeer"/> are updated.
+        ///   </para>
+        /// </remarks>
+        public Task StopListeningAsync(MultiAddress address)
+        {
+            if (listeners.TryRemove(address, out CancellationTokenSource listener))
+            {
+                listener.Cancel();
+            }
+            LocalPeer.Addresses = LocalPeer.Addresses
+                .Where(a => a != address)
+                .ToArray();
 
             return Task.CompletedTask;
         }

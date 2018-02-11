@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Peer2Peer
+namespace Peer2Peer.Protocols
 {
     [TestClass]
     public class MessageTest

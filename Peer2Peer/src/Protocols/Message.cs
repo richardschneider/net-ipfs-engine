@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Peer2Peer
+namespace Peer2Peer.Protocols
 {
     /// <summary>
     ///   A message that is exchanged between peers.

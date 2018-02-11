@@ -23,8 +23,8 @@ The daemon's ID
   ],
   "agentVersion": "js-ipfs/0.27.7",
   "protocolVersion": "9000"
-}```
-
+}
+```
 
 | Local | Remote |
 | ===== | ====== |

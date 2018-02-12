@@ -16,9 +16,21 @@ namespace Peer2Peer.Transports
     ///   Establishes a duplex stream between two peers
     ///   over TCP.
     /// </summary>
+    /// <remarks>
+    ///   <see cref="ConnectAsync"/> determines the network latency and sets the timeout
+    ///   to 3 times the latency or <see cref="MinReadTimeout"/>.
+    /// </remarks>
     public class Tcp : IPeerTransport
     {
         static ILog log = LogManager.GetLogger(typeof(Tcp));
+
+        /// <summary>
+        ///  The minimum read timeout.
+        /// </summary>
+        /// <value>
+        ///   Defaults to 3 seconds.
+        /// </value>
+        public static TimeSpan MinReadTimeout = TimeSpan.FromSeconds(3);
 
         /// <inheritdoc />
         public async Task<Stream> ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
@@ -42,11 +54,14 @@ namespace Peer2Peer.Transports
                 socket = null;
             });
 
+            TimeSpan latency = MinReadTimeout; // keep compiler happy
             try
             {
                 log.Debug("connecting to " + address);
+                var start = DateTime.Now;
                 await socket.ConnectAsync(ip.Value, port);
-                log.Debug("connected " + address);
+                latency = DateTime.Now - start;
+                log.Debug($"connected to {address} in {latency.TotalMilliseconds} ms");
             }
             catch (Exception) when (cancel.IsCancellationRequested)
             {
@@ -66,7 +81,16 @@ namespace Peer2Peer.Transports
                 }
                 return null;
             }
-            return new NetworkStream(socket, ownsSocket: true);
+
+            var timeout = (int) Math.Max(MinReadTimeout.TotalMilliseconds, latency.TotalMilliseconds * 3);
+            socket.LingerState = new LingerOption(false, 0);
+            socket.ReceiveTimeout = timeout;
+            socket.SendTimeout = timeout;
+            var stream =  new NetworkStream(socket, ownsSocket: true);
+            stream.ReadTimeout = timeout;
+            stream.WriteTimeout = timeout;
+
+            return stream;
         }
 
         /// <inheritdoc />

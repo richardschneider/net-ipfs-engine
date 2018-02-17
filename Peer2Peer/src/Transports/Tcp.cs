@@ -90,7 +90,11 @@ namespace Peer2Peer.Transports
             stream.ReadTimeout = timeout;
             stream.WriteTimeout = timeout;
 
+#if NETSTANDARD14
             return stream;
+#else
+            return new BufferedStream(stream);
+#endif
         }
 
         /// <inheritdoc />
@@ -159,7 +163,10 @@ namespace Peer2Peer.Transports
                     s.Append(endPoint.Port);
                     var remote = new MultiAddress(s.ToString());
                     log.Debug("connection from " + remote);
-                    var peer = new NetworkStream(conn, ownsSocket: true);
+                    Stream peer = new NetworkStream(conn, ownsSocket: true);
+#if !NETSTANDARD14
+                    peer = new BufferedStream(peer);
+#endif
                     try
                     {
                         handler(peer, address, remote);

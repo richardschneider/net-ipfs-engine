@@ -70,6 +70,10 @@ namespace Peer2Peer.Transports
             catch (Exception e)
             {
                 log.Warn("failed " + address, e);
+                if (socket != null)
+                {
+                    socket.Dispose();
+                }
                 throw;
             }
             if (cancel.IsCancellationRequested)

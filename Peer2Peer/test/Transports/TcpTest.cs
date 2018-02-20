@@ -161,7 +161,6 @@ namespace Peer2Peer.Transports
         }
 
         [TestMethod]
-        [Ignore]
         public async Task SendReceive()
         {
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));

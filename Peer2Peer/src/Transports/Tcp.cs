@@ -149,9 +149,9 @@ namespace Peer2Peer.Transports
                 socket = null;
             });
 
-            socket.Listen(10);
             try
             {
+                socket.Listen(10);
                 while (!cancel.IsCancellationRequested)
                 {
                     Socket conn = socket.Accept();
@@ -184,6 +184,7 @@ namespace Peer2Peer.Transports
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 log.Error("listener failed " + address, e);
                 // eat it and give up
             }

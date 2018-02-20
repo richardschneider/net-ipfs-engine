@@ -12,7 +12,6 @@ namespace Peer2Peer.Transports
 {
     
     [TestClass]
-    [Ignore("Never returns on *nix")]
     public class TcpTest
     {
         [TestMethod]

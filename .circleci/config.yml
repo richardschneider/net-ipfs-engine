@@ -11,6 +11,6 @@ jobs:
       - checkout
       - run: dotnet restore
       - run: dotnet build -c Release --no-restore --framework netstandard2 ./Peer2Peer/src
-      - run: dotnet test  -v n -c Release --no-restore --framework netcoreapp2.0 ./Peer2Peer/test/Peer2PeerTests.csproj
+      - run: sudo dotnet test  -v n -c Release --no-restore --framework netcoreapp2.0 ./Peer2Peer/test/Peer2PeerTests.csproj
       - run: dotnet build -c Release --no-restore --framework netstandard2 ./src
       - run: dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./test

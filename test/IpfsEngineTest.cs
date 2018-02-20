@@ -52,15 +52,16 @@ namespace Ipfs.Engine
         public async Task Swarm_Gets_Bootstrap_Peers()
         {
             var ipfs = TestFixture.Ipfs;
+            var bootPeers = (await ipfs.Bootstrap.ListAsync()).ToArray();
             await ipfs.StartAsync();
             try
             {
-                var bootPeers = (await ipfs.Bootstrap.ListAsync()).ToArray();
-                var knownPeers = (await ipfs.SwarmService).KnownPeerAddresses.ToArray();
+                var swarm = await ipfs.SwarmService;
+                var knownPeers = swarm.KnownPeerAddresses.ToArray();
                 while (bootPeers.Count() != knownPeers.Count())
                 {
                     await Task.Delay(50);
-                    knownPeers = (await ipfs.SwarmService).KnownPeerAddresses.ToArray();
+                    knownPeers = swarm.KnownPeerAddresses.ToArray();
                 }
                 CollectionAssert.AreEquivalent(bootPeers, knownPeers);
             }

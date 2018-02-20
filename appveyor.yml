@@ -61,8 +61,8 @@ after_build:
   - if defined git_token gh-pages -d doc\_site -m "new docs %GitVersion_FullSemVer%"
 
 test_script:
-  - dotnet test -c %CONFIGURATION% --no-build --no-restore test
   - dotnet test -c %CONFIGURATION% --no-build --no-restore ./Peer2Peer/test
+  - dotnet test -c %CONFIGURATION% --no-build --no-restore test
 
 after_test: 
 # Generate coverage report

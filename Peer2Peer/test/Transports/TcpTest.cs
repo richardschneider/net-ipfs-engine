@@ -69,7 +69,22 @@ namespace Peer2Peer.Transports
         }
 
         [TestMethod]
-        public async Task Listen_Then_Cancel()
+        public async Task TimeProtocol()
+        {
+            var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            var server = await new MultiAddress("/dns4/time.nist.gov/tcp/37").ResolveAsync(cs.Token);
+            var data = new byte[4];
+
+            var tcp = new Tcp();
+            using (var time = await tcp.ConnectAsync(server[0], cs.Token))
+            {
+                var n = await time.ReadAsync(data, 0, data.Length, cs.Token);
+                Assert.AreEqual(4, n);
+            }
+        }
+
+        [TestMethod]
+        public void Listen_Then_Cancel()
         {
             var tcp = new Tcp();
             var cs = new CancellationTokenSource();

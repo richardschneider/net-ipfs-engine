@@ -1,8 +1,10 @@
 ﻿using Semver;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Peer2Peer.Protocols
@@ -23,5 +25,20 @@ namespace Peer2Peer.Protocols
         {
             return $"/{Name}/{Version}";
         }
+
+        /// <inheritdoc />
+        public Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        {
+            connection.SecurityEstablished.SetResult(true);
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc />
+        public Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
+
+
     }
 }

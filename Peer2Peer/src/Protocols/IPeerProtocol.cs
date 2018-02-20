@@ -28,5 +28,29 @@ namespace Peer2Peer.Protocols
         ///   The version of the protocol.
         /// </summary>
         SemVersion Version { get; }
+
+        /// <summary>
+        ///   Process a request for the protocol.
+        /// </summary>
+        /// <param name="connection">
+        ///   A connection to the peer.
+        /// </param>
+        /// <param name="cancel">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken));
+
+        /// <summary>
+        ///   Process a response from the protocol.
+        /// </summary>
+        /// <param name="connection">
+        ///   A connection to the peer.
+        /// </param>
+        /// <param name="cancel">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken));
     }
 }

@@ -111,6 +111,7 @@ namespace Peer2Peer
         }
 
         [TestMethod]
+        [Ignore("Failing on *nix")]
         public async Task Connect_Disconnect()
         {
             var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };

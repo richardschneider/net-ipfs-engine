@@ -113,9 +113,16 @@ namespace Peer2Peer.Transports
                 endPoint.AddressFamily,
                 SocketType.Stream,
                 ProtocolType.Tcp);
-            Console.WriteLine(ipAddress.ToString());
-            socket.Bind(endPoint);
-            socket.Listen(10);
+            try
+            {
+                socket.Bind(endPoint);
+                socket.Listen(1);
+            }
+            catch (Exception)
+            {
+                socket.Dispose();
+                throw;
+            }
 
             // If no port specified, then add it.
             var actualPort = ((IPEndPoint)socket.LocalEndPoint).Port;

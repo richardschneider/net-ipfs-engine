@@ -72,7 +72,7 @@ namespace Peer2Peer.Transports
         public async Task Listen()
         {
             var tcp = new Tcp();
-            var cs = new CancellationTokenSource();
+            var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var connected = false;
             MultiAddress listenerAddress = null;
             Action<Stream, MultiAddress, MultiAddress> handler = (stream, local, remote) =>
@@ -104,7 +104,7 @@ namespace Peer2Peer.Transports
         public async Task Listen_Handler_Throws()
         {
             var tcp = new Tcp();
-            var cs = new CancellationTokenSource();
+            var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var called = false;
             Action<Stream, MultiAddress, MultiAddress> handler = (stream, local, remote) =>
             {
@@ -131,9 +131,10 @@ namespace Peer2Peer.Transports
         [TestMethod]
         public async Task SendReceive()
         {
+            var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var tcp = new Tcp();
             using (var server = new HelloServer())
-            using (var stream = await tcp.ConnectAsync(server.Address))
+            using (var stream = await tcp.ConnectAsync(server.Address, cs.Token))
             {
                 var bytes = new byte[5];
                 await stream.ReadAsync(bytes, 0, bytes.Length);
@@ -143,7 +144,7 @@ namespace Peer2Peer.Transports
 
         class HelloServer : IDisposable
         {
-            CancellationTokenSource cs = new CancellationTokenSource();
+            CancellationTokenSource cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 
             public HelloServer()
             {

@@ -54,7 +54,7 @@ namespace Peer2Peer.Transports
         public async Task Listen()
         {
             var udp = new Udp();
-            var cs = new CancellationTokenSource();
+            var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var connected = false;
             MultiAddress listenerAddress = null;
             Action<Stream, MultiAddress, MultiAddress> handler = (stream, local, remote) =>
@@ -82,22 +82,23 @@ namespace Peer2Peer.Transports
         [TestMethod]
         public async Task NetworkTimeProtcol()
         {
-            var server = await new MultiAddress("/dns4/time.windows.com/udp/123").ResolveAsync();
+            var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            var server = await new MultiAddress("/dns4/time.windows.com/udp/123").ResolveAsync(cs.Token);
             var ntpData = new byte[48];
             ntpData[0] = 0x1B;
 
             var udp = new Udp();
-            using (var time = await udp.ConnectAsync(server[0]))
+            using (var time = await udp.ConnectAsync(server[0], cs.Token))
             {
                 ntpData[0] = 0x1B;
-                await time.WriteAsync(ntpData, 0, ntpData.Length);
-                await time.ReadAsync(ntpData, 0, ntpData.Length);
+                await time.WriteAsync(ntpData, 0, ntpData.Length, cs.Token);
+                await time.ReadAsync(ntpData, 0, ntpData.Length, cs.Token);
                 Assert.AreEqual(0x1c, ntpData[0]);
 
                 Array.Clear(ntpData, 0, ntpData.Length);
                 ntpData[0] = 0x1B;
-                await time.WriteAsync(ntpData, 0, ntpData.Length);
-                await time.ReadAsync(ntpData, 0, ntpData.Length);
+                await time.WriteAsync(ntpData, 0, ntpData.Length, cs.Token);
+                await time.ReadAsync(ntpData, 0, ntpData.Length, cs.Token);
                 Assert.AreEqual(0x1c, ntpData[0]);
             }
         }
@@ -106,19 +107,20 @@ namespace Peer2Peer.Transports
         [Ignore]
         public async Task SendReceive()
         {
+            var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var udp = new Udp();
             using (var server = new HelloServer())
-            using (var stream = await udp.ConnectAsync(server.Address))
+            using (var stream = await udp.ConnectAsync(server.Address, cs.Token))
             {
                 var bytes = new byte[5];
-                await stream.ReadAsync(bytes, 0, bytes.Length);
+                await stream.ReadAsync(bytes, 0, bytes.Length, cs.Token);
                 Assert.AreEqual("hello", Encoding.UTF8.GetString(bytes));
             }
         }
 
         class HelloServer : IDisposable
         {
-            CancellationTokenSource cs = new CancellationTokenSource();
+            CancellationTokenSource cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 
             public HelloServer()
             {

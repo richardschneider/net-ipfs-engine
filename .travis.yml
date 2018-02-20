@@ -2,6 +2,8 @@ language: csharp
 mono: none
 dotnet: 2.0.0
 script:
-  - dotnet build -c Release
-  - dotnet test  -c Release --no-build --no-restore --framework netcoreapp2.0 ./test
-  - dotnet test  -c Release --no-build --no-restore --framework netcoreapp2.0 ./Peer2Peer/test
+  - dotnet restore
+  - dotnet build -c Release --no-restore --framework netstandard2 ./Peer2Peer/src
+  - dotnet build -c Release --no-restore --framework netstandard2 ./src
+  - dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./test
+  - dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./Peer2Peer/test

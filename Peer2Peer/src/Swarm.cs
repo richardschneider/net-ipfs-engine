@@ -202,14 +202,13 @@ namespace Peer2Peer
 
             // Establish a stream.
             var addrs = await address.ResolveAsync(cancel);
-            var stream = await Dial(peer, addrs, cancel);
-            if (stream == null)
+            var connection = await Dial(peer, addrs, cancel);
+            if (connection == null)
             {
                 return null; // most likely a cancel
             }
-            otherStreams[peer.Id.ToBase58()] = stream;
-
-            // TODO: Handshake
+            otherStreams[peer.Id.ToBase58()] = connection.Stream;
+            await connection.InitiateAsync(cancel);
 
             peer.ConnectedAddress = address;
             return peer;
@@ -222,7 +221,7 @@ namespace Peer2Peer
         /// <param name="addrs"></param>
         /// <param name="cancel"></param>
         /// <returns></returns>
-        async Task<Stream> Dial(Peer remote, List<MultiAddress> addrs, CancellationToken cancel)
+        async Task<PeerConnection> Dial(Peer remote, List<MultiAddress> addrs, CancellationToken cancel)
         {
             var exceptions = new List<Exception>();
             foreach (var addr in addrs)
@@ -237,7 +236,16 @@ namespace Peer2Peer
                             if (stream != null)
                             {
                                 remote.ConnectedAddress = addr;
-                                return stream;
+                                var connection = new PeerConnection
+                                {
+                                    LocalPeer = LocalPeer,
+                                    // TODO: LocalAddress
+                                    RemotePeer = remote,
+                                    RemoteAddress = addr,
+                                    Stream = stream
+                                };
+
+                                return connection;
                             }
                         }
                     }
@@ -349,12 +357,50 @@ namespace Peer2Peer
             return Task.FromResult(new MultiAddress($"{address}/ipfs/{LocalPeer.Id}"));
         }
 
-        private void OnRemoteConnect(Stream stream, MultiAddress local, MultiAddress remote)
+        /// <summary>
+        ///   Called when a remote peer is connecting to the local peer.
+        /// </summary>
+        /// <param name="stream">
+        ///   The stream to the remote peer.
+        /// </param>
+        /// <param name="local">
+        ///   The local peer's address.
+        /// </param>
+        /// <param name="remote">
+        ///   The remote peer's address.
+        /// </param>
+        /// <remarks>
+        ///   Establishes the protocols of the connection.
+        ///   <para>
+        ///   If any error is encountered, then the connection is closed.
+        ///   </para>
+        /// </remarks>
+        async void OnRemoteConnect(Stream stream, MultiAddress local, MultiAddress remote)
         {
             log.Debug("Got remote connection");
             log.Debug("local " + local);
             log.Debug("remote " + remote);
-            // TODO: handshake to get remote identity
+
+            // TODO: Check the policies
+
+            var connection = new PeerConnection
+            {
+                LocalPeer = LocalPeer,
+                LocalAddress = local,
+                RemoteAddress = remote,
+                Stream = stream
+            };
+            try
+            {
+                await connection.RespondAsync();
+
+                // TODO: register the peer
+            } 
+            catch (Exception e)
+            {
+                log.Error("Failed to accept remote connection", e);
+                connection.Dispose();
+            }
         }
 
         /// <summary>

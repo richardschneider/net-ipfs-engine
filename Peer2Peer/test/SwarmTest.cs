@@ -126,6 +126,8 @@ namespace Peer2Peer
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
                 Assert.IsFalse(swarm.KnownPeers.Contains(self));
 
+                // TODO: Verify that swarm knows peerB's ID and address
+
                 await swarm.DisconnectAsync(remoteAddress);
                 Assert.IsNull(remotePeer.ConnectedAddress);
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));

@@ -27,7 +27,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore()]
+        [Ignore("NYI")]
         public async Task Mars_Info()
         {
             var ipfs = TestFixture.Ipfs;

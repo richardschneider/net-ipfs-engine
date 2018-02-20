@@ -29,6 +29,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        [Ignore("Need SECIO")]
         public async Task Connect_Disconnect()
         {
             var mars = "/dns/mars.i.ipfs.io/tcp/4001/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";

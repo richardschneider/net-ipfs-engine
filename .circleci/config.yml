@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    working_directory: /temp
+    docker:
+      - image: microsoft/dotnet:sdk
+    environment:
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    steps:
+      - checkout
+      - run: dotnet restore
+      - run: dotnet build -c Release --no-restore --framework netstandard2 ./Peer2Peer/src
+      - run: dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./Peer2Peer/test/Peer2PeerTests.csproj
+      - run: dotnet build -c Release --no-restore --framework netstandard2 ./src
+      - run: dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./test

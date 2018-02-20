@@ -167,14 +167,18 @@ namespace Peer2Peer.Transports
                 while (!cancel.IsCancellationRequested)
                 {
                     Socket conn = socket.Accept();
-                    var endPoint = (IPEndPoint)conn.RemoteEndPoint;
-                    var s = new StringBuilder();
-                    s.Append(endPoint.AddressFamily == AddressFamily.InterNetwork ? "/ip4/" : "/ip6/");
-                    s.Append(endPoint.Address.ToString());
-                    s.Append("/tcp/");
-                    s.Append(endPoint.Port);
-                    var remote = new MultiAddress(s.ToString());
-                    log.Debug("connection from " + remote);
+                    MultiAddress remote = null;
+                    var endPoint = conn.RemoteEndPoint as IPEndPoint;
+                    if (endPoint != null)
+                    {
+                        var s = new StringBuilder();
+                        s.Append(endPoint.AddressFamily == AddressFamily.InterNetwork ? "/ip4/" : "/ip6/");
+                        s.Append(endPoint.Address.ToString());
+                        s.Append("/tcp/");
+                        s.Append(endPoint.Port);
+                        remote = new MultiAddress(s.ToString());
+                        log.Debug("connection from " + remote);
+                    }
                     Stream peer = new NetworkStream(conn, ownsSocket: true);
 #if !NETSTANDARD14
                     peer = new BufferedStream(peer);

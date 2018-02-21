@@ -158,6 +158,8 @@ namespace Peer2Peer.Transports
             // Handle cancellation of the listener
             cancel.Register(() => 
             {
+                log.Debug("listener is being cancelled");
+                socket.Shutdown(SocketShutdown.Both);
                 socket.Dispose();
                 socket = null;
             });
@@ -167,6 +169,11 @@ namespace Peer2Peer.Transports
                 while (!cancel.IsCancellationRequested)
                 {
                     Socket conn = socket.Accept();
+                    if (conn == null) 
+                    {
+                        log.Debug("empty conn");
+                        continue;
+                    }
                     MultiAddress remote = null;
                     var endPoint = conn.RemoteEndPoint as IPEndPoint;
                     if (endPoint != null)

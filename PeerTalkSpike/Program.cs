@@ -126,12 +126,14 @@ namespace PeerTalkSpike
             {
                 var tcp = new Tcp();
                 Address = tcp.Listen("/ip4/127.0.0.1", Handler, cs.Token);
+                Console.WriteLine("HelloServer " + Address);
             }
 
             public MultiAddress Address { get; set; }
 
             public void Dispose()
             {
+                Console.WriteLine("HelloServer: Dispose");
                 cs.Cancel();
             }
 

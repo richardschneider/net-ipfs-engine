@@ -3,7 +3,6 @@ general:
   branches:
     ignore:
       - gh-pages
-
 jobs:
   build:
     working_directory: /temp

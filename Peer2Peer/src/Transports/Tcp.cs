@@ -9,6 +9,9 @@ using Ipfs;
 using System.Net.Sockets;
 using Common.Logging;
 using System.Net;
+#if !NET461
+using System.Runtime.InteropServices;
+#endif
 
 namespace Peer2Peer.Transports
 {
@@ -158,9 +161,12 @@ namespace Peer2Peer.Transports
             // Handle cancellation of the listener
             cancel.Register(() => 
             {
+                // .Net Standard on Unix neeeds this to cancel the Accept
 #if !NET461
-                // .Net Standard neeeds this to cancel the Accept
-                socket.Shutdown(SocketShutdown.Both);
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    socket.Shutdown(SocketShutdown.Both);
+                }
 #endif
                 socket.Dispose();
                 socket = null;

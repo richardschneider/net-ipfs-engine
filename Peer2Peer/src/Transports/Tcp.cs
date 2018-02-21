@@ -158,7 +158,10 @@ namespace Peer2Peer.Transports
             // Handle cancellation of the listener
             cancel.Register(() => 
             {
+#if !NET461
+                // .Net Standard neeeds this to cancel the Accept
                 socket.Shutdown(SocketShutdown.Both);
+#endif
                 socket.Dispose();
                 socket = null;
             });
@@ -187,6 +190,7 @@ namespace Peer2Peer.Transports
                     }
                     Stream peer = new NetworkStream(conn, ownsSocket: true);
 #if !NETSTANDARD14
+                    // BufferedStream not available in .Net Standard 1.4
                     peer = new BufferedStream(peer);
 #endif
                     try
@@ -214,7 +218,6 @@ namespace Peer2Peer.Transports
             {
                 if (socket != null)
                 {
-                    socket.Shutdown(SocketShutdown.Both);
                     socket.Dispose();
                 }
             }

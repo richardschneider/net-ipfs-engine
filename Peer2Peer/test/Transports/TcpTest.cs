@@ -99,7 +99,6 @@ namespace Peer2Peer.Transports
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Listen()
         {
             var tcp = new Tcp();
@@ -132,7 +131,6 @@ namespace Peer2Peer.Transports
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Listen_Handler_Throws()
         {
             var tcp = new Tcp();

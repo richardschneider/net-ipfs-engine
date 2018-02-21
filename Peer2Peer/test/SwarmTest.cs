@@ -111,12 +111,11 @@ namespace Peer2Peer
         }
 
         [TestMethod]
-        [Ignore("Failing on *nix")]
         public async Task Connect_Disconnect()
         {
             var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
             var swarmB = new Swarm { LocalPeer = peerB };
-            var remoteAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/4009");
+            var remoteAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
 
             var swarm = new Swarm { LocalPeer = self };
             await swarm.StartAsync();
@@ -199,7 +198,6 @@ namespace Peer2Peer
         }
 
         [TestMethod]
-        [Ignore("never returns on *nix")]
         public async Task Listening()
         {
             var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };

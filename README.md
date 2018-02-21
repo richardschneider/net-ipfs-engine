@@ -2,6 +2,7 @@
 
 [![build status](https://ci.appveyor.com/api/projects/status/github/richardschneider/net-ipfs-engine?branch=master&svg=true)](https://ci.appveyor.com/project/richardschneider/net-ipfs-engine) 
 [![travis build](https://travis-ci.org/richardschneider/net-ipfs-engine.svg?branch=master)](https://travis-ci.org/richardschneider/net-ipfs-engine)
+[![CircleCI](https://circleci.com/gh/richardschneider/net-ipfs-engine.svg?style=svg)](https://circleci.com/gh/richardschneider/net-ipfs-engine)
 [![Coverage Status](https://coveralls.io/repos/richardschneider/net-ipfs-engine/badge.svg?branch=master&service=github)](https://coveralls.io/github/richardschneider/net-ipfs-engine?branch=master)
 [![Version](https://img.shields.io/nuget/v/Ipfs.Engine.svg)](https://www.nuget.org/packages/Ipfs.Engine)
 [![docs](https://cdn.rawgit.com/richardschneider/net-ipfs-engine/master/doc/images/docs-latest-green.svg)](https://richardschneider.github.io/net-ipfs-engine)

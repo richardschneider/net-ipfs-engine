@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ipfs.Engine.Cryptography;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Threading;
@@ -39,13 +40,41 @@ namespace Ipfs.Engine
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
             await ipfs.StopAsync();
-
+#if false
             await ipfs.StartAsync();
             await ipfs.StopAsync();
 
             await ipfs.StartAsync();
             //ExceptionAssert.Throws<Exception>(() => ipfs.StartAsync().Wait());
             await ipfs.StopAsync();
+#endif
+        }
+
+
+        [TestMethod]
+        public async Task LocalPeer()
+        {
+            var ipfs = TestFixture.Ipfs;
+            Task<Peer>[] tasks = new Task<Peer>[]
+            {
+                Task.Run(async () => await ipfs.LocalPeer),
+                Task.Run(async () => await ipfs.LocalPeer)
+            };
+            var r = await Task.WhenAll(tasks);
+            Assert.AreSame(r[0], r[1]);
+        }
+
+        [TestMethod]
+        public async Task KeyChain()
+        {
+            var ipfs = TestFixture.Ipfs;
+            Task<KeyChain>[] tasks = new Task<KeyChain>[]
+            {
+                Task.Run(async () => await ipfs.KeyChain()),
+                Task.Run(async () => await ipfs.KeyChain())
+            };
+            var r = await Task.WhenAll(tasks);
+            Assert.AreSame(r[0], r[1]);
         }
 
         [TestMethod]

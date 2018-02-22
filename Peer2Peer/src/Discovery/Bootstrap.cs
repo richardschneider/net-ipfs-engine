@@ -31,7 +31,10 @@ namespace Peer2Peer.Discovery
         public Task StartAsync()
         {
             if (Addresses == null)
+            {
+                log.Warn("No bootstrap addresses");
                 return Task.CompletedTask;
+            }
             foreach (var ma in Addresses)
             {
                 var ipfs = ma.Protocols.Last();

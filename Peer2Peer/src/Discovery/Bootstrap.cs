@@ -30,8 +30,12 @@ namespace Peer2Peer.Discovery
         /// <inheritdoc />
         public Task StartAsync()
         {
+            log.Debug("Starting");
             if (Addresses == null)
+            {
+                log.Warn("No bootstrap addresses");
                 return Task.CompletedTask;
+            }
             foreach (var ma in Addresses)
             {
                 var ipfs = ma.Protocols.Last();
@@ -48,6 +52,7 @@ namespace Peer2Peer.Discovery
         /// <inheritdoc />
         public Task StopAsync()
         {
+            log.Debug("Stopping");
             PeerDiscovered = null;
             return Task.CompletedTask;
         }

@@ -57,6 +57,7 @@ namespace Ipfs.Engine
             {
                 log.Debug("Building local peer");
                 var keyChain = await KeyChain();
+                log.Debug("Getting key info about self");
                 var self = await keyChain.FindKeyByNameAsync("self");
                 var localPeer = new Peer();
                 localPeer.Id = self.Id;
@@ -64,15 +65,18 @@ namespace Ipfs.Engine
                 localPeer.ProtocolVersion = "ipfs/0.1.0";
                 var version = typeof(IpfsEngine).GetTypeInfo().Assembly.GetName().Version;
                 localPeer.AgentVersion = $"net-ipfs/{version.Major}.{version.Minor}.{version.Revision}";
+                log.Debug("Built local peer");
                 return localPeer;
             });
             SwarmService = new AsyncLazy<Swarm>(async () =>
             {
                 log.Debug("Building swarm service");
-                return new Swarm
+                var swarm = new Swarm
                 {
                     LocalPeer = await LocalPeer
                 };
+                log.Debug("Built swarm service");
+                return swarm;
             });
         }
 
@@ -123,28 +127,25 @@ namespace Ipfs.Engine
         /// <inheritdoc />
         public ISwarmApi Swarm { get; private set; }
 
-        internal async Task<Repository> Repository(CancellationToken cancel = default(CancellationToken))
+        internal Task<Repository> Repository(CancellationToken cancel = default(CancellationToken))
         {
             Repository repo = new Repository
             {
                 Options = Options.Repository
             };
 
-            if (repositoryInited)
+            if (!repositoryInited)
             {
-                return await Task.FromResult(repo);
-            }
-
-            ;
-            lock (this)
-            {
-                if (!repositoryInited)
+                lock (this)
                 {
-                    repositoryInited = true;
+                    if (!repositoryInited)
+                    {
+                        repo.CreateAsync(cancel).Wait();
+                        repositoryInited = true;
+                    }
                 }
             }
-            await repo.CreateAsync(cancel);
-            return repo;
+            return Task.FromResult(repo);
         }
 
         /// <summary>
@@ -213,6 +214,10 @@ namespace Ipfs.Engine
                 throw new Exception("Already started");
             }
 
+            log.Debug("starting");
+            await LocalPeer;
+            log.Debug("got local peer");
+
             var tasks = new List<Task>
             {
                 new Task(async () =>
@@ -222,12 +227,14 @@ namespace Ipfs.Engine
                         Addresses = await this.Bootstrap.ListAsync()
                     };
                     bootstrap.PeerDiscovered += OnPeerDiscovered;
+                    log.Debug("starting bootstrap");
                     await bootstrap.StartAsync();
                     stopTasks.Add(new Task(async () => await bootstrap.StopAsync()));
                 }),
                 new Task(async () =>
                 {
                     var swarm = await SwarmService;
+                    log.Debug("Got swarm service");
                     await swarm.StartAsync();
                     stopTasks.Add(new Task(async () => await swarm.StopAsync()));
                 })
@@ -237,7 +244,10 @@ namespace Ipfs.Engine
             {
                 task.Start();
             }
+
+            log.Debug("waiting for services to start");
             await Task.WhenAll(tasks);
+            log.Debug("started");
         }
 
         /// <summary>
@@ -251,12 +261,24 @@ namespace Ipfs.Engine
         /// </remarks>
         public async Task StopAsync()
         {
-            foreach (var task in stopTasks)
+            log.Debug("stopping");
+            try
             {
-                task.Start();
+                foreach (var task in stopTasks)
+                {
+                    task.Start();
+                }
+                await Task.WhenAll(stopTasks);
             }
-            await Task.WhenAll(stopTasks);
-            stopTasks = new List<Task>();
+            catch (Exception e)
+            {
+                log.Error("Failure when stopping the engine", e);
+            }
+            finally
+            {
+                stopTasks = new List<Task>();
+            }
+            log.Debug("stopped");
         }
 
         /// <summary>
@@ -288,7 +310,8 @@ namespace Ipfs.Engine
             try
             {
                 var swarm = await SwarmService;
-                await swarm.RegisterPeerAsync(e.Address);
+                var peer = await swarm.RegisterPeerAsync(e.Address);
+                log.Debug("discovered peer " + peer.Id);
             }
             catch (Exception ex)
             {

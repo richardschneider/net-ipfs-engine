@@ -288,7 +288,8 @@ namespace Ipfs.Engine
             try
             {
                 var swarm = await SwarmService;
-                await swarm.RegisterPeerAsync(e.Address);
+                var peer = await swarm.RegisterPeerAsync(e.Address);
+                log.Debug("discovered peer " + peer.Id);
             }
             catch (Exception ex)
             {

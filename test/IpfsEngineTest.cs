@@ -34,7 +34,6 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Can_Start_And_Stop()
         {
             var ipfs = TestFixture.Ipfs;

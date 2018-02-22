@@ -39,6 +39,7 @@ namespace Ipfs.Engine
         {
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
+            await Task.Delay(50);
             await ipfs.StopAsync();
 #if false
             await ipfs.StartAsync();

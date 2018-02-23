@@ -207,8 +207,16 @@ namespace Peer2Peer
             {
                 return null; // most likely a cancel
             }
+            try
+            {
+                await connection.InitiateAsync(cancel);
+            }
+            catch (Exception)
+            {
+                connection.Dispose();
+                throw;
+            }
             otherStreams[peer.Id.ToBase58()] = connection.Stream;
-            await connection.InitiateAsync(cancel);
 
             peer.ConnectedAddress = address;
             return peer;

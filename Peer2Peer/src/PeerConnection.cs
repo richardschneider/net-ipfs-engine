@@ -133,6 +133,7 @@ namespace Peer2Peer
                         try
                         {
                             Stream.Dispose();
+                            log.Debug($"Closing connection to {RemoteAddress}");
                         }
                         finally
                         {

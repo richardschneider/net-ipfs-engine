@@ -165,6 +165,18 @@ namespace Peer2Peer
         }
 
         [TestMethod]
+        public void Connect_Not_Peer()
+        {
+            var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
+            var remoteAddress = $"/dns/npmjs.com/tcp/80/ipfs/{remoteId}";
+            var swarm = new Swarm { LocalPeer = self };
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = swarm.ConnectAsync(remoteAddress).Result;
+            });
+        }
+
+        [TestMethod]
         public async Task Connect_Cancelled()
         {
             var cs = new CancellationTokenSource();

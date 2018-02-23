@@ -30,9 +30,9 @@ namespace Peer2Peer
         ConcurrentDictionary<string, Peer> otherPeers = new ConcurrentDictionary<string, Peer>();
 
         /// <summary>
-        ///   Streams to other connected peers. Key is the base58 hash of the peer ID.
+        ///   The connections to other peers. Key is the base58 hash of the peer ID.
         /// </summary>
-        ConcurrentDictionary<string, Stream> otherStreams = new ConcurrentDictionary<string, Stream>();
+        ConcurrentDictionary<string, PeerConnection> connections = new ConcurrentDictionary<string, PeerConnection>();
 
         /// <summary>
         ///   Cancellation tokens for the listeners.
@@ -166,8 +166,14 @@ namespace Peer2Peer
                 await DisconnectAsync(peer.ConnectedAddress);
             }
 
+            // Just in case.
+            foreach (var connection in connections.Values)
+            {
+                connection.Dispose();
+            }
+
             otherPeers.Clear();
-            otherStreams.Clear();
+            connections.Clear();
             listeners.Clear();
             BlackList = new BlackList<MultiAddress>();
             WhiteList = new WhiteList<MultiAddress>();
@@ -216,8 +222,8 @@ namespace Peer2Peer
                 connection.Dispose();
                 throw;
             }
-            otherStreams[peer.Id.ToBase58()] = connection.Stream;
 
+            connections[peer.Id.ToBase58()] = connection;
             peer.ConnectedAddress = address;
             return peer;
         }
@@ -306,9 +312,9 @@ namespace Peer2Peer
                 if (peer.ConnectedAddress != null)
                 {
                     log.Debug($"disconnecting {peer.ConnectedAddress}");
-                    if (otherStreams.TryRemove(peerId, out Stream stream))
+                    if (connections.TryRemove(peerId, out PeerConnection connection))
                     {
-                        stream.Dispose();
+                        connection.Dispose();
                     }
                     peer.ConnectedAddress = null;
                 }

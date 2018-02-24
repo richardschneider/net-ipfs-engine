@@ -18,6 +18,8 @@ namespace Peer2Peer
     {
         static ILog log = LogManager.GetLogger(typeof(PeerConnection));
 
+        StatsStream stream;
+
         /// <summary>
         ///   The local peer.
         /// </summary>
@@ -41,7 +43,11 @@ namespace Peer2Peer
         /// <summary>
         ///   The duplex stream between the two peers.
         /// </summary>
-        public Stream Stream { get; set; }
+        public Stream Stream
+        {
+            get { return stream; }
+            set { stream = new StatsStream(value); }
+        }
 
         /// <summary>
         ///   Signals that the security for the connection is established.
@@ -50,6 +56,21 @@ namespace Peer2Peer
         ///   This can be awaited.
         /// </remarks>
         public TaskCompletionSource<bool> SecurityEstablished { get; }  = new TaskCompletionSource<bool>();
+
+        /// <summary>
+        ///   When the connection was last used.
+        /// </summary>
+        public DateTime LastUsed => stream.LastUsed;
+
+        /// <summary>
+        ///   Number of bytes read over the connection.
+        /// </summary>
+        public long BytesRead => stream.BytesRead;
+
+        /// <summary>
+        ///   Number of bytes written over the connection.
+        /// </summary>
+        public long BytesWritten => stream.BytesWritten;
 
         /// <summary>
         ///  Establish the connection with the remote node.
@@ -84,9 +105,7 @@ namespace Peer2Peer
                 var result = await Message.ReadStringAsync(Stream, cancel);
                 if (result == protocol)
                 {
-                    log.Debug("waiting for response " + protocol);
                     await ProtocolRegistry.Protocols[protocol].ProcessResponseAsync(this, cancel);
-                    log.Debug("dones response " + protocol);
                     return;
                 }
             }
@@ -128,16 +147,16 @@ namespace Peer2Peer
             {
                 if (disposing)
                 {
-                    if (Stream != null)
+                    if (stream != null)
                     {
                         try
                         {
-                            Stream.Dispose();
+                            stream.Dispose();
                             log.Debug($"Closing connection to {RemoteAddress}");
                         }
                         finally
                         {
-                            Stream = null;
+                            stream = null;
                         }
                     }
                 }

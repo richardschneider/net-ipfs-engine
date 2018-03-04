@@ -7,7 +7,7 @@ using Ipfs.CoreApi;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections.Concurrent;
-using Peer2Peer;
+using PeerTalk;
 
 namespace Ipfs.Engine.CoreApi
 {

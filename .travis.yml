@@ -8,7 +8,7 @@ install:
   - dotnet restore
 
 script:
-  - dotnet build -c Release --no-restore --framework netstandard2 ./Peer2Peer/src
-  - dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./Peer2Peer/test/Peer2PeerTests.csproj
+  - dotnet build -c Release --no-restore --framework netstandard2 ./PeerTalk/src
+  - dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./PeerTalk/test/PeerTalkTests.csproj
   - dotnet build -c Release --no-restore --framework netstandard2 ./src
   - dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./test

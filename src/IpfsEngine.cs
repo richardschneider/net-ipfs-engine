@@ -10,9 +10,9 @@ using System.Threading;
 using Ipfs.CoreApi;
 using Ipfs.Engine.CoreApi;
 using Ipfs.Engine.Cryptography;
-using Peer2Peer;
+using PeerTalk;
 using System.Reflection;
-using Peer2Peer.Discovery;
+using PeerTalk.Discovery;
 using Nito.AsyncEx;
 
 namespace Ipfs.Engine
@@ -201,7 +201,7 @@ namespace Ipfs.Engine
         ///   A task that represents the asynchronous operation.
         /// </returns>
         /// <remarks>
-        ///   Starts the various IPFS and Peer2Peer services.  This should
+        ///   Starts the various IPFS and PeerTalk services.  This should
         ///   be called after any configuration changes.
         /// </remarks>
         /// <exception cref="Exception">
@@ -222,7 +222,7 @@ namespace Ipfs.Engine
             {
                 new Task(async () =>
                 {
-                    var bootstrap = new Peer2Peer.Discovery.Bootstrap
+                    var bootstrap = new PeerTalk.Discovery.Bootstrap
                     {
                         Addresses = await this.Bootstrap.ListAsync()
                     };
@@ -233,7 +233,7 @@ namespace Ipfs.Engine
                 }),
                 new Task(async () =>
                 {
-                    var mdns = new Peer2Peer.Discovery.Mdns();
+                    var mdns = new PeerTalk.Discovery.Mdns();
                     // TODO: Add listener addresses.
                     mdns.PeerDiscovered += OnPeerDiscovered;
                     await mdns.StartAsync();

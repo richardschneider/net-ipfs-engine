@@ -1,13 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B9AA9C7-5E90-4D10-9DDE-A2AA5FE3ECA6}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
+		.circleci\config.yml = .circleci\config.yml
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
@@ -18,11 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpfsEngine", "src\IpfsEngin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpfsEngineTests", "test\IpfsEngineTests.csproj", "{B459FBC7-4A28-4170-AD83-7348A403407F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peer2Peer", "Peer2Peer\src\Peer2Peer.csproj", "{AA6F77C1-13CB-4B20-AB5E-3C6D237A562B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeerTalk", "PeerTalk\src\PeerTalk.csproj", "{AA6F77C1-13CB-4B20-AB5E-3C6D237A562B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peer2PeerTests", "Peer2Peer\test\Peer2PeerTests.csproj", "{B0977D09-CBA2-4D4B-BE66-08CE6D63DE1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeerTalkTests", "PeerTalk\test\PeerTalkTests.csproj", "{B0977D09-CBA2-4D4B-BE66-08CE6D63DE1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerTalkSpike", "PeerTalkSpike\PeerTalkSpike.csproj", "{E6EF58BD-050B-4CDF-8CA5-073882D00890}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeerTalkSpike", "PeerTalkSpike\PeerTalkSpike.csproj", "{E6EF58BD-050B-4CDF-8CA5-073882D00890}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

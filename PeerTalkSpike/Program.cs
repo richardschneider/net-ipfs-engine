@@ -2,9 +2,9 @@
 using Common.Logging.Simple;
 using Ipfs;
 using Ipfs.Engine;
-using Peer2Peer;
-using Peer2Peer.Protocols;
-using Peer2Peer.Transports;
+using PeerTalk;
+using PeerTalk.Protocols;
+using PeerTalk.Transports;
 using System;
 using System.Collections.Specialized;
 using System.Diagnostics;

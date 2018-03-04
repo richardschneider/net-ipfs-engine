@@ -46,7 +46,7 @@ before_build:
 
 build_script:
   - dotnet build -c %CONFIGURATION% -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
-  - dotnet build -c %CONFIGURATION% --no-restore ./Peer2Peer/src
+  - dotnet build -c %CONFIGURATION% --no-restore ./PeerTalk/src
   - dotnet pack -c %CONFIGURATION% --no-build --no-restore -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
 
 after_build:
@@ -61,7 +61,7 @@ after_build:
   - if defined git_token gh-pages -d doc\_site -m "new docs %GitVersion_FullSemVer%"
 
 test_script:
-  - dotnet test -c %CONFIGURATION% --no-build --no-restore ./Peer2Peer/test
+  - dotnet test -c %CONFIGURATION% --no-build --no-restore ./PeerTalk/test
   - dotnet test -c %CONFIGURATION% --no-build --no-restore test
 
 after_test: 

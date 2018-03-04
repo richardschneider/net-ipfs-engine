@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard14;netstandard2</TargetFrameworks>
-    <AssemblyName>Ipfs.Engine</AssemblyName>
-    <RootNamespace>Ipfs.Engine</RootNamespace>
-    <DocumentationFile>Ipfs.Engine.xml</DocumentationFile>
+    <AssemblyName>PeerTalk</AssemblyName>
+    <RootNamespace>PeerTalk</RootNamespace>
+    <DocumentationFile>PeerTalk.xml</DocumentationFile>
     <DebugType>full</DebugType>
     
     <!-- developer build is always 0.42 -->
@@ -12,14 +12,14 @@
     <Version>0.42</Version>
     
     <!-- Nuget specs -->
-    <PackageId>Ipfs.Engine</PackageId>
+    <PackageId>PeerTalk</PackageId>
     <Authors>Richard Schneider</Authors>
     <Title>IPFS Engine</Title>
     <Description>An embedded IPFS engine for .Net</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Copyright>© 2018 Richard Schneider</Copyright>
-    <PackageTags>ipfs peer-to-peer p2p distributed file-system web</PackageTags>
+    <PackageTags>ipfs peer-to-peer p2p distributed web</PackageTags>
     <IncludeSymbols>True</IncludeSymbols>
     <PackageLicenseUrl>https://github.com/richardschneider/net-ipfs-engine/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-engine</PackageProjectUrl>
@@ -38,30 +38,12 @@
 
   <ItemGroup>
     <PackageReference Include="Ipfs.Core" Version="0.19.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0-pre-05" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.8.1.3" />
+    <PackageReference Include="Makaretu.Dns.Multicast" Version="0.2.0" />
     <PackageReference Include="protobuf-net" Version="2.3.3" />
+    <PackageReference Include="semver" Version="2.0.4" />
   </ItemGroup>
-  
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard14'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.5" PrivateAssets="All" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="System.Net.NameResolution" Version="4.3.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\PeerTalk\src\PeerTalk.csproj" />
-  </ItemGroup>
 </Project>

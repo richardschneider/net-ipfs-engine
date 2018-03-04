@@ -233,6 +233,14 @@ namespace Ipfs.Engine
                 }),
                 new Task(async () =>
                 {
+                    var mdns = new Peer2Peer.Discovery.Mdns();
+                    // TODO: Add listener addresses.
+                    mdns.PeerDiscovered += OnPeerDiscovered;
+                    await mdns.StartAsync();
+                    stopTasks.Add(new Task(async () => await mdns.StopAsync()));
+                }),
+                new Task(async () =>
+                {
                     var swarm = await SwarmService;
                     log.Debug("Got swarm service");
                     await swarm.StartAsync();

@@ -5,7 +5,7 @@
 // SocketTaskExtensions is not available in .Net Framework 4.6.1
 // This was copied and pasted from 
 // https://searchcode.com/file/115739853/mcs/class/Facades/System.Net.Sockets/SocketTaskExtensions.cs
-#if NET461
+#if NET461IGNORE
 
 using System.Collections.Generic;
 using System.Threading.Tasks;

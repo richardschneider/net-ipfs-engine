@@ -37,7 +37,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ipfs.Core" Version="0.19.1" />
+    <PackageReference Include="Ipfs.Core" Version="0.19.2" />
+    <PackageReference Include="Makaretu.Dns.Multicast" Version="0.2.0" />
     <PackageReference Include="protobuf-net" Version="2.3.3" />
     <PackageReference Include="semver" Version="2.0.4" />
   </ItemGroup>

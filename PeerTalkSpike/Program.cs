@@ -1,6 +1,7 @@
 ﻿using Common.Logging;
 using Common.Logging.Simple;
 using Ipfs;
+using Ipfs.Engine;
 using Peer2Peer;
 using Peer2Peer.Protocols;
 using Peer2Peer.Transports;
@@ -21,8 +22,6 @@ namespace PeerTalkSpike
     {
         static void Main(string[] args)
         {
-            Debug.AutoFlush = true;
-            
             // set logger factory
             var properties = new Common.Logging.Configuration.NameValueCollection();
             properties["level"] = "TRACE";
@@ -41,9 +40,12 @@ namespace PeerTalkSpike
             //ServerListen();
 
             var t = new Test();
-            t.SendReceive().Wait();
+            log.Debug("--- RUN Can_Start_And_Stop");
+            t.Can_Start_And_Stop().Wait();
+            log.Debug("--- RUN Swarm_Gets_Bootstrap_Peers");
+            t.Swarm_Gets_Bootstrap_Peers().Wait();
             Console.WriteLine("finished");
-            Console.ReadKey();
+            //Console.ReadKey();
         }
         
         static void ServerListen()
@@ -104,6 +106,49 @@ namespace PeerTalkSpike
 
     class Test
     {
+        const string passphrase = "this is not a secure pass phrase";
+        public static IpfsEngine ipfs = new IpfsEngine(passphrase.ToCharArray());
+
+        static Test()
+        {
+            ipfs.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "ipfs-test4");
+        }
+        public async Task Can_Start_And_Stop()
+        {
+            await ipfs.StartAsync();
+            //await Task.Delay(1000);
+            await ipfs.StopAsync();
+#if false
+            await ipfs.StartAsync();
+            await ipfs.StopAsync();
+
+            await ipfs.StartAsync();
+            //ExceptionAssert.Throws<Exception>(() => ipfs.StartAsync().Wait());
+            await ipfs.StopAsync();
+#endif
+        }
+        public async Task Swarm_Gets_Bootstrap_Peers()
+        {
+            var bootPeers = (await ipfs.Bootstrap.ListAsync()).ToArray();
+            await ipfs.StartAsync();
+            try
+            {
+                var swarm = await ipfs.SwarmService;
+                var knownPeers = swarm.KnownPeerAddresses.ToArray();
+                while (bootPeers.Count() != knownPeers.Count())
+                {
+                    await Task.Delay(50);
+                    knownPeers = swarm.KnownPeerAddresses.ToArray();
+                }
+                //CollectionAssert.AreEquivalent(bootPeers, knownPeers);
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
+        }
+
+
         public async Task SendReceive()
         {
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));

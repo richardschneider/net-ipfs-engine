@@ -28,7 +28,10 @@ namespace PeerTalk.Discovery
         ///   Each address must end with the ipfs protocol and the public ID
         ///   of the peer.  For example "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
         /// </value>
-        public List<MultiAddress> Addresses { get; set; } = new List<MultiAddress>();
+        /// <remarks>
+        ///   This is typically <c>LocalPeer.Addresses</c>.
+        /// </remarks>
+        public IEnumerable<MultiAddress> Addresses { get; set; } = new List<MultiAddress>(0);
 
         /// <summary>
         ///   The service name for our peers.
@@ -121,10 +124,10 @@ namespace PeerTalk.Discovery
             var msg = e.Message;
             if (!msg.Questions.Any(q => DnsObject.NamesEquals(q.Name, ServiceName)))
                 return;
-            if (Addresses.Count == 0)
+            if (Addresses.Count() == 0)
                 return;
 
-            var peerId = Addresses[0]
+            var peerId = Addresses.First()
                 .Protocols
                 .Last(p => p.Name == "ipfs")
                 .Value;

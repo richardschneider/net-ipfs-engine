@@ -214,9 +214,8 @@ namespace Ipfs.Engine
                 throw new Exception("Already started");
             }
 
-            log.Debug("starting");
-            await LocalPeer;
-            log.Debug("got local peer");
+            var localPeer = await LocalPeer;
+            log.Debug("starting " + localPeer.Id);
 
             var tasks = new List<Task>
             {
@@ -233,7 +232,10 @@ namespace Ipfs.Engine
                 }),
                 new Task(async () =>
                 {
-                    var mdns = new PeerTalk.Discovery.Mdns();
+                    var mdns = new PeerTalk.Discovery.Mdns
+                    {
+                        Addresses = localPeer.Addresses
+                    };
                     // TODO: Add listener addresses.
                     mdns.PeerDiscovered += OnPeerDiscovered;
                     log.Debug("starting mdns");

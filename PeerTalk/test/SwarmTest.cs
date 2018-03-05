@@ -236,5 +236,17 @@ namespace PeerTalk
                 await swarmB.StopAsync();
             }
         }
+
+        [TestMethod]
+        public void Listening_MissingTransport()
+        {
+            var peer = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var swarm = new Swarm { LocalPeer = peer };
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                var _ = swarm.StartListeningAsync("/ip4/127.0.0.1").Result;
+            });
+            Assert.AreEqual(0, peer.Addresses.Count());
+        }
     }
 }

@@ -115,10 +115,13 @@ namespace PeerTalk
             }
 
             return otherPeers.AddOrUpdate(peerId,
-                (id) => new Peer
-                {
-                    Id = id,
-                    Addresses = new List<MultiAddress> { address }
+                (id) => {
+                    log.Debug("new peer " + peerId);
+                    return new Peer
+                    {
+                        Id = id,
+                        Addresses = new List<MultiAddress> { address }
+                    };
                 },
                 (id, peer) =>
                 {
@@ -333,6 +336,9 @@ namespace PeerTalk
         /// <exception cref="Exception">
         ///   Already listening on <paramref name="address"/>.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        ///   <paramref name="address"/> is missing a transport protocol (such as tcp or upd).
+        /// </exception>
         /// <remarks>
         ///   Allows other peers to <see cref="ConnectAsync(MultiAddress, CancellationToken)">connect</see>
         ///   to the <paramref name="address"/>.
@@ -348,6 +354,23 @@ namespace PeerTalk
             {
                 throw new Exception($"Already listening on '{address}'.");
             }
+
+            // Start a listener for the transport
+            var didSomething = false;
+            foreach (var protocol in address.Protocols)
+            {
+                if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
+                {
+                    transport().Listen(address, OnRemoteConnect, cancel.Token);
+                    didSomething = true;
+                    break;
+                }
+            }
+            if (!didSomething)
+            {
+                throw new ArgumentException($"Missing a transport protocol name '{address}'.", "address");
+            }
+
             if (!LocalPeer.Addresses.Contains(address))
             {
                 var addresses = LocalPeer
@@ -356,17 +379,6 @@ namespace PeerTalk
                     .ToArray();
                 LocalPeer.Addresses = addresses;
             }
-
-            // Start a listener for the transport
-            foreach (var protocol in address.Protocols)
-            {
-                if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
-                {
-                    transport().Listen(address, OnRemoteConnect, cancel.Token);
-                    break;
-                }
-            }
-            // TODO: throw new Exception("Missing a transport protocol name.");
 
             return Task.FromResult(new MultiAddress($"{address}/ipfs/{LocalPeer.Id}"));
         }
@@ -440,7 +452,6 @@ namespace PeerTalk
             LocalPeer.Addresses = LocalPeer.Addresses
                 .Where(a => a != address)
                 .ToArray();
-
             return Task.CompletedTask;
         }
 

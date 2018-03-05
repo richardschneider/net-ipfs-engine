@@ -236,6 +236,7 @@ namespace Ipfs.Engine
                     var mdns = new PeerTalk.Discovery.Mdns();
                     // TODO: Add listener addresses.
                     mdns.PeerDiscovered += OnPeerDiscovered;
+                    log.Debug("starting mdns");
                     await mdns.StartAsync();
                     stopTasks.Add(new Task(async () => await mdns.StopAsync()));
                 }),
@@ -319,7 +320,6 @@ namespace Ipfs.Engine
             {
                 var swarm = await SwarmService;
                 var peer = await swarm.RegisterPeerAsync(e.Address);
-                log.Debug("discovered peer " + peer.Id);
             }
             catch (Exception ex)
             {

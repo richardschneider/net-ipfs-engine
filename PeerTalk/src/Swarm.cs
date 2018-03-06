@@ -10,6 +10,7 @@ using System.Threading;
 using Common.Logging;
 using System.IO;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 
 namespace PeerTalk
 {
@@ -390,7 +391,7 @@ namespace PeerTalk
             if (result.ToString().StartsWith("/ip4/0.0.0.0/"))
             {
                 addresses = ips
-                    .Where(ip => ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    .Where(ip => ip.Address.AddressFamily == AddressFamily.InterNetwork)
                     .Select(ip =>
                     {
                         return new MultiAddress(result.ToString().Replace("0.0.0.0", ip.Address.ToString()));
@@ -400,7 +401,7 @@ namespace PeerTalk
             else if (result.ToString().StartsWith("/ip6/::/"))
             {
                 addresses = ips
-                    .Where(ip => ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                    .Where(ip => ip.Address.AddressFamily == AddressFamily.InterNetworkV6)
                     .Select(ip =>
                     {
                         return new MultiAddress(result.ToString().Replace("::", ip.Address.ToString()));

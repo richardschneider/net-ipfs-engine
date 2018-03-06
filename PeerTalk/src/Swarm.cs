@@ -386,7 +386,7 @@ namespace PeerTalk
             // Get the actual IP address(es).
             IEnumerable<MultiAddress> addresses = new List<MultiAddress>();
             var ips = NetworkInterface.GetAllNetworkInterfaces()
-                // It appears that the loopback adapter is not UP on *nix
+                // It appears that the loopback adapter is not UP on Ubuntu 14.04.5 LTS
                 .Where(nic => nic.OperationalStatus == OperationalStatus.Up 
                     || nic.NetworkInterfaceType == NetworkInterfaceType.Loopback)
                 .SelectMany(nic => nic.GetIPProperties().UnicastAddresses);
@@ -413,6 +413,16 @@ namespace PeerTalk
             else
             {
                 addresses = new MultiAddress[] { result };
+            }
+            if (addresses.Count() == 0)
+            {
+                var msg = "Cannot determine address(es) for " + result;
+                foreach (var ip in ips)
+                {
+                    msg += "nic-ip: " + ip.Address.ToString();
+                }
+                cancel.Cancel();
+                throw new Exception(msg);
             }
 
             // Add actual addresses to listeners and local peer addresses.

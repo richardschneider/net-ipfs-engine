@@ -329,21 +329,28 @@ namespace PeerTalk
         /// <summary>
         ///   Start listening on the specified <see cref="MultiAddress"/>.
         /// </summary>
-        /// <param name="address"></param>
+        /// <param name="address">
+        ///   Typically "/ip4/0.0.0.0/tcp/4001" or "/ip6/::/tcp/4001".
+        /// </param>
         /// <returns>
-        ///   A task that represents the asynchronous operation.
+        ///   A task that represents the asynchronous operation.  The task's result
+        ///   is a <see cref="MultiAddress"/> than can be used by another peer
+        ///   to connect to tis peer.
         /// </returns>
         /// <exception cref="Exception">
         ///   Already listening on <paramref name="address"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///   <paramref name="address"/> is missing a transport protocol (such as tcp or upd).
+        ///   <paramref name="address"/> is missing a transport protocol (such as tcp or udp).
         /// </exception>
         /// <remarks>
         ///   Allows other peers to <see cref="ConnectAsync(MultiAddress, CancellationToken)">connect</see>
         ///   to the <paramref name="address"/>.
         ///   <para>
-        ///   The addresses of the <see cref="LocalPeer"/> are updated.
+        ///   The <see cref="Peer.Addresses"/> of the <see cref="LocalPeer"/> are updated.  If the <paramref name="address"/> refers to
+        ///   any IP address ("/ip4/0.0.0.0" or "/ip6/::") then all network interfaces addresses
+        ///   are added.  If the port is zero (as in "/ip6/::/tcp/0"), then the peer addresses contains the actual port number
+        ///   that was assigned.
         ///   </para>
         /// </remarks>
         public Task<MultiAddress> StartListeningAsync(MultiAddress address)
@@ -361,7 +368,8 @@ namespace PeerTalk
             {
                 if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
                 {
-                    transport().Listen(address, OnRemoteConnect, cancel.Token);
+                    address = transport().Listen(address, OnRemoteConnect, cancel.Token);
+                    listeners.TryAdd(address, cancel);
                     didSomething = true;
                     break;
                 }
@@ -371,16 +379,18 @@ namespace PeerTalk
                 throw new ArgumentException($"Missing a transport protocol name '{address}'.", "address");
             }
 
+            var result = new MultiAddress($"{address}/ipfs/{LocalPeer.Id}");
+            listeners.TryAdd(result, cancel);
             if (!LocalPeer.Addresses.Contains(address))
             {
                 var addresses = LocalPeer
                     .Addresses
-                    .Concat(new MultiAddress[] { address })
+                    .Union(new MultiAddress[] { result })
                     .ToArray();
                 LocalPeer.Addresses = addresses;
             }
 
-            return Task.FromResult(new MultiAddress($"{address}/ipfs/{LocalPeer.Id}"));
+            return Task.FromResult(result);
         }
 
         /// <summary>
@@ -448,10 +458,15 @@ namespace PeerTalk
             if (listeners.TryRemove(address, out CancellationTokenSource listener))
             {
                 listener.Cancel();
+
+                // Remove any local peer address that depends on the cancellation token.
+                var others = listeners
+                    .Where(l => l.Value == listener)
+                    .Select(l => l.Key);
+                LocalPeer.Addresses = LocalPeer.Addresses
+                    .Where(a => !others.Contains(a))
+                    .ToArray();
             }
-            LocalPeer.Addresses = LocalPeer.Addresses
-                .Where(a => a != address)
-                .ToArray();
             return Task.CompletedTask;
         }
 

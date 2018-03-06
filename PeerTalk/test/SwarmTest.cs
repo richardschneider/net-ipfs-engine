@@ -221,6 +221,61 @@ namespace PeerTalk
             {
                 var another = await swarmA.StartListeningAsync(addr);
                 Assert.AreEqual(another.ToString(), $"{addr}/ipfs/{peerA.Id}");
+                Assert.IsTrue(peerA.Addresses.Contains(another));
+
+                await swarmB.ConnectAsync(another);
+                Assert.IsTrue(swarmB.KnownPeers.Contains(peerA));
+                // TODO: Assert.IsTrue(swarmA.KnownPeers.Contains(peerB));
+
+                await swarmA.StopListeningAsync(addr);
+                Assert.AreEqual(0, peerA.Addresses.Count());
+            }
+            finally
+            {
+                await swarmA.StopAsync();
+                await swarmB.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task Listening_AnyPort()
+        {
+            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            MultiAddress addr = "/ip4/127.0.0.1/tcp/0";
+            var swarmA = new Swarm { LocalPeer = peerA };
+            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var swarmB = new Swarm { LocalPeer = peerB };
+            try
+            {
+                var another = await swarmA.StartListeningAsync(addr);
+                Assert.IsTrue(peerA.Addresses.Contains(another));
+
+                await swarmB.ConnectAsync(another);
+                Assert.IsTrue(swarmB.KnownPeers.Contains(peerA));
+                // TODO: Assert.IsTrue(swarmA.KnownPeers.Contains(peerB));
+
+                await swarmA.StopListeningAsync(addr);
+                Assert.IsFalse(peerA.Addresses.Contains(another));
+            }
+            finally
+            {
+                await swarmA.StopAsync();
+                await swarmB.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task Listening_IPv4Any()
+        {
+            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            MultiAddress addr = "/ip4/0.0.0.0/tcp/4009";
+            var swarmA = new Swarm { LocalPeer = peerA };
+            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var swarmB = new Swarm { LocalPeer = peerB };
+            try
+            {
+                var another = await swarmA.StartListeningAsync(addr);
+                Assert.AreEqual(another.ToString(), $"{addr}/ipfs/{peerA.Id}");
                 Assert.IsTrue(peerA.Addresses.Contains(addr));
 
                 await swarmB.ConnectAsync(another);

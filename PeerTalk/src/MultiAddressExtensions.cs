@@ -38,10 +38,7 @@ namespace PeerTalk
         /// </returns>
         public static MultiAddress Clone (this MultiAddress multiaddress)
         {
-            var clone = new MultiAddress();
-            clone.Protocols.AddRange(multiaddress.Protocols);
-
-            return clone;
+            return new MultiAddress(multiaddress.ToString());
         }
 
         /// <summary>

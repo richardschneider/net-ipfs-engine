@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using Common.Logging;
 using System.IO;
+using System.Net.NetworkInformation;
 
 namespace PeerTalk
 {
@@ -380,17 +381,48 @@ namespace PeerTalk
             }
 
             var result = new MultiAddress($"{address}/ipfs/{LocalPeer.Id}");
-            listeners.TryAdd(result, cancel);
-            if (!LocalPeer.Addresses.Contains(address))
+
+            // Get the actual IP address(es).
+            IEnumerable<MultiAddress> addresses = new List<MultiAddress>();
+            var ips = NetworkInterface.GetAllNetworkInterfaces()
+                .Where(nic => nic.OperationalStatus == OperationalStatus.Up)
+                .SelectMany(nic => nic.GetIPProperties().UnicastAddresses);
+            if (result.ToString().StartsWith("/ip4/0.0.0.0/"))
             {
-                var addresses = LocalPeer
-                    .Addresses
-                    .Union(new MultiAddress[] { result })
+                addresses = ips
+                    .Where(ip => ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    .Select(ip =>
+                    {
+                        return new MultiAddress(result.ToString().Replace("0.0.0.0", ip.Address.ToString()));
+                    })
                     .ToArray();
-                LocalPeer.Addresses = addresses;
+            }
+            else if (result.ToString().StartsWith("/ip6/::/"))
+            {
+                addresses = ips
+                    .Where(ip => ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                    .Select(ip =>
+                    {
+                        return new MultiAddress(result.ToString().Replace("::", ip.Address.ToString()));
+                    })
+                    .ToArray();
+            }
+            else
+            {
+                addresses = new MultiAddress[] { result };
             }
 
-            return Task.FromResult(result);
+            // Add actual addresses to listeners and local peer addresses.
+            foreach (var a in addresses)
+            {
+                listeners.TryAdd(a, cancel);
+            }
+            LocalPeer.Addresses = LocalPeer
+                .Addresses
+                .Union(addresses)
+                .ToArray();
+
+            return Task.FromResult(addresses.First());
         }
 
         /// <summary>

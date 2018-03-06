@@ -125,10 +125,10 @@ namespace PeerTalk.Transports
                 socket.Bind(endPoint);
                 socket.Listen(1);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 socket.Dispose();
-                throw;
+                throw new Exception("Bind/listen failed on " + address, e);
             }
 
             // If no port specified, then add it.

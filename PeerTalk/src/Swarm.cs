@@ -386,7 +386,9 @@ namespace PeerTalk
             // Get the actual IP address(es).
             IEnumerable<MultiAddress> addresses = new List<MultiAddress>();
             var ips = NetworkInterface.GetAllNetworkInterfaces()
-                .Where(nic => nic.OperationalStatus == OperationalStatus.Up)
+                // It appears that the loopback adapter is not UP on *nix
+                .Where(nic => nic.OperationalStatus == OperationalStatus.Up 
+                    || nic.NetworkInterfaceType == NetworkInterfaceType.Loopback)
                 .SelectMany(nic => nic.GetIPProperties().UnicastAddresses);
             if (result.ToString().StartsWith("/ip4/0.0.0.0/"))
             {

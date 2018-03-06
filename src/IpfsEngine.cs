@@ -226,7 +226,6 @@ namespace Ipfs.Engine
                         Addresses = await this.Bootstrap.ListAsync()
                     };
                     bootstrap.PeerDiscovered += OnPeerDiscovered;
-                    log.Debug("starting bootstrap");
                     await bootstrap.StartAsync();
                     stopTasks.Add(new Task(async () => await bootstrap.StopAsync()));
                 }),
@@ -236,18 +235,23 @@ namespace Ipfs.Engine
                     {
                         Addresses = localPeer.Addresses
                     };
-                    // TODO: Add listener addresses.
                     mdns.PeerDiscovered += OnPeerDiscovered;
-                    log.Debug("starting mdns");
                     await mdns.StartAsync();
                     stopTasks.Add(new Task(async () => await mdns.StopAsync()));
                 }),
                 new Task(async () =>
                 {
                     var swarm = await SwarmService;
-                    log.Debug("Got swarm service");
                     await swarm.StartAsync();
                     stopTasks.Add(new Task(async () => await swarm.StopAsync()));
+
+                    // Add listeners
+                    var json = await Config.GetAsync("Addresses.Swarm");
+                    var addresses = json.Select(a => new MultiAddress((string)a));
+                    foreach (var address in addresses)
+                    {
+                        await swarm.StartListeningAsync(address);
+                    }
                 })
             };
 

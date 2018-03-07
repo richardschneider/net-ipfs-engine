@@ -57,8 +57,17 @@ namespace PeerTalk.Discovery
             mdns = new MulticastService();
             mdns.NetworkInterfaceDiscovered += (s, e) =>
             {
-                if (mdns != null)
+                if (mdns == null)
+                    return;
+                try
+                {
                     mdns.SendQuery(ServiceName);
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Failed to send query", ex);
+                    // eat it
+                }
             };
             mdns.AnswerReceived += OnAnswerReceived;
             if (Broadcast)

@@ -11,7 +11,7 @@ for:
     git_token:
       secure: NeX5NCOUXsCLc1UjTJjqB9F02FZ8Wq0VsxqTXC8kBdyK6zjxjebrf/9Da2sY1Kql
 
-configuration: Release
+configuration: Debug
 os: Visual Studio 2017
 
 init:

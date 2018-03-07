@@ -310,6 +310,12 @@ namespace Ipfs.Engine
             {
                 stopTasks = new List<Task>();
             }
+
+            // Many services use cancellation to stop.  A cancellation may not run
+            // immediately, so we need to give them some.
+            // TODO: Would be nice to make this deterministic.
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+
             log.Debug("stopped");
         }
 

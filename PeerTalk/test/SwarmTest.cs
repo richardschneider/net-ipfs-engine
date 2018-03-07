@@ -293,6 +293,7 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        [TestCategory("IPv6")]
         public async Task Listening_IPv6Any()
         {
             var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };

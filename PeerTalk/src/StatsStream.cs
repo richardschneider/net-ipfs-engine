@@ -91,17 +91,32 @@ namespace PeerTalk
 
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
-            var n = await stream.ReadAsync(buffer, offset, count, cancellationToken);
-            bytesRead += n;
-            lastUsed = DateTime.Now;
-            return n;
+            try
+            {
+                var n = await stream.ReadAsync(buffer, offset, count, cancellationToken);
+                bytesRead += n;
+                lastUsed = DateTime.Now;
+                return n;
+            }
+            catch (Exception) when (cancellationToken != null && cancellationToken.IsCancellationRequested)
+            {
+                // eat it.
+                return 0;
+            }
         }
 
         public override async Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
-            await stream.WriteAsync(buffer, offset, count, cancellationToken);
-            bytesWritten += count;
-            lastUsed = DateTime.Now;
+            try
+            {
+                await stream.WriteAsync(buffer, offset, count, cancellationToken);
+                bytesWritten += count;
+                lastUsed = DateTime.Now;
+            }
+            catch (Exception) when (cancellationToken != null && cancellationToken.IsCancellationRequested)
+            {
+                // eat it.
+            }
         }
 
         public override int ReadByte()

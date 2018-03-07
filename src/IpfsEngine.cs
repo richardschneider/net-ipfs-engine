@@ -217,6 +217,8 @@ namespace Ipfs.Engine
             var localPeer = await LocalPeer;
             log.Debug("starting " + localPeer.Id);
 
+            var listenersAdded = new TaskCompletionSource<bool>();
+
             var tasks = new List<Task>
             {
                 new Task(async () =>
@@ -231,6 +233,7 @@ namespace Ipfs.Engine
                 }),
                 new Task(async () =>
                 {
+                    await listenersAdded.Task;
                     var mdns = new PeerTalk.Discovery.Mdns
                     {
                         Addresses = localPeer.Addresses
@@ -265,6 +268,7 @@ namespace Ipfs.Engine
                     {
                         log.Error("No listeners were created.");
                     }
+                    listenersAdded.SetResult(true);
                 })
             };
 

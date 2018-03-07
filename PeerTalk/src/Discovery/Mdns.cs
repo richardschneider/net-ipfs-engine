@@ -116,6 +116,22 @@ namespace PeerTalk.Discovery
 
         void OnPeerDiscovered(PeerDiscoveredEventArgs e)
         {
+            // Do not discover ourself.
+            if (Addresses.Count() != 0)
+            {
+                var us = Addresses.First()
+                    .Protocols
+                    .Last(p => p.Name == "ipfs")
+                    .Value;
+                var them = e.Address
+                    .Protocols
+                    .Last(p => p.Name == "ipfs")
+                    .Value;
+                if (us == them)
+                {
+                    return;
+                }
+            }
             PeerDiscovered?.Invoke(this, e);
         }
 

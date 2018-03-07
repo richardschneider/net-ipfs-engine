@@ -15,26 +15,34 @@ namespace PeerTalk.Discovery
         [TestMethod]
         public async Task Discovery()
         {
-            MultiAddress listen = "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";
+            MultiAddress listen1 = "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";
+            MultiAddress listen2 = "/ip4/104.131.131.83/tcp/4001/ipfs/QmaCpDMGvV3BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";
             var done = new ManualResetEvent(false);
-            var mdns = new Mdns
+            var mdns1 = new Mdns
             {
                 ServiceName = $"{Guid.NewGuid()}.local",
-                Addresses = new List<MultiAddress> { listen }
+                Addresses = new List<MultiAddress> { listen1 }
             };
-            mdns.PeerDiscovered += (s, e) =>
+            var mdns2 = new Mdns
             {
-                if (e.Address == listen)
+                ServiceName = mdns1.ServiceName,
+                Addresses = new List<MultiAddress> { listen2 }
+            };
+            mdns1.PeerDiscovered += (s, e) =>
+            {
+                if (e.Address == listen2)
                     done.Set();
             };
-            await mdns.StartAsync();
+            await mdns1.StartAsync();
+            await mdns2.StartAsync();
             try
             {
                 Assert.IsTrue(done.WaitOne(TimeSpan.FromSeconds(2)), "timeout");
             }
             finally
             {
-                await mdns.StopAsync();
+                await mdns1.StopAsync();
+                await mdns2.StopAsync();
             }
         }
 

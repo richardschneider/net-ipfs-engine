@@ -419,7 +419,7 @@ namespace PeerTalk
                 var msg = "Cannot determine address(es) for " + result;
                 foreach (var ip in ips)
                 {
-                    msg += "nic-ip: " + ip.Address.ToString();
+                    msg += " nic-ip: " + ip.Address.ToString();
                 }
                 cancel.Cancel();
                 throw new Exception(msg);

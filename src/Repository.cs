@@ -31,10 +31,10 @@ namespace Ipfs.Engine
                 log.DebugFormat("creating folder '{0}'", Options.Folder);
                 Directory.CreateDirectory(Options.Folder);
             }
-            log.DebugFormat("using '{0}'", Options.DatabaseName);
+//            log.DebugFormat("using '{0}'", Options.DatabaseName);
             optionsBuilder
 #if !NETSTANDARD14
-                .UseLoggerFactory(MyLoggerFactory)
+//                .UseLoggerFactory(MyLoggerFactory)
 #endif
                 .UseSqlite($"Data Source={Options.DatabaseName}");
         }

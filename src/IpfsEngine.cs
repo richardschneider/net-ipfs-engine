@@ -247,10 +247,23 @@ namespace Ipfs.Engine
 
                     // Add listeners
                     var json = await Config.GetAsync("Addresses.Swarm");
-                    var addresses = json.Select(a => new MultiAddress((string)a));
-                    foreach (var address in addresses)
+                    var numberListeners = 0;
+                    foreach (string a in json)
                     {
-                        await swarm.StartListeningAsync(address);
+                        try
+                        {
+                            await swarm.StartListeningAsync(a);
+                            ++numberListeners;
+                        }
+                        catch (Exception e)
+                        {
+                            log.Warn($"Listener failure for '{a}'", e);
+                            // eat the exception
+                        }
+                    }
+                    if (numberListeners == 0)
+                    {
+                        log.Error("No listeners were created.");
                     }
                 })
             };

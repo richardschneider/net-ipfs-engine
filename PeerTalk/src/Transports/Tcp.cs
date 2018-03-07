@@ -44,7 +44,9 @@ namespace PeerTalk.Transports
                 .First();
             var ip = address.Protocols
                 .Where(p => p.Name == "ip4" || p.Name == "ip6")
-                .First();
+                .FirstOrDefault();
+            if (ip == null)
+                throw new ArgumentException($"Missing IP address in '{address}'.", "address");
             var socket = new Socket(
                 ip.Name == "ip4" ? AddressFamily.InterNetwork : AddressFamily.InterNetworkV6,
                 SocketType.Stream,
@@ -113,7 +115,9 @@ namespace PeerTalk.Transports
                 .FirstOrDefault();
             var ip = address.Protocols
                 .Where(p => p.Name == "ip4" || p.Name == "ip6")
-                .First();
+                .FirstOrDefault();
+            if (ip == null)
+                throw new ArgumentException($"Missing IP address in '{address}'.", "address");
             var ipAddress = IPAddress.Parse(ip.Value);
             var endPoint = new IPEndPoint(ipAddress, port);
             var socket = new Socket(

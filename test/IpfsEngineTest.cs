@@ -1,5 +1,6 @@
 ﻿using Ipfs.Engine.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Threading;
@@ -98,6 +99,44 @@ namespace Ipfs.Engine
             finally
             {
                 await ipfs.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task Start_NoListeners()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var swarm = await ipfs.Config.GetAsync("Addresses.Swarm");
+            try
+            {
+                await ipfs.Config.SetAsync("Addresses.Swarm", "[]");
+                await ipfs.StartAsync();
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+                await ipfs.Config.SetAsync("Addresses.Swarm", swarm);
+            }
+        }
+
+        [TestMethod]
+        public async Task Start_InvalidListener()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var swarm = await ipfs.Config.GetAsync("Addresses.Swarm");
+            try
+            {
+                // 1 - missing ip address
+                // 2 - invalid protocol name
+                // 3 - okay
+                var values = JToken.Parse("['/tcp/0', '/foo/bar', '/ip4/0.0.0.0/tcp/0']");
+                await ipfs.Config.SetAsync("Addresses.Swarm", values);
+                await ipfs.StartAsync();
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+                await ipfs.Config.SetAsync("Addresses.Swarm", swarm);
             }
         }
     }

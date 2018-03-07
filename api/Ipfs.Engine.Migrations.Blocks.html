@@ -77,26 +77,68 @@
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
-    <div class="level1"><span class="xref">Blocks</span></div>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.migrations.migration">Migration</a></div>
+    <div class="level2"><span class="xref">Blocks</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.migrations.migration#Microsoft_EntityFrameworkCore_Migrations_Migration_InitialDatabase">Migration.InitialDatabase</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.migrations.migration#Microsoft_EntityFrameworkCore_Migrations_Migration_TargetModel">Migration.TargetModel</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.migrations.migration#Microsoft_EntityFrameworkCore_Migrations_Migration_UpOperations">Migration.UpOperations</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.migrations.migration#Microsoft_EntityFrameworkCore_Migrations_Migration_DownOperations">Migration.DownOperations</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.migrations.migration#Microsoft_EntityFrameworkCore_Migrations_Migration_ActiveProvider">Migration.ActiveProvider</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.Migrations.html">Ipfs.Engine.Migrations</a></h6>
   <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
   <h5 id="Ipfs_Engine_Migrations_Blocks_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Blocks : Migration</code></pre>
+    <pre><code class="lang-csharp hljs">[DbContext(typeof (Repository))]
+[Migration(&quot;20180126080855_Blocks&quot;)]
+public class Blocks : Migration</code></pre>
   </div>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Migrations_Blocks_BuildTargetModel_ModelBuilder_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Migrations_Blocks_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Migrations.Blocks.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Migrations/20180126080855_Blocks.Designer.cs/#L17">View Source</a>
   </span>
   <a id="Ipfs_Engine_Migrations_Blocks_BuildTargetModel_" data-uid="Ipfs.Engine.Migrations.Blocks.BuildTargetModel*"></a>
-  <h4 id="Ipfs_Engine_Migrations_Blocks_BuildTargetModel_ModelBuilder_" data-uid="Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)">BuildTargetModel(ModelBuilder)</h4>
+  <h4 id="Ipfs_Engine_Migrations_Blocks_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_" data-uid="Ipfs.Engine.Migrations.Blocks.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">BuildTargetModel(ModelBuilder)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -114,21 +156,23 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">ModelBuilder</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.modelbuilder">ModelBuilder</a></td>
         <td><span class="parametername">modelBuilder</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">Microsoft.EntityFrameworkCore.Migrations.Migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Migrations_Blocks_Down_MigrationBuilder_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Migrations_Blocks_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Migrations/20180126080855_Blocks.cs/#L40">View Source</a>
   </span>
   <a id="Ipfs_Engine_Migrations_Blocks_Down_" data-uid="Ipfs.Engine.Migrations.Blocks.Down*"></a>
-  <h4 id="Ipfs_Engine_Migrations_Blocks_Down_MigrationBuilder_" data-uid="Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)">Down(MigrationBuilder)</h4>
+  <h4 id="Ipfs_Engine_Migrations_Blocks_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_" data-uid="Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">Down(MigrationBuilder)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -146,21 +190,23 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">MigrationBuilder</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.migrations.migrationbuilder">MigrationBuilder</a></td>
         <td><span class="parametername">migrationBuilder</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">Microsoft.EntityFrameworkCore.Migrations.Migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Migrations_Blocks_Up_MigrationBuilder_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Migrations_Blocks_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Migrations/20180126080855_Blocks.cs/#L11">View Source</a>
   </span>
   <a id="Ipfs_Engine_Migrations_Blocks_Up_" data-uid="Ipfs.Engine.Migrations.Blocks.Up*"></a>
-  <h4 id="Ipfs_Engine_Migrations_Blocks_Up_MigrationBuilder_" data-uid="Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)">Up(MigrationBuilder)</h4>
+  <h4 id="Ipfs_Engine_Migrations_Blocks_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_" data-uid="Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">Up(MigrationBuilder)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -178,12 +224,14 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">MigrationBuilder</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/ef/core/api/microsoft.entityframeworkcore.migrations.migrationbuilder">MigrationBuilder</a></td>
         <td><span class="parametername">migrationBuilder</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">Microsoft.EntityFrameworkCore.Migrations.Migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)</span></div>
 </article>
           </div>
           

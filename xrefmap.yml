@@ -31,11 +31,11 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.#ctor
   fullName: Ipfs.Engine.Cryptography.KeyChain.KeyChain
   nameWithType: KeyChain.KeyChain
-- uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,System.Threading.CancellationToken)
   name: CreateAsync(String, String, Int32, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String, System.String, System.Int32, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String, System.String, System.Int32, System.Threading.CancellationToken)
   nameWithType: KeyChain.CreateAsync(String, String, Int32, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync*
   name: CreateAsync
@@ -43,13 +43,13 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.CreateAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync
   nameWithType: KeyChain.CreateAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],System.Threading.CancellationToken)
   name: ExportAsync(String, Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],System.Threading.CancellationToken)
   name.vb: ExportAsync(String, Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char[], CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char[], System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char(), System.Threading.CancellationToken)
   nameWithType: KeyChain.ExportAsync(String, Char[], CancellationToken)
   nameWithType.vb: KeyChain.ExportAsync(String, Char(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync*
@@ -58,11 +58,11 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ExportAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync
   nameWithType: KeyChain.ExportAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,System.Threading.CancellationToken)
   name: FindKeyByNameAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.FindKeyByNameAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync*
   name: FindKeyByNameAsync
@@ -70,11 +70,11 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
   nameWithType: KeyChain.FindKeyByNameAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,System.Threading.CancellationToken)
   name: GetPublicKeyAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.GetPublicKeyAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync*
   name: GetPublicKeyAsync
@@ -82,13 +82,13 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync
   nameWithType: KeyChain.GetPublicKeyAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],System.Threading.CancellationToken)
   name: ImportAsync(String, String, Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],System.Threading.CancellationToken)
   name.vb: ImportAsync(String, String, Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char[], CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char[], System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char(), System.Threading.CancellationToken)
   nameWithType: KeyChain.ImportAsync(String, String, Char[], CancellationToken)
   nameWithType.vb: KeyChain.ImportAsync(String, String, Char(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync*
@@ -97,11 +97,11 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ImportAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync
   nameWithType: KeyChain.ImportAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
   name: ListAsync(CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
   nameWithType: KeyChain.ListAsync(CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync*
   name: ListAsync
@@ -121,11 +121,11 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.Options
   fullName: Ipfs.Engine.Cryptography.KeyChain.Options
   nameWithType: KeyChain.Options
-- uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,System.Threading.CancellationToken)
   name: RemoveAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.RemoveAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync*
   name: RemoveAsync
@@ -133,11 +133,11 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync
   nameWithType: KeyChain.RemoveAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,System.Threading.CancellationToken)
   name: RenameAsync(String, String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String, System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String, System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.RenameAsync(String, String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync*
   name: RenameAsync
@@ -145,13 +145,13 @@ references:
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.RenameAsync
   fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync
   nameWithType: KeyChain.RenameAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],System.Threading.CancellationToken)
   name: SetPassphraseAsync(Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],System.Threading.CancellationToken)
   name.vb: SetPassphraseAsync(Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[], CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[], System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char(), System.Threading.CancellationToken)
   nameWithType: KeyChain.SetPassphraseAsync(Char[], CancellationToken)
   nameWithType.vb: KeyChain.SetPassphraseAsync(Char(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync*
@@ -397,11 +397,11 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.Key
   fullName: Ipfs.Engine.IpfsEngine.Key
   nameWithType: IpfsEngine.Key
-- uid: Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
   name: KeyChain(CancellationToken)
-  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_CancellationToken_
-  commentId: M:Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
-  fullName: Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
   nameWithType: IpfsEngine.KeyChain(CancellationToken)
 - uid: Ipfs.Engine.IpfsEngine.KeyChain*
   name: KeyChain
@@ -571,11 +571,11 @@ references:
   commentId: T:Ipfs.Engine.Migrations.Blocks
   fullName: Ipfs.Engine.Migrations.Blocks
   nameWithType: Blocks
-- uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
   name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
   nameWithType: Blocks.BuildTargetModel(ModelBuilder)
 - uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel*
   name: BuildTargetModel
@@ -583,11 +583,11 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Blocks.BuildTargetModel
   fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel
   nameWithType: Blocks.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   nameWithType: Blocks.Down(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Blocks.Down*
   name: Down
@@ -595,11 +595,11 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Blocks.Down
   fullName: Ipfs.Engine.Migrations.Blocks.Down
   nameWithType: Blocks.Down
-- uid: Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   nameWithType: Blocks.Up(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Blocks.Up*
   name: Up
@@ -613,11 +613,11 @@ references:
   commentId: T:Ipfs.Engine.Migrations.Initial
   fullName: Ipfs.Engine.Migrations.Initial
   nameWithType: Initial
-- uid: Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
   name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_BuildTargetModel_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
   nameWithType: Initial.BuildTargetModel(ModelBuilder)
 - uid: Ipfs.Engine.Migrations.Initial.BuildTargetModel*
   name: BuildTargetModel
@@ -625,11 +625,11 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Initial.BuildTargetModel
   fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel
   nameWithType: Initial.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Down_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   nameWithType: Initial.Down(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Initial.Down*
   name: Down
@@ -637,11 +637,11 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Initial.Down
   fullName: Ipfs.Engine.Migrations.Initial.Down
   nameWithType: Initial.Down
-- uid: Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Up_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   nameWithType: Initial.Up(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Initial.Up*
   name: Up
@@ -655,11 +655,11 @@ references:
   commentId: T:Ipfs.Engine.Migrations.Keys
   fullName: Ipfs.Engine.Migrations.Keys
   nameWithType: Keys
-- uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
   name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
   nameWithType: Keys.BuildTargetModel(ModelBuilder)
 - uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel*
   name: BuildTargetModel
@@ -667,11 +667,11 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Keys.BuildTargetModel
   fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel
   nameWithType: Keys.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   nameWithType: Keys.Down(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Keys.Down*
   name: Down
@@ -679,11 +679,11 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Keys.Down
   fullName: Ipfs.Engine.Migrations.Keys.Down
   nameWithType: Keys.Down
-- uid: Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
   nameWithType: Keys.Up(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Keys.Up*
   name: Up

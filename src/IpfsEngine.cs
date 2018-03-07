@@ -211,7 +211,7 @@ namespace Ipfs.Engine
         {
             if (stopTasks.Count > 0)
             {
-                throw new Exception("Already started");
+                throw new Exception("IPFS engine is already started.");
             }
 
             var localPeer = await LocalPeer;
@@ -223,13 +223,14 @@ namespace Ipfs.Engine
             {
                 new Task(async () =>
                 {
+                    await listenersAdded.Task;
                     var bootstrap = new PeerTalk.Discovery.Bootstrap
                     {
                         Addresses = await this.Bootstrap.ListAsync()
                     };
                     bootstrap.PeerDiscovered += OnPeerDiscovered;
-                    await bootstrap.StartAsync();
                     stopTasks.Add(new Task(async () => await bootstrap.StopAsync()));
+                    await bootstrap.StartAsync();
                 }),
                 new Task(async () =>
                 {
@@ -239,35 +240,12 @@ namespace Ipfs.Engine
                         Addresses = localPeer.Addresses
                     };
                     mdns.PeerDiscovered += OnPeerDiscovered;
-                    await mdns.StartAsync();
                     stopTasks.Add(new Task(async () => await mdns.StopAsync()));
+                    await mdns.StartAsync();
                 }),
                 new Task(async () =>
                 {
-                    var swarm = await SwarmService;
-                    await swarm.StartAsync();
-                    stopTasks.Add(new Task(async () => await swarm.StopAsync()));
-
-                    // Add listeners
-                    var json = await Config.GetAsync("Addresses.Swarm");
-                    var numberListeners = 0;
-                    foreach (string a in json)
-                    {
-                        try
-                        {
-                            await swarm.StartListeningAsync(a);
-                            ++numberListeners;
-                        }
-                        catch (Exception e)
-                        {
-                            log.Warn($"Listener failure for '{a}'", e);
-                            // eat the exception
-                        }
-                    }
-                    if (numberListeners == 0)
-                    {
-                        log.Error("No listeners were created.");
-                    }
+                    await StartSwarmAsync();
                     listenersAdded.SetResult(true);
                 })
             };
@@ -278,8 +256,40 @@ namespace Ipfs.Engine
             }
 
             log.Debug("waiting for services to start");
+            await listenersAdded.Task;
             await Task.WhenAll(tasks);
+            // TODO: Would be nice to make this deterministic.
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+
             log.Debug("started");
+        }
+
+        async Task StartSwarmAsync()
+        {
+            var swarm = await SwarmService;
+            stopTasks.Add(new Task(async () => await swarm.StopAsync()));
+            await swarm.StartAsync();
+
+            // Add listeners
+            var json = await Config.GetAsync("Addresses.Swarm");
+            var numberListeners = 0;
+            foreach (string a in json)
+            {
+                try
+                {
+                    await swarm.StartListeningAsync(a);
+                    ++numberListeners;
+                }
+                catch (Exception e)
+                {
+                    log.Warn($"Listener failure for '{a}'", e);
+                    // eat the exception
+                }
+            }
+            if (numberListeners == 0)
+            {
+                log.Error("No listeners were created.");
+            }
         }
 
         /// <summary>
@@ -296,19 +306,17 @@ namespace Ipfs.Engine
             log.Debug("stopping");
             try
             {
-                foreach (var task in stopTasks)
+                var tasks = stopTasks.ToArray();
+                stopTasks = new List<Task>();
+                foreach (var task in tasks)
                 {
                     task.Start();
                 }
-                await Task.WhenAll(stopTasks);
+                await Task.WhenAll(tasks);
             }
             catch (Exception e)
             {
                 log.Error("Failure when stopping the engine", e);
-            }
-            finally
-            {
-                stopTasks = new List<Task>();
             }
 
             // Many services use cancellation to stop.  A cancellation may not run

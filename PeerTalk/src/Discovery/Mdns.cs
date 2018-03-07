@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -192,7 +193,16 @@ namespace PeerTalk.Discovery
                 Strings = { peerId }
             });
 
-            mdns.SendAnswer(response);
+            // Socket exceptions are quitely ignored.  Hopefully, the sender
+            // will re-query.
+            try
+            {
+                mdns.SendAnswer(response);
+            }
+            catch (SocketException)
+            {
+                // eat it.
+            }
         }
 
 

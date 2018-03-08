@@ -195,6 +195,32 @@ namespace Ipfs.Engine
         public AsyncLazy<Peer> LocalPeer { get; private set; }
 
         /// <summary>
+        ///   Resolve an "IPFS path" to a content ID.
+        /// </summary>
+        /// <param name="path">
+        ///   A IPFS path, such as "Qm...", "Qm.../a/b/c" or "/ipfs/QM..."
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   The content ID of <paramref name="path"/>.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        ///   The <paramref name="path"/> cannot be resolved.
+        /// </exception>
+        public Task<Cid> ResolveIpfsPathToCidAsync (string path, CancellationToken cancel = default(CancellationToken))
+        {
+            var parts = path.Split('/').Where(p => p.Length > 0).ToArray();
+            if (parts.Length == 1)
+                return Task.FromResult(Cid.Decode(parts[0]));
+
+            // TODO: Process other variations
+            // TOOD: Write some tests
+            throw new ArgumentException($"Cannot resolve '{path}'.");
+        }
+
+        /// <summary>
         ///   Starts the services.
         /// </summary>
         /// <returns>

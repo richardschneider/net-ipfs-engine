@@ -481,6 +481,18 @@ references:
   commentId: Overload:Ipfs.Engine.IpfsEngine.PubSub
   fullName: Ipfs.Engine.IpfsEngine.PubSub
   nameWithType: IpfsEngine.PubSub
+- uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,System.Threading.CancellationToken)
+  name: ResolveIpfsPathToCidAsync(String, CancellationToken)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String, System.Threading.CancellationToken)
+  nameWithType: IpfsEngine.ResolveIpfsPathToCidAsync(String, CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync*
+  name: ResolveIpfsPathToCidAsync
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync
+  fullName: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync
+  nameWithType: IpfsEngine.ResolveIpfsPathToCidAsync
 - uid: Ipfs.Engine.IpfsEngine.StartAsync
   name: StartAsync()
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StartAsync

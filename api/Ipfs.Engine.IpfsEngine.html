@@ -643,7 +643,7 @@ a <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipf
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_SwarmService.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.SwarmService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L344">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L370">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_SwarmService_" data-uid="Ipfs.Engine.IpfsEngine.SwarmService*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_SwarmService" data-uid="Ipfs.Engine.IpfsEngine.SwarmService">SwarmService</h4>
@@ -676,7 +676,7 @@ a <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipf
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Dispose.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L336">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L362">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Dispose_" data-uid="Ipfs.Engine.IpfsEngine.Dispose*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Dispose" data-uid="Ipfs.Engine.IpfsEngine.Dispose">Dispose()</h4>
@@ -743,10 +743,82 @@ the <span class="xref">Ipfs.Engine.IpfsEngine.keyChain</span>.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L212">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_" data-uid="Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync*"></a>
+  <h4 id="Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,System.Threading.CancellationToken)">ResolveIpfsPathToCidAsync(String, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Resolve an &quot;IPFS path&quot; to a content ID.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Cid&gt; ResolveIpfsPathToCidAsync(string path, CancellationToken cancel = default (CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>A IPFS path, such as &quot;Qm...&quot;, &quot;Qm.../a/b/c&quot; or &quot;/ipfs/QM...&quot;</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">cancel</span></td>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.Cid.html">Cid</a>&gt;</td>
+        <td><p>The content ID of <code data-dev-comment-type="paramref" class="paramref">path</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></td>
+        <td><p>The <code data-dev-comment-type="paramref" class="paramref">path</code> cannot be resolved.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_StartAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.StartAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L210">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L236">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_StartAsync_" data-uid="Ipfs.Engine.IpfsEngine.StartAsync*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_StartAsync" data-uid="Ipfs.Engine.IpfsEngine.StartAsync">StartAsync()</h4>
@@ -798,7 +870,7 @@ be called after any configuration changes.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_StopAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.StopAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L304">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L330">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_StopAsync_" data-uid="Ipfs.Engine.IpfsEngine.StopAsync*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_StopAsync" data-uid="Ipfs.Engine.IpfsEngine.StopAsync">StopAsync()</h4>

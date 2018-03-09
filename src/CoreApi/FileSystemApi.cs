@@ -22,30 +22,30 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public async Task<IFileSystemNode> AddAsync(Stream stream, string name = "", CancellationToken cancel = default(CancellationToken))
+        public async Task<IFileSystemNode> AddAsync(Stream stream, string name = "", bool pin = true, CancellationToken cancel = default(CancellationToken))
         {
             // TODO: If stream is seekable we can use .Length
             using (var ms = new MemoryStream())
             {
                 await stream.CopyToAsync(ms, 8 * 1024);
-                return await AddAsync(ms.ToArray(), name, cancel);
+                return await AddAsync(ms.ToArray(), name, pin, cancel);
             }
         }
 
-        public async Task<IFileSystemNode> AddFileAsync(string path, CancellationToken cancel = default(CancellationToken))
+        public async Task<IFileSystemNode> AddFileAsync(string path, bool pin = true, CancellationToken cancel = default(CancellationToken))
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                return await AddAsync(stream, Path.GetFileName(path), cancel);
+                return await AddAsync(stream, Path.GetFileName(path), pin, cancel);
             }
         }
 
-        public Task<IFileSystemNode> AddTextAsync(string text, CancellationToken cancel = default(CancellationToken))
+        public Task<IFileSystemNode> AddTextAsync(string text, bool pin = true, CancellationToken cancel = default(CancellationToken))
         {
-            return AddAsync(Encoding.UTF8.GetBytes(text), "", cancel);
+            return AddAsync(Encoding.UTF8.GetBytes(text), "", pin, cancel);
         }
 
-        public async Task<IFileSystemNode> AddAsync(byte[] data, string name, CancellationToken cancel)
+        public async Task<IFileSystemNode> AddAsync(byte[] data, string name, bool pin, CancellationToken cancel)
         {
             // Build the DAG.
             var dm = new DataMessage
@@ -59,8 +59,10 @@ namespace Ipfs.Engine.CoreApi
             var dag = new DagNode(pb.ToArray());
 
             // Save it.
-            // TODO: Should be pinned
-            var cid = await ipfs.Block.PutAsync(data: dag.ToArray(), cancel: cancel);
+            var cid = await ipfs.Block.PutAsync(
+                data: dag.ToArray(), 
+                pin: pin,
+                cancel: cancel);
 
             // Return the file system node.
             return new FileSystemNode
@@ -75,12 +77,15 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IFileSystemNode> AddDirectoryAsync(string path, bool recursive = true, CancellationToken cancel = default(CancellationToken))
         {
+            // TODO: Change IFileSystemApi to allow pinning
+            bool pin = true;
+
             // Add the files and sub-directories.
             path = Path.GetFullPath(path);
             var files = Directory
                 .EnumerateFiles(path)
                 .OrderBy(s => s)
-                .Select(p => AddFileAsync(p, cancel));
+                .Select(p => AddFileAsync(p, pin, cancel));
             if (recursive)
             {
                 var folders = Directory
@@ -101,8 +106,7 @@ namespace Ipfs.Engine.CoreApi
             var dag = new DagNode(pb.ToArray(), links);
 
             // Save it.
-            // TODO: Should be pinned
-            var cid = await ipfs.Block.PutAsync(data: dag.ToArray(), cancel: cancel);
+            var cid = await ipfs.Block.PutAsync(data: dag.ToArray(), pin: pin, cancel: cancel);
 
             return new FileSystemNode
             {

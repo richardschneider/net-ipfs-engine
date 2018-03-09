@@ -31,15 +31,19 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        public async Task AddDuplicate()
+        public async Task AddDuplicateWithPin()
         {
             var ipfs = TestFixture.Ipfs;
-            var result = await ipfs.FileSystem.AddTextAsync("hello world");
-            Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)result.Id);
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", pin: true);
+            Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)node.Id);
+            var pins = await ipfs.Pin.ListAsync();
+            CollectionAssert.Contains(pins.ToArray(), node.Id);
 
-            result = await ipfs.FileSystem.AddTextAsync("hello world");
-            Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)result.Id);
-            Assert.AreEqual(0, result.Links.Count());
+            node = await ipfs.FileSystem.AddTextAsync("hello world", pin: false);
+            Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)node.Id);
+            Assert.AreEqual(0, node.Links.Count());
+            pins = await ipfs.Pin.ListAsync();
+            CollectionAssert.DoesNotContain(pins.ToArray(), node.Id);
         }
 
         [TestMethod]

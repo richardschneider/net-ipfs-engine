@@ -50,15 +50,15 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
-        public async Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", CancellationToken cancel = default(CancellationToken))
+        public async Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
         {
             using (var ms = new MemoryStream(data, false))
             {
-                return await PutAsync(ms, contentType, multiHash, cancel);
+                return await PutAsync(ms, contentType, multiHash, pin, cancel);
             }
         }
 
-        public async Task<Cid> PutAsync(Stream data, string contentType = "dag-pb", string multiHash = "sha2-256", CancellationToken cancel = default(CancellationToken))
+        public async Task<Cid> PutAsync(Stream data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
         {
             var cid = new Cid
             {
@@ -76,6 +76,12 @@ namespace Ipfs.Engine.CoreApi
                 if (block != null)
                 {
                     log.DebugFormat("Block '{0}' already present", cid);
+                    if (block.Pinned != pin)
+                    {
+                        block.Pinned = pin;
+                        await repo.SaveChangesAsync(cancel);
+                    }
+
                     return cid;
                 }
 
@@ -87,7 +93,7 @@ namespace Ipfs.Engine.CoreApi
                 var blockInfo = new Repository.BlockInfo
                 {
                     Cid = cid,
-                    Pinned = false,
+                    Pinned = pin,
                     DataSize = data.Length
                 };
                 var blockValue = new Repository.BlockValue

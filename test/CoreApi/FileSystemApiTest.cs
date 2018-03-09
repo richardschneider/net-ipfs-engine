@@ -15,12 +15,31 @@ namespace Ipfs.Engine
         public async Task AddText()
         {
             var ipfs = TestFixture.Ipfs;
+            var node = (UnixFileSystem.FileSystemNode) await ipfs.FileSystem.AddTextAsync("hello world");
+            Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)node.Id);
+            Assert.AreEqual("", node.Name);
+            Assert.AreEqual(0, node.Links.Count());
+
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            Assert.AreEqual("hello world", text);
+
+            var actual = await ipfs.FileSystem.ListFileAsync(node.Id);
+            Assert.AreEqual(node.Id, actual.Id);
+            Assert.AreEqual(node.IsDirectory, actual.IsDirectory);
+            Assert.AreEqual(node.Links.Count(), actual.Links.Count());
+            Assert.AreEqual(node.Size, actual.Size);
+        }
+
+        [TestMethod]
+        public async Task AddDuplicate()
+        {
+            var ipfs = TestFixture.Ipfs;
             var result = await ipfs.FileSystem.AddTextAsync("hello world");
             Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)result.Id);
-            Assert.AreEqual(0, result.Links.Count());
 
-            var text = await ipfs.FileSystem.ReadAllTextAsync(result.Id);
-            Assert.AreEqual("hello world", text);
+            result = await ipfs.FileSystem.AddTextAsync("hello world");
+            Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)result.Id);
+            Assert.AreEqual(0, result.Links.Count());
         }
 
         [TestMethod]
@@ -31,9 +50,10 @@ namespace Ipfs.Engine
             try
             {
                 var ipfs = TestFixture.Ipfs;
-                var result = ipfs.FileSystem.AddFileAsync(path).Result;
-                Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)result.Id);
-                Assert.AreEqual(0, result.Links.Count());
+                var node = (UnixFileSystem.FileSystemNode)ipfs.FileSystem.AddFileAsync(path).Result;
+                Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)node.Id);
+                Assert.AreEqual(0, node.Links.Count());
+                Assert.AreEqual(Path.GetFileName(path), node.Name);
             }
             finally
             {
@@ -42,7 +62,6 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("NYI")]
         public void AddDirectory()
         {
             var ipfs = TestFixture.Ipfs;
@@ -72,12 +91,8 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("NYI")]
         public void AddDirectoryRecursive()
         {
-#if true
-            throw new NotImplementedException();
-#else
             var ipfs = TestFixture.Ipfs;
             var temp = MakeTemp();
             try
@@ -96,27 +111,29 @@ namespace Ipfs.Engine
                 Assert.AreNotEqual(0, files[0].Size);
                 Assert.AreNotEqual(0, files[1].Size);
 
-                var xfiles = new FileSystemNode { Id = files[2].Id }.Links.ToArray();
+                var rootFiles = ipfs.FileSystem.ListFileAsync(dir.Id).Result.Links.ToArray();
+                Assert.AreEqual(3, rootFiles.Length);
+                Assert.AreEqual("alpha.txt", rootFiles[0].Name);
+                Assert.AreEqual("beta.txt", rootFiles[1].Name);
+                Assert.AreEqual("x", rootFiles[2].Name);
+
+                var xfiles = ipfs.FileSystem.ListFileAsync(rootFiles[2].Id).Result.Links.ToArray();
                 Assert.AreEqual(2, xfiles.Length);
                 Assert.AreEqual("x.txt", xfiles[0].Name);
                 Assert.AreEqual("y", xfiles[1].Name);
-                Assert.IsFalse(xfiles[0].IsDirectory);
-                Assert.IsTrue(xfiles[1].IsDirectory);
 
-                var yfiles = new FileSystemNode { Id = xfiles[1].Id }.Links.ToArray();
+                var yfiles = ipfs.FileSystem.ListFileAsync(xfiles[1].Id).Result.Links.ToArray();
                 Assert.AreEqual(1, yfiles.Length);
                 Assert.AreEqual("y.txt", yfiles[0].Name);
                 Assert.IsFalse(yfiles[0].IsDirectory);
 
-                var y = new FileSystemNode { Id = yfiles[0].Id };
-                Assert.AreEqual("y", Encoding.UTF8.GetString(y.DataBytes));
+                Assert.AreEqual("x", ipfs.FileSystem.ReadAllTextAsync(dir.Id + "/x/x.txt").Result);
                 Assert.AreEqual("y", ipfs.FileSystem.ReadAllTextAsync(dir.Id + "/x/y/y.txt").Result);
             }
             finally
             {
                 Directory.Delete(temp, true);
             }
-#endif
         }
 
         string MakeTemp()

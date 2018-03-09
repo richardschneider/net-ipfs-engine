@@ -22,9 +22,10 @@ namespace Ipfs.Engine.CoreApi
             throw new NotImplementedException();
         }
 
-        public Task<DagNode> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+        public async Task<DagNode> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var block = await ipfs.Block.GetAsync(id, cancel);
+            return new DagNode(block.DataStream);
         }
 
         public Task<IEnumerable<IMerkleLink>> LinksAsync(Cid id, CancellationToken cancel = default(CancellationToken))

@@ -37,12 +37,20 @@ namespace Ipfs.Engine.UnixFileSystem
         /// <inheritdoc />
         public long Size { get; set; }
 
+        /// <summary>
+        ///   The name of the node.
+        /// </summary>
+        /// <value>
+        ///   Relative to the containing directory. Defaults to "".
+        /// </value>
+        public string Name { get; set; } = String.Empty;
+
         /// <inheritdoc />
         public IFileSystemLink ToLink(string name = "")
         {
             return new FileSystemLink
             {
-                Name = name,
+                Name = String.IsNullOrWhiteSpace(name) ? Name : name,
                 Id = Id,
                 Size = Size,
                 IsDirectory = IsDirectory

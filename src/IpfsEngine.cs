@@ -209,15 +209,25 @@ namespace Ipfs.Engine
         /// <exception cref="ArgumentException">
         ///   The <paramref name="path"/> cannot be resolved.
         /// </exception>
-        public Task<Cid> ResolveIpfsPathToCidAsync (string path, CancellationToken cancel = default(CancellationToken))
+        public async Task<Cid> ResolveIpfsPathToCidAsync (string path, CancellationToken cancel = default(CancellationToken))
         {
+            // TODO: handle '/ipfs' and '/ipns'
             var parts = path.Split('/').Where(p => p.Length > 0).ToArray();
-            if (parts.Length == 1)
-                return Task.FromResult(Cid.Decode(parts[0]));
+            if (parts.Length == 0)
+                throw new ArgumentException($"Cannot resolve '{path}'.");
 
-            // TODO: Process other variations
+            var id = Cid.Decode(parts[0]);
+            foreach (var child in parts.Skip(1))
+            {
+                var container = await Object.GetAsync(id, cancel);
+                var link = container.Links.FirstOrDefault(l => l.Name == child);
+                if (link == null)
+                    throw new ArgumentException($"Cannot resolve '{path}'.");
+                id = link.Id;
+            }
+
+            return id;
             // TOOD: Write some tests
-            throw new ArgumentException($"Cannot resolve '{path}'.");
         }
 
         /// <summary>

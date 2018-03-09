@@ -15,6 +15,7 @@ namespace Ipfs.Engine.UnixFileSystem
         {
             var node = new FileSystemNode
             {
+                Name = "bar",
                 Id = "Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD",
                 IsDirectory = true,
                 Size = 10
@@ -24,6 +25,12 @@ namespace Ipfs.Engine.UnixFileSystem
             Assert.AreEqual(node.IsDirectory, link.IsDirectory);
             Assert.AreEqual(node.Size, link.Size);
             Assert.AreEqual("foo", link.Name);
+
+            link = node.ToLink();
+            Assert.AreEqual(node.Id, link.Id);
+            Assert.AreEqual(node.IsDirectory, link.IsDirectory);
+            Assert.AreEqual(node.Size, link.Size);
+            Assert.AreEqual("bar", link.Name);
         }
     }
 }

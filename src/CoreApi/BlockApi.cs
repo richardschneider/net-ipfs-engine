@@ -70,8 +70,9 @@ namespace Ipfs.Engine.CoreApi
             // Store the key in the repository.
             using (var repo = await ipfs.Repository(cancel))
             {
+                var bid = cid.Encode();
                 var block = await repo.BlockInfos
-                    .Where(b => b.Cid == cid.Encode())
+                    .Where(b => b.Cid == bid)
                     .FirstOrDefaultAsync(cancel);
                 if (block != null)
                 {

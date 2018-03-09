@@ -17,9 +17,37 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task<IEnumerable<Cid>> AddAsync(string path, bool recursive = true, CancellationToken cancel = default(CancellationToken))
+        public async Task<IEnumerable<Cid>> AddAsync(string path, bool recursive = true, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var id = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
+            var todos = new Stack<Cid>();
+            todos.Push(id);
+            var dones = new List<Cid>();
+
+            while (todos.Count > 0)
+            {
+                var current = todos.Pop();
+                var links = await ipfs.Object.LinksAsync(current, cancel);
+                using (var repo = await ipfs.Repository(cancel))
+                {
+                    var cid = current.Encode();
+                    var blockInfo = await repo.BlockInfos
+                        .Where(b => b.Cid == cid)
+                        .FirstAsync(cancel);
+                    blockInfo.Pinned = true;
+                    await repo.SaveChangesAsync(cancel);
+                }
+                if (recursive)
+                {
+                    foreach (var link in links)
+                    {
+                        todos.Push(link.Id);
+                    }
+                }
+                dones.Add(current);
+            }
+
+            return dones;
         }
 
         public async Task<IEnumerable<Cid>> ListAsync(CancellationToken cancel = default(CancellationToken))
@@ -33,9 +61,41 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
-        public Task<IEnumerable<Cid>> RemoveAsync(Cid id, bool recursive = true, CancellationToken cancel = default(CancellationToken))
+        public async Task<IEnumerable<Cid>> RemoveAsync(Cid id, bool recursive = true, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var todos = new Stack<Cid>();
+            todos.Push(id);
+            var dones = new List<Cid>();
+
+            while (todos.Count > 0)
+            {
+                var current = todos.Pop();
+                bool exists = false;
+                using (var repo = await ipfs.Repository(cancel))
+                {
+                    var cid = current.Encode();
+                    var blockInfo = await repo.BlockInfos
+                        .Where(b => b.Cid == cid)
+                        .FirstOrDefaultAsync(cancel);
+                    if (blockInfo != null)
+                    {
+                        exists = true;
+                        blockInfo.Pinned = false;
+                        await repo.SaveChangesAsync(cancel);
+                    }
+                }
+                if (exists && recursive)
+                {
+                    var links = await ipfs.Object.LinksAsync(current, cancel);
+                    foreach (var link in links)
+                    {
+                        todos.Push(link.Id);
+                    }
+                }
+                dones.Add(current);
+            }
+
+            return dones;
         }
     }
 }

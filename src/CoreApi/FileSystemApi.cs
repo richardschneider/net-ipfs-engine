@@ -79,11 +79,13 @@ namespace Ipfs.Engine.CoreApi
             path = Path.GetFullPath(path);
             var files = Directory
                 .EnumerateFiles(path)
+                .OrderBy(s => s)
                 .Select(p => AddFileAsync(p, cancel));
             if (recursive)
             {
                 var folders = Directory
                     .EnumerateDirectories(path)
+                    .OrderBy(s => s)
                     .Select(dir => AddDirectoryAsync(dir, recursive, cancel));
                 files = files.Union(folders);
             }

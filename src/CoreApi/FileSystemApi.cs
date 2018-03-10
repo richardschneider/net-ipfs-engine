@@ -22,31 +22,53 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public async Task<IFileSystemNode> AddAsync(Stream stream, string name = "", bool pin = true, CancellationToken cancel = default(CancellationToken))
+        public async Task<IFileSystemNode> AddAsync(
+            Stream stream, 
+            string name = "", 
+            AddFileOptions options = default(AddFileOptions),
+            CancellationToken cancel = default(CancellationToken))
         {
             // TODO: If stream is seekable we can use .Length
             using (var ms = new MemoryStream())
             {
                 await stream.CopyToAsync(ms, 8 * 1024);
-                return await AddAsync(ms.ToArray(), name, pin, cancel);
+                return await AddAsync(ms.ToArray(), name, options, cancel);
             }
         }
 
-        public async Task<IFileSystemNode> AddFileAsync(string path, bool pin = true, CancellationToken cancel = default(CancellationToken))
+        public async Task<IFileSystemNode> AddFileAsync(
+            string path, 
+            AddFileOptions options = default(AddFileOptions),
+            CancellationToken cancel = default(CancellationToken))
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                return await AddAsync(stream, Path.GetFileName(path), pin, cancel);
+                return await AddAsync(stream, Path.GetFileName(path), options, cancel);
             }
         }
 
-        public Task<IFileSystemNode> AddTextAsync(string text, bool pin = true, CancellationToken cancel = default(CancellationToken))
+        public Task<IFileSystemNode> AddTextAsync(
+            string text, 
+            AddFileOptions options = default(AddFileOptions),
+            CancellationToken cancel = default(CancellationToken))
         {
-            return AddAsync(Encoding.UTF8.GetBytes(text), "", pin, cancel);
+            return AddAsync(Encoding.UTF8.GetBytes(text), "", options, cancel);
         }
 
-        public async Task<IFileSystemNode> AddAsync(byte[] data, string name, bool pin, CancellationToken cancel)
+        public async Task<IFileSystemNode> AddAsync(
+            byte[] data, 
+            string name, 
+            AddFileOptions options, 
+            CancellationToken cancel)
         {
+            options = options ?? new AddFileOptions();
+
+            // TODO: various options
+            if (options.OnlyHash) throw new NotImplementedException("OnlyHash");
+            if (options.RawLeaves) throw new NotImplementedException("RawLeaves");
+            if (options.Trickle) throw new NotImplementedException("Trickle");
+            if (options.Wrap) throw new NotImplementedException("Wrap");
+
             // Build the DAG.
             var dm = new DataMessage
             {
@@ -61,7 +83,8 @@ namespace Ipfs.Engine.CoreApi
             // Save it.
             var cid = await ipfs.Block.PutAsync(
                 data: dag.ToArray(), 
-                pin: pin,
+                multiHash: options.Hash,
+                pin: options.Pin,
                 cancel: cancel);
 
             // Return the file system node.
@@ -75,23 +98,27 @@ namespace Ipfs.Engine.CoreApi
             };
         }
 
-        public async Task<IFileSystemNode> AddDirectoryAsync(string path, bool recursive = true, CancellationToken cancel = default(CancellationToken))
+        public async Task<IFileSystemNode> AddDirectoryAsync(
+            string path, 
+            bool recursive = true, 
+            AddFileOptions options = default(AddFileOptions),
+            CancellationToken cancel = default(CancellationToken))
         {
-            // TODO: Change IFileSystemApi to allow pinning
-            bool pin = true;
+            options = options ?? new AddFileOptions();
+            options.Wrap = false;
 
             // Add the files and sub-directories.
             path = Path.GetFullPath(path);
             var files = Directory
                 .EnumerateFiles(path)
                 .OrderBy(s => s)
-                .Select(p => AddFileAsync(p, pin, cancel));
+                .Select(p => AddFileAsync(p, options, cancel));
             if (recursive)
             {
                 var folders = Directory
                     .EnumerateDirectories(path)
                     .OrderBy(s => s)
-                    .Select(dir => AddDirectoryAsync(dir, recursive, cancel));
+                    .Select(dir => AddDirectoryAsync(dir, recursive, options, cancel));
                 files = files.Union(folders);
             }
             var nodes = await Task.WhenAll(files);
@@ -106,7 +133,10 @@ namespace Ipfs.Engine.CoreApi
             var dag = new DagNode(pb.ToArray(), links);
 
             // Save it.
-            var cid = await ipfs.Block.PutAsync(data: dag.ToArray(), pin: pin, cancel: cancel);
+            var cid = await ipfs.Block.PutAsync(
+                data: dag.ToArray(), 
+                pin: options.Pin, 
+                cancel: cancel);
 
             return new FileSystemNode
             {

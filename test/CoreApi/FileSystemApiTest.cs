@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ipfs.CoreApi;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
@@ -34,12 +35,15 @@ namespace Ipfs.Engine
         public async Task AddDuplicateWithPin()
         {
             var ipfs = TestFixture.Ipfs;
-            var node = await ipfs.FileSystem.AddTextAsync("hello world", pin: true);
+            var options = new AddFileOptions();
+            options.Pin = true;
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
             Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)node.Id);
             var pins = await ipfs.Pin.ListAsync();
             CollectionAssert.Contains(pins.ToArray(), node.Id);
 
-            node = await ipfs.FileSystem.AddTextAsync("hello world", pin: false);
+            options.Pin = false;
+            node = await ipfs.FileSystem.AddTextAsync("hello world", options);
             Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)node.Id);
             Assert.AreEqual(0, node.Links.Count());
             pins = await ipfs.Pin.ListAsync();

@@ -70,6 +70,32 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task AddFile_Wrap()
+        {
+            var path = "hello.txt";
+            File.WriteAllText(path, "hello world");
+            try
+            {
+                var ipfs = TestFixture.Ipfs;
+                var options = new AddFileOptions
+                {
+                    Wrap = true
+                };
+                var node = await ipfs.FileSystem.AddFileAsync(path, options);
+                Assert.AreEqual("QmNxvA5bwvPGgMXbmtyhxA1cKFdvQXnsGnZLCGor3AzYxJ", (string)node.Id);
+                Assert.AreEqual(true, node.IsDirectory);
+                Assert.AreEqual(1, node.Links.Count());
+                Assert.AreEqual("hello.txt", node.Links.First().Name);
+                Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)node.Links.First().Id);
+                Assert.AreEqual(19, node.Links.First().Size);
+            }
+            finally
+            {
+                File.Delete(path);
+            }
+        }
+
+        [TestMethod]
         public void AddDirectory()
         {
             var ipfs = TestFixture.Ipfs;

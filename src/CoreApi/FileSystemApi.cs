@@ -67,7 +67,6 @@ namespace Ipfs.Engine.CoreApi
             if (options.OnlyHash) throw new NotImplementedException("OnlyHash");
             if (options.RawLeaves) throw new NotImplementedException("RawLeaves");
             if (options.Trickle) throw new NotImplementedException("Trickle");
-            if (options.Wrap) throw new NotImplementedException("Wrap");
 
             // Build the DAG.
             var dm = new DataMessage
@@ -78,7 +77,7 @@ namespace Ipfs.Engine.CoreApi
             };
             var pb = new MemoryStream();
             ProtoBuf.Serializer.Serialize<DataMessage>(pb, dm);
-            var dag = new DagNode(pb.ToArray());
+            var dag = new DagNode(pb.ToArray(), null, options.Hash);
 
             // Save it.
             var cid = await ipfs.Block.PutAsync(
@@ -86,6 +85,22 @@ namespace Ipfs.Engine.CoreApi
                 multiHash: options.Hash,
                 pin: options.Pin,
                 cancel: cancel);
+
+            // Wrap in directory?
+            if (options.Wrap)
+            {
+                var link = dag.ToLink(name);
+                var links = new FileSystemLink[] 
+                {
+                    new FileSystemLink
+                    {
+                        Id = link.Id,
+                        Name = link.Name,
+                        Size = link.Size
+                    }
+                };
+                return await CreateDirectoryAsync(links, options, cancel);
+            }
 
             // Return the file system node.
             return new FileSystemNode
@@ -127,25 +142,31 @@ namespace Ipfs.Engine.CoreApi
             var links = nodes
                 .Select(node => node.ToLink())
                 .ToArray();
+            var fsn = await CreateDirectoryAsync(links, options, cancel);
+            fsn.Name = Path.GetFileName(path);
+            return fsn;
+        }
+
+        async Task<FileSystemNode> CreateDirectoryAsync (IEnumerable<IFileSystemLink> links, AddFileOptions options, CancellationToken cancel)
+        {
             var dm = new DataMessage { Type = DataType.Directory };
             var pb = new MemoryStream();
             ProtoBuf.Serializer.Serialize<DataMessage>(pb, dm);
-            var dag = new DagNode(pb.ToArray(), links);
+            var dag = new DagNode(pb.ToArray(), links, options.Hash);
 
             // Save it.
             var cid = await ipfs.Block.PutAsync(
-                data: dag.ToArray(), 
-                pin: options.Pin, 
+                data: dag.ToArray(),
+                multiHash: options.Hash,
+                pin: options.Pin,
                 cancel: cancel);
 
             return new FileSystemNode
             {
                 Id = cid,
-                Name = Path.GetFileName(path),
                 Links = links,
                 IsDirectory = true
             };
-
         }
 
         public async Task<IFileSystemNode> ListFileAsync(string path, CancellationToken cancel = default(CancellationToken))

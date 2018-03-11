@@ -15,7 +15,6 @@ namespace Ipfs.Engine.CoreApi
     class FileSystemApi : IFileSystemApi
     {
         static ILog log = LogManager.GetLogger(typeof(FileSystemApi));
-        static byte[] emptyData = new byte[0];
         IpfsEngine ipfs;
 
         public FileSystemApi(IpfsEngine ipfs)
@@ -204,14 +203,10 @@ namespace Ipfs.Engine.CoreApi
         public async Task<Stream> ReadFileAsync(string path, CancellationToken cancel = default(CancellationToken))
         {
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
-            var block = await ipfs.Block.GetAsync(cid, cancel);
-            var dag = new DagNode(block.DataStream);
-            var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
 
-            if (dm.Type != DataType.File)
-                throw new Exception($"'{path} is not a file.");
+            // TODO: Select the stream based on the cid's content type.
 
-            return new MemoryStream(buffer: dm.Data ?? emptyData, writable: false);
+            return await FileSystem.CreateReadStream(cid, ipfs.Block, cancel);
         }
     }
 }

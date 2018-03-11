@@ -71,9 +71,13 @@ namespace Ipfs.Engine.CoreApi
             using (var repo = await ipfs.Repository(cancel))
             {
                 var bid = cid.Encode();
+#if true
+                var block = await repo.BlockInfos.FindAsync(bid);
+#else
                 var block = await repo.BlockInfos
                     .Where(b => b.Cid == bid)
                     .FirstOrDefaultAsync(cancel);
+#endif
                 if (block != null)
                 {
                     log.DebugFormat("Block '{0}' already present", cid);

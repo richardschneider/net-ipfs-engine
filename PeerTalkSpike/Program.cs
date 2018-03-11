@@ -1,6 +1,7 @@
 ﻿using Common.Logging;
 using Common.Logging.Simple;
 using Ipfs;
+using Ipfs.CoreApi;
 using Ipfs.Engine;
 using PeerTalk;
 using PeerTalk.Protocols;
@@ -40,11 +41,12 @@ namespace PeerTalkSpike
             //ServerListen();
 
             var t = new Test();
-            log.Debug("--- RUN Can_Start_And_Stop");
-            t.Can_Start_And_Stop().Wait();
-            log.Debug("--- RUN Swarm_Gets_Bootstrap_Peers");
-            t.Swarm_Gets_Bootstrap_Peers().Wait();
-            Console.WriteLine("finished");
+            t.Chunking().Wait();
+            //log.Debug("--- RUN Can_Start_And_Stop");
+            //t.Can_Start_And_Stop().Wait();
+            //log.Debug("--- RUN Swarm_Gets_Bootstrap_Peers");
+            //t.Swarm_Gets_Bootstrap_Peers().Wait();
+            //Console.WriteLine("finished");
             //Console.ReadKey();
         }
         
@@ -147,7 +149,26 @@ namespace PeerTalkSpike
                 await ipfs.StopAsync();
             }
         }
+        public async Task Chunking()
+        {
+            var options = new AddFileOptions
+            {
+                ChunkSize = 3
+            };
+            options.Pin = true;
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            var links = node.Links.ToArray();
+            //Assert.AreEqual("QmVVZXWrYzATQdsKWM4knbuH5dgHFmrRqW3nJfDgdWrBjn", (string)node.Id);
+            //Assert.AreEqual(false, node.IsDirectory);
+            //Assert.AreEqual(4, links.Length);
+            //Assert.AreEqual("QmevnC4UDUWzJYAQtUSQw4ekUdqDqwcKothjcobE7byeb6", (string)links[0].Id);
+            //Assert.AreEqual("QmTdBogNFkzUTSnEBQkWzJfQoiWbckLrTFVDHFRKFf6dcN", (string)links[1].Id);
+            //Assert.AreEqual("QmPdmF1n4di6UwsLgW96qtTXUsPkCLN4LycjEUdH9977d6", (string)links[2].Id);
+            //Assert.AreEqual("QmXh5UucsqF8XXM8UYQK9fHXsthSEfi78kewr8ttpPaLRE", (string)links[3].Id);
 
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            //Assert.AreEqual("hello world", text);
+        }
 
         public async Task SendReceive()
         {

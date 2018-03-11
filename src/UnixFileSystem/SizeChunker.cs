@@ -50,7 +50,7 @@ namespace Ipfs.Engine.UnixFileSystem
                 int length = 0;
                 while (length < chunkSize)
                 {
-                    var n = await stream.ReadAsync(chunk, length, chunkSize - length);
+                    var n = await stream.ReadAsync(chunk, length, chunkSize - length, cancel);
                     if (n < 1)
                     {
                         chunking = false;
@@ -62,20 +62,21 @@ namespace Ipfs.Engine.UnixFileSystem
                 //  Only generate empty block, when the stream is empty.
                 if (length == 0 && nodes.Count > 0)
                 {
+                    chunking = false;
                     break;
                 }
 
                 // Build the DAG.
-                // TODO: Inefficent to copy chunk
-                var data = new byte[length];
-                Array.Copy(chunk, data, length);
                 var dm = new DataMessage
                 {
                     Type = DataType.File,
-                    FileSize = (ulong)data.Length,
+                    FileSize = (ulong)length,
                 };
                 if (length > 0)
                 {
+                    // TODO: Inefficent to copy chunk, use ArraySegment in DataMessage.Data
+                    var data = new byte[length];
+                    Array.Copy(chunk, data, length);
                     dm.Data = data;
                 }
                 var pb = new MemoryStream();

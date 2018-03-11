@@ -32,6 +32,25 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task AddEmptyText()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var node = (UnixFileSystem.FileSystemNode)await ipfs.FileSystem.AddTextAsync("");
+            Assert.AreEqual("QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH", (string)node.Id);
+            Assert.AreEqual("", node.Name);
+            Assert.AreEqual(0, node.Links.Count());
+
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            Assert.AreEqual("", text);
+        
+            var actual = await ipfs.FileSystem.ListFileAsync(node.Id);
+            Assert.AreEqual(node.Id, actual.Id);
+            Assert.AreEqual(node.IsDirectory, actual.IsDirectory);
+            Assert.AreEqual(node.Links.Count(), actual.Links.Count());
+            Assert.AreEqual(node.Size, actual.Size);
+        }
+
+        [TestMethod]
         public async Task AddDuplicateWithPin()
         {
             var ipfs = TestFixture.Ipfs;
@@ -48,6 +67,29 @@ namespace Ipfs.Engine
             Assert.AreEqual(0, node.Links.Count());
             pins = await ipfs.Pin.ListAsync();
             CollectionAssert.DoesNotContain(pins.ToArray(), node.Id);
+        }
+
+        [TestMethod]
+        public async Task Add_SizeChunking()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ChunkSize = 3
+            };
+            options.Pin = true;
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            var links = node.Links.ToArray();
+            Assert.AreEqual("QmVVZXWrYzATQdsKWM4knbuH5dgHFmrRqW3nJfDgdWrBjn", (string)node.Id);
+            Assert.AreEqual(false, node.IsDirectory);
+            Assert.AreEqual(4, links.Length);
+            Assert.AreEqual("QmevnC4UDUWzJYAQtUSQw4ekUdqDqwcKothjcobE7byeb6", (string)links[0].Id);
+            Assert.AreEqual("QmTdBogNFkzUTSnEBQkWzJfQoiWbckLrTFVDHFRKFf6dcN", (string)links[1].Id);
+            Assert.AreEqual("QmPdmF1n4di6UwsLgW96qtTXUsPkCLN4LycjEUdH9977d6", (string)links[2].Id);
+            Assert.AreEqual("QmXh5UucsqF8XXM8UYQK9fHXsthSEfi78kewr8ttpPaLRE", (string)links[3].Id);
+
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            Assert.AreEqual("hello world", text);
         }
 
         [TestMethod]

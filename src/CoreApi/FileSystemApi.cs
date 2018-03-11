@@ -15,25 +15,12 @@ namespace Ipfs.Engine.CoreApi
     class FileSystemApi : IFileSystemApi
     {
         static ILog log = LogManager.GetLogger(typeof(FileSystemApi));
+        static byte[] emptyData = new byte[0];
         IpfsEngine ipfs;
 
         public FileSystemApi(IpfsEngine ipfs)
         {
             this.ipfs = ipfs;
-        }
-
-        public async Task<IFileSystemNode> AddAsync(
-            Stream stream, 
-            string name = "", 
-            AddFileOptions options = default(AddFileOptions),
-            CancellationToken cancel = default(CancellationToken))
-        {
-            // TODO: If stream is seekable we can use .Length
-            using (var ms = new MemoryStream())
-            {
-                await stream.CopyToAsync(ms, 8 * 1024);
-                return await AddAsync(ms.ToArray(), name, options, cancel);
-            }
         }
 
         public async Task<IFileSystemNode> AddFileAsync(
@@ -48,15 +35,18 @@ namespace Ipfs.Engine.CoreApi
         }
 
         public Task<IFileSystemNode> AddTextAsync(
-            string text, 
+            string text,
             AddFileOptions options = default(AddFileOptions),
             CancellationToken cancel = default(CancellationToken))
         {
-            return AddAsync(Encoding.UTF8.GetBytes(text), "", options, cancel);
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(text), false))
+            {
+                return AddAsync(ms, "", options, cancel);
+            }
         }
 
         public async Task<IFileSystemNode> AddAsync(
-            byte[] data, 
+            Stream stream, 
             string name, 
             AddFileOptions options, 
             CancellationToken cancel)
@@ -68,49 +58,57 @@ namespace Ipfs.Engine.CoreApi
             if (options.RawLeaves) throw new NotImplementedException("RawLeaves");
             if (options.Trickle) throw new NotImplementedException("Trickle");
 
-            // Build the DAG.
-            var dm = new DataMessage
-            {
-                Type = DataType.File,
-                Data = data,
-                FileSize = (ulong)data.Length,
-            };
-            var pb = new MemoryStream();
-            ProtoBuf.Serializer.Serialize<DataMessage>(pb, dm);
-            var dag = new DagNode(pb.ToArray(), null, options.Hash);
+            var chunker = new SizeChunker();
+            var nodes = await chunker.ChunkAsync(stream, options, ipfs.Block, cancel);
 
-            // Save it.
-            var cid = await ipfs.Block.PutAsync(
-                data: dag.ToArray(), 
-                multiHash: options.Hash,
-                pin: options.Pin,
-                cancel: cancel);
+            // Multiple nodes for the file?
+            FileSystemNode node = null;
+            if (nodes.Count() == 1)
+            {
+                node = nodes.First();
+            }
+            else
+            {
+                // Build the DAG that contains all the file nodes.
+                var links = nodes.Select(n => n.ToLink()).ToArray();
+                var fileSize = (ulong)nodes.Sum(n => n.Size);
+                var dm = new DataMessage
+                {
+                    Type = DataType.File,
+                    FileSize = fileSize,
+                    BlockSizes = nodes.Select(n => (ulong) n.Size).ToArray()
+                };
+                var pb = new MemoryStream();
+                ProtoBuf.Serializer.Serialize<DataMessage>(pb, dm);
+                var dag = new DagNode(pb.ToArray(), links, options.Hash);
+
+                // Save it.
+                dag.Id = await ipfs.Block.PutAsync(
+                    data: dag.ToArray(),
+                    multiHash: options.Hash,
+                    pin: options.Pin,
+                    cancel: cancel);
+
+                node = new FileSystemNode
+                {
+                    Id = dag.Id,
+                    Size = (long)dm.FileSize,
+                    DagSize = dag.Size,
+                    Links = links
+                };
+            }
 
             // Wrap in directory?
             if (options.Wrap)
             {
-                var link = dag.ToLink(name);
-                var links = new FileSystemLink[] 
-                {
-                    new FileSystemLink
-                    {
-                        Id = link.Id,
-                        Name = link.Name,
-                        Size = link.Size
-                    }
-                };
-                return await CreateDirectoryAsync(links, options, cancel);
+                var link = node.ToLink(name);
+                var wlinks = new IFileSystemLink[] { link };
+                return await CreateDirectoryAsync(wlinks, options, cancel);
             }
 
             // Return the file system node.
-            return new FileSystemNode
-            {
-                Id = cid,
-                Name = name,
-                IsDirectory = false,
-                Size = data.Length,
-                Links = FileSystemLink.None
-            };
+            node.Name = name;
+            return node;
         }
 
         public async Task<IFileSystemNode> AddDirectoryAsync(
@@ -213,7 +211,7 @@ namespace Ipfs.Engine.CoreApi
             if (dm.Type != DataType.File)
                 throw new Exception($"'{path} is not a file.");
 
-            return new MemoryStream(buffer: dm.Data, writable: false);
+            return new MemoryStream(buffer: dm.Data ?? emptyData, writable: false);
         }
     }
 }

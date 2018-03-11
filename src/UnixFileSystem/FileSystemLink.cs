@@ -27,5 +27,5 @@ namespace Ipfs.Engine.UnixFileSystem
 
         /// <inheritdoc />
         public long Size { get; set; }
-}
+    }
 }

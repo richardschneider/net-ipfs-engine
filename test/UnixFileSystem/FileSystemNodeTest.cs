@@ -18,18 +18,19 @@ namespace Ipfs.Engine.UnixFileSystem
                 Name = "bar",
                 Id = "Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD",
                 IsDirectory = true,
-                Size = 10
+                Size = 10,
+                DagSize = 16
             };
             var link = node.ToLink("foo");
             Assert.AreEqual(node.Id, link.Id);
             Assert.AreEqual(node.IsDirectory, link.IsDirectory);
-            Assert.AreEqual(node.Size, link.Size);
+            Assert.AreEqual(node.DagSize, link.Size);
             Assert.AreEqual("foo", link.Name);
 
             link = node.ToLink();
             Assert.AreEqual(node.Id, link.Id);
             Assert.AreEqual(node.IsDirectory, link.IsDirectory);
-            Assert.AreEqual(node.Size, link.Size);
+            Assert.AreEqual(node.DagSize, link.Size);
             Assert.AreEqual("bar", link.Name);
         }
     }

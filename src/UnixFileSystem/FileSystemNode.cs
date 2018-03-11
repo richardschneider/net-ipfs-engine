@@ -45,6 +45,11 @@ namespace Ipfs.Engine.UnixFileSystem
         /// </value>
         public string Name { get; set; } = String.Empty;
 
+        /// <summary>
+        ///   The serialised DAG size.
+        /// </summary>
+        public long DagSize { get; set; }
+
         /// <inheritdoc />
         public IFileSystemLink ToLink(string name = "")
         {
@@ -52,7 +57,7 @@ namespace Ipfs.Engine.UnixFileSystem
             {
                 Name = String.IsNullOrWhiteSpace(name) ? Name : name,
                 Id = Id,
-                Size = Size,
+                Size = DagSize,
                 IsDirectory = IsDirectory
             };
         }

@@ -137,6 +137,30 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.ChunkedStream.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html",
+          "hash": "ilV3PvQ+aIETy5SUHHu3EQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystem.html",
+          "hash": "rLj4m+0PncYrtPQY4qnIwA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystemLink.yml",
       "output": {
         ".html": {
@@ -153,7 +177,19 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html",
-          "hash": "T4oQ8+LtReZmufNJlX/dOA=="
+          "hash": "roUy980ftEapWiLDHoqc3A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.SizeChunker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.SizeChunker.html",
+          "hash": "x94MykjfR68Dfj5pcS9SNw=="
         }
       },
       "is_incremental": false,
@@ -165,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.UnixFileSystem.html",
-          "hash": "Rgk9uqbhfRAMIjv60FrZdQ=="
+          "hash": "b/Dv5SRIIt6RUL5scIjozg=="
         }
       },
       "is_incremental": false,
@@ -189,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "rqLDGBGUoqsBuuPukLILOw=="
+          "hash": "C+3/VnrQnOgq3QdRPxNF1w=="
         }
       },
       "is_incremental": false,
@@ -333,22 +369,22 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "ManagedReferenceDocumentProcessor": {
+        "ResourceDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }

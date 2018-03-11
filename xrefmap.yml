@@ -739,6 +739,183 @@ references:
   commentId: N:Ipfs.Engine.UnixFileSystem
   fullName: Ipfs.Engine.UnixFileSystem
   nameWithType: Ipfs.Engine.UnixFileSystem
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream
+  name: ChunkedStream
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html
+  commentId: T:Ipfs.Engine.UnixFileSystem.ChunkedStream
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream
+  nameWithType: ChunkedStream
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(Ipfs.CoreApi.IBlockApi,Ipfs.DagNode)
+  name: ChunkedStream(IBlockApi, DagNode)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_Ipfs_CoreApi_IBlockApi_Ipfs_DagNode_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(Ipfs.CoreApi.IBlockApi,Ipfs.DagNode)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream(Ipfs.CoreApi.IBlockApi, Ipfs.DagNode)
+  nameWithType: ChunkedStream.ChunkedStream(IBlockApi, DagNode)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor*
+  name: ChunkedStream
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream
+  nameWithType: ChunkedStream.ChunkedStream
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead
+  name: CanRead
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanRead
+  commentId: P:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead
+  nameWithType: ChunkedStream.CanRead
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead*
+  name: CanRead
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanRead_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead
+  nameWithType: ChunkedStream.CanRead
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek
+  name: CanSeek
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanSeek
+  commentId: P:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek
+  nameWithType: ChunkedStream.CanSeek
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek*
+  name: CanSeek
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanSeek_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek
+  nameWithType: ChunkedStream.CanSeek
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite
+  name: CanWrite
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanWrite
+  commentId: P:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite
+  nameWithType: ChunkedStream.CanWrite
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite*
+  name: CanWrite
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanWrite_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite
+  nameWithType: ChunkedStream.CanWrite
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush
+  name: Flush()
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Flush
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush()
+  nameWithType: ChunkedStream.Flush()
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush*
+  name: Flush
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Flush_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush
+  nameWithType: ChunkedStream.Flush
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Length
+  name: Length
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Length
+  commentId: P:Ipfs.Engine.UnixFileSystem.ChunkedStream.Length
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Length
+  nameWithType: ChunkedStream.Length
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Length*
+  name: Length
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Length_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Length
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Length
+  nameWithType: ChunkedStream.Length
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Position
+  name: Position
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Position
+  commentId: P:Ipfs.Engine.UnixFileSystem.ChunkedStream.Position
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Position
+  nameWithType: ChunkedStream.Position
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Position*
+  name: Position
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Position_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Position
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Position
+  nameWithType: ChunkedStream.Position
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read(System.Byte[],System.Int32,System.Int32)
+  name: Read(Byte[], Int32, Int32)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Read_System_Byte___System_Int32_System_Int32_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.Read(System.Byte[],System.Int32,System.Int32)
+  name.vb: Read(Byte(), Int32, Int32)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read(System.Byte[], System.Int32, System.Int32)
+  fullName.vb: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read(System.Byte(), System.Int32, System.Int32)
+  nameWithType: ChunkedStream.Read(Byte[], Int32, Int32)
+  nameWithType.vb: ChunkedStream.Read(Byte(), Int32, Int32)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read*
+  name: Read
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Read_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Read
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read
+  nameWithType: ChunkedStream.Read
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  name: ReadAsync(Byte[], Int32, Int32, CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  name.vb: ReadAsync(Byte(), Int32, Int32, CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  nameWithType: ChunkedStream.ReadAsync(Byte[], Int32, Int32, CancellationToken)
+  nameWithType.vb: ChunkedStream.ReadAsync(Byte(), Int32, Int32, CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync*
+  name: ReadAsync
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync
+  nameWithType: ChunkedStream.ReadAsync
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,System.IO.SeekOrigin)
+  name: Seek(Int64, SeekOrigin)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_System_Int64_System_IO_SeekOrigin_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,System.IO.SeekOrigin)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64, System.IO.SeekOrigin)
+  nameWithType: ChunkedStream.Seek(Int64, SeekOrigin)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek*
+  name: Seek
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek
+  nameWithType: ChunkedStream.Seek
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength(System.Int64)
+  name: SetLength(Int64)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_SetLength_System_Int64_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength(System.Int64)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength(System.Int64)
+  nameWithType: ChunkedStream.SetLength(Int64)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength*
+  name: SetLength
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_SetLength_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength
+  nameWithType: ChunkedStream.SetLength
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Write(System.Byte[],System.Int32,System.Int32)
+  name: Write(Byte[], Int32, Int32)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Write_System_Byte___System_Int32_System_Int32_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.Write(System.Byte[],System.Int32,System.Int32)
+  name.vb: Write(Byte(), Int32, Int32)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Write(System.Byte[], System.Int32, System.Int32)
+  fullName.vb: Ipfs.Engine.UnixFileSystem.ChunkedStream.Write(System.Byte(), System.Int32, System.Int32)
+  nameWithType: ChunkedStream.Write(Byte[], Int32, Int32)
+  nameWithType.vb: ChunkedStream.Write(Byte(), Int32, Int32)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Write*
+  name: Write
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Write_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Write
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Write
+  nameWithType: ChunkedStream.Write
+- uid: Ipfs.Engine.UnixFileSystem.FileSystem
+  name: FileSystem
+  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html
+  commentId: T:Ipfs.Engine.UnixFileSystem.FileSystem
+  fullName: Ipfs.Engine.UnixFileSystem.FileSystem
+  nameWithType: FileSystem
+- uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid,Ipfs.CoreApi.IBlockApi,System.Threading.CancellationToken)
+  name: CreateReadStream(Cid, IBlockApi, CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Ipfs_Cid_Ipfs_CoreApi_IBlockApi_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid,Ipfs.CoreApi.IBlockApi,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid, Ipfs.CoreApi.IBlockApi, System.Threading.CancellationToken)
+  nameWithType: FileSystem.CreateReadStream(Cid, IBlockApi, CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream*
+  name: CreateReadStream
+  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream
+  fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream
+  nameWithType: FileSystem.CreateReadStream
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemLink
   name: FileSystemLink
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html
@@ -805,6 +982,18 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.FileSystemNode
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode
   nameWithType: FileSystemNode
+- uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.DagSize
+  name: DagSize
+  href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_DagSize
+  commentId: P:Ipfs.Engine.UnixFileSystem.FileSystemNode.DagSize
+  fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.DagSize
+  nameWithType: FileSystemNode.DagSize
+- uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.DagSize*
+  name: DagSize
+  href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_DagSize_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.DagSize
+  fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.DagSize
+  nameWithType: FileSystemNode.DagSize
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.DataBytes
   name: DataBytes
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_DataBytes
@@ -901,3 +1090,21 @@ references:
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.ToLink
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.ToLink
   nameWithType: FileSystemNode.ToLink
+- uid: Ipfs.Engine.UnixFileSystem.SizeChunker
+  name: SizeChunker
+  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html
+  commentId: T:Ipfs.Engine.UnixFileSystem.SizeChunker
+  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker
+  nameWithType: SizeChunker
+- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream,Ipfs.CoreApi.AddFileOptions,Ipfs.CoreApi.IBlockApi,System.Threading.CancellationToken)
+  name: ChunkAsync(Stream, AddFileOptions, IBlockApi, CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_System_IO_Stream_Ipfs_CoreApi_AddFileOptions_Ipfs_CoreApi_IBlockApi_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream,Ipfs.CoreApi.AddFileOptions,Ipfs.CoreApi.IBlockApi,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream, Ipfs.CoreApi.AddFileOptions, Ipfs.CoreApi.IBlockApi, System.Threading.CancellationToken)
+  nameWithType: SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync*
+  name: ChunkAsync
+  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_
+  commentId: Overload:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync
+  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync
+  nameWithType: SizeChunker.ChunkAsync

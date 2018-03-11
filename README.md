@@ -17,7 +17,10 @@ This is **ALPHA CODE** and is not yet ready for prime time.
 ## Features
 
 - An embedded implementation of IPFS, no need for a "IPFS daemon"
-- Targets .NET Framework 4.6.1, .NET Standard 1.4 and .NET Standard 2.0
+- Targets 
+  - .NET Framework 4.6.1, 
+  - ~~.NET Standard 1.4~~ #7
+  - .NET Standard 2.0
 - [Asynchronous I/O](https://richardschneider.github.io/net-ipfs-engine/articles/async.html) to an IPFS server
 - Supports [cancellation](https://richardschneider.github.io/net-ipfs-engine/articles/cancellation.html) of all requests to the IPFS Server
 - Comprehensive [documentation](https://richardschneider.github.io/net-ipfs-engine)

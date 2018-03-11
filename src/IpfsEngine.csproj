@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard14;netstandard2</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2</TargetFrameworks>
     <AssemblyName>Ipfs.Engine</AssemblyName>
     <RootNamespace>Ipfs.Engine</RootNamespace>
     <DocumentationFile>Ipfs.Engine.xml</DocumentationFile>

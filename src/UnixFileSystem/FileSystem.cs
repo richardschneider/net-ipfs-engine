@@ -20,7 +20,9 @@ namespace Ipfs.Engine.UnixFileSystem
         /// <summary>
         ///   Creates a stream that can read the supplied <see cref="Cid"/>.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">
+        ///   The identifier of some content.
+        /// </param>
         /// <param name="blockService">
         ///   The source of cid's data.
         /// </param>
@@ -31,7 +33,34 @@ namespace Ipfs.Engine.UnixFileSystem
         ///   A task that represents the asynchronous operation. The task's value is
         ///   a <see cref="Stream"/> that produces the content of the <paramref name="id"/>.
         /// </returns>
-        public static async Task<Stream> CreateReadStream (
+        /// <remarks>
+        ///  The id's <see cref="Cid.ContentType"/> is used to determine how to read
+        ///  the conent.
+        /// </remarks>
+        public static async Task<Stream> CreateReadStream(
+            Cid id,
+            IBlockApi blockService,
+            CancellationToken cancel)
+        {
+            // TODO: A content-type registry should be used.
+            if (id.ContentType == "dag-pb")
+                return await CreateDagProtoBufStreamAsync(id, blockService, cancel);
+            else if (id.ContentType == "raw")
+                return await CreateRawStreamAsync(id, blockService, cancel);
+            else
+                throw new NotSupportedException($"Cannot read content type '{id.ContentType}'.");
+        }
+
+        static async Task<Stream> CreateRawStreamAsync(
+            Cid id,
+            IBlockApi blockService,
+            CancellationToken cancel)
+        {
+            var block = await blockService.GetAsync(id, cancel);
+            return block.DataStream;
+        }
+
+        static async Task<Stream> CreateDagProtoBufStreamAsync(
             Cid id,
             IBlockApi blockService,
             CancellationToken cancel)

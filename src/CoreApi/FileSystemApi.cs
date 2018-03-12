@@ -202,12 +202,7 @@ namespace Ipfs.Engine.CoreApi
         public async Task<Stream> ReadFileAsync(string path, CancellationToken cancel = default(CancellationToken))
         {
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
-
-            // TODO: Select the stream based on the cid's content type.
-            if (cid.ContentType == "dag-pb")
-                return await FileSystem.CreateReadStream(cid, ipfs.Block, cancel);
-
-            throw new NotSupportedException($"Reading content type '{cid.ContentType}'.");
+            return await FileSystem.CreateReadStream(cid, ipfs.Block, cancel);
         }
     }
 }

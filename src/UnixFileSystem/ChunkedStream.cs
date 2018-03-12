@@ -124,11 +124,13 @@ namespace Ipfs.Engine.UnixFileSystem
             var need = blocks.Last(b => b.Position <= position);
             if (need != currentBlock)
             {
-                var block = await BlockService.GetAsync(need.Id, cancel);
+                var stream = await FileSystem.CreateReadStream(need.Id, BlockService, cancel);
                 currentBlock = need;
-                var dag = new DagNode(block.DataStream);
-                var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
-                currentData = dm.Data;
+                currentData = new byte[stream.Length];
+                for (int i = 0, n; i < stream.Length; i += n)
+                {
+                    n = stream.Read(currentData, i, (int) stream.Length - i);
+                }
             }
             return new ArraySegment<byte>(currentData, (int)(Position - currentBlock.Position), currentData.Length);
         }

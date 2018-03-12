@@ -54,7 +54,6 @@ namespace Ipfs.Engine.CoreApi
 
             // TODO: various options
             if (options.OnlyHash) throw new NotImplementedException("OnlyHash");
-            if (options.RawLeaves) throw new NotImplementedException("RawLeaves");
             if (options.Trickle) throw new NotImplementedException("Trickle");
 
             var chunker = new SizeChunker();
@@ -205,8 +204,10 @@ namespace Ipfs.Engine.CoreApi
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
 
             // TODO: Select the stream based on the cid's content type.
+            if (cid.ContentType == "dag-pb")
+                return await FileSystem.CreateReadStream(cid, ipfs.Block, cancel);
 
-            return await FileSystem.CreateReadStream(cid, ipfs.Block, cancel);
+            throw new NotSupportedException($"Reading content type '{cid.ContentType}'.");
         }
     }
 }

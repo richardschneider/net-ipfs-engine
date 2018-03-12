@@ -66,38 +66,60 @@ namespace Ipfs.Engine.UnixFileSystem
                     break;
                 }
 
-                // Build the DAG.
-                var dm = new DataMessage
-                {
-                    Type = DataType.File,
-                    FileSize = (ulong)length,
-                };
-                if (length > 0)
+                if (options.RawLeaves)
                 {
                     // TODO: Inefficent to copy chunk, use ArraySegment in DataMessage.Data
                     var data = new byte[length];
                     Array.Copy(chunk, data, length);
-                    dm.Data = data;
+                    var cid = await blockService.PutAsync(
+                        data: data,
+                        contentType: "raw",
+                        multiHash: options.Hash,
+                        pin: options.Pin,
+                        cancel: cancel);
+                    nodes.Add(new FileSystemNode
+                    {
+                        Id = cid,
+                        Size = length,
+                        DagSize = length,
+                        Links = FileSystemLink.None
+                    });
                 }
-                var pb = new MemoryStream();
-                ProtoBuf.Serializer.Serialize<DataMessage>(pb, dm);
-                var dag = new DagNode(pb.ToArray(), null, options.Hash);
-
-                // Save it.
-                dag.Id = await blockService.PutAsync(
-                    data: dag.ToArray(),
-                    multiHash: options.Hash,
-                    pin: options.Pin,
-                    cancel: cancel);
-
-                var node = new FileSystemNode
+                else
                 {
-                    Id = dag.Id,
-                    Size = length,
-                    DagSize = dag.Size,
-                    Links = FileSystemLink.None
-                };
-                nodes.Add(node);
+                    // Build the DAG.
+                    var dm = new DataMessage
+                    {
+                        Type = DataType.File,
+                        FileSize = (ulong)length,
+                    };
+                    if (length > 0)
+                    {
+                        // TODO: Inefficent to copy chunk, use ArraySegment in DataMessage.Data
+                        var data = new byte[length];
+                        Array.Copy(chunk, data, length);
+                        dm.Data = data;
+                    }
+                    var pb = new MemoryStream();
+                    ProtoBuf.Serializer.Serialize<DataMessage>(pb, dm);
+                    var dag = new DagNode(pb.ToArray(), null, options.Hash);
+
+                    // Save it.
+                    dag.Id = await blockService.PutAsync(
+                        data: dag.ToArray(),
+                        multiHash: options.Hash,
+                        pin: options.Pin,
+                        cancel: cancel);
+
+                    var node = new FileSystemNode
+                    {
+                        Id = dag.Id,
+                        Size = length,
+                        DagSize = dag.Size,
+                        Links = FileSystemLink.None
+                    };
+                    nodes.Add(node);
+                }
             }
 
             return nodes;

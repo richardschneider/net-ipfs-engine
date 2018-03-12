@@ -138,6 +138,47 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Add_Raw()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                RawLeaves = true
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            Assert.AreEqual("zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn", (string)node.Id);
+            Assert.AreEqual(11, node.Size);
+            Assert.AreEqual(0, node.Links.Count());
+            Assert.AreEqual(false, node.IsDirectory);
+
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            Assert.AreEqual("hello world", text);
+        }
+
+        [TestMethod]
+        public async Task Add_RawAndChunked()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                RawLeaves = true,
+                ChunkSize = 3
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            var links = node.Links.ToArray();
+            Assert.AreEqual("QmUuooB6zEhMmMaBvMhsMaUzar5gs5KwtVSFqG4C1Qhyhs", (string)node.Id);
+            Assert.AreEqual(false, node.IsDirectory);
+            Assert.AreEqual(4, links.Length);
+            Assert.AreEqual("zb2rhm6D8PTYoMh7PSFKbCxxcD1yjWPD5KPr6nVRuw9ymDyUL", (string)links[0].Id);
+            Assert.AreEqual("zb2rhgo7y6J7p76kCrXs4pmmMQx56fZeWJkC3sfbjeay4UruU", (string)links[1].Id);
+            Assert.AreEqual("zb2rha4Pd2AruByr2RwzhRCVxRCqBC67h7ukTJd99jCjUtmyM", (string)links[2].Id);
+            Assert.AreEqual("zb2rhn6eZLLj7vdVizbNxpASGoVw4vcSmc8avHXmDMVu5ZA6Q", (string)links[3].Id);
+
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            Assert.AreEqual("hello world", text);
+        }
+
+        [TestMethod]
         public void AddDirectory()
         {
             var ipfs = TestFixture.Ipfs;

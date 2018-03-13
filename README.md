@@ -21,10 +21,10 @@ This is **ALPHA CODE** and is not yet ready for prime time.
   - .NET Framework 4.6.1, 
   - ~~.NET Standard 1.4~~ #7
   - .NET Standard 2.0
-- [Asynchronous I/O](https://richardschneider.github.io/net-ipfs-engine/articles/async.html) to an IPFS server
-- Supports [cancellation](https://richardschneider.github.io/net-ipfs-engine/articles/cancellation.html) of all requests to the IPFS Server
+- Supports [Asynchronous I/O](https://richardschneider.github.io/net-ipfs-engine/articles/async.html)
+- Supports [cancellation](https://richardschneider.github.io/net-ipfs-engine/articles/cancellation.html)
 - Comprehensive [documentation](https://richardschneider.github.io/net-ipfs-engine)
-- C# style access to the [ipfs core interface](https://github.com/ipfs/interface-ipfs-core#api)
+- C# style access to the [ipfs core interface](https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.html)
 
 ## Getting started
 
@@ -37,7 +37,7 @@ For the latest build or older non-released builds see [Continuous Integration](h
 ## Usage
 
 
-```
+```csharp
 using Ipfs.Engine;
 
 var ipfs = new IpfsEngine();

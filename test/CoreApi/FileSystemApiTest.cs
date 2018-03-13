@@ -1,6 +1,7 @@
 ﻿using Ipfs.CoreApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -108,6 +109,39 @@ namespace Ipfs.Engine
             finally
             {
                 File.Delete(path);
+            }
+        }
+
+        [TestMethod]
+        public void AddFile_Large()
+        {
+            AddFile(); // warm up
+
+            var path = "star_trails.mp4";
+            var ipfs = TestFixture.Ipfs;
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var node = ipfs.FileSystem.AddFileAsync(path).Result;
+            stopWatch.Stop();
+            Console.WriteLine("Add file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
+
+            Assert.AreEqual("QmeZkAUfUFPq5YWGBan2ZYNd9k59DD1xW62pGJrU3C6JRo", (string)node.Id);
+
+            var k = 8 * 1024;
+            var buffer1 = new byte[k];
+            var buffer2 = new byte[k];
+            using (var localStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (var ipfsStream = ipfs.FileSystem.ReadFileAsync(node.Id).Result)
+            {
+                while (true)
+                {
+                    var n1 = localStream.Read(buffer1, 0, k);
+                    var n2 = ipfsStream.Read(buffer2, 0, k);
+                    Assert.AreEqual(n1, n2);
+                    if (n1 == 0)
+                        break;
+                    CollectionAssert.AreEqual(buffer1, buffer2);
+                }
             }
         }
 

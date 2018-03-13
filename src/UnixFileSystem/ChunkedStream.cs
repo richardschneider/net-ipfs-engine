@@ -104,18 +104,19 @@ namespace Ipfs.Engine.UnixFileSystem
         /// <inheritdoc />
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancel)
         {
-            ICollection<byte> block = await GetBlockAsync(Position, count, cancel);
-            if (block.Count > 0)
+            var block = await GetBlockAsync(Position, cancel);
+            var k = Math.Min(count, block.Count);
+            if (k > 0)
             {
-                block.CopyTo(buffer, offset);
-                Position += block.Count;
+                Array.Copy(block.Array, block.Offset, buffer, offset, k);
+                Position += k;
             }
-            return block.Count;
+            return k;
         }
 
         BlockInfo currentBlock;
         byte[] currentData;
-        async Task<ArraySegment<byte>> GetBlockAsync (long position, int count, CancellationToken cancel)
+        async Task<ArraySegment<byte>> GetBlockAsync (long position, CancellationToken cancel)
         {
             if (position >= Length)
             {
@@ -132,7 +133,8 @@ namespace Ipfs.Engine.UnixFileSystem
                     n = stream.Read(currentData, i, (int) stream.Length - i);
                 }
             }
-            return new ArraySegment<byte>(currentData, (int)(Position - currentBlock.Position), currentData.Length);
+            int offset = (int)(position - currentBlock.Position);
+            return new ArraySegment<byte>(currentData, offset, currentData.Length - offset);
         }
     }
 }

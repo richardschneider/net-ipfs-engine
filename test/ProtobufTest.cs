@@ -20,6 +20,7 @@ namespace ProtobufTesting
     }
 
     [TestClass]
+    [Ignore("https://github.com/mgravell/protobuf-net/issues/368")]
     public class ProtobufTest
     {
         [TestMethod]
@@ -39,7 +40,6 @@ namespace ProtobufTesting
         }
 
         [TestMethod]
-        [Ignore("https://github.com/mgravell/protobuf-net/issues/368")]
         public void SomeData()
         {
             var data = new byte[] { 10, 11, 12 };

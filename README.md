@@ -5,7 +5,7 @@
 [![CircleCI](https://circleci.com/gh/richardschneider/net-ipfs-engine.svg?style=svg)](https://circleci.com/gh/richardschneider/net-ipfs-engine)
 [![Coverage Status](https://coveralls.io/repos/richardschneider/net-ipfs-engine/badge.svg?branch=master&service=github)](https://coveralls.io/github/richardschneider/net-ipfs-engine?branch=master)
 [![Version](https://img.shields.io/nuget/v/Ipfs.Engine.svg)](https://www.nuget.org/packages/Ipfs.Engine)
-[![docs](https://cdn.rawgit.com/richardschneider/net-ipfs-engine/master/doc/images/docs-latest-green.svg)](https://richardschneider.github.io/net-ipfs-engine)
+[![docs](https://cdn.rawgit.com/richardschneider/net-ipfs-engine/master/doc/images/docs-latest-green.svg)](https://richardschneider.github.io/net-ipfs-engine/articles/intro.html)
 
 
 An embedded IPFS engine implemented in C#. More information, including the class reference, is on the [Project](https://richardschneider.github.io/net-ipfs-engine/) web site.
@@ -16,14 +16,14 @@ This is **ALPHA CODE** and is not yet ready for prime time.
 
 ## Features
 
-- An embedded implementation of IPFS, no need for a "IPFS daemon"
+- An embedded .Net implementation of IPFS, no need for a "IPFS daemon"
 - Targets 
   - .NET Framework 4.6.1, 
-  - ~~.NET Standard 1.4~~ #7
+  - ~~.NET Standard 1.4~~ see [issue #7](https://github.com/richardschneider/net-ipfs-engine/issues/7)
   - .NET Standard 2.0
-- Supports [Asynchronous I/O](https://richardschneider.github.io/net-ipfs-engine/articles/async.html)
+- Supports [asynchronous I/O](https://richardschneider.github.io/net-ipfs-engine/articles/async.html)
 - Supports [cancellation](https://richardschneider.github.io/net-ipfs-engine/articles/cancellation.html)
-- Comprehensive [documentation](https://richardschneider.github.io/net-ipfs-engine)
+- Comprehensive [documentation](https://richardschneider.github.io/net-ipfs-engine/articles/intro.html)
 - C# style access to the [ipfs core interface](https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.html)
 
 ## Getting started
@@ -35,7 +35,6 @@ Published releases are available on [NuGet](https://www.nuget.org/packages/Ipfs.
 For the latest build or older non-released builds see [Continuous Integration](https://github.com/richardschneider/net-ipfs-engine/wiki/Continuous-Integration).
 
 ## Usage
-
 
 ```csharp
 using Ipfs.Engine;

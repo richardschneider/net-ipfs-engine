@@ -9,3 +9,5 @@
   href: envvars.md
 - name: Repository
   href: repository.md
+- name: Class Reference
+  href: ../api/Ipfs.Engine.yml

@@ -33,14 +33,14 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
-        public Task<IFileSystemNode> AddTextAsync(
+        public async Task<IFileSystemNode> AddTextAsync(
             string text,
             AddFileOptions options = default(AddFileOptions),
             CancellationToken cancel = default(CancellationToken))
         {
             using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(text), false))
             {
-                return AddAsync(ms, "", options, cancel);
+                return await AddAsync(ms, "", options, cancel);
             }
         }
 

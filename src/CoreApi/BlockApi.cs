@@ -24,30 +24,58 @@ namespace Ipfs.Engine.CoreApi
         static ILog log = LogManager.GetLogger(typeof(BlockApi));
 
         IpfsEngine ipfs;
+        string blocksFolder;
 
         public BlockApi(IpfsEngine ipfs)
         {
             this.ipfs = ipfs;
         }
 
+        string BlocksFolder
+        {
+            get
+            {
+                if (blocksFolder == null)
+                {
+                    blocksFolder = Path.Combine(ipfs.Options.Repository.Folder, "blocks");
+                    if (!Directory.Exists(blocksFolder))
+                    {
+                        log.DebugFormat("creating folder '{0}'", blocksFolder);
+                        Directory.CreateDirectory(blocksFolder);
+                    }
+                }
+                return blocksFolder;
+            }
+        }
+
+        string GetPath(Cid id)
+        {
+            return Path.Combine(BlocksFolder, id.Encode());
+        }
+
         public async Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            using (var repo = await ipfs.Repository(cancel))
+            var contentPath = GetPath(id);
+            if (File.Exists(contentPath))
             {
-                var block = await repo.BlockValues
-                    .Where(b => b.Cid == id.Encode())
-                    .FirstOrDefaultAsync(cancel);
-                if (block == null) // TODO: call on bitswap
+                var block = new DataBlock
                 {
-                    return null;
-                }
-                return new DataBlock
-                {
-                    DataBytes = block.Data,
                     Id = id,
-                    Size = block.Data.Length
+                    Size = new FileInfo(contentPath).Length
                 };
+                block.DataBytes = new byte[block.Size];
+                using (var content = File.OpenRead(contentPath))
+                {
+                    for (int i = 0, n; i < block.Size; i += n)
+                    {
+                        n = await content.ReadAsync(block.DataBytes, i, (int)block.Size - i, cancel);
+                    }
+                }
+                return block;
             }
+
+            // TODO: Let bitswap find it.
+            return null;
         }
 
         public async Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
@@ -58,43 +86,19 @@ namespace Ipfs.Engine.CoreApi
                 Hash = MultiHash.ComputeHash(data, multiHash),
                 Version = (contentType == "dag-pb" && multiHash == "sha2-256") ? 0 : 1
             };
-
-            // Store the key in the repository.
-            using (var repo = await ipfs.Repository(cancel))
+            var contentPath = GetPath(cid);
+            if (File.Exists(contentPath))
             {
-                var bid = cid.Encode();
-                var block = await repo.BlockInfos.FindAsync(bid);
-                if (block != null)
-                {
-                    log.DebugFormat("Block '{0}' already present", cid);
-                    if (block.Pinned != pin)
-                    {
-                        block.Pinned = pin;
-                        await repo.SaveChangesAsync(cancel);
-                    }
-
-                    return cid;
-                }
-
-                var blockInfo = new Repository.BlockInfo
-                {
-                    Cid = bid,
-                    Pinned = pin,
-                    DataSize = data.Length
-                };
-                var blockValue = new Repository.BlockValue
-                {
-                    Cid = bid,
-                    Data = data
-                };
-                await repo.AddAsync(blockInfo, cancel);
-                await repo.AddAsync(blockValue, cancel);
-                await repo.SaveChangesAsync(cancel);
-
-                log.DebugFormat("Added block '{0}'", cid);
+                log.DebugFormat("Block '{0}' already present", cid);
+                // TODO: Set pin
+                return cid;
             }
-
-            // TODO: Send to bitswap
+            using (var stream = File.Create(contentPath))
+            {
+                await stream.WriteAsync(data, 0, data.Length, cancel);
+            }
+            // TODO: Set pin
+            log.DebugFormat("Added block '{0}'", cid);
             return cid;
         }
 
@@ -109,40 +113,31 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<Cid> RemoveAsync(Cid id, bool ignoreNonexistent = false, CancellationToken cancel = default(CancellationToken))
         {
-            using (var repo = await ipfs.Repository(cancel))
+            var contentPath = GetPath(id);
+            if (File.Exists(contentPath))
             {
-                var pk = new string[] { id };
-                var blockInfo = await repo.BlockInfos.FindAsync(pk, cancel);
-                if (blockInfo != null)
-                {
-                    repo.BlockInfos.Remove(blockInfo);
-                    var value = await repo.BlockValues.FindAsync(pk, cancel);
-                    repo.BlockValues.Remove(value);
-                    await repo.SaveChangesAsync(cancel);
-                }
-                if (blockInfo != null) return id;
-                if (ignoreNonexistent) return null;
-                throw new KeyNotFoundException($"Block '{id}' does not exist.");
+                File.Delete(contentPath);
+                // TODO: remove pin
+                return id;
             }
+            if (ignoreNonexistent) return null;
+            throw new KeyNotFoundException($"Block '{id}' does not exist.");
         }
 
         public async Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            using (var repo = await ipfs.Repository(cancel))
+            var contentPath = GetPath(id);
+            if (File.Exists(contentPath))
             {
-                var block = await repo.BlockInfos
-                    .Where(b => b.Cid == id.Encode())
-                    .FirstOrDefaultAsync(cancel);
-                if (block == null) // TODO: call on bitswap
-                {
-                    return null;
-                }
                 return new DataBlock
                 {
                     Id = id,
-                    Size = block.DataSize
+                    Size = new FileInfo(contentPath).Length
                 };
             }
+
+            // TODO: call on bitswap
+            return null;
         }
     }
 }

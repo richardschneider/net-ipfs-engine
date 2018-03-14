@@ -52,14 +52,6 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
         {
-            using (var ms = new MemoryStream(data, false))
-            {
-                return await PutAsync(ms, contentType, multiHash, pin, cancel);
-            }
-        }
-
-        public async Task<Cid> PutAsync(Stream data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
-        {
             var cid = new Cid
             {
                 ContentType = contentType,
@@ -71,13 +63,7 @@ namespace Ipfs.Engine.CoreApi
             using (var repo = await ipfs.Repository(cancel))
             {
                 var bid = cid.Encode();
-#if true
                 var block = await repo.BlockInfos.FindAsync(bid);
-#else
-                var block = await repo.BlockInfos
-                    .Where(b => b.Cid == bid)
-                    .FirstOrDefaultAsync(cancel);
-#endif
                 if (block != null)
                 {
                     log.DebugFormat("Block '{0}' already present", cid);
@@ -90,21 +76,16 @@ namespace Ipfs.Engine.CoreApi
                     return cid;
                 }
 
-                // TODO: Ineffecient in memory usage.  Might be better to do all
-                // the work in the byte[] method.
-                var bytes = new byte[data.Length];
-                data.Position = 0;
-                data.Read(bytes, 0, (int)data.Length);
                 var blockInfo = new Repository.BlockInfo
                 {
-                    Cid = cid,
+                    Cid = bid,
                     Pinned = pin,
                     DataSize = data.Length
                 };
                 var blockValue = new Repository.BlockValue
                 {
-                    Cid = cid,
-                    Data = bytes
+                    Cid = bid,
+                    Data = data
                 };
                 await repo.AddAsync(blockInfo, cancel);
                 await repo.AddAsync(blockValue, cancel);
@@ -115,6 +96,15 @@ namespace Ipfs.Engine.CoreApi
 
             // TODO: Send to bitswap
             return cid;
+        }
+
+        public async Task<Cid> PutAsync(Stream data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
+        {
+            using (var ms = new MemoryStream())
+            {
+                await data.CopyToAsync(ms);
+                return await PutAsync(ms.ToArray(), contentType, multiHash, pin, cancel);
+            }
         }
 
         public async Task<Cid> RemoveAsync(Cid id, bool ignoreNonexistent = false, CancellationToken cancel = default(CancellationToken))

@@ -27,18 +27,22 @@ namespace Ipfs.Engine.CoreApi
             while (todos.Count > 0)
             {
                 var current = todos.Pop();
-                var links = await ipfs.Object.LinksAsync(current, cancel);
                 using (var repo = await ipfs.Repository(cancel))
                 {
                     var cid = current.Encode();
-                    var blockInfo = await repo.BlockInfos
-                        .Where(b => b.Cid == cid)
-                        .FirstAsync(cancel);
-                    blockInfo.Pinned = true;
-                    await repo.SaveChangesAsync(cancel);
+                    try
+                    {
+                        repo.Add(new Repository.Pin { Cid = cid });
+                        await repo.SaveChangesAsync(cancel);
+                    }
+                    catch (DbUpdateException)
+                    {
+                        // Already pinned is okay.
+                    }
                 }
                 if (recursive)
                 {
+                    var links = await ipfs.Object.LinksAsync(current, cancel);
                     foreach (var link in links)
                     {
                         todos.Push(link.Id);
@@ -54,9 +58,7 @@ namespace Ipfs.Engine.CoreApi
         {
             using (var repo = await ipfs.Repository(cancel))
             {
-                var pins = await repo.BlockInfos
-                    .Where(b => b.Pinned)
-                    .ToArrayAsync(cancel);
+                var pins = await repo.Pins.ToArrayAsync(cancel);
                 return pins.Select(pin => (Cid)pin.Cid);
             }
         }
@@ -74,13 +76,10 @@ namespace Ipfs.Engine.CoreApi
                 using (var repo = await ipfs.Repository(cancel))
                 {
                     var cid = current.Encode();
-                    var blockInfo = await repo.BlockInfos
-                        .Where(b => b.Cid == cid)
-                        .FirstOrDefaultAsync(cancel);
-                    if (blockInfo != null)
+                    var pin = await repo.Pins.FindAsync(new object[] { cid }, cancel);
+                    if (pin != null)
                     {
-                        exists = true;
-                        blockInfo.Pinned = false;
+                        repo.Pins.Remove(pin);
                         await repo.SaveChangesAsync(cancel);
                     }
                 }

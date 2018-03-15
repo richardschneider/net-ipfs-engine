@@ -90,15 +90,26 @@ namespace Ipfs.Engine.CoreApi
             if (File.Exists(contentPath))
             {
                 log.DebugFormat("Block '{0}' already present", cid);
-                // TODO: Set pin
-                return cid;
             }
-            using (var stream = File.Create(contentPath))
+            else
             {
-                await stream.WriteAsync(data, 0, data.Length, cancel);
+                using (var stream = File.Create(contentPath))
+                {
+                    await stream.WriteAsync(data, 0, data.Length, cancel);
+                }
+                log.DebugFormat("Added block '{0}'", cid);
             }
-            // TODO: Set pin
-            log.DebugFormat("Added block '{0}'", cid);
+            
+            // To pin or not.
+            if (pin)
+            {
+                await ipfs.Pin.AddAsync(cid, recursive: false, cancel: cancel);
+            }
+            else
+            {
+                await ipfs.Pin.RemoveAsync(cid, recursive: false, cancel: cancel);
+            }
+
             return cid;
         }
 
@@ -117,7 +128,7 @@ namespace Ipfs.Engine.CoreApi
             if (File.Exists(contentPath))
             {
                 File.Delete(contentPath);
-                // TODO: remove pin
+                await ipfs.Pin.RemoveAsync(id, recursive: false, cancel: cancel);
                 return id;
             }
             if (ignoreNonexistent) return null;

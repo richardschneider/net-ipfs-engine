@@ -113,11 +113,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Migrations.Pins.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Migrations.Pins.html",
+          "hash": "AP2n3qeDyu98ytlP15fdoQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Ipfs.Engine.Migrations.yml",
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Migrations.html",
-          "hash": "jih6BS7eb2PgmXCLfoXP+A=="
+          "hash": "VEZNm2075vK0hmjzIn9ixA=="
         }
       },
       "is_incremental": false,
@@ -225,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "C+3/VnrQnOgq3QdRPxNF1w=="
+          "hash": "fALJfPU7mLN86ST1+L19TA=="
         }
       },
       "is_incremental": false,
@@ -369,17 +381,17 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "ManagedReferenceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "TocDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ResourceDocumentProcessor": {

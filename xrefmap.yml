@@ -703,6 +703,48 @@ references:
   commentId: Overload:Ipfs.Engine.Migrations.Keys.Up
   fullName: Ipfs.Engine.Migrations.Keys.Up
   nameWithType: Keys.Up
+- uid: Ipfs.Engine.Migrations.Pins
+  name: Pins
+  href: api/Ipfs.Engine.Migrations.Pins.html
+  commentId: T:Ipfs.Engine.Migrations.Pins
+  fullName: Ipfs.Engine.Migrations.Pins
+  nameWithType: Pins
+- uid: Ipfs.Engine.Migrations.Pins.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  name: BuildTargetModel(ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Pins.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Pins.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  nameWithType: Pins.BuildTargetModel(ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Pins.BuildTargetModel*
+  name: BuildTargetModel
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_BuildTargetModel_
+  commentId: Overload:Ipfs.Engine.Migrations.Pins.BuildTargetModel
+  fullName: Ipfs.Engine.Migrations.Pins.BuildTargetModel
+  nameWithType: Pins.BuildTargetModel
+- uid: Ipfs.Engine.Migrations.Pins.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  name: Down(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Pins.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Pins.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  nameWithType: Pins.Down(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Pins.Down*
+  name: Down
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Down_
+  commentId: Overload:Ipfs.Engine.Migrations.Pins.Down
+  fullName: Ipfs.Engine.Migrations.Pins.Down
+  nameWithType: Pins.Down
+- uid: Ipfs.Engine.Migrations.Pins.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  name: Up(MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Pins.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Pins.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  nameWithType: Pins.Up(MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Pins.Up*
+  name: Up
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Up_
+  commentId: Overload:Ipfs.Engine.Migrations.Pins.Up
+  fullName: Ipfs.Engine.Migrations.Pins.Up
+  nameWithType: Pins.Up
 - uid: Ipfs.Engine.RepositoryOptions
   name: RepositoryOptions
   href: api/Ipfs.Engine.RepositoryOptions.html

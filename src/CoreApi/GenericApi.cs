@@ -27,6 +27,11 @@ namespace Ipfs.Engine.CoreApi
             throw new NotImplementedException();
         }
 
+        public Task ShutdownAsync()
+        {
+            return ipfs.StopAsync();
+        }
+
         public Task<Dictionary<string, string>> VersionAsync(CancellationToken cancel = default(CancellationToken))
         {
             var version = typeof(GenericApi).GetTypeInfo().Assembly.GetName().Version;

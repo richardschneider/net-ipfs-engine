@@ -45,6 +45,13 @@ namespace Ipfs.Engine
             Assert.IsTrue(versions.ContainsKey("Repo"));
         }
 
+        [TestMethod]
+        public async Task Shutdown()
+        {
+            var ipfs = TestFixture.Ipfs;
+            await ipfs.StartAsync();
+            await ipfs.Generic.ShutdownAsync();
+        }
     }
 }
 

@@ -119,7 +119,7 @@ namespace Ipfs.Engine
 
             var path = "star_trails.mp4";
             var ipfs = TestFixture.Ipfs;
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
             var node = ipfs.FileSystem.AddFileAsync(path).Result;
             stopWatch.Stop();
@@ -130,6 +130,7 @@ namespace Ipfs.Engine
             var k = 8 * 1024;
             var buffer1 = new byte[k];
             var buffer2 = new byte[k];
+            stopWatch.Restart();
             using (var localStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (var ipfsStream = ipfs.FileSystem.ReadFileAsync(node.Id).Result)
             {
@@ -140,9 +141,15 @@ namespace Ipfs.Engine
                     Assert.AreEqual(n1, n2);
                     if (n1 == 0)
                         break;
-                    CollectionAssert.AreEqual(buffer1, buffer2);
+                    for (var i = 0; i < n1; ++i)
+                    {
+                        if (buffer1[i] != buffer2[i])
+                            Assert.Fail("data not the same");
+                    }
                 }
             }
+            stopWatch.Stop();
+            Console.WriteLine("Readfile file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
         }
 
 

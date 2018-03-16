@@ -135,20 +135,19 @@ namespace Ipfs.Engine.CoreApi
             throw new KeyNotFoundException($"Block '{id}' does not exist.");
         }
 
-        public async Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+        public Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
+            IDataBlock block = null;
             var contentPath = GetPath(id);
             if (File.Exists(contentPath))
             {
-                return new DataBlock
+                block = new DataBlock
                 {
                     Id = id,
                     Size = new FileInfo(contentPath).Length
                 };
             }
-
-            // TODO: call on bitswap
-            return null;
+            return Task.FromResult(block);
         }
     }
 }

@@ -204,5 +204,14 @@ namespace Ipfs.Engine.CoreApi
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
             return await FileSystem.CreateReadStream(cid, ipfs.Block, cancel);
         }
+
+        public async Task<Stream> ReadFileAsync(string path, long offset, long count = 0, CancellationToken cancel = default(CancellationToken))
+        {
+            var stream = await ReadFileAsync(path, cancel);
+            stream.Position = offset;
+
+            // TODO: Handle count
+            return stream;
+        }
     }
 }

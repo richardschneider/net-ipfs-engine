@@ -221,6 +221,28 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task ReadWithOffset()
+        {
+            var text = "hello world";
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ChunkSize = 3
+            };
+            var node = await ipfs.FileSystem.AddTextAsync(text, options);
+
+            for (var offset = 0; offset <= text.Length; ++offset)
+            {
+                using (var data = await ipfs.FileSystem.ReadFileAsync(node.Id, offset))
+                using (var reader = new StreamReader(data))
+                {
+                    var s = reader.ReadToEnd();
+                    Assert.AreEqual(text.Substring(offset), s);
+                }
+            }
+        }
+
+        [TestMethod]
         public void AddDirectory()
         {
             var ipfs = TestFixture.Ipfs;

@@ -53,11 +53,11 @@ namespace Ipfs.Engine.CoreApi
             options = options ?? new AddFileOptions();
 
             // TODO: various options
-            if (options.OnlyHash) throw new NotImplementedException("OnlyHash");
             if (options.Trickle) throw new NotImplementedException("Trickle");
+            var blockService = GetBlockService(options);
 
             var chunker = new SizeChunker();
-            var nodes = await chunker.ChunkAsync(stream, options, ipfs.Block, cancel);
+            var nodes = await chunker.ChunkAsync(stream, options, blockService, cancel);
 
             // Multiple nodes for the file?
             FileSystemNode node = null;
@@ -81,7 +81,7 @@ namespace Ipfs.Engine.CoreApi
                 var dag = new DagNode(pb.ToArray(), links, options.Hash);
 
                 // Save it.
-                dag.Id = await ipfs.Block.PutAsync(
+                dag.Id = await blockService.PutAsync(
                     data: dag.ToArray(),
                     multiHash: options.Hash,
                     pin: options.Pin,
@@ -151,7 +151,7 @@ namespace Ipfs.Engine.CoreApi
             var dag = new DagNode(pb.ToArray(), links, options.Hash);
 
             // Save it.
-            var cid = await ipfs.Block.PutAsync(
+            var cid = await GetBlockService(options).PutAsync(
                 data: dag.ToArray(),
                 multiHash: options.Hash,
                 pin: options.Pin,
@@ -212,6 +212,50 @@ namespace Ipfs.Engine.CoreApi
 
             // TODO: Handle count
             return stream;
+        }
+
+        IBlockApi GetBlockService(AddFileOptions options)
+        {
+            return options.OnlyHash
+                ? new HashOnlyBlockService()
+                : ipfs.Block;
+        }
+
+        /// <summary>
+        ///   A Block service that only computes the block's hash.
+        /// </summary>
+        class HashOnlyBlockService : IBlockApi
+        {
+            public Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
+            {
+                var cid = new Cid
+                {
+                    ContentType = contentType,
+                    Hash = MultiHash.ComputeHash(data, multiHash),
+                    Version = (contentType == "dag-pb" && multiHash == "sha2-256") ? 0 : 1
+                };
+                return Task.FromResult(cid);
+            }
+
+            public Task<Cid> PutAsync(Stream data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<Cid> RemoveAsync(Cid id, bool ignoreNonexistent = false, CancellationToken cancel = default(CancellationToken))
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

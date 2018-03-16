@@ -221,6 +221,41 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Add_OnlyHash()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var nodes = new string[] {
+                "QmVVZXWrYzATQdsKWM4knbuH5dgHFmrRqW3nJfDgdWrBjn",
+                "QmevnC4UDUWzJYAQtUSQw4ekUdqDqwcKothjcobE7byeb6",
+                "QmTdBogNFkzUTSnEBQkWzJfQoiWbckLrTFVDHFRKFf6dcN",
+                "QmPdmF1n4di6UwsLgW96qtTXUsPkCLN4LycjEUdH9977d6",
+                "QmXh5UucsqF8XXM8UYQK9fHXsthSEfi78kewr8ttpPaLRE"
+            };
+            foreach (var n in nodes) {
+                await ipfs.Block.RemoveAsync(n, ignoreNonexistent: true);
+            }
+
+            var options = new AddFileOptions
+            {
+                ChunkSize = 3,
+                OnlyHash = true,
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            var links = node.Links.ToArray();
+            Assert.AreEqual(nodes[0], (string)node.Id);
+            Assert.AreEqual(nodes.Length - 1, links.Length);
+            for (var i = 0; i < links.Length; ++i)
+            {
+                Assert.AreEqual(nodes[i+1], (string)links[i].Id);
+            }
+
+            foreach (var n in nodes)
+            {
+                Assert.IsNull(await ipfs.Block.StatAsync(n));
+            }
+        }
+
+        [TestMethod]
         public async Task ReadWithOffset()
         {
             var text = "hello world";

@@ -38,7 +38,7 @@ namespace PeerTalk.Protocols
 
             try
             {
-                while (true)
+                while (!cancel.IsCancellationRequested)
                 {
                     var msg = await Message.ReadStringAsync(connection.Stream, cancel);
 
@@ -68,8 +68,7 @@ namespace PeerTalk.Protocols
             }
             catch (EndOfStreamException)
             {
-                // Connect closed, eat it
-                // TODO: tell someone to teardown.
+                // eat it
             }
             catch (Exception) when (cancel.IsCancellationRequested)
             {
@@ -82,6 +81,7 @@ namespace PeerTalk.Protocols
 
 
             log.Debug("stop processing from " + connection.RemoteAddress);
+            connection.Dispose();
         }
 
         /// <inheritdoc />

@@ -36,12 +36,12 @@ namespace PeerTalkSpike
             // log something
             log.Debug("Some Debug Log Output");
 
-            //ClientConnect();
+            ClientConnect();
 
             //ServerListen();
 
             var t = new Test();
-            t.Chunking().Wait();
+            //t.Chunking().Wait();
             //log.Debug("--- RUN Can_Start_And_Stop");
             //t.Can_Start_And_Stop().Wait();
             //log.Debug("--- RUN Swarm_Gets_Bootstrap_Peers");

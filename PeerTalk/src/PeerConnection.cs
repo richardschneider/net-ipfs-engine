@@ -152,7 +152,8 @@ namespace PeerTalk
                         try
                         {
                             stream.Dispose();
-                            log.Debug($"Closing connection to {RemoteAddress}");
+                            log.Debug($"Closed connection to {RemoteAddress}");
+                            // TODO: Does swarm need to know this?
                         }
                         finally
                         {

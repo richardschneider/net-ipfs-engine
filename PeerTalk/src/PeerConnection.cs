@@ -105,7 +105,7 @@ namespace PeerTalk
                 var result = await Message.ReadStringAsync(Stream, cancel);
                 if (result == protocol)
                 {
-                    await ProtocolRegistry.Protocols[protocol].ProcessResponseAsync(this, cancel);
+                    await ProtocolRegistry.Protocols[protocol]().ProcessResponseAsync(this, cancel);
                     return;
                 }
             }

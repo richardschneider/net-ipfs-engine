@@ -16,13 +16,13 @@ namespace PeerTalk.Protocols
         /// </summary>
         /// <remarks>
         ///   The key is the name and version of the peer protocol, like "/multiselect/1.0.0".
-        ///   The value is an instance of the peer protocol.
+        ///   The value is a Func that returns an new instance of the peer protocol.
         /// </remarks>
-        public static Dictionary<string, IPeerProtocol> Protocols;
+        public static Dictionary<string, Func<IPeerProtocol>> Protocols;
 
         static ProtocolRegistry()
         {
-            Protocols = new Dictionary<string, IPeerProtocol>();
+            Protocols = new Dictionary<string, Func<IPeerProtocol>>();
             Register<Multistream1>();
             Register<Plaintext1>();
             Register<Identify1>();
@@ -35,16 +35,7 @@ namespace PeerTalk.Protocols
         public static void Register<T>() where T: IPeerProtocol, new()
         {
             var p = new T();
-            Protocols.Add(p.ToString(), p);
-        }
-
-        /// <summary>
-        ///   TODO
-        /// </summary>
-        /// <param name="protocol"></param>
-        public static void Register(IPeerProtocol protocol)
-        {
-            Protocols.Add(protocol.ToString(), protocol);
+            Protocols.Add(p.ToString(), () => new T());
         }
 
         /// <summary>

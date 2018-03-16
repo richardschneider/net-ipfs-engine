@@ -49,7 +49,7 @@ namespace PeerTalk.Protocols
                     }
 
                     // Switch the protocol
-                    if (!ProtocolRegistry.Protocols.TryGetValue(msg, out IPeerProtocol protocol))
+                    if (!ProtocolRegistry.Protocols.TryGetValue(msg, out Func<IPeerProtocol> maker))
                     {
                         await Message.WriteAsync("na", connection.Stream, cancel);
                         continue;
@@ -60,6 +60,7 @@ namespace PeerTalk.Protocols
                     await Message.WriteAsync(msg, connection.Stream, cancel);
 
                     // Start processing messages
+                    var protocol = maker();
                     if (protocol.ToString() != this.ToString())
                     {
                         await protocol.ProcessRequestAsync(connection, cancel);

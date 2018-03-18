@@ -122,7 +122,10 @@ namespace PeerTalk
         public override int ReadByte()
         {
             var n = stream.ReadByte();
-            ++bytesRead;
+            if (n > -1)
+            {
+                ++bytesRead;
+            }
             lastUsed = DateTime.Now;
             return n;
         }

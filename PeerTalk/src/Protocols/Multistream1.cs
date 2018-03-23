@@ -34,11 +34,9 @@ namespace PeerTalk.Protocols
         /// <inheritdoc />
         public async Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
         {
-            log.Debug("start processing requests from " + connection.RemoteAddress);
-
             try
             {
-                while (!cancel.IsCancellationRequested)
+                while (!cancel.IsCancellationRequested && connection.Stream != null)
                 {
                     var msg = await Message.ReadStringAsync(connection.Stream, cancel);
 
@@ -52,37 +50,43 @@ namespace PeerTalk.Protocols
                     if (!ProtocolRegistry.Protocols.TryGetValue(msg, out Func<IPeerProtocol> maker))
                     {
                         await Message.WriteAsync("na", connection.Stream, cancel);
-                        continue;
+                        return;
                     }
 
                     // Ack protocol switch
                     log.Debug("switching to " + msg);
                     await Message.WriteAsync(msg, connection.Stream, cancel);
 
-                    // Start processing messages
+                    // Process protocol message.
                     var protocol = maker();
-                    if (protocol.ToString() != this.ToString())
+                    if (protocol.ToString() == this.ToString())
                     {
-                        await protocol.ProcessRequestAsync(connection, cancel);
+                        continue;
                     }
+                    await protocol.ProcessRequestAsync(connection, cancel);
+                    return;
                 }
             }
             catch (EndOfStreamException)
             {
                 // eat it
+                if (connection != null)
+                    connection.Dispose();
             }
-            catch (Exception) when (cancel.IsCancellationRequested)
+            catch (Exception) when (cancel.IsCancellationRequested || connection.Stream == null)
             {
                 // eat it
-            } 
+                if (connection != null)
+                    connection.Dispose();
+            }
             catch (Exception e)
             {
                 log.Error("failed", e);
+                if (connection != null)
+                    connection.Dispose();
             }
 
 
-            log.Debug("stop processing from " + connection.RemoteAddress);
-            connection.Dispose();
         }
 
         /// <inheritdoc />

@@ -278,6 +278,53 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Read_RawWithLength()
+        {
+            var text = "hello world";
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                RawLeaves = true
+            };
+            var node = await ipfs.FileSystem.AddTextAsync(text, options);
+
+            for (var offset = 0; offset < text.Length; ++offset)
+            {
+                for (var length = text.Length + 1; 0 < length; --length)
+                {
+                    using (var data = await ipfs.FileSystem.ReadFileAsync(node.Id, offset, length))
+                    using (var reader = new StreamReader(data))
+                    {
+                        var s = reader.ReadToEnd();
+                        Assert.AreEqual(text.Substring(offset, Math.Min(11 - offset, length)), s, $"o={offset} l={length}");
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task Read_ChunkedWithLength()
+        {
+            var text = "hello world";
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ChunkSize = 3
+            };
+            var node = await ipfs.FileSystem.AddTextAsync(text, options);
+
+            for (var length = text.Length + 1; 0 < length; --length)
+            {
+                using (var data = await ipfs.FileSystem.ReadFileAsync(node.Id, 0, length))
+                using (var reader = new StreamReader(data))
+                {
+                    var s = reader.ReadToEnd();
+                    Assert.AreEqual(text.Substring(0, Math.Min(11, length)), s, $"l={length}");
+                }
+            }
+        }
+
+        [TestMethod]
         public void AddDirectory()
         {
             var ipfs = TestFixture.Ipfs;

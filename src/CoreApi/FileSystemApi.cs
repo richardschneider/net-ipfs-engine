@@ -208,10 +208,7 @@ namespace Ipfs.Engine.CoreApi
         public async Task<Stream> ReadFileAsync(string path, long offset, long count = 0, CancellationToken cancel = default(CancellationToken))
         {
             var stream = await ReadFileAsync(path, cancel);
-            stream.Position = offset;
-
-            // TODO: Handle count
-            return stream;
+            return new SlicedStream(stream, offset, count);
         }
 
         IBlockApi GetBlockService(AddFileOptions options)

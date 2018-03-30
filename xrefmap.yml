@@ -29,6 +29,7 @@ references:
   name: KeyChain
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain__ctor_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.#ctor
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.KeyChain
   nameWithType: KeyChain.KeyChain
 - uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,System.Threading.CancellationToken)
@@ -41,6 +42,7 @@ references:
   name: CreateAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.CreateAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync
   nameWithType: KeyChain.CreateAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],System.Threading.CancellationToken)
@@ -56,6 +58,7 @@ references:
   name: ExportAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ExportAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync
   nameWithType: KeyChain.ExportAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,System.Threading.CancellationToken)
@@ -68,6 +71,7 @@ references:
   name: FindKeyByNameAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
   nameWithType: KeyChain.FindKeyByNameAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,System.Threading.CancellationToken)
@@ -80,6 +84,7 @@ references:
   name: GetPublicKeyAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync
   nameWithType: KeyChain.GetPublicKeyAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],System.Threading.CancellationToken)
@@ -95,6 +100,7 @@ references:
   name: ImportAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ImportAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync
   nameWithType: KeyChain.ImportAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
@@ -107,6 +113,7 @@ references:
   name: ListAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ListAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync
   nameWithType: KeyChain.ListAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.Options
@@ -119,6 +126,7 @@ references:
   name: Options
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_Options_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.Options
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.Options
   nameWithType: KeyChain.Options
 - uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,System.Threading.CancellationToken)
@@ -131,6 +139,7 @@ references:
   name: RemoveAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync
   nameWithType: KeyChain.RemoveAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,System.Threading.CancellationToken)
@@ -143,6 +152,7 @@ references:
   name: RenameAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.RenameAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync
   nameWithType: KeyChain.RenameAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],System.Threading.CancellationToken)
@@ -158,6 +168,7 @@ references:
   name: SetPassphraseAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync
   nameWithType: KeyChain.SetPassphraseAsync
 - uid: Ipfs.Engine.Cryptography.KeyChainDekOptions
@@ -176,6 +187,7 @@ references:
   name: Hash
   href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_Hash_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChainDekOptions.Hash
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.Hash
   nameWithType: KeyChainDekOptions.Hash
 - uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount
@@ -188,6 +200,7 @@ references:
   name: IterationCount
   href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_IterationCount_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.IterationCount
   nameWithType: KeyChainDekOptions.IterationCount
 - uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength
@@ -200,6 +213,7 @@ references:
   name: KeyLength
   href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_KeyLength_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.KeyLength
   nameWithType: KeyChainDekOptions.KeyLength
 - uid: Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt
@@ -212,6 +226,7 @@ references:
   name: Salt
   href: api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html#Ipfs_Engine_Cryptography_KeyChainDekOptions_Salt_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainDekOptions.Salt
   nameWithType: KeyChainDekOptions.Salt
 - uid: Ipfs.Engine.Cryptography.KeyChainOptions
@@ -230,6 +245,7 @@ references:
   name: DefaultKeySize
   href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_DefaultKeySize_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeySize
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeySize
   nameWithType: KeyChainOptions.DefaultKeySize
 - uid: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
@@ -242,6 +258,7 @@ references:
   name: DefaultKeyType
   href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_DefaultKeyType_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainOptions.DefaultKeyType
   nameWithType: KeyChainOptions.DefaultKeyType
 - uid: Ipfs.Engine.Cryptography.KeyChainOptions.Dek
@@ -254,6 +271,7 @@ references:
   name: Dek
   href: api/Ipfs.Engine.Cryptography.KeyChainOptions.html#Ipfs_Engine_Cryptography_KeyChainOptions_Dek_
   commentId: Overload:Ipfs.Engine.Cryptography.KeyChainOptions.Dek
+  isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainOptions.Dek
   nameWithType: KeyChainOptions.Dek
 - uid: Ipfs.Engine.IpfsEngine
@@ -275,6 +293,7 @@ references:
   name: IpfsEngine
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_
   commentId: Overload:Ipfs.Engine.IpfsEngine.#ctor
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.IpfsEngine
   nameWithType: IpfsEngine.IpfsEngine
 - uid: Ipfs.Engine.IpfsEngine.Bitswap
@@ -287,6 +306,7 @@ references:
   name: Bitswap
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Bitswap_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Bitswap
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Bitswap
   nameWithType: IpfsEngine.Bitswap
 - uid: Ipfs.Engine.IpfsEngine.Block
@@ -299,6 +319,7 @@ references:
   name: Block
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Block_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Block
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Block
   nameWithType: IpfsEngine.Block
 - uid: Ipfs.Engine.IpfsEngine.Bootstrap
@@ -311,6 +332,7 @@ references:
   name: Bootstrap
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Bootstrap_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Bootstrap
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Bootstrap
   nameWithType: IpfsEngine.Bootstrap
 - uid: Ipfs.Engine.IpfsEngine.Config
@@ -323,6 +345,7 @@ references:
   name: Config
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Config_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Config
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Config
   nameWithType: IpfsEngine.Config
 - uid: Ipfs.Engine.IpfsEngine.Dag
@@ -335,6 +358,7 @@ references:
   name: Dag
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dag_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Dag
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Dag
   nameWithType: IpfsEngine.Dag
 - uid: Ipfs.Engine.IpfsEngine.Dht
@@ -347,6 +371,7 @@ references:
   name: Dht
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dht_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Dht
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Dht
   nameWithType: IpfsEngine.Dht
 - uid: Ipfs.Engine.IpfsEngine.Dispose
@@ -359,6 +384,7 @@ references:
   name: Dispose
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dispose_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Dispose
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Dispose
   nameWithType: IpfsEngine.Dispose
 - uid: Ipfs.Engine.IpfsEngine.FileSystem
@@ -371,6 +397,7 @@ references:
   name: FileSystem
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_FileSystem_
   commentId: Overload:Ipfs.Engine.IpfsEngine.FileSystem
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.FileSystem
   nameWithType: IpfsEngine.FileSystem
 - uid: Ipfs.Engine.IpfsEngine.Generic
@@ -383,6 +410,7 @@ references:
   name: Generic
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Generic_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Generic
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Generic
   nameWithType: IpfsEngine.Generic
 - uid: Ipfs.Engine.IpfsEngine.Key
@@ -395,6 +423,7 @@ references:
   name: Key
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Key_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Key
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Key
   nameWithType: IpfsEngine.Key
 - uid: Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
@@ -407,6 +436,7 @@ references:
   name: KeyChain
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_
   commentId: Overload:Ipfs.Engine.IpfsEngine.KeyChain
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.KeyChain
   nameWithType: IpfsEngine.KeyChain
 - uid: Ipfs.Engine.IpfsEngine.LocalPeer
@@ -419,6 +449,7 @@ references:
   name: LocalPeer
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_LocalPeer_
   commentId: Overload:Ipfs.Engine.IpfsEngine.LocalPeer
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.LocalPeer
   nameWithType: IpfsEngine.LocalPeer
 - uid: Ipfs.Engine.IpfsEngine.Name
@@ -431,6 +462,7 @@ references:
   name: Name
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Name_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Name
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Name
   nameWithType: IpfsEngine.Name
 - uid: Ipfs.Engine.IpfsEngine.Object
@@ -443,6 +475,7 @@ references:
   name: Object
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Object_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Object
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Object
   nameWithType: IpfsEngine.Object
 - uid: Ipfs.Engine.IpfsEngine.Options
@@ -455,6 +488,7 @@ references:
   name: Options
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Options_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Options
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Options
   nameWithType: IpfsEngine.Options
 - uid: Ipfs.Engine.IpfsEngine.Pin
@@ -467,6 +501,7 @@ references:
   name: Pin
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Pin_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Pin
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Pin
   nameWithType: IpfsEngine.Pin
 - uid: Ipfs.Engine.IpfsEngine.PubSub
@@ -479,6 +514,7 @@ references:
   name: PubSub
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_PubSub_
   commentId: Overload:Ipfs.Engine.IpfsEngine.PubSub
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.PubSub
   nameWithType: IpfsEngine.PubSub
 - uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,System.Threading.CancellationToken)
@@ -491,6 +527,7 @@ references:
   name: ResolveIpfsPathToCidAsync
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_
   commentId: Overload:Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync
   nameWithType: IpfsEngine.ResolveIpfsPathToCidAsync
 - uid: Ipfs.Engine.IpfsEngine.StartAsync
@@ -503,6 +540,7 @@ references:
   name: StartAsync
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StartAsync_
   commentId: Overload:Ipfs.Engine.IpfsEngine.StartAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.StartAsync
   nameWithType: IpfsEngine.StartAsync
 - uid: Ipfs.Engine.IpfsEngine.StopAsync
@@ -515,6 +553,7 @@ references:
   name: StopAsync
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StopAsync_
   commentId: Overload:Ipfs.Engine.IpfsEngine.StopAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.StopAsync
   nameWithType: IpfsEngine.StopAsync
 - uid: Ipfs.Engine.IpfsEngine.Swarm
@@ -527,6 +566,7 @@ references:
   name: Swarm
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Swarm_
   commentId: Overload:Ipfs.Engine.IpfsEngine.Swarm
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Swarm
   nameWithType: IpfsEngine.Swarm
 - uid: Ipfs.Engine.IpfsEngine.SwarmService
@@ -539,6 +579,7 @@ references:
   name: SwarmService
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_SwarmService_
   commentId: Overload:Ipfs.Engine.IpfsEngine.SwarmService
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.SwarmService
   nameWithType: IpfsEngine.SwarmService
 - uid: Ipfs.Engine.IpfsEngineOptions
@@ -557,6 +598,7 @@ references:
   name: KeyChain
   href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_KeyChain_
   commentId: Overload:Ipfs.Engine.IpfsEngineOptions.KeyChain
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngineOptions.KeyChain
   nameWithType: IpfsEngineOptions.KeyChain
 - uid: Ipfs.Engine.IpfsEngineOptions.Repository
@@ -569,6 +611,7 @@ references:
   name: Repository
   href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Repository_
   commentId: Overload:Ipfs.Engine.IpfsEngineOptions.Repository
+  isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngineOptions.Repository
   nameWithType: IpfsEngineOptions.Repository
 - uid: Ipfs.Engine.Migrations
@@ -593,6 +636,7 @@ references:
   name: BuildTargetModel
   href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_
   commentId: Overload:Ipfs.Engine.Migrations.Blocks.BuildTargetModel
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel
   nameWithType: Blocks.BuildTargetModel
 - uid: Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
@@ -605,6 +649,7 @@ references:
   name: Down
   href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_
   commentId: Overload:Ipfs.Engine.Migrations.Blocks.Down
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Blocks.Down
   nameWithType: Blocks.Down
 - uid: Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
@@ -617,6 +662,7 @@ references:
   name: Up
   href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_
   commentId: Overload:Ipfs.Engine.Migrations.Blocks.Up
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Blocks.Up
   nameWithType: Blocks.Up
 - uid: Ipfs.Engine.Migrations.Initial
@@ -635,6 +681,7 @@ references:
   name: BuildTargetModel
   href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_BuildTargetModel_
   commentId: Overload:Ipfs.Engine.Migrations.Initial.BuildTargetModel
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel
   nameWithType: Initial.BuildTargetModel
 - uid: Ipfs.Engine.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
@@ -647,6 +694,7 @@ references:
   name: Down
   href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Down_
   commentId: Overload:Ipfs.Engine.Migrations.Initial.Down
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Initial.Down
   nameWithType: Initial.Down
 - uid: Ipfs.Engine.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
@@ -659,6 +707,7 @@ references:
   name: Up
   href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Up_
   commentId: Overload:Ipfs.Engine.Migrations.Initial.Up
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Initial.Up
   nameWithType: Initial.Up
 - uid: Ipfs.Engine.Migrations.Keys
@@ -677,6 +726,7 @@ references:
   name: BuildTargetModel
   href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_
   commentId: Overload:Ipfs.Engine.Migrations.Keys.BuildTargetModel
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel
   nameWithType: Keys.BuildTargetModel
 - uid: Ipfs.Engine.Migrations.Keys.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
@@ -689,6 +739,7 @@ references:
   name: Down
   href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_
   commentId: Overload:Ipfs.Engine.Migrations.Keys.Down
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Keys.Down
   nameWithType: Keys.Down
 - uid: Ipfs.Engine.Migrations.Keys.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
@@ -701,6 +752,7 @@ references:
   name: Up
   href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_
   commentId: Overload:Ipfs.Engine.Migrations.Keys.Up
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Keys.Up
   nameWithType: Keys.Up
 - uid: Ipfs.Engine.Migrations.Pins
@@ -719,6 +771,7 @@ references:
   name: BuildTargetModel
   href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_BuildTargetModel_
   commentId: Overload:Ipfs.Engine.Migrations.Pins.BuildTargetModel
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Pins.BuildTargetModel
   nameWithType: Pins.BuildTargetModel
 - uid: Ipfs.Engine.Migrations.Pins.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
@@ -731,6 +784,7 @@ references:
   name: Down
   href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Down_
   commentId: Overload:Ipfs.Engine.Migrations.Pins.Down
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Pins.Down
   nameWithType: Pins.Down
 - uid: Ipfs.Engine.Migrations.Pins.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
@@ -743,6 +797,7 @@ references:
   name: Up
   href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Up_
   commentId: Overload:Ipfs.Engine.Migrations.Pins.Up
+  isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Pins.Up
   nameWithType: Pins.Up
 - uid: Ipfs.Engine.RepositoryOptions
@@ -761,6 +816,7 @@ references:
   name: DatabaseName
   href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_DatabaseName_
   commentId: Overload:Ipfs.Engine.RepositoryOptions.DatabaseName
+  isSpec: "True"
   fullName: Ipfs.Engine.RepositoryOptions.DatabaseName
   nameWithType: RepositoryOptions.DatabaseName
 - uid: Ipfs.Engine.RepositoryOptions.Folder
@@ -773,6 +829,7 @@ references:
   name: Folder
   href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_Folder_
   commentId: Overload:Ipfs.Engine.RepositoryOptions.Folder
+  isSpec: "True"
   fullName: Ipfs.Engine.RepositoryOptions.Folder
   nameWithType: RepositoryOptions.Folder
 - uid: Ipfs.Engine.UnixFileSystem
@@ -797,6 +854,7 @@ references:
   name: ChunkedStream
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream
   nameWithType: ChunkedStream.ChunkedStream
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead
@@ -809,6 +867,7 @@ references:
   name: CanRead
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanRead_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead
   nameWithType: ChunkedStream.CanRead
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek
@@ -821,6 +880,7 @@ references:
   name: CanSeek
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanSeek_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek
   nameWithType: ChunkedStream.CanSeek
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite
@@ -833,6 +893,7 @@ references:
   name: CanWrite
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_CanWrite_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite
   nameWithType: ChunkedStream.CanWrite
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush
@@ -845,6 +906,7 @@ references:
   name: Flush
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Flush_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush
   nameWithType: ChunkedStream.Flush
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Length
@@ -857,6 +919,7 @@ references:
   name: Length
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Length_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Length
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Length
   nameWithType: ChunkedStream.Length
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Position
@@ -869,6 +932,7 @@ references:
   name: Position
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Position_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Position
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Position
   nameWithType: ChunkedStream.Position
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read(System.Byte[],System.Int32,System.Int32)
@@ -884,6 +948,7 @@ references:
   name: Read
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Read_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Read
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read
   nameWithType: ChunkedStream.Read
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
@@ -899,6 +964,7 @@ references:
   name: ReadAsync
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync
   nameWithType: ChunkedStream.ReadAsync
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,System.IO.SeekOrigin)
@@ -911,6 +977,7 @@ references:
   name: Seek
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek
   nameWithType: ChunkedStream.Seek
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength(System.Int64)
@@ -923,6 +990,7 @@ references:
   name: SetLength
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_SetLength_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength
   nameWithType: ChunkedStream.SetLength
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Write(System.Byte[],System.Int32,System.Int32)
@@ -938,6 +1006,7 @@ references:
   name: Write
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Write_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.ChunkedStream.Write
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Write
   nameWithType: ChunkedStream.Write
 - uid: Ipfs.Engine.UnixFileSystem.FileSystem
@@ -956,6 +1025,7 @@ references:
   name: CreateReadStream
   href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream
   nameWithType: FileSystem.CreateReadStream
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemLink
@@ -974,6 +1044,7 @@ references:
   name: Id
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html#Ipfs_Engine_UnixFileSystem_FileSystemLink_Id_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemLink.Id
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemLink.Id
   nameWithType: FileSystemLink.Id
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory
@@ -986,6 +1057,7 @@ references:
   name: IsDirectory
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html#Ipfs_Engine_UnixFileSystem_FileSystemLink_IsDirectory_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory
   nameWithType: FileSystemLink.IsDirectory
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemLink.Name
@@ -998,6 +1070,7 @@ references:
   name: Name
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html#Ipfs_Engine_UnixFileSystem_FileSystemLink_Name_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemLink.Name
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemLink.Name
   nameWithType: FileSystemLink.Name
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemLink.None
@@ -1016,6 +1089,7 @@ references:
   name: Size
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html#Ipfs_Engine_UnixFileSystem_FileSystemLink_Size_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemLink.Size
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemLink.Size
   nameWithType: FileSystemLink.Size
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode
@@ -1034,6 +1108,7 @@ references:
   name: DagSize
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_DagSize_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.DagSize
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.DagSize
   nameWithType: FileSystemNode.DagSize
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.DataBytes
@@ -1046,6 +1121,7 @@ references:
   name: DataBytes
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_DataBytes_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.DataBytes
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.DataBytes
   nameWithType: FileSystemNode.DataBytes
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.DataStream
@@ -1058,6 +1134,7 @@ references:
   name: DataStream
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_DataStream_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.DataStream
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.DataStream
   nameWithType: FileSystemNode.DataStream
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.Id
@@ -1070,6 +1147,7 @@ references:
   name: Id
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_Id_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.Id
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.Id
   nameWithType: FileSystemNode.Id
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.IsDirectory
@@ -1082,6 +1160,7 @@ references:
   name: IsDirectory
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_IsDirectory_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.IsDirectory
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.IsDirectory
   nameWithType: FileSystemNode.IsDirectory
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.Links
@@ -1094,6 +1173,7 @@ references:
   name: Links
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_Links_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.Links
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.Links
   nameWithType: FileSystemNode.Links
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.Name
@@ -1106,6 +1186,7 @@ references:
   name: Name
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_Name_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.Name
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.Name
   nameWithType: FileSystemNode.Name
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.Size
@@ -1118,6 +1199,7 @@ references:
   name: Size
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_Size_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.Size
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.Size
   nameWithType: FileSystemNode.Size
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemNode.ToLink(System.String)
@@ -1130,6 +1212,7 @@ references:
   name: ToLink
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html#Ipfs_Engine_UnixFileSystem_FileSystemNode_ToLink_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemNode.ToLink
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemNode.ToLink
   nameWithType: FileSystemNode.ToLink
 - uid: Ipfs.Engine.UnixFileSystem.SizeChunker
@@ -1148,5 +1231,6 @@ references:
   name: ChunkAsync
   href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_
   commentId: Overload:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync
+  isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync
   nameWithType: SizeChunker.ChunkAsync

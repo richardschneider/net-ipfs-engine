@@ -268,15 +268,12 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/envvars.md",
       "output": {
         ".html": {
           "relative_path": "articles/envvars.html",
-          "hash": "A+ogcJKW/E7wSPhbRrcg1g=="
+          "hash": "wv0EWJUT+hpWBewx4/ksRw=="
         }
       },
       "is_incremental": false,
@@ -295,15 +292,12 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/repository.md",
       "output": {
         ".html": {
           "relative_path": "articles/repository.html",
-          "hash": "seF672Xi40FFbOzn17eYpw=="
+          "hash": "f21nDtSf/UJcgQGD1QNr8A=="
         }
       },
       "is_incremental": false,

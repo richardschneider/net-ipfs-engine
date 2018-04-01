@@ -5,17 +5,17 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Repository | IPFS Engine documentation </title>
+    <title>Database | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Repository | IPFS Engine documentation ">
+    <meta name="title" content="Database | IPFS Engine documentation ">
     <meta name="generator" content="docfx 2.33.1.0">
     
-    <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
+    <link rel="shortcut icon" href="../../images/ipfs-favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
     
     
     
@@ -34,8 +34,8 @@
                 <span class="icon-bar"></span>
               </button>
               
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../images/ipfs-logo.svg" alt="">
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/ipfs-logo.svg" alt="">
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -67,10 +67,47 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="repository">Repository</h1>
+<h1 id="database">Database</h1>
 
-<p>The repository is a local persistent store for IPFS data. By default, it is located at <code>$HOME/.csipfs</code>.  If not present, the <a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html">IPFS Engine</a> will create it with the factory defaults.</p>
-<p>To change its name and/or location use the <a href="envvars.html">environment variables</a> or the <a class="xref" href="../api/Ipfs.Engine.RepositoryOptions.html">Repository Options</a>.</p>
+<p>A <a href="https://sqlite.org/">SQLite database</a>, named <code>ipfs.db</code>, stores most of the repository information.  You can use <a href="http://sqlitebrowser.org/">DB Browser</a> to examine and modify the information.</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Configs</td>
+<td><a class="xref" href="../../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Config">Config API</a></td>
+<td>The configuration information</td>
+</tr>
+<tr>
+<td>EncryptedKeys</td>
+<td><a class="xref" href="../../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Key">Key API</a></td>
+<td>An encrypted key</td>
+</tr>
+<tr>
+<td>Keys</td>
+<td><a class="xref" href="../../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Key">Key API</a></td>
+<td>Details on a keys</td>
+</tr>
+<tr>
+<td>Pins</td>
+<td><a class="xref" href="../../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Pin">Pin API</a></td>
+<td>A <a href="block.html">Block</a> that is pinned to the local repository</td>
+</tr>
+<tr>
+<td>_EFMigrationsHistory</td>
+<td></td>
+<td>Current version of the database</td>
+</tr>
+</tbody>
+</table>
+<h2 id="migration">Migration</h2>
+<p>From time to time the database schema changes.  <code>_EFMigrationsHistory</code> records the current version of the database.  At initialisation, the database is upgraded/downgraded based on the version of IPFS Engine.</p>
 </article>
           </div>
           
@@ -79,7 +116,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/repository.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/repo/database.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
@@ -105,8 +142,8 @@
       </footer>
     </div>
     
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
   </body>
 </html>

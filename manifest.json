@@ -293,11 +293,35 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/repo/block.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/repo/block.html",
+          "hash": "7WzzRvoq/WkRO+8tKZLTxw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/repo/database.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/repo/database.html",
+          "hash": "EPGqdvY9K7RuvZ3Ygtlbkg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/repository.md",
       "output": {
         ".html": {
           "relative_path": "articles/repository.html",
-          "hash": "f21nDtSf/UJcgQGD1QNr8A=="
+          "hash": "O4h3/DFBlOK5mNIzmLWx9w=="
         }
       },
       "is_incremental": false,
@@ -309,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "vf7o/MzEvk2OytRmI3TPVA=="
+          "hash": "m79tcRKmtxBQsOoq9Y+w8A=="
         }
       },
       "is_incremental": false,

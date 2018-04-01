@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html",
-          "hash": "TBKdAM1LzHTFgxugM6tIIQ=="
+          "hash": "WRHkot9FJjsv/wx0qh+JcA=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Cryptography.KeyChainOptions.html",
-          "hash": "W7KdChwvoBLkA2zmX3o41g=="
+          "hash": "WPTfHuiIbRfjYQatCnWIJA=="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.IpfsEngineOptions.html",
-          "hash": "UseSqFM8E1iq1lBdow9H5A=="
+          "hash": "kc6e1M3ocZFrK0TzCftzUQ=="
         }
       },
       "is_incremental": false,
@@ -141,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.RepositoryOptions.html",
-          "hash": "6pGcctc8+uqo22gGICzVzQ=="
+          "hash": "6tVoBC0MugHIwpdvxyn+3g=="
         }
       },
       "is_incremental": false,
@@ -268,12 +268,15 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/envvars.md",
       "output": {
         ".html": {
           "relative_path": "articles/envvars.html",
-          "hash": "8j2eFpAYgxsJ6Jw8Ri3RSg=="
+          "hash": "A+ogcJKW/E7wSPhbRrcg1g=="
         }
       },
       "is_incremental": false,
@@ -292,12 +295,15 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/repository.md",
       "output": {
         ".html": {
           "relative_path": "articles/repository.html",
-          "hash": "UfSUZxYUcBWED3encw24EQ=="
+          "hash": "seF672Xi40FFbOzn17eYpw=="
         }
       },
       "is_incremental": false,

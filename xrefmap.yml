@@ -806,6 +806,19 @@ references:
   commentId: T:Ipfs.Engine.RepositoryOptions
   fullName: Ipfs.Engine.RepositoryOptions
   nameWithType: RepositoryOptions
+- uid: Ipfs.Engine.RepositoryOptions.#ctor
+  name: RepositoryOptions()
+  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions__ctor
+  commentId: M:Ipfs.Engine.RepositoryOptions.#ctor
+  fullName: Ipfs.Engine.RepositoryOptions.RepositoryOptions()
+  nameWithType: RepositoryOptions.RepositoryOptions()
+- uid: Ipfs.Engine.RepositoryOptions.#ctor*
+  name: RepositoryOptions
+  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions__ctor_
+  commentId: Overload:Ipfs.Engine.RepositoryOptions.#ctor
+  isSpec: "True"
+  fullName: Ipfs.Engine.RepositoryOptions.RepositoryOptions
+  nameWithType: RepositoryOptions.RepositoryOptions
 - uid: Ipfs.Engine.RepositoryOptions.DatabaseName
   name: DatabaseName
   href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_DatabaseName

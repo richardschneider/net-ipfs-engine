@@ -10,6 +10,7 @@ namespace Ipfs.Engine
     /// <summary>
     ///   Configuration options for the <see cref="IpfsEngine"/>.
     /// </summary>
+    /// <seealso cref="IpfsEngine.Options"/>
     public class IpfsEngineOptions
     {
         /// <summary>

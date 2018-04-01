@@ -7,3 +7,4 @@ are used  to control the behaviour of the library
 | --- | --- |
 | HOME | The user's home directory |
 | HOMEPATH | same as `HOME` |
+| IPFS_PATH | The folder of the IPFS [repository](repository) |

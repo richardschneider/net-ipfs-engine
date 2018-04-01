@@ -9,6 +9,7 @@ namespace Ipfs.Engine.Cryptography
     /// <summary>
     ///   Configuration options for the <see cref="KeyChain"/>.
     /// </summary>
+    /// <seealso cref="IpfsEngine.Options"/>
     public class KeyChainOptions
     {
         /// <summary>

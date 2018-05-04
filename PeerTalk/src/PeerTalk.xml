@@ -209,6 +209,263 @@
               </para>
             </remarks>
         </member>
+        <member name="T:PeerTalk.Multiplex.Header">
+            <summary>
+              The header of a multiplex message.
+            </summary>
+            <remarks>
+              The header of a multiplex message contains the <see cref="F:PeerTalk.Multiplex.Header.StreamId"/> and
+              <see cref="F:PeerTalk.Multiplex.Header.PacketType"/> encoded as a <see cref="T:Ipfs.Varint">variable integer</see>.
+            </remarks>
+            <seealso href="https://github.com/libp2p/mplex"/>
+        </member>
+        <member name="F:PeerTalk.Multiplex.Header.MaxStreamId">
+            <summary>
+              The largest possible value of a <see cref="F:PeerTalk.Multiplex.Header.StreamId"/>.
+            </summary>
+            <value>
+              long.MaxValue >> 3.
+            </value>
+        </member>
+        <member name="F:PeerTalk.Multiplex.Header.MinStreamId">
+            <summary>
+              The smallest possible value of a <see cref="F:PeerTalk.Multiplex.Header.StreamId"/>.
+            </summary>
+            <value>
+              Zero.
+            </value>
+        </member>
+        <member name="F:PeerTalk.Multiplex.Header.StreamId">
+            <summary>
+              The stream identifier.
+            </summary>
+            <value>
+              The session initiator allocates odd IDs and the session receiver allocates even IDs.
+            </value>
+        </member>
+        <member name="F:PeerTalk.Multiplex.Header.PacketType">
+            <summary>
+              The purpose of the multiplex message.
+            </summary>
+            <value>
+              One of the <see cref="F:PeerTalk.Multiplex.Header.PacketType"/> enumeration values.
+            </value>
+        </member>
+        <member name="M:PeerTalk.Multiplex.Header.WriteAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+              Writes the header to the specified <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="stream">
+              The destination <see cref="T:System.IO.Stream"/> for the header.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>
+              A task that represents the asynchronous operation.
+            </returns>
+        </member>
+        <member name="M:PeerTalk.Multiplex.Header.ReadAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+              Reads the header from the specified <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="stream">
+              The source <see cref="T:System.IO.Stream"/> for the header.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>
+              A task that represents the asynchronous operation.  The task's result
+              is the decoded <see cref="T:PeerTalk.Multiplex.Header"/>.
+            </returns>
+        </member>
+        <member name="T:PeerTalk.Multiplex.Muxer">
+            <summary>
+              Supports multiple protocols over a single channel (stream).
+            </summary>
+        </member>
+        <member name="P:PeerTalk.Multiplex.Muxer.NextStreamId">
+            <summary>
+              The next stream ID to create.
+            </summary>
+            <value>
+              The session initiator allocates odd IDs and the session receiver allocates even IDs.
+            </value>
+        </member>
+        <member name="P:PeerTalk.Multiplex.Muxer.Channel">
+            <summary>
+              The signle channel to exchange protocol messages.
+            </summary>
+            <value>
+              A <see cref="T:System.IO.Stream"/> to exchange protocol messages.
+            </value>
+        </member>
+        <member name="F:PeerTalk.Multiplex.Muxer.Substreams">
+            <summary>
+              The substreams that are open.
+            </summary>
+            <value>
+              The key is stream ID and the value is a <see cref="T:PeerTalk.Multiplex.Substream"/>.
+            </value>
+        </member>
+        <member name="P:PeerTalk.Multiplex.Muxer.Initiator">
+            <summary>
+              Determines if the muxer is the initiator.
+            </summary>
+            <value>
+              <b>true</b> if the muxer is the initiator.
+            </value>
+            <seealso cref="P:PeerTalk.Multiplex.Muxer.Receiver"/>
+        </member>
+        <member name="P:PeerTalk.Multiplex.Muxer.Receiver">
+            <summary>
+              Determines if the muxer is the receiver.
+            </summary>
+            <value>
+              <b>true</b> if the muxer is the receiver.
+            </value>
+            <seealso cref="P:PeerTalk.Multiplex.Muxer.Initiator"/>
+        </member>
+        <member name="M:PeerTalk.Multiplex.Muxer.CreateStreamAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+              Creates a new stream with the specified name.
+            </summary>
+            <param name="name">
+              A name for the stream.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>TODO</returns>
+        </member>
+        <member name="M:PeerTalk.Multiplex.Muxer.AcquireWriteAccessAsync">
+            <summary>
+              Acquire permission to write to the Channel.
+            </summary>
+            <returns>
+              A task that represents the asynchronous get operation. The task's value
+              is an <see cref="T:System.IDisposable"/> that releases the lock.
+            </returns>
+        </member>
+        <member name="T:PeerTalk.Multiplex.PacketType">
+            <summary>
+              The purpose of the multiplex message.
+            </summary>
+            <seealso cref="T:PeerTalk.Multiplex.Header"/>
+        </member>
+        <member name="F:PeerTalk.Multiplex.PacketType.NewStream">
+            <summary>
+              Create a new stream.
+            </summary>
+        </member>
+        <member name="F:PeerTalk.Multiplex.PacketType.MessageReceiver">
+            <summary>
+              A message from the "receiver".
+            </summary>
+        </member>
+        <member name="F:PeerTalk.Multiplex.PacketType.MessageInitiator">
+            <summary>
+              A message from the "initiator".
+            </summary>
+        </member>
+        <member name="F:PeerTalk.Multiplex.PacketType.CloseReceiver">
+            <summary>
+              Close the stream from the "receiver".
+            </summary>
+        </member>
+        <member name="F:PeerTalk.Multiplex.PacketType.CloseInitiator">
+            <summary>
+              Close the stream from the "initiator".
+            </summary>
+        </member>
+        <member name="F:PeerTalk.Multiplex.PacketType.ResetReceiver">
+            <summary>
+              Reset the stream from the "receiver".
+            </summary>
+        </member>
+        <member name="F:PeerTalk.Multiplex.PacketType.ResetInitiator">
+            <summary>
+              Reset the stream from the "initiator".
+            </summary>
+        </member>
+        <member name="T:PeerTalk.Multiplex.Substream">
+            <summary>
+              A substream used by the <see cref="P:PeerTalk.Multiplex.Substream.Muxer"/>.
+            </summary>
+        </member>
+        <member name="F:PeerTalk.Multiplex.Substream.Id">
+            <summary>
+              The stream identifier.
+            </summary>
+            <value>
+              The session initiator allocates odd IDs and the session receiver allocates even IDs.
+            </value>
+        </member>
+        <member name="F:PeerTalk.Multiplex.Substream.Name">
+            <summary>
+              A name for the stream.
+            </summary>
+            <value>
+              Names do not need to be unique.
+            </value>
+        </member>
+        <member name="P:PeerTalk.Multiplex.Substream.Muxer">
+            <summary>
+              The multiplexor associated with the substream.
+            </summary>
+        </member>
+        <member name="P:PeerTalk.Multiplex.Substream.CanRead">
+            <inheritdoc />
+        </member>
+        <member name="P:PeerTalk.Multiplex.Substream.CanSeek">
+            <inheritdoc />
+        </member>
+        <member name="P:PeerTalk.Multiplex.Substream.CanWrite">
+            <inheritdoc />
+        </member>
+        <member name="P:PeerTalk.Multiplex.Substream.CanTimeout">
+            <inheritdoc />
+        </member>
+        <member name="P:PeerTalk.Multiplex.Substream.Length">
+            <inheritdoc />
+        </member>
+        <member name="P:PeerTalk.Multiplex.Substream.Position">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.Seek(System.Int64,System.IO.SeekOrigin)">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.SetLength(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.SetMessage(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.ReadByte">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.Read(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.Flush">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.FlushAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.Write(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Multiplex.Substream.WriteByte(System.Byte)">
+            <inheritdoc />
+        </member>
         <member name="T:PeerTalk.PeerConnection">
             <summary>
               A connection between two peers.
@@ -463,6 +720,27 @@
               A task that represents the asynchronous operation.
             </returns>
         </member>
+        <member name="T:PeerTalk.Protocols.Mplex67">
+            <summary>
+               A Stream Multiplexer protocol.
+            </summary>
+            <seealso href="https://github.com/libp2p/mplex"/>
+        </member>
+        <member name="P:PeerTalk.Protocols.Mplex67.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:PeerTalk.Protocols.Mplex67.Version">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Protocols.Mplex67.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Protocols.Mplex67.ProcessRequestAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.Protocols.Mplex67.ProcessResponseAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:PeerTalk.Protocols.Multistream1">
             <summary>
               A protocol to select other protocols.
@@ -515,7 +793,7 @@
             </summary>
             <remarks>
               The key is the name and version of the peer protocol, like "/multiselect/1.0.0".
-              The value is an instance of the peer protocol.
+              The value is a Func that returns an new instance of the peer protocol.
             </remarks>
         </member>
         <member name="M:PeerTalk.Protocols.ProtocolRegistry.Register``1">
@@ -523,12 +801,6 @@
               Register a new protocol.
             </summary>
             <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:PeerTalk.Protocols.ProtocolRegistry.Register(PeerTalk.Protocols.IPeerProtocol)">
-            <summary>
-              TODO
-            </summary>
-            <param name="protocol"></param>
         </member>
         <member name="M:PeerTalk.Protocols.ProtocolRegistry.Deregister(System.String)">
             <summary>

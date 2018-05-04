@@ -26,6 +26,7 @@ namespace PeerTalk.Protocols
             Register<Multistream1>();
             Register<Plaintext1>();
             Register<Identify1>();
+            Register<Mplex67>();
         }
 
         /// <summary>

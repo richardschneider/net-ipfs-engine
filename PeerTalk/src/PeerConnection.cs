@@ -123,13 +123,14 @@ namespace PeerTalk
         /// </remarks>
         public async Task RespondAsync(CancellationToken cancel = default(CancellationToken))
         {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            new Multistream1().ProcessRequestAsync(this, cancel);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            var ms = new Multistream1();
 
-            log.Debug("waiting for establishment of security from " + RemoteAddress);
-            await SecurityEstablished.Task;
-            log.Debug("security is okay");
+            // Establish connection security.
+            await ms.ProcessRequestAsync(this, cancel);
+
+            // Establish multiplexer
+            await ms.ProcessRequestAsync(this, cancel);
+
             // TODO: Get remote identity and return the Peer
             //await EstablishProtocolAsync("/ipfs/id/", cancel);
         }

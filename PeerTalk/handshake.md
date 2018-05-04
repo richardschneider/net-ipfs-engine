@@ -1,4 +1,4 @@
-# Handshake
+# JS Handshake
 
 This documents the handshake message exchange when a peer (local) connects to another peer (remote). 
 
@@ -6,7 +6,7 @@ It was traced with WireShark on Feb 11 2018 using jsipfs v0.27.07 by doing
 
 ```
 jsipfs daemon
-jsipfs jsipfs swarm connect /ip4/127.0.0.1/tcp/4002/ipfs/QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb
+jsipfs swarm connect /ip4/127.0.0.1/tcp/4002/ipfs/QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb
 ```
 
 The daemon's ID
@@ -28,7 +28,7 @@ The daemon's ID
 
 ## Messages
 
-Not the messages are not displayed with the length prefix nor newline suffix.
+Note the messages are not displayed with the length prefix nor newline suffix.
 
 | Local (port 58584)| Remote (port 4002) |
 | ----- | ------ |
@@ -40,12 +40,12 @@ Not the messages are not displayed with the length prefix nor newline suffix.
 | | /multistream/1.0.0 |
 | /mplex/6.7.0 | |
 | | /mplex/6.7.0 |
-| | 0x08 0x00 |
-| | 0x0a 0x14 |
+| | 0x08 0x00 - mplex create stream 1 no name |
+| | 0x0a 0x14 - mplex message initiator stream 1 
 | | /multistream/1.0.0 |
 | 0x09 0x14 | |
 | /multistream/1.0.0 | |
-| | 0x09 0x14 |
+| | 0x09 0x14
 | | /multistream/1.0.0 |
 | 0x0a 0x10 | |
 | | /ipfs/id/1.0.0 |
@@ -55,3 +55,6 @@ Not the messages are not displayed with the length prefix nor newline suffix.
 | ... maybe addresses | |
 | | 0e 00 |
 
+# GO Handshake
+
+ipfs daemon --disable-transport-encryption

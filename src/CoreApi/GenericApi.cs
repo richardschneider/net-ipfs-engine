@@ -27,6 +27,11 @@ namespace Ipfs.Engine.CoreApi
             throw new NotImplementedException();
         }
 
+        public Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
         public Task ShutdownAsync()
         {
             return ipfs.StopAsync();

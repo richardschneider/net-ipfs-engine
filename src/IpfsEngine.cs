@@ -43,6 +43,7 @@ namespace Ipfs.Engine
             Config = new ConfigApi(this);
             Dag = new DagApi(this);
             Dht = new DhtApi(this);
+            Dns = new DnsApi(this);
             FileSystem = new FileSystemApi(this);
             Generic = new GenericApi(this);
             Key = new KeyApi(this);
@@ -102,6 +103,9 @@ namespace Ipfs.Engine
 
         /// <inheritdoc />
         public IDhtApi Dht { get; private set; }
+
+        /// <inheritdoc />
+        public IDnsApi Dns { get; private set; }
 
         /// <inheritdoc />
         public IFileSystemApi FileSystem { get; private set; }

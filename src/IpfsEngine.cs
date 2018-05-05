@@ -215,23 +215,8 @@ namespace Ipfs.Engine
         /// </exception>
         public async Task<Cid> ResolveIpfsPathToCidAsync (string path, CancellationToken cancel = default(CancellationToken))
         {
-            // TODO: handle '/ipfs' and '/ipns'
-            var parts = path.Split('/').Where(p => p.Length > 0).ToArray();
-            if (parts.Length == 0)
-                throw new ArgumentException($"Cannot resolve '{path}'.");
-
-            var id = Cid.Decode(parts[0]);
-            foreach (var child in parts.Skip(1))
-            {
-                var container = await Object.GetAsync(id, cancel);
-                var link = container.Links.FirstOrDefault(l => l.Name == child);
-                if (link == null)
-                    throw new ArgumentException($"Cannot resolve '{path}'.");
-                id = link.Id;
-            }
-
-            return id;
-            // TOOD: Write some tests
+            var r = await Generic.ResolveAsync(path, true, cancel);
+            return Cid.Decode(r.Remove(0, 6));  // strip '/ipfs/'.
         }
 
         /// <summary>

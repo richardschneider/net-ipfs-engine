@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,6 +52,44 @@ namespace Ipfs.Engine
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
             await ipfs.Generic.ShutdownAsync();
+        }
+
+        [TestMethod]
+        public async Task Resolve_Cid()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var actual = await ipfs.Generic.ResolveAsync("QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao");
+            Assert.AreEqual("/ipfs/QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", actual);
+
+            actual = await ipfs.Generic.ResolveAsync("/ipfs/QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao");
+            Assert.AreEqual("/ipfs/QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", actual);
+        }
+
+        [TestMethod]
+        public async Task Resolve_Cid_Path()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var temp = FileSystemApiTest.MakeTemp();
+            try
+            {
+                var dir = await ipfs.FileSystem.AddDirectoryAsync(temp, true);
+                var name = "/ipfs/" + dir.Id.Encode() + "/x/y/y.txt";
+                Assert.AreEqual("/ipfs/QmTwEE2eSyzcvUctxP2negypGDtj7DQDKVy8s3Rvp6y6Pc", await ipfs.Generic.ResolveAsync(name));
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [TestMethod]
+        public void Resolve_Cid_Invalid()
+        {
+            var ipfs = TestFixture.Ipfs;
+            ExceptionAssert.Throws<FormatException>(() =>
+            {
+                var _= ipfs.Generic.ResolveAsync("QmHash").Result;
+            });
         }
     }
 }

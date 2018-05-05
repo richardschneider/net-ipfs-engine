@@ -399,7 +399,7 @@ namespace Ipfs.Engine
             }
         }
 
-        string MakeTemp()
+        public static string MakeTemp()
         {
             var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             var x = Path.Combine(temp, "x");

@@ -387,6 +387,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Dispose
   nameWithType: IpfsEngine.Dispose
+- uid: Ipfs.Engine.IpfsEngine.Dns
+  name: Dns
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dns
+  commentId: P:Ipfs.Engine.IpfsEngine.Dns
+  fullName: Ipfs.Engine.IpfsEngine.Dns
+  nameWithType: IpfsEngine.Dns
+- uid: Ipfs.Engine.IpfsEngine.Dns*
+  name: Dns
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dns_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.Dns
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.Dns
+  nameWithType: IpfsEngine.Dns
 - uid: Ipfs.Engine.IpfsEngine.FileSystem
   name: FileSystem
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_FileSystem

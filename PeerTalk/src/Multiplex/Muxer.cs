@@ -125,9 +125,9 @@ namespace PeerTalk.Multiplex
                     {
                         offset += Channel.Read(payload, offset, length - offset);
                     }
-                    var substream = Substreams[header.StreamId];
 
                     // Process the packet
+                    Substreams.TryGetValue(header.StreamId, out Substream substream);
                     switch (header.PacketType)
                     {
                         case PacketType.NewStream:
@@ -150,7 +150,7 @@ namespace PeerTalk.Multiplex
                             break;
 
                         default:
-                            log.Debug($"Unknown Muxer packet type '{header.PacketType}'.");
+                            log.Error($"Unknown Muxer packet type '{header.PacketType}'.");
                             break;
                             //throw new InvalidDataException($"Unknown Muxer packet type '{header.PacketType}'.");
                     }

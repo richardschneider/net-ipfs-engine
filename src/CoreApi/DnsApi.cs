@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Makaretu.Dns;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
+using System.Linq;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -16,9 +18,20 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
+        public async Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var response = await DnsClient.QueryAsync(name, DnsType.TXT, cancel);
+            var link = response.Answers
+                .OfType<TXTRecord>()
+                .SelectMany(txt => txt.Strings)
+                .Where(s => s.StartsWith("dnslink="))
+                .Select(s => s.Substring(8))
+                .First();
+
+            if (recursive && !link.StartsWith("/ipfs/"))
+                throw new NotImplementedException("Following DNS recursive link.");
+
+            return link;
         }
     }
 }

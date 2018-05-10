@@ -48,9 +48,24 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
+        /// <summary>
+        ///   Local file system path of the content ID.
+        /// </summary>
+        /// <param name="id">
+        ///   The conten ID.
+        /// </param>
+        /// <returns>
+        ///   The path to the <paramref name="id"/>.
+        /// </returns>
+        /// <remarks>
+        ///   To support case insenstive file systems, the content ID's multihash value
+        ///   is z-base-32 encoded.
+        /// </remarks>
         string GetPath(Cid id)
         {
-            return Path.Combine(BlocksFolder, id.Encode());
+            return Path.Combine(
+                BlocksFolder, 
+                Base32z.Codec.Encode(id.Hash.Digest, false));
         }
 
         public async Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))

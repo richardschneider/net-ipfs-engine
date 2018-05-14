@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
+using Newtonsoft.Json.Linq;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -16,12 +18,51 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task<ILinkedNode> GetAsync(string path, CancellationToken cancel = default(CancellationToken))
+        public Task<JObject> GetAsync(
+            Cid id,
+            CancellationToken cancel = default(CancellationToken))
         {
             throw new NotImplementedException();
         }
 
-        public Task<Cid> PutAsync(ILinkedNode data, string contentType, string multiHash = "sha2-256", CancellationToken cancel = default(CancellationToken))
+        public Task<JToken> GetAsync(
+            string path,
+            CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> GetAsync<T>(
+            Cid id, 
+            CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Cid> PutAsync(
+            JObject data,
+            string contentType = "cbor",
+            string multiHash = MultiHash.DefaultAlgorithmName,
+            bool pin = true,
+            CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Cid> PutAsync(Stream data,
+            string contentType = "cbor",
+            string multiHash = MultiHash.DefaultAlgorithmName, 
+            bool pin = true, 
+            CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Cid> PutAsync(object data,
+            string contentType = "cbor",
+            string multiHash = MultiHash.DefaultAlgorithmName,
+            bool pin = true,
+            CancellationToken cancel = default(CancellationToken))
         {
             throw new NotImplementedException();
         }

@@ -45,6 +45,9 @@ namespace Ipfs.Engine
         /// <summary>
         ///   The fully qualified name of the database.
         /// </summary>
+        /// <value>
+        ///  "ipfs.db" in the <see cref="Folder"/>.
+        /// </value>
         public string DatabaseName
         {
             get { return Path.Combine(Folder, "ipfs.db"); }

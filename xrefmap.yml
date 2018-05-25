@@ -601,6 +601,19 @@ references:
   commentId: T:Ipfs.Engine.IpfsEngineOptions
   fullName: Ipfs.Engine.IpfsEngineOptions
   nameWithType: IpfsEngineOptions
+- uid: Ipfs.Engine.IpfsEngineOptions.Dns
+  name: Dns
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Dns
+  commentId: P:Ipfs.Engine.IpfsEngineOptions.Dns
+  fullName: Ipfs.Engine.IpfsEngineOptions.Dns
+  nameWithType: IpfsEngineOptions.Dns
+- uid: Ipfs.Engine.IpfsEngineOptions.Dns*
+  name: Dns
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Dns_
+  commentId: Overload:Ipfs.Engine.IpfsEngineOptions.Dns
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngineOptions.Dns
+  nameWithType: IpfsEngineOptions.Dns
 - uid: Ipfs.Engine.IpfsEngineOptions.KeyChain
   name: KeyChain
   href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_KeyChain

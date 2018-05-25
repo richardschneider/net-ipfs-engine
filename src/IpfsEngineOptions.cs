@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ipfs.Engine.Cryptography;
+using Makaretu.Dns;
 
 namespace Ipfs.Engine
 {
@@ -22,5 +23,13 @@ namespace Ipfs.Engine
         ///   KeyChain options.
         /// </summary>
         public KeyChainOptions KeyChain { get; set; } = new KeyChainOptions();
+
+        /// <summary>
+        ///   Provides access to the Domain Name System.
+        /// </summary>
+        /// <value>
+        ///   Defaults to <see cref="DotClient">DNS over TLS</see>.
+        /// </value>
+        public IDnsClient Dns { get; set; } = new DotClient();
     }
 }

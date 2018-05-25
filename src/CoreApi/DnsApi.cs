@@ -20,7 +20,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
         {
-            var response = await DnsClient.QueryAsync(name, DnsType.TXT, cancel);
+            var response = await ipfs.Options.Dns.QueryAsync(name, DnsType.TXT, cancel);
             var link = response.Answers
                 .OfType<TXTRecord>()
                 .SelectMany(txt => txt.Strings)

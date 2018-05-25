@@ -68,7 +68,8 @@
       "https://xref.docs.microsoft.com/query?uid={uid}"
     ],
     "xref": [
-      "https://richardschneider.github.io/net-ipfs-core/xrefmap.yml"
+      "https://richardschneider.github.io/net-ipfs-core/xrefmap.yml",
+      "https://richardschneider.github.io/net-udns/xrefmap.yml"
     ],
     "globalMetadata": {
       "_appTitle": "IPFS Engine documentation",

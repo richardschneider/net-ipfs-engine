@@ -32,11 +32,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.KeyChain
   nameWithType: KeyChain.KeyChain
-- uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)
   name: CreateAsync(String, String, Int32, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String, System.String, System.Int32, System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String, System.String, System.Int32, CancellationToken)
   nameWithType: KeyChain.CreateAsync(String, String, Int32, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync*
   name: CreateAsync
@@ -45,13 +45,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync
   nameWithType: KeyChain.CreateAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
   name: ExportAsync(String, Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
   name.vb: ExportAsync(String, Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char[], System.Threading.CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char(), System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char[], CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char(), CancellationToken)
   nameWithType: KeyChain.ExportAsync(String, Char[], CancellationToken)
   nameWithType.vb: KeyChain.ExportAsync(String, Char(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync*
@@ -61,11 +61,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync
   nameWithType: KeyChain.ExportAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
   name: FindKeyByNameAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String, System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String, CancellationToken)
   nameWithType: KeyChain.FindKeyByNameAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync*
   name: FindKeyByNameAsync
@@ -74,11 +74,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
   nameWithType: KeyChain.FindKeyByNameAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,CancellationToken)
   name: GetPublicKeyAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String, System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String, CancellationToken)
   nameWithType: KeyChain.GetPublicKeyAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync*
   name: GetPublicKeyAsync
@@ -87,13 +87,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync
   nameWithType: KeyChain.GetPublicKeyAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)
   name: ImportAsync(String, String, Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)
   name.vb: ImportAsync(String, String, Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char[], System.Threading.CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char(), System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char[], CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char(), CancellationToken)
   nameWithType: KeyChain.ImportAsync(String, String, Char[], CancellationToken)
   nameWithType.vb: KeyChain.ImportAsync(String, String, Char(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync*
@@ -103,11 +103,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync
   nameWithType: KeyChain.ImportAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
   name: ListAsync(CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
   nameWithType: KeyChain.ListAsync(CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync*
   name: ListAsync
@@ -129,11 +129,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.Options
   nameWithType: KeyChain.Options
-- uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
   name: RemoveAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String, System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String, CancellationToken)
   nameWithType: KeyChain.RemoveAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync*
   name: RemoveAsync
@@ -142,11 +142,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync
   nameWithType: KeyChain.RemoveAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)
   name: RenameAsync(String, String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String, System.String, System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String, System.String, CancellationToken)
   nameWithType: KeyChain.RenameAsync(String, String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync*
   name: RenameAsync
@@ -155,13 +155,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync
   nameWithType: KeyChain.RenameAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],System.Threading.CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)
   name: SetPassphraseAsync(Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)
   name.vb: SetPassphraseAsync(Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[], System.Threading.CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char(), System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[], CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char(), CancellationToken)
   nameWithType: KeyChain.SetPassphraseAsync(Char[], CancellationToken)
   nameWithType.vb: KeyChain.SetPassphraseAsync(Char(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync*
@@ -439,11 +439,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Key
   nameWithType: IpfsEngine.Key
-- uid: Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
   name: KeyChain(CancellationToken)
-  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_CancellationToken_
+  commentId: M:Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
+  fullName: Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
   nameWithType: IpfsEngine.KeyChain(CancellationToken)
 - uid: Ipfs.Engine.IpfsEngine.KeyChain*
   name: KeyChain
@@ -530,11 +530,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.PubSub
   nameWithType: IpfsEngine.PubSub
-- uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,CancellationToken)
   name: ResolveIpfsPathToCidAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String, System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String, CancellationToken)
   nameWithType: IpfsEngine.ResolveIpfsPathToCidAsync(String, CancellationToken)
 - uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync*
   name: ResolveIpfsPathToCidAsync
@@ -627,6 +627,193 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngineOptions.Repository
   nameWithType: IpfsEngineOptions.Repository
+- uid: Ipfs.Engine.LinkedData
+  name: Ipfs.Engine.LinkedData
+  href: api/Ipfs.Engine.LinkedData.html
+  commentId: N:Ipfs.Engine.LinkedData
+  fullName: Ipfs.Engine.LinkedData
+  nameWithType: Ipfs.Engine.LinkedData
+- uid: Ipfs.Engine.LinkedData.CborFormat
+  name: CborFormat
+  href: api/Ipfs.Engine.LinkedData.CborFormat.html
+  commentId: T:Ipfs.Engine.LinkedData.CborFormat
+  fullName: Ipfs.Engine.LinkedData.CborFormat
+  nameWithType: CborFormat
+- uid: Ipfs.Engine.LinkedData.CborFormat.Deserialise(System.Byte[])
+  name: Deserialise(Byte[])
+  href: api/Ipfs.Engine.LinkedData.CborFormat.html#Ipfs_Engine_LinkedData_CborFormat_Deserialise_System_Byte___
+  commentId: M:Ipfs.Engine.LinkedData.CborFormat.Deserialise(System.Byte[])
+  name.vb: Deserialise(Byte())
+  fullName: Ipfs.Engine.LinkedData.CborFormat.Deserialise(System.Byte[])
+  fullName.vb: Ipfs.Engine.LinkedData.CborFormat.Deserialise(System.Byte())
+  nameWithType: CborFormat.Deserialise(Byte[])
+  nameWithType.vb: CborFormat.Deserialise(Byte())
+- uid: Ipfs.Engine.LinkedData.CborFormat.Deserialise*
+  name: Deserialise
+  href: api/Ipfs.Engine.LinkedData.CborFormat.html#Ipfs_Engine_LinkedData_CborFormat_Deserialise_
+  commentId: Overload:Ipfs.Engine.LinkedData.CborFormat.Deserialise
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.CborFormat.Deserialise
+  nameWithType: CborFormat.Deserialise
+- uid: Ipfs.Engine.LinkedData.CborFormat.Serialize(CBORObject)
+  name: Serialize(CBORObject)
+  href: api/Ipfs.Engine.LinkedData.CborFormat.html#Ipfs_Engine_LinkedData_CborFormat_Serialize_CBORObject_
+  commentId: M:Ipfs.Engine.LinkedData.CborFormat.Serialize(CBORObject)
+  fullName: Ipfs.Engine.LinkedData.CborFormat.Serialize(CBORObject)
+  nameWithType: CborFormat.Serialize(CBORObject)
+- uid: Ipfs.Engine.LinkedData.CborFormat.Serialize*
+  name: Serialize
+  href: api/Ipfs.Engine.LinkedData.CborFormat.html#Ipfs_Engine_LinkedData_CborFormat_Serialize_
+  commentId: Overload:Ipfs.Engine.LinkedData.CborFormat.Serialize
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.CborFormat.Serialize
+  nameWithType: CborFormat.Serialize
+- uid: Ipfs.Engine.LinkedData.ILinkedDataFormat
+  name: ILinkedDataFormat
+  href: api/Ipfs.Engine.LinkedData.ILinkedDataFormat.html
+  commentId: T:Ipfs.Engine.LinkedData.ILinkedDataFormat
+  fullName: Ipfs.Engine.LinkedData.ILinkedDataFormat
+  nameWithType: ILinkedDataFormat
+- uid: Ipfs.Engine.LinkedData.ILinkedDataFormat.Deserialise(System.Byte[])
+  name: Deserialise(Byte[])
+  href: api/Ipfs.Engine.LinkedData.ILinkedDataFormat.html#Ipfs_Engine_LinkedData_ILinkedDataFormat_Deserialise_System_Byte___
+  commentId: M:Ipfs.Engine.LinkedData.ILinkedDataFormat.Deserialise(System.Byte[])
+  name.vb: Deserialise(Byte())
+  fullName: Ipfs.Engine.LinkedData.ILinkedDataFormat.Deserialise(System.Byte[])
+  fullName.vb: Ipfs.Engine.LinkedData.ILinkedDataFormat.Deserialise(System.Byte())
+  nameWithType: ILinkedDataFormat.Deserialise(Byte[])
+  nameWithType.vb: ILinkedDataFormat.Deserialise(Byte())
+- uid: Ipfs.Engine.LinkedData.ILinkedDataFormat.Deserialise*
+  name: Deserialise
+  href: api/Ipfs.Engine.LinkedData.ILinkedDataFormat.html#Ipfs_Engine_LinkedData_ILinkedDataFormat_Deserialise_
+  commentId: Overload:Ipfs.Engine.LinkedData.ILinkedDataFormat.Deserialise
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.ILinkedDataFormat.Deserialise
+  nameWithType: ILinkedDataFormat.Deserialise
+- uid: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(CBORObject)
+  name: Serialize(CBORObject)
+  href: api/Ipfs.Engine.LinkedData.ILinkedDataFormat.html#Ipfs_Engine_LinkedData_ILinkedDataFormat_Serialize_CBORObject_
+  commentId: M:Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(CBORObject)
+  fullName: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(CBORObject)
+  nameWithType: ILinkedDataFormat.Serialize(CBORObject)
+- uid: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize*
+  name: Serialize
+  href: api/Ipfs.Engine.LinkedData.ILinkedDataFormat.html#Ipfs_Engine_LinkedData_ILinkedDataFormat_Serialize_
+  commentId: Overload:Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize
+  nameWithType: ILinkedDataFormat.Serialize
+- uid: Ipfs.Engine.LinkedData.IpldRegistry
+  name: IpldRegistry
+  href: api/Ipfs.Engine.LinkedData.IpldRegistry.html
+  commentId: T:Ipfs.Engine.LinkedData.IpldRegistry
+  fullName: Ipfs.Engine.LinkedData.IpldRegistry
+  nameWithType: IpldRegistry
+- uid: Ipfs.Engine.LinkedData.IpldRegistry.Deregister(System.String)
+  name: Deregister(String)
+  href: api/Ipfs.Engine.LinkedData.IpldRegistry.html#Ipfs_Engine_LinkedData_IpldRegistry_Deregister_System_String_
+  commentId: M:Ipfs.Engine.LinkedData.IpldRegistry.Deregister(System.String)
+  fullName: Ipfs.Engine.LinkedData.IpldRegistry.Deregister(System.String)
+  nameWithType: IpldRegistry.Deregister(String)
+- uid: Ipfs.Engine.LinkedData.IpldRegistry.Deregister*
+  name: Deregister
+  href: api/Ipfs.Engine.LinkedData.IpldRegistry.html#Ipfs_Engine_LinkedData_IpldRegistry_Deregister_
+  commentId: Overload:Ipfs.Engine.LinkedData.IpldRegistry.Deregister
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.IpldRegistry.Deregister
+  nameWithType: IpldRegistry.Deregister
+- uid: Ipfs.Engine.LinkedData.IpldRegistry.Formats
+  name: Formats
+  href: api/Ipfs.Engine.LinkedData.IpldRegistry.html#Ipfs_Engine_LinkedData_IpldRegistry_Formats
+  commentId: F:Ipfs.Engine.LinkedData.IpldRegistry.Formats
+  fullName: Ipfs.Engine.LinkedData.IpldRegistry.Formats
+  nameWithType: IpldRegistry.Formats
+- uid: Ipfs.Engine.LinkedData.IpldRegistry.Register*
+  name: Register
+  href: api/Ipfs.Engine.LinkedData.IpldRegistry.html#Ipfs_Engine_LinkedData_IpldRegistry_Register_
+  commentId: Overload:Ipfs.Engine.LinkedData.IpldRegistry.Register
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.IpldRegistry.Register
+  nameWithType: IpldRegistry.Register
+- uid: Ipfs.Engine.LinkedData.IpldRegistry.Register``1(System.String)
+  name: Register<T>(String)
+  href: api/Ipfs.Engine.LinkedData.IpldRegistry.html#Ipfs_Engine_LinkedData_IpldRegistry_Register__1_System_String_
+  commentId: M:Ipfs.Engine.LinkedData.IpldRegistry.Register``1(System.String)
+  name.vb: Register(Of T)(String)
+  fullName: Ipfs.Engine.LinkedData.IpldRegistry.Register<T>(System.String)
+  fullName.vb: Ipfs.Engine.LinkedData.IpldRegistry.Register(Of T)(System.String)
+  nameWithType: IpldRegistry.Register<T>(String)
+  nameWithType.vb: IpldRegistry.Register(Of T)(String)
+- uid: Ipfs.Engine.LinkedData.ProtobufFormat
+  name: ProtobufFormat
+  href: api/Ipfs.Engine.LinkedData.ProtobufFormat.html
+  commentId: T:Ipfs.Engine.LinkedData.ProtobufFormat
+  fullName: Ipfs.Engine.LinkedData.ProtobufFormat
+  nameWithType: ProtobufFormat
+- uid: Ipfs.Engine.LinkedData.ProtobufFormat.Deserialise(System.Byte[])
+  name: Deserialise(Byte[])
+  href: api/Ipfs.Engine.LinkedData.ProtobufFormat.html#Ipfs_Engine_LinkedData_ProtobufFormat_Deserialise_System_Byte___
+  commentId: M:Ipfs.Engine.LinkedData.ProtobufFormat.Deserialise(System.Byte[])
+  name.vb: Deserialise(Byte())
+  fullName: Ipfs.Engine.LinkedData.ProtobufFormat.Deserialise(System.Byte[])
+  fullName.vb: Ipfs.Engine.LinkedData.ProtobufFormat.Deserialise(System.Byte())
+  nameWithType: ProtobufFormat.Deserialise(Byte[])
+  nameWithType.vb: ProtobufFormat.Deserialise(Byte())
+- uid: Ipfs.Engine.LinkedData.ProtobufFormat.Deserialise*
+  name: Deserialise
+  href: api/Ipfs.Engine.LinkedData.ProtobufFormat.html#Ipfs_Engine_LinkedData_ProtobufFormat_Deserialise_
+  commentId: Overload:Ipfs.Engine.LinkedData.ProtobufFormat.Deserialise
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.ProtobufFormat.Deserialise
+  nameWithType: ProtobufFormat.Deserialise
+- uid: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(CBORObject)
+  name: Serialize(CBORObject)
+  href: api/Ipfs.Engine.LinkedData.ProtobufFormat.html#Ipfs_Engine_LinkedData_ProtobufFormat_Serialize_CBORObject_
+  commentId: M:Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(CBORObject)
+  fullName: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(CBORObject)
+  nameWithType: ProtobufFormat.Serialize(CBORObject)
+- uid: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize*
+  name: Serialize
+  href: api/Ipfs.Engine.LinkedData.ProtobufFormat.html#Ipfs_Engine_LinkedData_ProtobufFormat_Serialize_
+  commentId: Overload:Ipfs.Engine.LinkedData.ProtobufFormat.Serialize
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize
+  nameWithType: ProtobufFormat.Serialize
+- uid: Ipfs.Engine.LinkedData.RawFormat
+  name: RawFormat
+  href: api/Ipfs.Engine.LinkedData.RawFormat.html
+  commentId: T:Ipfs.Engine.LinkedData.RawFormat
+  fullName: Ipfs.Engine.LinkedData.RawFormat
+  nameWithType: RawFormat
+- uid: Ipfs.Engine.LinkedData.RawFormat.Deserialise(System.Byte[])
+  name: Deserialise(Byte[])
+  href: api/Ipfs.Engine.LinkedData.RawFormat.html#Ipfs_Engine_LinkedData_RawFormat_Deserialise_System_Byte___
+  commentId: M:Ipfs.Engine.LinkedData.RawFormat.Deserialise(System.Byte[])
+  name.vb: Deserialise(Byte())
+  fullName: Ipfs.Engine.LinkedData.RawFormat.Deserialise(System.Byte[])
+  fullName.vb: Ipfs.Engine.LinkedData.RawFormat.Deserialise(System.Byte())
+  nameWithType: RawFormat.Deserialise(Byte[])
+  nameWithType.vb: RawFormat.Deserialise(Byte())
+- uid: Ipfs.Engine.LinkedData.RawFormat.Deserialise*
+  name: Deserialise
+  href: api/Ipfs.Engine.LinkedData.RawFormat.html#Ipfs_Engine_LinkedData_RawFormat_Deserialise_
+  commentId: Overload:Ipfs.Engine.LinkedData.RawFormat.Deserialise
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.RawFormat.Deserialise
+  nameWithType: RawFormat.Deserialise
+- uid: Ipfs.Engine.LinkedData.RawFormat.Serialize(CBORObject)
+  name: Serialize(CBORObject)
+  href: api/Ipfs.Engine.LinkedData.RawFormat.html#Ipfs_Engine_LinkedData_RawFormat_Serialize_CBORObject_
+  commentId: M:Ipfs.Engine.LinkedData.RawFormat.Serialize(CBORObject)
+  fullName: Ipfs.Engine.LinkedData.RawFormat.Serialize(CBORObject)
+  nameWithType: RawFormat.Serialize(CBORObject)
+- uid: Ipfs.Engine.LinkedData.RawFormat.Serialize*
+  name: Serialize
+  href: api/Ipfs.Engine.LinkedData.RawFormat.html#Ipfs_Engine_LinkedData_RawFormat_Serialize_
+  commentId: Overload:Ipfs.Engine.LinkedData.RawFormat.Serialize
+  isSpec: "True"
+  fullName: Ipfs.Engine.LinkedData.RawFormat.Serialize
+  nameWithType: RawFormat.Serialize
 - uid: Ipfs.Engine.Migrations
   name: Ipfs.Engine.Migrations
   href: api/Ipfs.Engine.Migrations.html
@@ -639,11 +826,11 @@ references:
   commentId: T:Ipfs.Engine.Migrations.Blocks
   fullName: Ipfs.Engine.Migrations.Blocks
   nameWithType: Blocks
-- uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
   name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
   nameWithType: Blocks.BuildTargetModel(ModelBuilder)
 - uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel*
   name: BuildTargetModel
@@ -652,11 +839,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel
   nameWithType: Blocks.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
   name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
   nameWithType: Blocks.Down(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Blocks.Down*
   name: Down
@@ -665,11 +852,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Blocks.Down
   nameWithType: Blocks.Down
-- uid: Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
   name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
   nameWithType: Blocks.Up(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Blocks.Up*
   name: Up
@@ -684,11 +871,11 @@ references:
   commentId: T:Ipfs.Engine.Migrations.Initial
   fullName: Ipfs.Engine.Migrations.Initial
   nameWithType: Initial
-- uid: Ipfs.Engine.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
   name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_BuildTargetModel_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
   nameWithType: Initial.BuildTargetModel(ModelBuilder)
 - uid: Ipfs.Engine.Migrations.Initial.BuildTargetModel*
   name: BuildTargetModel
@@ -697,11 +884,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel
   nameWithType: Initial.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
   name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Down_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
   nameWithType: Initial.Down(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Initial.Down*
   name: Down
@@ -710,11 +897,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Initial.Down
   nameWithType: Initial.Down
-- uid: Ipfs.Engine.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
   name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Up_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
   nameWithType: Initial.Up(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Initial.Up*
   name: Up
@@ -729,11 +916,11 @@ references:
   commentId: T:Ipfs.Engine.Migrations.Keys
   fullName: Ipfs.Engine.Migrations.Keys
   nameWithType: Keys
-- uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
   name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
   nameWithType: Keys.BuildTargetModel(ModelBuilder)
 - uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel*
   name: BuildTargetModel
@@ -742,11 +929,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel
   nameWithType: Keys.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Keys.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
   name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
   nameWithType: Keys.Down(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Keys.Down*
   name: Down
@@ -755,11 +942,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Keys.Down
   nameWithType: Keys.Down
-- uid: Ipfs.Engine.Migrations.Keys.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
   name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
   nameWithType: Keys.Up(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Keys.Up*
   name: Up
@@ -774,11 +961,11 @@ references:
   commentId: T:Ipfs.Engine.Migrations.Pins
   fullName: Ipfs.Engine.Migrations.Pins
   nameWithType: Pins
-- uid: Ipfs.Engine.Migrations.Pins.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+- uid: Ipfs.Engine.Migrations.Pins.BuildTargetModel(ModelBuilder)
   name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Pins.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Pins.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_BuildTargetModel_ModelBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Pins.BuildTargetModel(ModelBuilder)
+  fullName: Ipfs.Engine.Migrations.Pins.BuildTargetModel(ModelBuilder)
   nameWithType: Pins.BuildTargetModel(ModelBuilder)
 - uid: Ipfs.Engine.Migrations.Pins.BuildTargetModel*
   name: BuildTargetModel
@@ -787,11 +974,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Pins.BuildTargetModel
   nameWithType: Pins.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Pins.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Pins.Down(MigrationBuilder)
   name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Pins.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Pins.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Down_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Pins.Down(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Pins.Down(MigrationBuilder)
   nameWithType: Pins.Down(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Pins.Down*
   name: Down
@@ -800,11 +987,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Migrations.Pins.Down
   nameWithType: Pins.Down
-- uid: Ipfs.Engine.Migrations.Pins.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+- uid: Ipfs.Engine.Migrations.Pins.Up(MigrationBuilder)
   name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Pins.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Pins.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Up_MigrationBuilder_
+  commentId: M:Ipfs.Engine.Migrations.Pins.Up(MigrationBuilder)
+  fullName: Ipfs.Engine.Migrations.Pins.Up(MigrationBuilder)
   nameWithType: Pins.Up(MigrationBuilder)
 - uid: Ipfs.Engine.Migrations.Pins.Up*
   name: Up
@@ -870,11 +1057,11 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.ChunkedStream
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream
   nameWithType: ChunkedStream
-- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(Ipfs.CoreApi.IBlockApi,Ipfs.DagNode)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,DagNode)
   name: ChunkedStream(IBlockApi, DagNode)
-  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_Ipfs_CoreApi_IBlockApi_Ipfs_DagNode_
-  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(Ipfs.CoreApi.IBlockApi,Ipfs.DagNode)
-  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream(Ipfs.CoreApi.IBlockApi, Ipfs.DagNode)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_IBlockApi_DagNode_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,DagNode)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream(IBlockApi, DagNode)
   nameWithType: ChunkedStream.ChunkedStream(IBlockApi, DagNode)
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor*
   name: ChunkedStream
@@ -977,13 +1164,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read
   nameWithType: ChunkedStream.Read
-- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,CancellationToken)
   name: ReadAsync(Byte[], Int32, Int32, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_System_Byte___System_Int32_System_Int32_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,CancellationToken)
   name.vb: ReadAsync(Byte(), Int32, Int32, CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
-  fullName.vb: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[], System.Int32, System.Int32, CancellationToken)
+  fullName.vb: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte(), System.Int32, System.Int32, CancellationToken)
   nameWithType: ChunkedStream.ReadAsync(Byte[], Int32, Int32, CancellationToken)
   nameWithType.vb: ChunkedStream.ReadAsync(Byte(), Int32, Int32, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync*
@@ -993,11 +1180,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync
   nameWithType: ChunkedStream.ReadAsync
-- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,System.IO.SeekOrigin)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,SeekOrigin)
   name: Seek(Int64, SeekOrigin)
-  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_System_Int64_System_IO_SeekOrigin_
-  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,System.IO.SeekOrigin)
-  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64, System.IO.SeekOrigin)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_System_Int64_SeekOrigin_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,SeekOrigin)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64, SeekOrigin)
   nameWithType: ChunkedStream.Seek(Int64, SeekOrigin)
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek*
   name: Seek
@@ -1041,11 +1228,11 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.FileSystem
   fullName: Ipfs.Engine.UnixFileSystem.FileSystem
   nameWithType: FileSystem
-- uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid,Ipfs.CoreApi.IBlockApi,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,CancellationToken)
   name: CreateReadStream(Cid, IBlockApi, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Ipfs_Cid_Ipfs_CoreApi_IBlockApi_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid,Ipfs.CoreApi.IBlockApi,System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid, Ipfs.CoreApi.IBlockApi, System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid, IBlockApi, CancellationToken)
   nameWithType: FileSystem.CreateReadStream(Cid, IBlockApi, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream*
   name: CreateReadStream
@@ -1247,11 +1434,11 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.SizeChunker
   fullName: Ipfs.Engine.UnixFileSystem.SizeChunker
   nameWithType: SizeChunker
-- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream,Ipfs.CoreApi.AddFileOptions,Ipfs.CoreApi.IBlockApi,System.Threading.CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,CancellationToken)
   name: ChunkAsync(Stream, AddFileOptions, IBlockApi, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_System_IO_Stream_Ipfs_CoreApi_AddFileOptions_Ipfs_CoreApi_IBlockApi_System_Threading_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream,Ipfs.CoreApi.AddFileOptions,Ipfs.CoreApi.IBlockApi,System.Threading.CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream, Ipfs.CoreApi.AddFileOptions, Ipfs.CoreApi.IBlockApi, System.Threading.CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_AddFileOptions_IBlockApi_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, CancellationToken)
   nameWithType: SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync*
   name: ChunkAsync

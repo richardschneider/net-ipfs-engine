@@ -52,6 +52,18 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task AddEmpty_Check_Object()
+        {
+            // see https://github.com/ipfs/js-ipfs-unixfs/pull/25
+            var ipfs = TestFixture.Ipfs;
+            var node = await ipfs.FileSystem.AddTextAsync("");
+            var block = await ipfs.Object.GetAsync(node.Id);
+            var expected = new byte[] { 0x08, 0x02, 0x18, 0x00 };
+            Assert.AreEqual(node.Id, block.Id);
+            CollectionAssert.AreEqual(expected, block.DataBytes);
+        }
+
+        [TestMethod]
         public async Task AddDuplicateWithPin()
         {
             var ipfs = TestFixture.Ipfs;

@@ -70,7 +70,8 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        public async Task PutAndGet_POCO()
+        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/15")]
+        public async Task PutAndGet_POCO() // TODO
         {
             var expected = new Name { First = "John", Last = "Smith" };
             var id = await ipfs.Dag.PutAsync(expected);

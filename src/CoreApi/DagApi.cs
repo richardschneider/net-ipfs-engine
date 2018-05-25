@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
+using Ipfs.Engine.LinkedData;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PeterO.Cbor;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -18,53 +22,119 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task<JObject> GetAsync(
+        public async Task<JObject> GetAsync(
             Cid id,
             CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var block = await ipfs.Block.GetAsync(id, cancel);
+            var format = GetDataFormat(id);
+            var canonical = format.Deserialise(block.DataBytes);
+            using (var ms = new MemoryStream())
+            using (var sr = new StreamReader(ms))
+            using (var reader = new JsonTextReader(sr))
+            {
+                canonical.WriteJSONTo(ms);
+                ms.Position = 0;
+                return (JObject) JObject.ReadFrom(reader);
+            }
         }
 
-        public Task<JToken> GetAsync(
+        public async Task<JToken> GetAsync(
             string path,
             CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            if (path.StartsWith("/ipfs/"))
+            {
+                path = path.Remove(0, 6);
+            }
+
+            var parts = path.Split('/').Where(p => p.Length > 0).ToArray();
+            if (parts.Length == 0)
+                throw new ArgumentException($"Cannot resolve '{path}'.");
+
+            JToken token = await GetAsync(Cid.Decode(parts[0]), cancel);
+            foreach (var child in parts.Skip(1))
+            {
+                token = ((JObject)token)[child];
+                if (token == null)
+                    throw new Exception($"Missing component '{child}'.");
+            }
+
+            return token;
         }
 
-        public Task<T> GetAsync<T>(
+        public async Task<T> GetAsync<T>(
             Cid id, 
             CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var block = await ipfs.Block.GetAsync(id, cancel);
+            var format = GetDataFormat(id);
+            var canonical = format.Deserialise(block.DataBytes);
+
+            // CBOR does not support serialisation to another Type
+            // see https://github.com/peteroupc/CBOR/issues/12.
+            // So, we use JSON
+            return JObject
+                .Parse(canonical.ToJSONString())
+                .ToObject<T>();
         }
 
-        public Task<Cid> PutAsync(
+        public async Task<Cid> PutAsync(
             JObject data,
             string contentType = "cbor",
             string multiHash = MultiHash.DefaultAlgorithmName,
             bool pin = true,
             CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            using (var ms = new MemoryStream())
+            using (var sw = new StreamWriter(ms))
+            using (var writer = new JsonTextWriter(sw))
+            {
+                data.WriteTo(writer);
+                writer.Flush();
+                ms.Position = 0;
+                var format = GetDataFormat(contentType);
+                var block = format.Serialize(CBORObject.ReadJSON(ms));
+                return await ipfs.Block.PutAsync(block, contentType, multiHash, pin, cancel);
+            }
         }
 
-        public Task<Cid> PutAsync(Stream data,
+        public async Task<Cid> PutAsync(Stream data,
             string contentType = "cbor",
             string multiHash = MultiHash.DefaultAlgorithmName, 
             bool pin = true, 
             CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var format = GetDataFormat(contentType);
+            var block = format.Serialize(CBORObject.Read(data));
+            return await ipfs.Block.PutAsync(block, contentType, multiHash, pin, cancel);
         }
 
-        public Task<Cid> PutAsync(object data,
+        public async Task<Cid> PutAsync(object data,
             string contentType = "cbor",
             string multiHash = MultiHash.DefaultAlgorithmName,
             bool pin = true,
             CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var format = GetDataFormat(contentType);
+            var block = format.Serialize(CBORObject.FromObject(data));
+            return await ipfs.Block.PutAsync(block, contentType, multiHash, pin, cancel);
+        }
+
+        ILinkedDataFormat GetDataFormat(Cid id)
+        {
+            if (IpldRegistry.Formats.TryGetValue(id.ContentType, out ILinkedDataFormat format))
+                return format;
+
+            throw new Exception($"Unknown IPLD format '{id.ContentType}'.");
+        }
+
+        ILinkedDataFormat GetDataFormat(string contentType)
+        {
+            if (IpldRegistry.Formats.TryGetValue(contentType, out ILinkedDataFormat format))
+                return format;
+
+            throw new Exception($"Unknown IPLD format '{contentType}'.");
         }
     }
 }

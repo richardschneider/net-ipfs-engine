@@ -90,7 +90,7 @@ namespace Ipfs.Engine.CoreApi
             }
 
             // TODO: Let bitswap find it.
-            return null;
+            throw new NotImplementedException("Need bitswap to fetch the block.");
         }
 
         public async Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))

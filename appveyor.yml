@@ -71,6 +71,7 @@ after_test:
         --opencover -i ./coverage.xml --useRelativePaths --serviceName appveyor --jobId %APPVEYOR_BUILD_NUMBER%
 # Build documentation in doc\_site
     - del src\obj\*.* /s /q
+    - del PeerTalk\src\obj\*.* /s /q
     - docfx doc\docfx.json --logLevel Warning
     - 7z a -tzip docs.zip doc\_site
     - appveyor PushArtifact docs.zip

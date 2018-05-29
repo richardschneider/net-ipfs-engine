@@ -411,6 +411,30 @@ namespace Ipfs.Engine
             }
         }
 
+        [TestMethod]
+        public void AddDirectory_WithHashAlgorithm()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var alg = "keccak-512";
+            var options = new AddFileOptions { Hash = alg };
+            var temp = MakeTemp();
+            try
+            {
+                var dir = ipfs.FileSystem.AddDirectoryAsync(temp, false, options).Result;
+                Assert.IsTrue(dir.IsDirectory);
+                Assert.AreEqual(alg, dir.Id.Hash.Algorithm.Name);
+
+                foreach (var link in dir.Links)
+                {
+                    Assert.AreEqual(alg, link.Id.Hash.Algorithm.Name);
+                }
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
         public static string MakeTemp()
         {
             var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

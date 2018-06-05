@@ -92,14 +92,16 @@ namespace PeerTalk.Transports
             {
                 ntpData[0] = 0x1B;
                 await time.WriteAsync(ntpData, 0, ntpData.Length, cs.Token);
+                await time.FlushAsync(cs.Token);
                 await time.ReadAsync(ntpData, 0, ntpData.Length, cs.Token);
-                Assert.AreEqual(0x1c, ntpData[0]);
+                Assert.AreNotEqual(0x1B, ntpData[0]);
 
                 Array.Clear(ntpData, 0, ntpData.Length);
                 ntpData[0] = 0x1B;
                 await time.WriteAsync(ntpData, 0, ntpData.Length, cs.Token);
+                await time.FlushAsync(cs.Token);
                 await time.ReadAsync(ntpData, 0, ntpData.Length, cs.Token);
-                Assert.AreEqual(0x1c, ntpData[0]);
+                Assert.AreNotEqual(0x1B, ntpData[0]);
             }
         }
 

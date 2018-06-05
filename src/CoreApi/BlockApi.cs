@@ -70,6 +70,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
+            // Check the local filesystem for the block.
             var contentPath = GetPath(id);
             if (File.Exists(contentPath))
             {
@@ -89,8 +90,8 @@ namespace Ipfs.Engine.CoreApi
                 return block;
             }
 
-            // TODO: Let bitswap find it.
-            throw new NotImplementedException("Need bitswap to fetch the block.");
+            // Let bitswap find it.
+            return await ipfs.Bitswap.GetAsync(id, cancel);
         }
 
         public async Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))

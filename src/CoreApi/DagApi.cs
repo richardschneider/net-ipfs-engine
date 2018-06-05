@@ -73,7 +73,7 @@ namespace Ipfs.Engine.CoreApi
 
             // CBOR does not support serialisation to another Type
             // see https://github.com/peteroupc/CBOR/issues/12.
-            // So, we use JSON
+            // So, convert to JSON and use Newtonsoft to deserialise.
             return JObject
                 .Parse(canonical.ToJSONString())
                 .ToObject<T>();

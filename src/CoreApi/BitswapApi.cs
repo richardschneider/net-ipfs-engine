@@ -16,14 +16,20 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+        public async Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var bs = await ipfs.BitswapService;
+            var peer = await ipfs.LocalPeer;
+            return await bs.Want(id, peer.Id, cancel);
         }
 
-        public Task<IEnumerable<Cid>> WantsAsync(MultiHash peer = null, CancellationToken cancel = default(CancellationToken))
+        public async Task<IEnumerable<Cid>> WantsAsync(MultiHash peer = null, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            if (peer == null)
+            {
+                peer = (await ipfs.LocalPeer).Id;
+            }
+            return (await ipfs.BitswapService).PeerWants(peer);
         }
     }
 }

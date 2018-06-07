@@ -159,12 +159,15 @@ namespace PeerTalk
         /// <param name="block">
         ///   The block that was found.
         /// </param>
+        /// <returns>
+        ///   The number of consumers waiting for the <paramref name="block"/>.
+        /// </returns>
         /// <remarks>
         ///   <b>Found</b> should be called whenever a new block is discovered. 
         ///   It will continue any Task that is waiting for the block and
         ///   remove the block from the want list.
         /// </remarks>
-        public void Found(IDataBlock block)
+        public int Found(IDataBlock block)
         {
             if (wants.TryRemove(block.Id, out WantedBlock want))
             {
@@ -172,7 +175,10 @@ namespace PeerTalk
                 {
                     consumer.SetResult(block);
                 }
+                return want.Consumers.Count;
             }
+
+            return 0;
         }
     }
 }

@@ -82,5 +82,22 @@ namespace PeerTalk
             CollectionAssert.AreEqual(a.DataBytes, task.Result.DataBytes);
         }
 
+        [TestMethod]
+        public void Found_Count()
+        {
+            var bitswap = new Bitswap();
+
+            var a = new DagNode(Encoding.UTF8.GetBytes("BitswapTest found block a"));
+            Assert.AreEqual(0, bitswap.Found(a));
+
+            var cancel = new CancellationTokenSource();
+            var task1 = bitswap.Want(a.Id, self.Id, cancel.Token);
+            var task2 = bitswap.Want(a.Id, self.Id, cancel.Token);
+            Assert.AreEqual(2, bitswap.Found(a));
+
+            Assert.IsTrue(task1.IsCompleted);
+            Assert.IsTrue(task2.IsCompleted);
+        }
+
     }
 }

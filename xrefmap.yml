@@ -309,6 +309,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Bitswap
   nameWithType: IpfsEngine.Bitswap
+- uid: Ipfs.Engine.IpfsEngine.BitswapService
+  name: BitswapService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_BitswapService
+  commentId: P:Ipfs.Engine.IpfsEngine.BitswapService
+  fullName: Ipfs.Engine.IpfsEngine.BitswapService
+  nameWithType: IpfsEngine.BitswapService
+- uid: Ipfs.Engine.IpfsEngine.BitswapService*
+  name: BitswapService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_BitswapService_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.BitswapService
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.BitswapService
+  nameWithType: IpfsEngine.BitswapService
 - uid: Ipfs.Engine.IpfsEngine.Block
   name: Block
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Block

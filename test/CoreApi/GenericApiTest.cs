@@ -91,6 +91,28 @@ namespace Ipfs.Engine
                 var _= ipfs.Generic.ResolveAsync("QmHash").Result;
             });
         }
+
+        [TestMethod]
+        public async Task Resolve_DnsLink()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var iopath = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io");
+            StringAssert.StartsWith(iopath, "/ipfs/");
+       
+            var media = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io/media");
+            Assert.AreEqual(iopath + "/media", media);
+        }
+
+        [TestMethod]
+        [Ignore("Need a working bitswap")]
+        public async Task Resolve_DnsLink_Recursive()
+        {
+            var ipfs = TestFixture.Ipfs;
+
+            var media = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io/media");
+            var actual = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io/media", recursive: true);
+            Assert.AreNotEqual(media, actual);
+        }
     }
 }
 

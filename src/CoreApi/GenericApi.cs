@@ -33,9 +33,10 @@ namespace Ipfs.Engine.CoreApi
             if (path.StartsWith("/ipns/"))
             {
                 path = await ipfs.Name.ResolveAsync(path, recursive, false, cancel);
-                if (!path.StartsWith("/ipfs/"))
+                if (!recursive)
                     return path;
             }
+
             if (path.StartsWith("/ipfs/")) {
                 path = path.Remove(0, 6);
             }

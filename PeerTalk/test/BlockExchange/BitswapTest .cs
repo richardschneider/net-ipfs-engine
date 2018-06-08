@@ -46,6 +46,33 @@ namespace PeerTalk.BlockExchange
         }
 
         [TestMethod]
+        public void Block_Needed()
+        {
+            var bitswap = new Bitswap();
+            var cid1 = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block y")).Id;
+            var cid2 = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block z")).Id;
+            var cancel = new CancellationTokenSource();
+            int callCount = 0;
+            bitswap.BlockNeeded += (s, e) =>
+            {
+                Assert.IsTrue(cid1 == e.Id || cid2 == e.Id);
+                ++callCount;
+            };
+            try
+            {
+                bitswap.Want(cid1, self.Id, cancel.Token);
+                bitswap.Want(cid1, self.Id, cancel.Token);
+                bitswap.Want(cid2, self.Id, cancel.Token);
+                bitswap.Want(cid2, self.Id, cancel.Token);
+                Assert.AreEqual(2, callCount);
+            }
+            finally
+            {
+                cancel.Cancel();
+            }
+        }
+
+        [TestMethod]
         public void Want_Unwant()
         {
             var bitswap = new Bitswap();

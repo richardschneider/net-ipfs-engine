@@ -19,6 +19,14 @@ namespace PeerTalk.BlockExchange
 
         ConcurrentDictionary<Cid, WantedBlock> wants = new ConcurrentDictionary<Cid, WantedBlock>();
 
+        /// <summary>
+        ///   Raised when a blocked is needed.
+        /// </summary>
+        /// <remarks>
+        ///   Only raised when a block is first requested.
+        /// </remarks>
+        public event EventHandler<CidEventArgs> BlockNeeded;
+
         /// <inheritdoc />
         public Task StartAsync()
         {
@@ -84,7 +92,7 @@ namespace PeerTalk.BlockExchange
         public Task<IDataBlock> Want(Cid id, MultiHash peer, CancellationToken cancel)
         {
             var tsc = new TaskCompletionSource<IDataBlock>();
-            wants.AddOrUpdate(
+            var want = wants.AddOrUpdate(
                 id,
                 (key) => new WantedBlock
                 {
@@ -103,7 +111,11 @@ namespace PeerTalk.BlockExchange
             // If cancelled, then the block is unwanted.
             cancel.Register(() => Unwant(id));
 
-            // TODO: Tell other peers
+            // If first time, tell other peers.
+            if (want.Consumers.Count == 1  && BlockNeeded != null)
+            {
+                BlockNeeded(this, new CidEventArgs { Id = want.Id });
+            }
 
             return tsc.Task;
         }

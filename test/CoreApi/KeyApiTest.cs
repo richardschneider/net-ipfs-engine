@@ -151,7 +151,7 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
         {
             var name = "net-engine-test-create";
             var ipfs = TestFixture.Ipfs;
-            var key = await ipfs.Key.CreateAsync(name, "rsa", 2048);
+            var key = await ipfs.Key.CreateAsync(name, "rsa", 512);
             try
             {
                 Assert.IsNotNull(key);

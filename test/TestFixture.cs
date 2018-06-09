@@ -17,6 +17,7 @@ namespace Ipfs.Engine
         static TestFixture()
         {
             Ipfs.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "ipfs-test");
+            Ipfs.Options.KeyChain.DefaultKeySize = 512;
         }
 
         [TestMethod]

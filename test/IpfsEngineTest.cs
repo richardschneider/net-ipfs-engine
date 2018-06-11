@@ -41,14 +41,13 @@ namespace Ipfs.Engine
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
             await ipfs.StopAsync();
-#if false
+
             await ipfs.StartAsync();
             await ipfs.StopAsync();
 
             await ipfs.StartAsync();
-            //ExceptionAssert.Throws<Exception>(() => ipfs.StartAsync().Wait());
+            ExceptionAssert.Throws<Exception>(() => ipfs.StartAsync().Wait());
             await ipfs.StopAsync();
-#endif
         }
 
 

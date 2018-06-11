@@ -252,13 +252,10 @@ namespace Ipfs.Engine
             var localPeer = await LocalPeer;
             log.Debug("starting " + localPeer.Id);
 
-            var listenersAdded = new TaskCompletionSource<bool>();
-
             var tasks = new List<Task>
             {
                 new Task(async () =>
                 {
-                    await listenersAdded.Task;
                     var bootstrap = new PeerTalk.Discovery.Bootstrap
                     {
                         Addresses = await this.Bootstrap.ListAsync()
@@ -269,7 +266,6 @@ namespace Ipfs.Engine
                 }),
                 new Task(async () =>
                 {
-                    await listenersAdded.Task;
                     var mdns = new PeerTalk.Discovery.Mdns
                     {
                         Addresses = localPeer.Addresses
@@ -287,7 +283,6 @@ namespace Ipfs.Engine
                 new Task(async () =>
                 {
                     await StartSwarmAsync();
-                    listenersAdded.SetResult(true);
                 })
             };
 
@@ -297,7 +292,6 @@ namespace Ipfs.Engine
             }
 
             log.Debug("waiting for services to start");
-            await listenersAdded.Task;
             await Task.WhenAll(tasks);
             // TODO: Would be nice to make this deterministic.
             await Task.Delay(TimeSpan.FromMilliseconds(100));

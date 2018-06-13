@@ -97,12 +97,15 @@ namespace PeerTalk.Multiplex
             Substreams.TryAdd(streamId, substream);
 
             // Tell the other side about the new stream.
-            var header = new Header { StreamId = streamId, PacketType = PacketType.NewStream };
-            var wireName = Encoding.UTF8.GetBytes(name);
-            await header.WriteAsync(Channel, cancel);
-            await Channel.WriteVarintAsync(wireName.Length, cancel);
-            await Channel.WriteAsync(wireName, 0, wireName.Length);
-            await Channel.FlushAsync();
+            using (await AcquireWriteAccessAsync())
+            {
+                var header = new Header { StreamId = streamId, PacketType = PacketType.NewStream };
+                var wireName = Encoding.UTF8.GetBytes(name);
+                await header.WriteAsync(Channel, cancel);
+                await Channel.WriteVarintAsync(wireName.Length, cancel);
+                await Channel.WriteAsync(wireName, 0, wireName.Length);
+                await Channel.FlushAsync();
+            }
 
             return substream;
         }

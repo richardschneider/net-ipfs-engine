@@ -85,6 +85,7 @@ namespace PeerTalk
         {
             await EstablishProtocolAsync("/multistream/", cancel);
             await EstablishProtocolAsync("/plaintext/", cancel);
+            await EstablishProtocolAsync("/identity/", cancel);
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             new Multistream1().ProcessRequestAsync(this, cancel);
@@ -108,6 +109,10 @@ namespace PeerTalk
                     await ProtocolRegistry.Protocols[protocol]().ProcessResponseAsync(this, cancel);
                     return;
                 }
+            }
+            if (protocols.Count() == 0)
+            {
+                throw new Exception($"Protocol '{name}' is not registered.");
             }
             throw new Exception($"Remote does not support protocol '{name}'.");
         }

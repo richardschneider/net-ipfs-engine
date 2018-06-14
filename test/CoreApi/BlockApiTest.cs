@@ -110,6 +110,20 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Stat_Inline_CID()
+        {
+            var cts = new CancellationTokenSource(300);
+            var cid = new Cid
+            {
+                ContentType = "raw",
+                Hash = MultiHash.ComputeHash(blob, "identity")
+            };
+            var info = await ipfs.Block.StatAsync(cid, cts.Token);
+            Assert.AreEqual(cid.Encode(), (string)info.Id);
+            Assert.AreEqual(5, info.Size);
+        }
+
+        [TestMethod]
         public async Task Remove()
         {
             var _ = ipfs.Block.PutAsync(blob).Result;

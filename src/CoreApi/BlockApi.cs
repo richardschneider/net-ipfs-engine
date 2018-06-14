@@ -164,6 +164,11 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
+            if (id.Hash.IsIdentityHash)
+            {
+                return GetAsync(id, cancel);
+            }
+
             IDataBlock block = null;
             var contentPath = GetPath(id);
             if (File.Exists(contentPath))

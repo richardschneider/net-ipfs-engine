@@ -151,6 +151,10 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<Cid> RemoveAsync(Cid id, bool ignoreNonexistent = false, CancellationToken cancel = default(CancellationToken))
         {
+            if (id.Hash.IsIdentityHash)
+            {
+                return id;
+            }
             var contentPath = GetPath(id);
             if (File.Exists(contentPath))
             {

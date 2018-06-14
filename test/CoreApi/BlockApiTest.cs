@@ -132,6 +132,18 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Remove_Inline_CID()
+        {
+            var cid = new Cid
+            {
+                ContentType = "raw",
+                Hash = MultiHash.ComputeHash(blob, "identity")
+            };
+            var removedCid = await ipfs.Block.RemoveAsync(cid);
+            Assert.AreEqual(cid.Encode(), removedCid.Encode());
+        }
+
+        [TestMethod]
         public void Remove_Unknown()
         {
             ExceptionAssert.Throws<Exception>(() => { var _ = ipfs.Block.RemoveAsync("QmPv52ekjS75L4JmHpXVeuJ5uX2ecSfSZo88NSyxwA3rFF").Result; });

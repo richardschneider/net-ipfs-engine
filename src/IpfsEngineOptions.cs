@@ -31,5 +31,10 @@ namespace Ipfs.Engine
         ///   Defaults to <see cref="DotClient">DNS over TLS</see>.
         /// </value>
         public IDnsClient Dns { get; set; } = new DotClient();
+
+        /// <summary>
+        ///   Block options.
+        /// </summary>
+        public BlockOptions Block { get; set; } = new BlockOptions();
     }
 }

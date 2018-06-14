@@ -38,6 +38,34 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public void Put_Bytes_Inline_Cid()
+        {
+            try
+            {
+                ipfs.Options.Block.AllowInlineCid = true;
+                var cid = ipfs.Block.PutAsync(blob, contentType: "raw").Result;
+                Assert.IsTrue(cid.Hash.IsIdentityHash);
+                Assert.AreEqual("zz38RRn9SFSy", (string)cid);
+
+                var data = ipfs.Block.GetAsync(cid).Result;
+                Assert.AreEqual(blob.Length, data.Size);
+                CollectionAssert.AreEqual(blob, data.DataBytes);
+
+                var content = new byte[ipfs.Options.Block.InlineCidLimit];
+                cid = ipfs.Block.PutAsync(content, contentType: "raw").Result;
+                Assert.IsTrue(cid.Hash.IsIdentityHash);
+
+                content = new byte[ipfs.Options.Block.InlineCidLimit + 1];
+                cid = ipfs.Block.PutAsync(content, contentType: "raw").Result;
+                Assert.IsFalse(cid.Hash.IsIdentityHash);
+            }
+            finally
+            {
+                ipfs.Options.Block.AllowInlineCid = false;
+            }
+        }
+
+        [TestMethod]
         public void Put_Bytes_Hash()
         {
             var cid = ipfs.Block.PutAsync(blob, "raw", "sha2-512").Result;

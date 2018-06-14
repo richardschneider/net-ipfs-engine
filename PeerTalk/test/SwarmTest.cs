@@ -125,8 +125,12 @@ namespace PeerTalk
                 Assert.IsNotNull(remotePeer.ConnectedAddress);
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
                 Assert.IsFalse(swarm.KnownPeers.Contains(self));
+                Assert.IsTrue(remotePeer.IsValid());
 
                 // TODO: Verify that swarm knows peerB's ID and address
+                Assert.IsTrue(swarmB.KnownPeers.Contains(self));
+                Assert.IsFalse(swarmB.KnownPeers.Contains(peerB));
+
 
                 await swarm.DisconnectAsync(remoteAddress);
                 Assert.IsNull(remotePeer.ConnectedAddress);
@@ -354,6 +358,33 @@ namespace PeerTalk
                 var _ = swarm.StartListeningAsync("/ip4/127.0.0.1").Result;
             });
             Assert.AreEqual(0, peer.Addresses.Count());
+        }
+
+        [TestMethod]
+        public async Task JsIPFS_Connect()
+        {
+            var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                var remotePeer = await swarm.ConnectAsync(remoteAddress);
+                Assert.IsNotNull(remotePeer.ConnectedAddress);
+                Assert.IsTrue(swarm.KnownPeers.Contains(remotePeer));
+                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+                Assert.IsTrue(remotePeer.IsValid());
+
+                await swarm.DisconnectAsync(remoteAddress);
+                Assert.IsNull(remotePeer.ConnectedAddress);
+                Assert.IsTrue(swarm.KnownPeers.Contains(remotePeer));
+                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
         }
     }
 }

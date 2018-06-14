@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ipfs.Engine
@@ -129,5 +130,19 @@ namespace Ipfs.Engine
             Assert.AreEqual(null, cid);
         }
 
+        [TestMethod]
+        public async Task Get_Inline_CID()
+        {
+            var cts = new CancellationTokenSource(300);
+            var cid = new Cid
+            {
+                ContentType = "raw",
+                Hash = MultiHash.ComputeHash(blob, "identity")
+            };
+            var block = await ipfs.Block.GetAsync(cid, cts.Token);
+            Assert.AreEqual(cid.Encode(), block.Id.Encode());
+            Assert.AreEqual(blob.Length, block.Size);
+            CollectionAssert.AreEqual(blob, block.DataBytes);
+        }
     }
 }

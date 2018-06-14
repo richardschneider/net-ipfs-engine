@@ -70,6 +70,17 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
+            // If identity hash, then CID has the content.
+            if (id.Hash.IsIdentityHash)
+            {
+                return new DataBlock
+                {
+                    DataBytes = id.Hash.Digest,
+                    Id = id,
+                    Size = id.Hash.Digest.Length
+                };
+            }
+
             // Check the local filesystem for the block.
             var contentPath = GetPath(id);
             if (File.Exists(contentPath))

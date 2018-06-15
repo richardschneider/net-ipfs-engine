@@ -72,6 +72,7 @@ namespace Ipfs.Engine.CoreApi
             while (todos.Count > 0)
             {
                 var current = todos.Pop();
+                // TODO: exists is never set to true!
                 bool exists = false;
                 using (var repo = await ipfs.Repository(cancel))
                 {

@@ -107,11 +107,20 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
         {
+            // Small enough for an inline CID?
+            if (ipfs.Options.Block.AllowInlineCid && data.Length <= ipfs.Options.Block.InlineCidLimit)
+            {
+                return new Cid
+                {
+                    ContentType = contentType,
+                    Hash = MultiHash.ComputeHash(data, "identity")
+                };
+            }
+
             var cid = new Cid
             {
                 ContentType = contentType,
-                Hash = MultiHash.ComputeHash(data, multiHash),
-                Version = (contentType == "dag-pb" && multiHash == "sha2-256") ? 0 : 1
+                Hash = MultiHash.ComputeHash(data, multiHash)
             };
             var contentPath = GetPath(cid);
             if (File.Exists(contentPath))
@@ -151,6 +160,10 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<Cid> RemoveAsync(Cid id, bool ignoreNonexistent = false, CancellationToken cancel = default(CancellationToken))
         {
+            if (id.Hash.IsIdentityHash)
+            {
+                return id;
+            }
             var contentPath = GetPath(id);
             if (File.Exists(contentPath))
             {
@@ -164,6 +177,11 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
+            if (id.Hash.IsIdentityHash)
+            {
+                return GetAsync(id, cancel);
+            }
+
             IDataBlock block = null;
             var contentPath = GetPath(id);
             if (File.Exists(contentPath))

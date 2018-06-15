@@ -38,6 +38,34 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public void Put_Bytes_Inline_Cid()
+        {
+            try
+            {
+                ipfs.Options.Block.AllowInlineCid = true;
+                var cid = ipfs.Block.PutAsync(blob, contentType: "raw").Result;
+                Assert.IsTrue(cid.Hash.IsIdentityHash);
+                Assert.AreEqual("zz38RRn9SFSy", (string)cid);
+
+                var data = ipfs.Block.GetAsync(cid).Result;
+                Assert.AreEqual(blob.Length, data.Size);
+                CollectionAssert.AreEqual(blob, data.DataBytes);
+
+                var content = new byte[ipfs.Options.Block.InlineCidLimit];
+                cid = ipfs.Block.PutAsync(content, contentType: "raw").Result;
+                Assert.IsTrue(cid.Hash.IsIdentityHash);
+
+                content = new byte[ipfs.Options.Block.InlineCidLimit + 1];
+                cid = ipfs.Block.PutAsync(content, contentType: "raw").Result;
+                Assert.IsFalse(cid.Hash.IsIdentityHash);
+            }
+            finally
+            {
+                ipfs.Options.Block.AllowInlineCid = false;
+            }
+        }
+
+        [TestMethod]
         public void Put_Bytes_Hash()
         {
             var cid = ipfs.Block.PutAsync(blob, "raw", "sha2-512").Result;
@@ -110,11 +138,37 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Stat_Inline_CID()
+        {
+            var cts = new CancellationTokenSource(300);
+            var cid = new Cid
+            {
+                ContentType = "raw",
+                Hash = MultiHash.ComputeHash(blob, "identity")
+            };
+            var info = await ipfs.Block.StatAsync(cid, cts.Token);
+            Assert.AreEqual(cid.Encode(), (string)info.Id);
+            Assert.AreEqual(5, info.Size);
+        }
+
+        [TestMethod]
         public async Task Remove()
         {
             var _ = ipfs.Block.PutAsync(blob).Result;
             var cid = await ipfs.Block.RemoveAsync(id);
             Assert.AreEqual(id, (string)cid);
+        }
+
+        [TestMethod]
+        public async Task Remove_Inline_CID()
+        {
+            var cid = new Cid
+            {
+                ContentType = "raw",
+                Hash = MultiHash.ComputeHash(blob, "identity")
+            };
+            var removedCid = await ipfs.Block.RemoveAsync(cid);
+            Assert.AreEqual(cid.Encode(), removedCid.Encode());
         }
 
         [TestMethod]

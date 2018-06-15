@@ -7,6 +7,38 @@ references:
   commentId: N:Ipfs.Engine
   fullName: Ipfs.Engine
   nameWithType: Ipfs.Engine
+- uid: Ipfs.Engine.BlockOptions
+  name: BlockOptions
+  href: api/Ipfs.Engine.BlockOptions.html
+  commentId: T:Ipfs.Engine.BlockOptions
+  fullName: Ipfs.Engine.BlockOptions
+  nameWithType: BlockOptions
+- uid: Ipfs.Engine.BlockOptions.AllowInlineCid
+  name: AllowInlineCid
+  href: api/Ipfs.Engine.BlockOptions.html#Ipfs_Engine_BlockOptions_AllowInlineCid
+  commentId: P:Ipfs.Engine.BlockOptions.AllowInlineCid
+  fullName: Ipfs.Engine.BlockOptions.AllowInlineCid
+  nameWithType: BlockOptions.AllowInlineCid
+- uid: Ipfs.Engine.BlockOptions.AllowInlineCid*
+  name: AllowInlineCid
+  href: api/Ipfs.Engine.BlockOptions.html#Ipfs_Engine_BlockOptions_AllowInlineCid_
+  commentId: Overload:Ipfs.Engine.BlockOptions.AllowInlineCid
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockOptions.AllowInlineCid
+  nameWithType: BlockOptions.AllowInlineCid
+- uid: Ipfs.Engine.BlockOptions.InlineCidLimit
+  name: InlineCidLimit
+  href: api/Ipfs.Engine.BlockOptions.html#Ipfs_Engine_BlockOptions_InlineCidLimit
+  commentId: P:Ipfs.Engine.BlockOptions.InlineCidLimit
+  fullName: Ipfs.Engine.BlockOptions.InlineCidLimit
+  nameWithType: BlockOptions.InlineCidLimit
+- uid: Ipfs.Engine.BlockOptions.InlineCidLimit*
+  name: InlineCidLimit
+  href: api/Ipfs.Engine.BlockOptions.html#Ipfs_Engine_BlockOptions_InlineCidLimit_
+  commentId: Overload:Ipfs.Engine.BlockOptions.InlineCidLimit
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockOptions.InlineCidLimit
+  nameWithType: BlockOptions.InlineCidLimit
 - uid: Ipfs.Engine.Cryptography
   name: Ipfs.Engine.Cryptography
   href: api/Ipfs.Engine.Cryptography.html
@@ -614,6 +646,19 @@ references:
   commentId: T:Ipfs.Engine.IpfsEngineOptions
   fullName: Ipfs.Engine.IpfsEngineOptions
   nameWithType: IpfsEngineOptions
+- uid: Ipfs.Engine.IpfsEngineOptions.Block
+  name: Block
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Block
+  commentId: P:Ipfs.Engine.IpfsEngineOptions.Block
+  fullName: Ipfs.Engine.IpfsEngineOptions.Block
+  nameWithType: IpfsEngineOptions.Block
+- uid: Ipfs.Engine.IpfsEngineOptions.Block*
+  name: Block
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Block_
+  commentId: Overload:Ipfs.Engine.IpfsEngineOptions.Block
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngineOptions.Block
+  nameWithType: IpfsEngineOptions.Block
 - uid: Ipfs.Engine.IpfsEngineOptions.Dns
   name: Dns
   href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Dns

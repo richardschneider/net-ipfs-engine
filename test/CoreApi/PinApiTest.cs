@@ -35,6 +35,26 @@ namespace Ipfs.Engine
             var dag = new DagNode(Encoding.UTF8.GetBytes("some unknown info for net-ipfs-engine-pin-test"));
             await ipfs.Pin.RemoveAsync(dag.Id, true);
         }
+
+        [TestMethod]
+        public async Task Inline_Cid()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var cid = new Cid
+            {
+                ContentType = "raw",
+                Hash = MultiHash.ComputeHash(new byte[] { 1, 2, 3 }, "identity")
+            };
+            var pins = await ipfs.Pin.AddAsync(cid, recursive: false);
+            CollectionAssert.Contains(pins.ToArray(), cid);
+            var all = await ipfs.Pin.ListAsync();
+            CollectionAssert.Contains(all.ToArray(), cid);
+
+            var removals = await ipfs.Pin.RemoveAsync(cid, recursive: false);
+            CollectionAssert.Contains(removals.ToArray(), cid);
+            all = await ipfs.Pin.ListAsync();
+            CollectionAssert.DoesNotContain(all.ToArray(), cid);
+        }
     }
 }
 

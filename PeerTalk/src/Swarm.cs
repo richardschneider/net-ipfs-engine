@@ -450,9 +450,6 @@ namespace PeerTalk
         /// </param>
         /// <remarks>
         ///   Establishes the protocols of the connection.
-        ///   <para>
-        ///   If any error is encountered, then the connection is closed.
-        ///   </para>
         /// </remarks>
         async void OnRemoteConnect(Stream stream, MultiAddress local, MultiAddress remote)
         {
@@ -469,17 +466,8 @@ namespace PeerTalk
                 RemoteAddress = remote,
                 Stream = stream
             };
-            try
-            {
-                await connection.RespondAsync();
 
-                // TODO: register the peer
-            } 
-            catch (Exception e)
-            {
-                log.Error("Failed to accept remote connection", e);
-                connection.Dispose();
-            }
+            connection.ReadMessages(default(CancellationToken));
         }
 
         /// <summary>

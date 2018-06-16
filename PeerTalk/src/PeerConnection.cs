@@ -14,6 +14,9 @@ namespace PeerTalk
     /// <summary>
     ///   A connection between two peers.
     /// </summary>
+    /// <remarks>
+    ///   A connection is used to exchange messages between peers.
+    /// </remarks>
     public class PeerConnection : IDisposable
     {
         static ILog log = LogManager.GetLogger(typeof(PeerConnection));
@@ -85,16 +88,20 @@ namespace PeerTalk
         {
             await EstablishProtocolAsync("/multistream/", cancel);
             await EstablishProtocolAsync("/plaintext/", cancel);
-            await EstablishProtocolAsync("/multistream/", cancel);
-            await EstablishProtocolAsync("/ipfs/id/", cancel);
+            //await EstablishProtocolAsync("/multistream/", cancel);
+            //await EstablishProtocolAsync("/ipfs/id/", cancel);
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            new Multistream1().ProcessRequestAsync(this, cancel);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            ReadMessages(cancel);
             return null;
         }
 
-        async Task EstablishProtocolAsync(string name, CancellationToken cancel)
+        /// <summary>
+        ///   TODO:
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="cancel"></param>
+        /// <returns></returns>
+        public async Task EstablishProtocolAsync(string name, CancellationToken cancel)
         {
             var protocols = ProtocolRegistry.Protocols.Keys
                 .Where(k => k.StartsWith(name))
@@ -116,6 +123,39 @@ namespace PeerTalk
                 throw new Exception($"Protocol '{name}' is not registered.");
             }
             throw new Exception($"Remote does not support protocol '{name}'.");
+        }
+
+        /// <summary>
+        ///   Starts reading messages from the remote peer.
+        /// </summary>
+        public async void ReadMessages(CancellationToken cancel)
+        {
+            log.Debug($"start reading messsages from {RemoteAddress}");
+
+            // TODO: Only a subset of protocols are allowed until
+            // the remote is authenticated.
+            IPeerProtocol protocol = new Multistream1();
+            try
+            {
+                while (!cancel.IsCancellationRequested && stream != null)
+                {
+                    // TODO: ProcessRequestAsync => ProcessMessageAsync
+                    await protocol.ProcessRequestAsync(this, cancel);
+                }
+            }
+            catch (EndOfStreamException)
+            {
+                // eat it.
+            }
+            catch (Exception e)
+            {
+                if (!cancel.IsCancellationRequested && stream != null)
+                {
+                    log.Error("reading message failed", e);
+                }
+            }
+
+            log.Debug($"stop reading messsages from {RemoteAddress}");
         }
 
         /// <summary>

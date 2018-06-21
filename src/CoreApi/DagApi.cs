@@ -15,6 +15,11 @@ namespace Ipfs.Engine.CoreApi
 {
     class DagApi : IDagApi
     {
+        static PODOptions podOptions = new PODOptions
+        (
+            removeIsPrefix: false,
+            useCamelCase: false
+        );
         IpfsEngine ipfs;
 
         public DagApi(IpfsEngine ipfs)
@@ -117,7 +122,7 @@ namespace Ipfs.Engine.CoreApi
             CancellationToken cancel = default(CancellationToken))
         {
             var format = GetDataFormat(contentType);
-            var block = format.Serialize(CBORObject.FromObject(data));
+            var block = format.Serialize(CBORObject.FromObject(data, podOptions));
             return await ipfs.Block.PutAsync(block, contentType, multiHash, pin, cancel);
         }
 

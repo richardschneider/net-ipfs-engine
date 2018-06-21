@@ -86,12 +86,13 @@ namespace PeerTalk
         /// </remarks>
         public async Task<Peer> InitiateAsync(CancellationToken cancel = default(CancellationToken))
         {
-            await EstablishProtocolAsync("/multistream/", cancel);
+            //await EstablishProtocolAsync("/multistream/", cancel);
             await EstablishProtocolAsync("/plaintext/", cancel);
             //await EstablishProtocolAsync("/multistream/", cancel);
-            //await EstablishProtocolAsync("/ipfs/id/", cancel);
 
             ReadMessages(cancel);
+            await EstablishProtocolAsync("/ipfs/id/", cancel);
+
             return null;
         }
 
@@ -103,6 +104,7 @@ namespace PeerTalk
         /// <returns></returns>
         public async Task EstablishProtocolAsync(string name, CancellationToken cancel)
         {
+            // TODO: How to determine that the remote supports the protocol.
             var protocols = ProtocolRegistry.Protocols.Keys
                 .Where(k => k.StartsWith(name))
                 .Select(k => VersionedName.Parse(k))
@@ -114,7 +116,6 @@ namespace PeerTalk
                 var result = await Message.ReadStringAsync(Stream, cancel);
                 if (result == protocol)
                 {
-                    await ProtocolRegistry.Protocols[protocol]().ProcessResponseAsync(this, cancel);
                     return;
                 }
             }
@@ -139,8 +140,7 @@ namespace PeerTalk
             {
                 while (!cancel.IsCancellationRequested && stream != null)
                 {
-                    // TODO: ProcessRequestAsync => ProcessMessageAsync
-                    await protocol.ProcessRequestAsync(this, cancel);
+                    await protocol.ProcessMessageAsync(this, cancel);
                 }
             }
             catch (EndOfStreamException)
@@ -156,29 +156,6 @@ namespace PeerTalk
             }
 
             log.Debug($"stop reading messsages from {RemoteAddress}");
-        }
-
-        /// <summary>
-        ///   Accept a connection from the remote peer.
-        /// </summary>
-        /// <param name="cancel"></param>
-        /// <returns></returns>
-        /// <remarks>
-        ///   This should be called when a remote peer is connecting to the
-        ///   local peer.
-        /// </remarks>
-        public async Task RespondAsync(CancellationToken cancel = default(CancellationToken))
-        {
-            var ms = new Multistream1();
-
-            // Establish connection security.
-            await ms.ProcessRequestAsync(this, cancel);
-
-            // Establish multiplexer
-            await ms.ProcessRequestAsync(this, cancel);
-
-            // TODO: Get remote identity and return the Peer
-            //await EstablishProtocolAsync("/ipfs/id/", cancel);
         }
 
         #region IDisposable Support

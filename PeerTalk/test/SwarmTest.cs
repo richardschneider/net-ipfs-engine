@@ -123,6 +123,8 @@ namespace PeerTalk
             {
                 var remotePeer = await swarm.ConnectAsync(remoteAddress);
                 Assert.IsNotNull(remotePeer.ConnectedAddress);
+                // TODO: Should have remote's public key
+                //Assert.IsNotNull(remotePeer.PublicKey);
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
                 Assert.IsFalse(swarm.KnownPeers.Contains(self));
                 Assert.IsTrue(remotePeer.IsValid());

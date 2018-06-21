@@ -36,10 +36,10 @@ namespace PeerTalk.Protocols
             };
 
             var identify = new Identify1();
-            await identify.ProcessRequestAsync(connection);
+            await identify.ProcessMessageAsync(connection);
 
             ms.Position = 0;
-            await identify.ProcessResponseAsync(connection);
+            await identify.ProcessMessageAsync(connection);
             Assert.AreEqual(peerA.AgentVersion, peerB.AgentVersion);
             Assert.AreEqual(peerA.Id, peerB.Id);
             Assert.AreEqual(peerA.ProtocolVersion, peerB.ProtocolVersion);

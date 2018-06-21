@@ -32,8 +32,9 @@ namespace PeerTalk.Protocols
         }
 
         /// <inheritdoc />
-        public async Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessMessageAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
         {
+            // Send our identity.
             log.Debug("Sending identity to " + connection.RemoteAddress);
             var peer = connection.LocalPeer;
             var res = new Identify
@@ -50,15 +51,13 @@ namespace PeerTalk.Protocols
             {
                 res.PublicKey = Convert.FromBase64String(peer.PublicKey);
             }
+            // TODO: Write access to connection
             ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(connection.Stream, res, PrefixStyle.Base128);
             await connection.Stream.FlushAsync();
-        }
 
-        /// <inheritdoc />
-        public Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
-        {
+            // Receive remote identity.
             log.Debug("Receiving identity from " + connection.RemoteAddress);
-            var info = Serializer.DeserializeWithLengthPrefix<Identify>(connection.Stream, PrefixStyle.Base128);
+            var info = await ProtoBufHelper.ReadMessageAsync<Identify>(connection.Stream, cancel);
             Peer remote = connection.RemotePeer;
             if (remote == null)
             {
@@ -83,8 +82,6 @@ namespace PeerTalk.Protocols
                     .Union(remote.Addresses)
                     .ToList();
             }
-
-            return Task.CompletedTask;
         }
 
         [ProtoContract]

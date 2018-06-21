@@ -102,6 +102,7 @@ namespace PeerTalk.Transports
 #if NETSTANDARD14
             return stream;
 #else
+            return stream;
             return new BufferedStream(stream);
 #endif
         }
@@ -201,7 +202,7 @@ namespace PeerTalk.Transports
                     Stream peer = new NetworkStream(conn, ownsSocket: true);
 #if !NETSTANDARD14
                     // BufferedStream not available in .Net Standard 1.4
-                    peer = new BufferedStream(peer);
+                   // peer = new BufferedStream(peer);
 #endif
                     try
                     {

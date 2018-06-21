@@ -32,7 +32,7 @@ namespace PeerTalk.Protocols
 
 
         /// <inheritdoc />
-        public async Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessMessageAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
         {
             var msg = await Message.ReadStringAsync(connection.Stream, cancel);
 
@@ -56,17 +56,8 @@ namespace PeerTalk.Protocols
 
             // Process protocol message.
             var protocol = maker();
-            //if (protocol.ToString() == this.ToString())
-            //{
-            //    continue;
-            //}
-            await protocol.ProcessRequestAsync(connection, cancel);
+            await protocol.ProcessMessageAsync(connection, cancel);
         }
 
-        /// <inheritdoc />
-        public Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
-        {
-            return Task.CompletedTask;
-        }
     }
 }

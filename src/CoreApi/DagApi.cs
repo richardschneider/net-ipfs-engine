@@ -86,7 +86,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<Cid> PutAsync(
             JObject data,
-            string contentType = "cbor",
+            string contentType = "dag-cbor",
             string multiHash = MultiHash.DefaultAlgorithmName,
             bool pin = true,
             CancellationToken cancel = default(CancellationToken))
@@ -105,7 +105,7 @@ namespace Ipfs.Engine.CoreApi
         }
 
         public async Task<Cid> PutAsync(Stream data,
-            string contentType = "cbor",
+            string contentType = "dag-cbor",
             string multiHash = MultiHash.DefaultAlgorithmName, 
             bool pin = true, 
             CancellationToken cancel = default(CancellationToken))
@@ -116,7 +116,7 @@ namespace Ipfs.Engine.CoreApi
         }
 
         public async Task<Cid> PutAsync(object data,
-            string contentType = "cbor",
+            string contentType = "dag-cbor",
             string multiHash = MultiHash.DefaultAlgorithmName,
             bool pin = true,
             CancellationToken cancel = default(CancellationToken))

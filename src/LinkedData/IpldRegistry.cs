@@ -26,7 +26,6 @@ namespace Ipfs.Engine.LinkedData
         {
             Formats = new Dictionary<string, ILinkedDataFormat>();
             Register<CborFormat>("dag-cbor");
-            Register<CborFormat>("cbor");
             Register<ProtobufFormat>("dag-pb");
             Register<RawFormat>("raw");
         }

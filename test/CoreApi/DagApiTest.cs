@@ -42,14 +42,16 @@ namespace Ipfs.Engine
         {
             var expected = new JObject();
             expected["a"] = "alpha";
+            var expectedId = "zdpuAyZWTqKMMn76eAAdDoL5nSdwZfSBRn5cSb2L4NALcWcyS";
             var id = await ipfs.Dag.PutAsync(expected);
             Assert.IsNotNull(id);
+            Assert.AreEqual(expectedId, (string)id);
 
             var actual = await ipfs.Dag.GetAsync(id);
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected["a"], actual["a"]);
 
-            var value = (string)await ipfs.Dag.GetAsync(id.Encode() + "/a");
+            var value = (string)await ipfs.Dag.GetAsync(expectedId + "/a");
             Assert.AreEqual(expected["a"], value);
         }
 
@@ -94,6 +96,18 @@ namespace Ipfs.Engine
 
             var actual = await ipfs.Dag.GetAsync(id);
             Assert.AreEqual(Convert.ToBase64String(data), (string)actual["data"]);
+        }
+
+        // https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DAG.md
+        [TestMethod]
+        [Ignore("https://github.com/ipfs/interface-ipfs-core/issues/307")]
+        public async Task Example1()
+        {
+            Cid expected = "zdpuAzE1oAAMpsfdoexcJv6PmL9UhE8nddUYGU32R98tzV5fv";
+            var obj = new { simple = "object" };
+            var cid = await ipfs.Dag.PutAsync(obj);
+            // var cid = await ipfs.Dag.PutAsync(obj, multiHash: "sha3-512");
+            Assert.AreEqual((string)expected, (string)cid);
         }
     }
 

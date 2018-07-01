@@ -37,9 +37,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ipfs.Core" Version="0.27.4" />
+    <PackageReference Include="Ipfs.Core" Version="0.28.1" />
     <PackageReference Include="Makaretu.Dns.Unicast" Version="0.4.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0-pre-05" />
     <PackageReference Include="PeterO.Cbor" Version="3.1.0" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.2" />

@@ -23,6 +23,11 @@ namespace Ipfs.Engine.CoreApi
             return await bs.Want(id, peer.Id, cancel);
         }
 
+        public async Task UnwantAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+        {
+            (await ipfs.BitswapService).Unwant(id);
+        }
+
         public async Task<IEnumerable<Cid>> WantsAsync(MultiHash peer = null, CancellationToken cancel = default(CancellationToken))
         {
             if (peer == null)

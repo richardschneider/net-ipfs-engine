@@ -99,7 +99,7 @@ namespace PeerTalk
         /// </returns>
         /// <exception cref="Exception">
         ///   The <see cref="BlackList"/> or <see cref="WhiteList"/> policies forbid it.
-        ///   Or the "ipfs" protocol name is missing.
+        ///   Or the "p2p/ipfs" protocol name is missing.
         /// </exception>
         /// <remarks>
         ///   If the <paramref name="address"/> is not already known, then it is
@@ -308,7 +308,6 @@ namespace PeerTalk
         public Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
             var peerId = address.PeerId.ToBase58();
-
             if (otherPeers.TryGetValue(peerId, out Peer peer))
             {
                 if (peer.ConnectedAddress != null)

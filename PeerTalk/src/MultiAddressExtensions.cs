@@ -30,21 +30,11 @@ namespace PeerTalk
         /// <summary>
         ///   Determines if the multiaddress references
         ///   a loopback address.
-        /// </summary>
-        /// <param name="multiaddress">
-        ///   The mutiaddress to clone.
-        /// </param>
-        /// <returns>
         ///   <b>true</b> for a loopback (127.0.0.1 or ::1).
-        /// </returns>
         public static bool IsLoopback(this MultiAddress multiaddress)
-        {
             return multiaddress.Protocols.Any(p =>
                 p.Name == "ip4" && p.Value == "127.0.0.1" ||
                 p.Name == "ip6" && p.Value == "::1");
-        }
-
-        /// <summary>
         ///   The IP addresses for a host name.
         /// </summary>
         /// <param name="multiaddress">

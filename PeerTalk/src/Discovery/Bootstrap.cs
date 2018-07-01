@@ -41,7 +41,6 @@ namespace PeerTalk.Discovery
                 try
                 {
                     var _ = ma.PeerId;
-                }
                 catch (Exception e)
                 {
                     log.Error(e);

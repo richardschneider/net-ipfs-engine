@@ -19,6 +19,6 @@ before_script:
 
 script:
   - dotnet build -c Release --no-restore --framework netstandard2 ./PeerTalk/src
-  - dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./PeerTalk/test/PeerTalkTests.csproj
+  - dotnet test  -v n -c Release --no-restore --framework netcoreapp2.0 ./PeerTalk/test/PeerTalkTests.csproj
   - dotnet build -c Release --no-restore --framework netstandard2 ./src
   - dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./test

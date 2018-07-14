@@ -98,14 +98,7 @@ namespace PeerTalk
         /// </remarks>
         public async Task<Peer> RegisterPeerAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            if (address.Protocols.Last().Name != "ipfs")
-            {
-                throw new Exception($"'{address}' missing ipfs protocol name.");
-            }
-
-            var peerId = address.Protocols
-                .Last(p => p.Name == "ipfs")
-                .Value;
+            var peerId = address.PeerId;
             if (peerId == LocalPeer.Id)
             {
                throw new Exception("Cannot register to self.");
@@ -116,7 +109,7 @@ namespace PeerTalk
                 throw new Exception($"Communication with '{address}' is not allowed.");
             }
 
-            return otherPeers.AddOrUpdate(peerId,
+            return otherPeers.AddOrUpdate(peerId.ToBase58(),
                 (id) => {
                     log.Debug("new peer " + peerId);
                     return new Peer
@@ -305,13 +298,8 @@ namespace PeerTalk
         /// </remarks>
         public Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            var protocol = address.Protocols.LastOrDefault(p => p.Name == "ipfs");
-            if (protocol == null)
-            {
-                return Task.CompletedTask;
-            };
+            var peerId = address.PeerId.ToBase58();
 
-            var peerId = protocol.Value;
             if (otherPeers.TryGetValue(peerId, out Peer peer))
             {
                 if (peer.ConnectedAddress != null)

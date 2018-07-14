@@ -38,12 +38,21 @@ namespace PeerTalk.Discovery
             }
             foreach (var ma in Addresses)
             {
-                var ipfs = ma.Protocols.Last();
-                if (ipfs.Name != "ipfs")
+                try
                 {
-                    log.ErrorFormat("'{0}' missing ipfs protocol name", ma);
-                    continue;
+                    var _ = ma.PeerId;
                 }
+                catch (Exception e)
+                {
+                    log.Error(e);
+                    continue; // silently ignore
+                }
+                //var ipfs = ma.Protocols.Last();
+                //if (ipfs.Name != "ipfs")
+                //{
+                //    log.ErrorFormat("'{0}' missing ipfs protocol name", ma);
+                //    continue;
+                //}
                 OnPeerDiscovered(new PeerDiscoveredEventArgs { Address = ma });
             }
             return Task.CompletedTask;

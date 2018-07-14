@@ -31,7 +31,8 @@ namespace PeerTalk.Discovery
             {
                 Addresses = new MultiAddress[]
                 {
-                    "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+                    "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+                    "/ip4/104.131.131.83/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
                 }
             };
             int found = 0;
@@ -39,11 +40,11 @@ namespace PeerTalk.Discovery
             {
                 Assert.IsNotNull(e);
                 Assert.IsNotNull(e.Address);
-                Assert.AreEqual(bootstrap.Addresses.First(), e.Address);
+                CollectionAssert.Contains(bootstrap.Addresses.ToArray(), e.Address);
                 ++found;
             };
             await bootstrap.StartAsync();
-            Assert.AreEqual(1, found);
+            Assert.AreEqual(2, found);
         }
 
         [TestMethod]

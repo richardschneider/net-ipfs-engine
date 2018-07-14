@@ -252,6 +252,9 @@ namespace Ipfs.Engine
             var localPeer = await LocalPeer;
             log.Debug("starting " + localPeer.Id);
 
+            // Everybody needs the swarm.
+            await StartSwarmAsync();
+
             var tasks = new List<Task>
             {
                 new Task(async () =>
@@ -282,7 +285,6 @@ namespace Ipfs.Engine
                 }),
                 new Task(async () =>
                 {
-                    await StartSwarmAsync();
                 })
             };
 

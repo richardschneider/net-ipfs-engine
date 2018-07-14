@@ -111,6 +111,8 @@ namespace PeerTalk.Discovery
 
         private void OnAnswerReceived(object sender, MessageEventArgs e)
         {
+            return; // TODO
+
             var msg = e.Message;
             var peerNames = msg.Answers
                 .OfType<PTRRecord>()

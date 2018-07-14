@@ -18,6 +18,8 @@ namespace PeerTalk.Discovery
     {
         static ILog log = LogManager.GetLogger(typeof(Mdns));
         MulticastService mdns;
+        ServiceDiscovery discovery;
+        ServiceProfile profile;
 
         /// <inheritdoc />
         public event EventHandler<PeerDiscoveredEventArgs> PeerDiscovered;
@@ -38,9 +40,9 @@ namespace PeerTalk.Discovery
         ///   The service name for our peers.
         /// </summary>
         /// <value>
-        ///   Defaults to "ipfs.local".
+        ///   Defaults to "_ipfs._tcp".
         /// </value>
-        public string ServiceName { get; set; } = "ipfs.local";
+        public string ServiceName { get; set; } = "_ipfs._tcp";
 
         /// <summary>
         ///   Determines if the local peer responds to a query.
@@ -54,14 +56,29 @@ namespace PeerTalk.Discovery
         public Task StartAsync()
         {
             log.Debug("Starting");
+
+            profile = new ServiceProfile(
+                instanceName: Addresses.First().PeerId.ToBase58(),
+                serviceName: ServiceName,
+                port: Addresses
+                    .SelectMany(a => a.Protocols)
+                    .Where(p => p.Name == "tcp")
+                    .Select(p => ushort.Parse(p.Value))
+                    .First(),
+                addresses: Addresses
+                    .Where(a => a.Protocols[0].Name.StartsWith("ip"))
+                    .Select(a => IPAddress.Parse(a.Protocols[0].Value))
+             );
+
             mdns = new MulticastService();
+            discovery = new ServiceDiscovery(mdns);
             mdns.NetworkInterfaceDiscovered += (s, e) =>
             {
                 if (mdns == null)
                     return;
                 try
                 {
-                    mdns.SendQuery(ServiceName);
+                    mdns.SendQuery(profile.QualifiedServiceName);
                 }
                 catch (Exception ex)
                 {
@@ -72,7 +89,7 @@ namespace PeerTalk.Discovery
             mdns.AnswerReceived += OnAnswerReceived;
             if (Broadcast)
             {
-                mdns.QueryReceived += OnQueryReceived;
+                discovery.Advertise(profile);
             }
             mdns.Start();
 
@@ -97,7 +114,7 @@ namespace PeerTalk.Discovery
             var msg = e.Message;
             var peerNames = msg.Answers
                 .OfType<PTRRecord>()
-                .Where(a => DnsObject.NamesEquals(a.Name, ServiceName))
+                .Where(a => DnsObject.NamesEquals(a.Name, profile.QualifiedServiceName))
                 .Select(a => a.DomainName);
             foreach (var name in peerNames)
             {
@@ -157,10 +174,7 @@ namespace PeerTalk.Discovery
             if (Addresses.Count() == 0)
                 return;
 
-            var peerId = Addresses.First()
-                .Protocols
-                .Last(p => p.Name == "ipfs")
-                .Value;
+            var peerId = Addresses.First().PeerId.ToBase58();
             var instanceName = $"{peerId}.{ServiceName}";
             var response = msg.CreateResponse();
 

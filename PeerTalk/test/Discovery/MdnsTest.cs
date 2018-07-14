@@ -20,7 +20,7 @@ namespace PeerTalk.Discovery
             var done = new ManualResetEvent(false);
             var mdns1 = new Mdns
             {
-                ServiceName = $"{Guid.NewGuid()}.local",
+                ServiceName = $"{Guid.NewGuid()}",
                 Addresses = new List<MultiAddress> { listen1 }
             };
             var mdns2 = new Mdns
@@ -53,7 +53,7 @@ namespace PeerTalk.Discovery
             var done = new ManualResetEvent(false);
             var mdns = new Mdns
             {
-                ServiceName = $"{Guid.NewGuid()}.local",
+                ServiceName = $"{Guid.NewGuid()}",
                 Broadcast = false,
                 Addresses = new List<MultiAddress> { listen }
             };

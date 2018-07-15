@@ -77,6 +77,20 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public void Put_Bytes_Cid_Encoding()
+        {
+            var cid = ipfs.Block.PutAsync(blob, 
+                contentType: "raw", 
+                encoding: "base32").Result;
+            Assert.AreEqual(1, cid.Version);
+            Assert.AreEqual("base32", cid.Encoding);
+
+            var data = ipfs.Block.GetAsync(cid).Result;
+            Assert.AreEqual(blob.Length, data.Size);
+            CollectionAssert.AreEqual(blob, data.DataBytes);
+        }
+
+        [TestMethod]
         public void Put_Stream()
         {
             var cid = ipfs.Block.PutAsync(new MemoryStream(blob)).Result;

@@ -88,6 +88,7 @@ namespace Ipfs.Engine.CoreApi
             JObject data,
             string contentType = "dag-cbor",
             string multiHash = MultiHash.DefaultAlgorithmName,
+            string encoding = MultiBase.DefaultAlgorithmName,
             bool pin = true,
             CancellationToken cancel = default(CancellationToken))
         {
@@ -100,30 +101,32 @@ namespace Ipfs.Engine.CoreApi
                 ms.Position = 0;
                 var format = GetDataFormat(contentType);
                 var block = format.Serialize(CBORObject.ReadJSON(ms));
-                return await ipfs.Block.PutAsync(block, contentType, multiHash, pin, cancel);
+                return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel);
             }
         }
 
         public async Task<Cid> PutAsync(Stream data,
             string contentType = "dag-cbor",
-            string multiHash = MultiHash.DefaultAlgorithmName, 
+            string multiHash = MultiHash.DefaultAlgorithmName,
+            string encoding = MultiBase.DefaultAlgorithmName,
             bool pin = true, 
             CancellationToken cancel = default(CancellationToken))
         {
             var format = GetDataFormat(contentType);
             var block = format.Serialize(CBORObject.Read(data));
-            return await ipfs.Block.PutAsync(block, contentType, multiHash, pin, cancel);
+            return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel);
         }
 
         public async Task<Cid> PutAsync(object data,
             string contentType = "dag-cbor",
             string multiHash = MultiHash.DefaultAlgorithmName,
+            string encoding = MultiBase.DefaultAlgorithmName,
             bool pin = true,
             CancellationToken cancel = default(CancellationToken))
         {
             var format = GetDataFormat(contentType);
             var block = format.Serialize(CBORObject.FromObject(data, podOptions));
-            return await ipfs.Block.PutAsync(block, contentType, multiHash, pin, cancel);
+            return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel);
         }
 
         ILinkedDataFormat GetDataFormat(Cid id)

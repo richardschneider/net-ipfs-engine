@@ -75,6 +75,7 @@ namespace Ipfs.Engine.UnixFileSystem
                         data: data,
                         contentType: "raw",
                         multiHash: options.Hash,
+                        encoding: options.Encoding,
                         pin: options.Pin,
                         cancel: cancel);
                     nodes.Add(new FileSystemNode
@@ -108,6 +109,7 @@ namespace Ipfs.Engine.UnixFileSystem
                     dag.Id = await blockService.PutAsync(
                         data: dag.ToArray(),
                         multiHash: options.Hash,
+                        encoding: options.Encoding,
                         pin: options.Pin,
                         cancel: cancel);
 

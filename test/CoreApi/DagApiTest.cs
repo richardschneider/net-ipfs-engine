@@ -72,6 +72,24 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task PutAndGet_poco_CidEncoding()
+        {
+            var expected = new name { first = "John", last = "Smith" };
+            var id = await ipfs.Dag.PutAsync(expected, encoding: "base32");
+            Assert.IsNotNull(id);
+            Assert.AreEqual("base32", id.Encoding);
+            Assert.AreEqual(1, id.Version);
+
+            var actual = await ipfs.Dag.GetAsync<name>(id);
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.first, actual.first);
+            Assert.AreEqual(expected.last, actual.last);
+
+            var value = (string)await ipfs.Dag.GetAsync(id.Encode() + "/last");
+            Assert.AreEqual(expected.last, value);
+        }
+
+        [TestMethod]
         public async Task PutAndGet_POCO()
         {
             var expected = new Name { First = "John", Last = "Smith" };

@@ -84,6 +84,7 @@ namespace Ipfs.Engine.CoreApi
                 dag.Id = await blockService.PutAsync(
                     data: dag.ToArray(),
                     multiHash: options.Hash,
+                    encoding: options.Encoding,
                     pin: options.Pin,
                     cancel: cancel);
 
@@ -154,6 +155,7 @@ namespace Ipfs.Engine.CoreApi
             var cid = await GetBlockService(options).PutAsync(
                 data: dag.ToArray(),
                 multiHash: options.Hash,
+                encoding: options.Encoding,
                 pin: options.Pin,
                 cancel: cancel);
 
@@ -228,18 +230,31 @@ namespace Ipfs.Engine.CoreApi
                 throw new NotImplementedException();
             }
 
-            public Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
+            public Task<Cid> PutAsync(
+                byte[] data, 
+                string contentType = Cid.DefaultContentType, 
+                string multiHash = MultiHash.DefaultAlgorithmName,
+                string encoding = MultiBase.DefaultAlgorithmName,
+                bool pin = false, 
+                CancellationToken cancel = default(CancellationToken))
             {
                 var cid = new Cid
                 {
                     ContentType = contentType,
+                    Encoding = encoding,
                     Hash = MultiHash.ComputeHash(data, multiHash),
                     Version = (contentType == "dag-pb" && multiHash == "sha2-256") ? 0 : 1
                 };
                 return Task.FromResult(cid);
             }
 
-            public Task<Cid> PutAsync(Stream data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
+            public Task<Cid> PutAsync(
+                Stream data,
+                string contentType = Cid.DefaultContentType,
+                string multiHash = MultiHash.DefaultAlgorithmName,
+                string encoding = MultiBase.DefaultAlgorithmName,
+                bool pin = false, 
+                CancellationToken cancel = default(CancellationToken))
             {
                 throw new NotImplementedException();
             }

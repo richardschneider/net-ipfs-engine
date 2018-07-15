@@ -105,7 +105,13 @@ namespace Ipfs.Engine.CoreApi
             return await ipfs.Bitswap.GetAsync(id, cancel);
         }
 
-        public async Task<Cid> PutAsync(byte[] data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
+        public async Task<Cid> PutAsync(
+            byte[] data,
+            string contentType = Cid.DefaultContentType,
+            string multiHash = MultiHash.DefaultAlgorithmName,
+            string encoding = MultiBase.DefaultAlgorithmName,
+            bool pin = false, 
+            CancellationToken cancel = default(CancellationToken))
         {
             // Small enough for an inline CID?
             if (ipfs.Options.Block.AllowInlineCid && data.Length <= ipfs.Options.Block.InlineCidLimit)
@@ -120,6 +126,7 @@ namespace Ipfs.Engine.CoreApi
             var cid = new Cid
             {
                 ContentType = contentType,
+                Encoding = encoding,
                 Hash = MultiHash.ComputeHash(data, multiHash)
             };
             var contentPath = GetPath(cid);
@@ -149,12 +156,18 @@ namespace Ipfs.Engine.CoreApi
             return cid;
         }
 
-        public async Task<Cid> PutAsync(Stream data, string contentType = "dag-pb", string multiHash = "sha2-256", bool pin = false, CancellationToken cancel = default(CancellationToken))
+        public async Task<Cid> PutAsync(
+            Stream data,
+            string contentType = Cid.DefaultContentType,
+            string multiHash = MultiHash.DefaultAlgorithmName,
+            string encoding = MultiBase.DefaultAlgorithmName,
+            bool pin = false,
+            CancellationToken cancel = default(CancellationToken))
         {
             using (var ms = new MemoryStream())
             {
                 await data.CopyToAsync(ms);
-                return await PutAsync(ms.ToArray(), contentType, multiHash, pin, cancel);
+                return await PutAsync(ms.ToArray(), contentType, multiHash, encoding, pin, cancel);
             }
         }
 

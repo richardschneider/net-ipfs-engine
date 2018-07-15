@@ -125,6 +125,32 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public void AddFile_CidEncoding()
+        {
+            var path = Path.GetTempFileName();
+            File.WriteAllText(path, "hello world");
+            try
+            {
+                var ipfs = TestFixture.Ipfs;
+                var options = new AddFileOptions
+                {
+                    Encoding = "base32"
+                };
+                var node = ipfs.FileSystem.AddFileAsync(path, options).Result;
+                Assert.AreEqual("base32", node.Id.Encoding);
+                Assert.AreEqual(1, node.Id.Version);
+                Assert.AreEqual(0, node.Links.Count());
+
+                var text = ipfs.FileSystem.ReadAllTextAsync(node.Id).Result;
+                Assert.AreEqual("hello world", text);
+            }
+            finally
+            {
+                File.Delete(path);
+            }
+        }
+
+        [TestMethod]
         public void AddFile_Large()
         {
             AddFile(); // warm up
@@ -427,6 +453,30 @@ namespace Ipfs.Engine
                 foreach (var link in dir.Links)
                 {
                     Assert.AreEqual(alg, link.Id.Hash.Algorithm.Name);
+                }
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [TestMethod]
+        public void AddDirectory_WithCidEncoding()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var encoding = "base32z";
+            var options = new AddFileOptions { Encoding = encoding };
+            var temp = MakeTemp();
+            try
+            {
+                var dir = ipfs.FileSystem.AddDirectoryAsync(temp, false, options).Result;
+                Assert.IsTrue(dir.IsDirectory);
+                Assert.AreEqual(encoding, dir.Id.Encoding);
+
+                foreach (var link in dir.Links)
+                {
+                    Assert.AreEqual(encoding, link.Id.Encoding);
                 }
             }
             finally

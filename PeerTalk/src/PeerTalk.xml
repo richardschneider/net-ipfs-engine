@@ -21,6 +21,129 @@
         <member name="M:PeerTalk.BlackList`1.IsNotAllowedAsync(`0,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="T:PeerTalk.BlockExchange.Bitswap">
+            <summary>
+              Exchange blocks with other peers.
+            </summary>
+        </member>
+        <member name="E:PeerTalk.BlockExchange.Bitswap.BlockNeeded">
+            <summary>
+              Raised when a blocked is needed.
+            </summary>
+            <remarks>
+              Only raised when a block is first requested.
+            </remarks>
+        </member>
+        <member name="M:PeerTalk.BlockExchange.Bitswap.StartAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.BlockExchange.Bitswap.StopAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:PeerTalk.BlockExchange.Bitswap.PeerWants(Ipfs.MultiHash)">
+            <summary>
+              The blocks needed by the peer.
+            </summary>
+            <param name="peer">
+              The unique ID of the peer.
+            </param>
+            <returns>
+              The sequence of CIDs need by the <paramref name="peer"/>.
+            </returns>
+        </member>
+        <member name="M:PeerTalk.BlockExchange.Bitswap.Want(Ipfs.Cid,Ipfs.MultiHash,System.Threading.CancellationToken)">
+            <summary>
+              Adds a block to the want list.
+            </summary>
+            <param name="id">
+              The CID of the block to add to the want list.
+            </param>
+            <param name="peer">
+              The unique ID of the peer that wants the block.  This is for
+              information purposes only.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>
+              A task that represents the asynchronous operation. The task's result is
+              the contents of block.
+            </returns>
+            <remarks>
+              Other peers are informed that the block is needed by this peer. Hopefully,
+              someone will forward it to us.
+              <para>
+              Besides using <paramref name="cancel"/> for cancellation, the 
+              <see cref="M:PeerTalk.BlockExchange.Bitswap.Unwant(Ipfs.Cid)"/> method will also cancel the operation.
+              </para>
+            </remarks>
+        </member>
+        <member name="M:PeerTalk.BlockExchange.Bitswap.Unwant(Ipfs.Cid)">
+            <summary>
+              Removes the block from the want list.
+            </summary>
+            <param name="id">
+              The CID of the block to remove from the want list.
+            </param>
+            <remarks>
+              Any tasks waiting for the block are cancelled.
+              <para>
+              No exception is thrown if the <paramref name="id"/> is not
+              on the want list.
+              </para>
+            </remarks>
+        </member>
+        <member name="M:PeerTalk.BlockExchange.Bitswap.Found(Ipfs.IDataBlock)">
+            <summary>
+              Indicate that a block is found.
+            </summary>
+            <param name="block">
+              The block that was found.
+            </param>
+            <returns>
+              The number of consumers waiting for the <paramref name="block"/>.
+            </returns>
+            <remarks>
+              <b>Found</b> should be called whenever a new block is discovered. 
+              It will continue any Task that is waiting for the block and
+              remove the block from the want list.
+            </remarks>
+        </member>
+        <member name="T:PeerTalk.BlockExchange.CidEventArgs">
+            <summary>
+              The content addressable ID related to an event. 
+            </summary>
+            <see cref="T:Ipfs.Cid"/>
+            <see cref="E:PeerTalk.BlockExchange.Bitswap.BlockNeeded"/>
+        </member>
+        <member name="P:PeerTalk.BlockExchange.CidEventArgs.Id">
+            <summary>
+              The content addressable ID. 
+            </summary>
+            <value>
+              The unique ID of the block.
+            </value>
+        </member>
+        <member name="T:PeerTalk.BlockExchange.WantedBlock">
+            <summary>
+              A content addressable block that is wanted by a peer.
+            </summary>
+        </member>
+        <member name="F:PeerTalk.BlockExchange.WantedBlock.Id">
+            <summary>
+              The content ID of the block;
+            </summary>
+        </member>
+        <member name="F:PeerTalk.BlockExchange.WantedBlock.Peers">
+            <summary>
+              The peers that want the block.
+            </summary>
+        </member>
+        <member name="F:PeerTalk.BlockExchange.WantedBlock.Consumers">
+            <summary>
+              The consumers that are waiting for the block.
+            </summary>
+        </member>
         <member name="T:PeerTalk.Discovery.Bootstrap">
             <summary>
               Discovers the pre-configured peers.
@@ -65,24 +188,17 @@
         <member name="E:PeerTalk.Discovery.Mdns.PeerDiscovered">
             <inheritdoc />
         </member>
-        <member name="P:PeerTalk.Discovery.Mdns.Addresses">
+        <member name="P:PeerTalk.Discovery.Mdns.LocalPeer">
             <summary>
-              The listening addresses of the peer.
+             The local peer.
             </summary>
-            <value>
-              Each address must end with the ipfs protocol and the public ID
-              of the peer.  For example "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
-            </value>
-            <remarks>
-              This is typically <c>LocalPeer.Addresses</c>.
-            </remarks>
         </member>
         <member name="P:PeerTalk.Discovery.Mdns.ServiceName">
             <summary>
               The service name for our peers.
             </summary>
             <value>
-              Defaults to "ipfs.local".
+              Defaults to "_ipfs._upd".
             </value>
         </member>
         <member name="P:PeerTalk.Discovery.Mdns.Broadcast">
@@ -92,6 +208,14 @@
             <value>
               <b>true</b> to answer queries.  Defaults to <b>true</b>.
             </value>
+        </member>
+        <member name="M:PeerTalk.Discovery.Mdns.RefreshPeer">
+            <summary>
+              Refresh state because the peer has change.
+            </summary>
+            <remarks>
+              Internal method to refresh the DNS-SD TXT record.
+            </remarks>
         </member>
         <member name="M:PeerTalk.Discovery.Mdns.StartAsync">
             <inheritdoc />
@@ -867,6 +991,15 @@
             <summary>
               Manages communication with other peers.
             </summary>
+        </member>
+        <member name="E:PeerTalk.Swarm.ListenerEstablished">
+            <summary>
+              Raised when a listener is establihed.
+            </summary>
+            <remarks>
+              Raised when <see cref="M:PeerTalk.Swarm.StartListeningAsync(Ipfs.MultiAddress)"/>
+              succeeds.
+            </remarks>
         </member>
         <member name="P:PeerTalk.Swarm.LocalPeer">
             <summary>

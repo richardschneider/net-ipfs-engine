@@ -230,13 +230,13 @@ namespace Ipfs.Engine
         }
 
         /// <summary>
-        ///   Starts the services.
+        ///   Starts the network services.
         /// </summary>
         /// <returns>
         ///   A task that represents the asynchronous operation.
         /// </returns>
         /// <remarks>
-        ///   Starts the various IPFS and PeerTalk services.  This should
+        ///   Starts the various IPFS and PeerTalk network services.  This should
         ///   be called after any configuration changes.
         /// </remarks>
         /// <exception cref="Exception">
@@ -253,7 +253,7 @@ namespace Ipfs.Engine
             log.Debug("starting " + localPeer.Id);
 
             // Everybody needs the swarm.
-            await StartSwarmAsync();
+            var swarm = await StartSwarmAsync();
 
             var tasks = new List<Task>
             {
@@ -271,9 +271,13 @@ namespace Ipfs.Engine
                 {
                     var mdns = new PeerTalk.Discovery.Mdns
                     {
-                        Addresses = localPeer.Addresses
+                        LocalPeer = localPeer
                     };
                     mdns.PeerDiscovered += OnPeerDiscovered;
+                    swarm.ListenerEstablished += (s, e) =>
+                    {
+                        mdns.RefreshPeer();
+                    };
                     stopTasks.Add(new Task(async () => await mdns.StopAsync()));
                     await mdns.StartAsync();
                 }),
@@ -283,9 +287,6 @@ namespace Ipfs.Engine
                     stopTasks.Add(new Task(async () => await bitswap.StopAsync()));
                     await bitswap.StartAsync();
                 }),
-                new Task(async () =>
-                {
-                })
             };
 
             foreach(var task in tasks)
@@ -301,7 +302,7 @@ namespace Ipfs.Engine
             log.Debug("started");
         }
 
-        async Task StartSwarmAsync()
+        async Task<Swarm> StartSwarmAsync()
         {
             var swarm = await SwarmService;
             stopTasks.Add(new Task(async () => await swarm.StopAsync()));
@@ -327,6 +328,8 @@ namespace Ipfs.Engine
             {
                 log.Error("No listeners were created.");
             }
+
+            return swarm;
         }
 
         /// <summary>

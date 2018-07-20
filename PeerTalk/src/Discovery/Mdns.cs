@@ -153,38 +153,9 @@ namespace PeerTalk.Discovery
                     });
                 }
             }
-#if false // TODO
-            foreach (var name in peerNames)
-            {
-                var id = name.Split('.')[0];
-                var srv = msg.Answers
-                    .OfType<SRVRecord>()
-                    .First(r => DnsObject.NamesEquals(r.Name, name));
-                var aRecords = msg.Answers
-                    .OfType<ARecord>()
-                    .Where(a => DnsObject.NamesEquals(a.Name, name) || DnsObject.NamesEquals(a.Name, srv.Target));
-                foreach (var a in aRecords)
-                {
-                    OnPeerDiscovered(new PeerDiscoveredEventArgs
-                    {
-                        Address = new MultiAddress($"/ip4/{a.Address}/tcp/{srv.Port}/ipfs/{id}")
-                    });
-                }
-                var aaaaRecords = msg.Answers
-                    .OfType<AAAARecord>()
-                    .Where(a => DnsObject.NamesEquals(a.Name, name) || DnsObject.NamesEquals(a.Name, srv.Target));
-                foreach (var a in aaaaRecords)
-                {
-                    OnPeerDiscovered(new PeerDiscoveredEventArgs
-                    {
-                        Address = new MultiAddress($"/ip6/{a.Address}/tcp/{srv.Port}/ipfs/{id}")
-                    });
-                }
-            }
-#endif
-            }
+        }
 
-            void OnPeerDiscovered(PeerDiscoveredEventArgs e)
+        void OnPeerDiscovered(PeerDiscoveredEventArgs e)
         {
             // Do not discover ourself.
             var us = LocalPeer.Id;

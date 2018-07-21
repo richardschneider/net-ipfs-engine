@@ -4,9 +4,6 @@ using Makaretu.Dns;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PeerTalk.Discovery
@@ -18,29 +15,24 @@ namespace PeerTalk.Discovery
     {
         static ILog log = LogManager.GetLogger(typeof(Mdns));
         MulticastService mdns;
+        ServiceDiscovery discovery;
+        ServiceProfile profile;
 
         /// <inheritdoc />
         public event EventHandler<PeerDiscoveredEventArgs> PeerDiscovered;
 
         /// <summary>
-        ///   The listening addresses of the peer.
+        ///  The local peer.
         /// </summary>
-        /// <value>
-        ///   Each address must end with the ipfs protocol and the public ID
-        ///   of the peer.  For example "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
-        /// </value>
-        /// <remarks>
-        ///   This is typically <c>LocalPeer.Addresses</c>.
-        /// </remarks>
-        public IEnumerable<MultiAddress> Addresses { get; set; } = new List<MultiAddress>(0);
+        public Peer LocalPeer { get; set; }
 
         /// <summary>
         ///   The service name for our peers.
         /// </summary>
         /// <value>
-        ///   Defaults to "ipfs.local".
+        ///   Defaults to "_ipfs._udp". _ipfs-discovery._udp.local
         /// </value>
-        public string ServiceName { get; set; } = "ipfs.local";
+        public string ServiceName { get; set; } = "_ipfs._udp";
 
         /// <summary>
         ///   Determines if the local peer responds to a query.
@@ -50,18 +42,62 @@ namespace PeerTalk.Discovery
         /// </value>
         public bool Broadcast { get; set; } = true;
 
+        /// <summary>
+        ///   Refresh state because the peer has change.
+        /// </summary>
+        /// <remarks>
+        ///   Internal method to refresh the DNS-SD TXT record.
+        /// </remarks>
+        public void RefreshPeer()
+        {
+            // Refresh the TXT multiaddresses
+            var nameServer = discovery.NameServer;
+            Message query = new Message();
+            query.Questions.Add(new Question
+            {
+                Name = profile.FullyQualifiedName,
+                Type = DnsType.TXT
+            }
+            );
+            var txt = nameServer.ResolveAsync(query)
+                .Result
+                .Answers.OfType<TXTRecord>()
+                .First();
+            txt.Strings = txt.Strings
+                .Where(s => !s.StartsWith("dnsaddr="))
+                .ToList();
+            foreach (var address in LocalPeer.Addresses)
+            {
+                txt.Strings.Add($"dnsaddr={address.ToString()}");
+            }
+
+        }
+
         /// <inheritdoc />
         public Task StartAsync()
         {
             log.Debug("Starting");
+
+            // The best spec is https://github.com/libp2p/libp2p/issues/28
+            profile = new ServiceProfile(
+                instanceName: LocalPeer.Id.ToBase58(),
+                serviceName: ServiceName,
+                port: 0
+            );
+            foreach (var address in LocalPeer.Addresses)
+            {
+                profile.AddProperty("dnsaddr", address.ToString());
+            }
+
             mdns = new MulticastService();
+            discovery = new ServiceDiscovery(mdns);
             mdns.NetworkInterfaceDiscovered += (s, e) =>
             {
                 if (mdns == null)
                     return;
                 try
                 {
-                    mdns.SendQuery(ServiceName);
+                    mdns.SendQuery(profile.QualifiedServiceName, type: DnsType.PTR);
                 }
                 catch (Exception ex)
                 {
@@ -72,7 +108,8 @@ namespace PeerTalk.Discovery
             mdns.AnswerReceived += OnAnswerReceived;
             if (Broadcast)
             {
-                mdns.QueryReceived += OnQueryReceived;
+                log.Debug($"Advertising {profile.FullyQualifiedName}");
+                discovery.Advertise(profile);
             }
             mdns.Start();
 
@@ -95,34 +132,24 @@ namespace PeerTalk.Discovery
         private void OnAnswerReceived(object sender, MessageEventArgs e)
         {
             var msg = e.Message;
-            var peerNames = msg.Answers
+            var peerServerNames = msg.Answers
                 .OfType<PTRRecord>()
-                .Where(a => DnsObject.NamesEquals(a.Name, ServiceName))
+                .Where(a => DnsObject.NamesEquals(a.Name, profile.QualifiedServiceName))
                 .Select(a => a.DomainName);
-            foreach (var name in peerNames)
+            foreach (var name in peerServerNames)
             {
-                var id = name.Split('.')[0];
-                var srv = msg.Answers
-                    .OfType<SRVRecord>()
-                    .First(r => DnsObject.NamesEquals(r.Name, name));
-                var aRecords = msg.Answers
-                    .OfType<ARecord>()
-                    .Where(a => DnsObject.NamesEquals(a.Name, name) || DnsObject.NamesEquals(a.Name, srv.Target));
-                foreach (var a in aRecords)
+                var addresses = msg.AdditionalRecords
+                    .OfType<TXTRecord>()
+                    .Where(t => t.Name == name)
+                    .SelectMany(t => t.Strings)
+                    .Where(s => s.StartsWith("dnsaddr="))
+                    .Select(s => s.Substring(8))
+                    .Select(s => new MultiAddress(s));
+                foreach (var address in addresses)
                 {
                     OnPeerDiscovered(new PeerDiscoveredEventArgs
                     {
-                        Address = new MultiAddress($"/ip4/{a.Address}/tcp/{srv.Port}/ipfs/{id}")
-                    });
-                }
-                var aaaaRecords = msg.Answers
-                    .OfType<AAAARecord>()
-                    .Where(a => DnsObject.NamesEquals(a.Name, name) || DnsObject.NamesEquals(a.Name, srv.Target));
-                foreach (var a in aaaaRecords)
-                {
-                    OnPeerDiscovered(new PeerDiscoveredEventArgs
-                    {
-                        Address = new MultiAddress($"/ip6/{a.Address}/tcp/{srv.Port}/ipfs/{id}")
+                        Address = address
                     });
                 }
             }
@@ -131,93 +158,12 @@ namespace PeerTalk.Discovery
         void OnPeerDiscovered(PeerDiscoveredEventArgs e)
         {
             // Do not discover ourself.
-            if (Addresses.Count() != 0)
+            var us = LocalPeer.Id;
+            var them = e.Address.PeerId;
+            if (us != them)
             {
-                var us = Addresses.First()
-                    .Protocols
-                    .Last(p => p.Name == "ipfs")
-                    .Value;
-                var them = e.Address
-                    .Protocols
-                    .Last(p => p.Name == "ipfs")
-                    .Value;
-                if (us == them)
-                {
-                    return;
-                }
-            }
-            PeerDiscovered?.Invoke(this, e);
-        }
-
-        private void OnQueryReceived(object sender, MessageEventArgs e)
-        {
-            var msg = e.Message;
-            if (!msg.Questions.Any(q => DnsObject.NamesEquals(q.Name, ServiceName)))
-                return;
-            if (Addresses.Count() == 0)
-                return;
-
-            var peerId = Addresses.First()
-                .Protocols
-                .Last(p => p.Name == "ipfs")
-                .Value;
-            var instanceName = $"{peerId}.{ServiceName}";
-            var response = msg.CreateResponse();
-
-            response.Answers.Add(new PTRRecord
-            {
-                Name = ServiceName,
-                Class = Class.IN,
-                DomainName = instanceName
-            });
-
-            response.Answers.Add(new SRVRecord
-            {
-                Name = instanceName,
-                Target = instanceName,
-                Port = Addresses
-                    .SelectMany(a => a.Protocols)
-                    .Where(p => p.Name == "tcp")
-                    .Select(p => ushort.Parse(p.Value))
-                    .First()
-            });
-
-            foreach (var a in Addresses.Where(a => a.Protocols[0].Name == "ip4").Select(a => a.Protocols[0]))
-            {
-                response.Answers.Add(new ARecord
-                {
-                    Name = instanceName,
-                    Address = IPAddress.Parse(a.Value)
-                });
-            }
-
-            foreach (var a in Addresses.Where(a => a.Protocols[0].Name == "ip6").Select(a => a.Protocols[0]))
-            {
-                response.Answers.Add(new AAAARecord
-                {
-                    Name = instanceName,
-                    Address = IPAddress.Parse(a.Value)
-                });
-            }
-
-            response.Answers.Add(new TXTRecord
-            {
-                Name = instanceName,
-                Strings = { peerId }
-            });
-
-            // Socket exceptions are quitely ignored.  Hopefully, the sender
-            // will re-query.
-            try
-            {
-                mdns.SendAnswer(response);
-            }
-            catch (SocketException)
-            {
-                // eat it.
+                PeerDiscovered?.Invoke(this, e);
             }
         }
-
-
     }
 }

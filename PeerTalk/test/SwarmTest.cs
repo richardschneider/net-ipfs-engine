@@ -238,6 +238,29 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        public async Task Listening_Event()
+        {
+            var peer = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            MultiAddress addr = "/ip4/127.0.0.1/tcp/4009";
+            var swarm = new Swarm { LocalPeer = peer };
+            Peer listeningPeer = null;
+            swarm.ListenerEstablished += (s, e) =>
+            {
+                listeningPeer = e;
+            };
+            try
+            {
+                await swarm.StartListeningAsync(addr);
+                Assert.AreEqual(peer, listeningPeer);
+                Assert.AreNotEqual(0, peer.Addresses.Count());
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
+        }
+
+        [TestMethod]
         public async Task Listening_AnyPort()
         {
             var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };

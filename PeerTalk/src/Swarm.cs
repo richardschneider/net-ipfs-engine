@@ -22,6 +22,15 @@ namespace PeerTalk
         static ILog log = LogManager.GetLogger(typeof(Swarm));
 
         /// <summary>
+        ///   Raised when a listener is establihed.
+        /// </summary>
+        /// <remarks>
+        ///   Raised when <see cref="StartListeningAsync(MultiAddress)"/>
+        ///   succeeds.
+        /// </remarks>
+        public event EventHandler<Peer> ListenerEstablished;
+
+        /// <summary>
         ///  The local peer.
         /// </summary>
         public Peer LocalPeer { get; set; }
@@ -423,6 +432,7 @@ namespace PeerTalk
                 .Union(addresses)
                 .ToArray();
 
+            ListenerEstablished?.Invoke(this, LocalPeer);
             return Task.FromResult(addresses.First());
         }
 

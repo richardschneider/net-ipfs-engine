@@ -30,9 +30,9 @@ namespace PeerTalk.Discovery
         ///   The service name for our peers.
         /// </summary>
         /// <value>
-        ///   Defaults to "_ipfs._upd".
+        ///   Defaults to "_ipfs._udp". _ipfs-discovery._udp.local
         /// </value>
-        public string ServiceName { get; set; } = "_ipfs._upd";
+        public string ServiceName { get; set; } = "_ipfs._udp";
 
         /// <summary>
         ///   Determines if the local peer responds to a query.
@@ -97,7 +97,7 @@ namespace PeerTalk.Discovery
                     return;
                 try
                 {
-                    mdns.SendQuery(profile.QualifiedServiceName);
+                    mdns.SendQuery(profile.QualifiedServiceName, type: DnsType.PTR);
                 }
                 catch (Exception ex)
                 {

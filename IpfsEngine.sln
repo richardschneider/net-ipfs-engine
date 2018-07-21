@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeerTalkSpike", "PeerTalkSp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpfsCli", "IpfsCli\IpfsCli.csproj", "{ED6D22AF-BF96-4413-8DD7-1528EED80CAC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpfsServer", "IpfsServer\IpfsServer.csproj", "{F2907B2C-CFFF-4E05-8E2C-A067FEC17F77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{ED6D22AF-BF96-4413-8DD7-1528EED80CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED6D22AF-BF96-4413-8DD7-1528EED80CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED6D22AF-BF96-4413-8DD7-1528EED80CAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2907B2C-CFFF-4E05-8E2C-A067FEC17F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2907B2C-CFFF-4E05-8E2C-A067FEC17F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2907B2C-CFFF-4E05-8E2C-A067FEC17F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2907B2C-CFFF-4E05-8E2C-A067FEC17F77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

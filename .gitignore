@@ -23,7 +23,6 @@ bld/
 [Oo]bj/
 
 # docfx
-api/
 doc/api/
 
 # Visual Studo 2015 cache/options directory

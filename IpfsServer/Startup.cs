@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Ipfs.Server
 {
@@ -26,17 +27,28 @@ namespace Ipfs.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddJsonOptions(jo =>
-            {
-                jo.SerializerSettings.ContractResolver = new DefaultContractResolver()
+            services.AddMvc()
+                .AddJsonOptions(jo =>
                 {
-                    NamingStrategy = new DefaultNamingStrategy()
-                };
-            });
+                    jo.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                    {
+                        NamingStrategy = new DefaultNamingStrategy()
+                    };
+                })
+                ;
 
             var ipfs = new IpfsEngine(passphrase.ToCharArray());
             ipfs.StartAsync().Wait();
             services.AddSingleton<ICoreApi>(ipfs);
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v0", new Info {
+                    Title = "IPFS HTTP API",
+                    Description = "The API for interacting with IPFS nodes.",  
+                    Version = "v0" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +64,16 @@ namespace Ipfs.Server
             }
 
             app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v0/swagger.json", "IPFS HTTP API");
+            });
 
             app.UseMvc();
         }

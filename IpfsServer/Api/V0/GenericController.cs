@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ipfs.Server.Api.V0
 {
     [Route("api/v0/")]
+    [Produces("application/json")]
     public class GenericController : Controller
     {
         ICoreApi ipfs;

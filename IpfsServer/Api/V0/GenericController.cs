@@ -17,20 +17,20 @@ namespace Ipfs.Server.Api.V0
         [HttpGet, HttpPost, Route("id")]
         public async Task<PeerDto> Get()
         {
-            var peer = await IpfsCore.Generic.IdAsync();
+            var peer = await IpfsCore.Generic.IdAsync(null, Timeout.Token);
             return new PeerDto(peer);
         }
 
         [HttpGet, HttpPost, Route("version")]
         public async Task<Dictionary<string, string>> Version()
         {
-            return await IpfsCore.Generic.VersionAsync();
+            return await IpfsCore.Generic.VersionAsync(Timeout.Token);
         }
 
         [HttpGet(), HttpPost(), Route("resolve")]
         public async Task<PathDto> Resolve(string arg, bool recursive = false)
         {
-            var path = await IpfsCore.Generic.ResolveAsync(arg, recursive);
+            var path = await IpfsCore.Generic.ResolveAsync(arg, recursive, Timeout.Token);
             return new PathDto(path);
         }
 

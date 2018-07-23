@@ -18,13 +18,20 @@ namespace Ipfs.Server.Api.V0
     {
         public override void OnException(ExceptionContext context)
         {
-            context.HttpContext.Response.StatusCode = 500;
+            int statusCode = 500;
+            string message = context.Exception.Message;
 
-            // These exceptions indicate the request data is wrong; 400 Bad Request
+            // Map special exceptions to a status code.
             if (context.Exception is FormatException)
-                context.HttpContext.Response.StatusCode = 400;
+                statusCode = 400; // Bad Request
+            else if (context.Exception is TaskCanceledException)
+            {
+                statusCode = 504; // Gateway Timeout
+                message = "The request took too long to process.";
+            }
 
-            context.Result = new JsonResult(new ApiError { Message = context.Exception.Message });
+            context.HttpContext.Response.StatusCode = statusCode;
+            context.Result = new JsonResult(new ApiError { Message = message });
 
             base.OnException(context);
         }

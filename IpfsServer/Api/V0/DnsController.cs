@@ -14,7 +14,7 @@ namespace Ipfs.Server.Api.V0
         [HttpGet, HttpPost, Route("dns")]
         public async Task<PathDto> Get(string arg, bool recursive = false)
         {
-            var path = await IpfsCore.Dns.ResolveAsync(arg, recursive);
+            var path = await IpfsCore.Dns.ResolveAsync(arg, recursive, Timeout.Token);
             return new PathDto(path);
         }
 

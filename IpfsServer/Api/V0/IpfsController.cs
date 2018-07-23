@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Threading;
 
 namespace Ipfs.Server.Api.V0
 {
@@ -21,6 +21,8 @@ namespace Ipfs.Server.Api.V0
     [ApiExceptionFilter]
     public abstract class IpfsController : Controller
     {
+        CancellationTokenSource timeout;
+
         /// <summary>
         ///   Creates a new instance of the controller.
         /// </summary>
@@ -36,6 +38,21 @@ namespace Ipfs.Server.Api.V0
         ///   An implementation of the IPFS Core API.
         /// </summary>
         protected ICoreApi IpfsCore { get; }
+
+        /// <summary>
+        ///   The default timeout for an API request.
+        /// </summary>
+        /// <value>
+        ///   30 seconds.
+        /// </value>
+        protected CancellationTokenSource Timeout
+        {
+            get
+            {
+                timeout = timeout ?? new CancellationTokenSource(TimeSpan.FromSeconds(30)); 
+                return timeout;
+            }
+        }
 
     }
 }

@@ -28,7 +28,7 @@ namespace Ipfs.Server.Api.V0
         /// <summary>
         ///   A standard ??? error code.
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Code { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Code { get; set; }
     }
 }

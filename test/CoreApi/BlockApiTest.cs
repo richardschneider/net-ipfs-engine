@@ -145,13 +145,6 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        public void Stat_Unknown()
-        {
-            var info = ipfs.Block.StatAsync("QmPv52ekjS75L4JmHpXVeuJ5uX2ecSfSZo88NSxyzA3Raq").Result;
-            Assert.IsNull(info);
-        }
-
-        [TestMethod]
         public async Task Stat_Inline_CID()
         {
             var cts = new CancellationTokenSource(300);

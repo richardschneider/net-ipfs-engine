@@ -204,8 +204,11 @@ namespace Ipfs.Engine.CoreApi
                     Id = id,
                     Size = new FileInfo(contentPath).Length
                 };
+                return Task.FromResult(block);
             }
-            return Task.FromResult(block);
+
+            // Not held locally.
+            return GetAsync(id, cancel);
         }
     }
 }

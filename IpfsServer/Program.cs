@@ -11,15 +11,23 @@ using Microsoft.Extensions.Logging;
 
 namespace Ipfs.Server
 {
-    public class Program
+    /// <summary>
+    ///   Manages an IPFS server.
+    /// </summary>
+    class Program
     {
         static CancellationTokenSource cancel = new CancellationTokenSource();
 
+        /// <summary>
+        ///   Main entry point.
+        /// </summary>
         public static void Main(string[] args)
         {
             try
             {
-                BuildWebHost(args).RunAsync(cancel.Token).Wait();
+                BuildWebHost(args)
+                    .RunAsync(cancel.Token)
+                    .Wait();
             }
             catch (TaskCanceledException)
             {
@@ -31,11 +39,14 @@ namespace Ipfs.Server
             }
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
 
+        /// <summary>
+        ///   Stop the program.
+        /// </summary>
         public static void Shutdown()
         {
             cancel.Cancel();

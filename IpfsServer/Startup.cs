@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
@@ -13,7 +14,10 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Ipfs.Server
 {
-    public class Startup
+    /// <summary>
+    ///   Startup steps.
+    /// </summary>
+    class Startup
     {
         const string passphrase = "this is not a secure pass phrase";
 
@@ -48,6 +52,11 @@ namespace Ipfs.Server
                     Title = "IPFS HTTP API",
                     Description = "The API for interacting with IPFS nodes.",  
                     Version = "v0" });
+
+                var basePath = AppContext.BaseDirectory;
+                var assemblyName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+                var fileName = System.IO.Path.GetFileName(assemblyName + ".xml");
+                c.IncludeXmlComments(System.IO.Path.Combine(basePath, fileName));
             });
         }
 

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ipfs.Server.Api.V0
 {
+    /// <summary>
+    ///   Some miscellaneous methods.
+    /// </summary>
     public class GenericController : IpfsController
     {
         /// <summary>
@@ -14,19 +17,36 @@ namespace Ipfs.Server.Api.V0
         /// </summary>
         public GenericController(ICoreApi ipfs) : base(ipfs) { }
 
+        /// <summary>
+        ///   Information about the peer.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, HttpPost, Route("id")]
-        public async Task<PeerDto> Get()
+        public async Task<PeerInfoDto> Get()
         {
             var peer = await IpfsCore.Generic.IdAsync(null, Timeout.Token);
-            return new PeerDto(peer);
+            return new PeerInfoDto(peer);
         }
 
+        /// <summary>
+        ///   Version information on the local peer.
+        /// </summary>
         [HttpGet, HttpPost, Route("version")]
         public async Task<Dictionary<string, string>> Version()
         {
             return await IpfsCore.Generic.VersionAsync(Timeout.Token);
         }
 
+        /// <summary>
+        ///   Resolve a name.
+        /// </summary>
+        /// <param name="arg">
+        ///   The name to resolve. Can be CID + [/path], "/ipfs/..." or
+        ///   "/ipns/...".
+        /// </param>
+        /// <param name="recursive">
+        ///   Resolve until the result is an IPFS name. Defaults to <b>false</b>.
+        /// </param>
         [HttpGet(), HttpPost(), Route("resolve")]
         public async Task<PathDto> Resolve(string arg, bool recursive = false)
         {
@@ -34,12 +54,15 @@ namespace Ipfs.Server.Api.V0
             return new PathDto(path);
         }
 
+        /// <summary>
+        ///  Stop the IPFS peer.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, HttpPost, Route("shutdown")]
         public async Task Shutdown()
         {
             await IpfsCore.Generic.ShutdownAsync();
 
-            // TODO: return a response then shutdown the server
             Program.Shutdown();
         }
 

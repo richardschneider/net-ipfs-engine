@@ -16,6 +16,7 @@ namespace Ipfs.Server.Api.V0
     /// </remarks>
     public class ApiExceptionFilter : ExceptionFilterAttribute
     {
+        /// <inheritdoc />
         public override void OnException(ExceptionContext context)
         {
             int statusCode = 500;

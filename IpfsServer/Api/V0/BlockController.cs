@@ -9,11 +9,6 @@ using System.IO;
 
 namespace Ipfs.Server.Api.V0
 {
-    public class UploadMultipartModel
-    {
-        public IFormFile file { get; set; }
-        public int SomeValue { get; set; }
-    }
 
     /// <summary>
     ///   Manages IPFS blocks.

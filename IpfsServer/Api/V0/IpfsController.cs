@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 
 namespace Ipfs.Server.Api.V0
 {
@@ -54,5 +56,20 @@ namespace Ipfs.Server.Api.V0
             }
         }
 
+        /// <summary>
+        ///   Declare that the response is immutable and should be cached forever.
+        /// </summary>
+        protected void Immutable()
+        {
+            Response.Headers.Add("cache-control", new StringValues("public, max-age=31536000, immutable"));
+        }
+
+        /// <summary>
+        ///   Get the strong ETag for a CID.
+        /// </summary>
+        protected EntityTagHeaderValue ETag(Cid id)
+        {
+            return new EntityTagHeaderValue(new StringSegment("\"" + id + "\""), isWeak: false);
+        }
     }
 }

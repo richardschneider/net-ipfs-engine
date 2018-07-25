@@ -23,7 +23,7 @@ namespace Ipfs.Server.Api.V0
         ///   Developer readable description of the error.
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Detail { get; set; }
+        public string[] Details { get; set; }
 
         /// <summary>
         ///   A standard ??? error code.

@@ -19,8 +19,9 @@ namespace Ipfs.Server.Api.V0
         /// <inheritdoc />
         public override void OnException(ExceptionContext context)
         {
-            int statusCode = 500;
+            int statusCode = 500; // Internal Server Error
             string message = context.Exception.Message;
+            string[] details = null;
 
             // Map special exceptions to a status code.
             if (context.Exception is FormatException)
@@ -29,10 +30,24 @@ namespace Ipfs.Server.Api.V0
             {
                 statusCode = 504; // Gateway Timeout
                 message = "The request took too long to process.";
+            } else if (context.Exception is NotImplementedException)
+            {
+                statusCode = 501; // Not Implemented
+            }
+
+            // Internal Server Error or Not Implemented get a stack dump.
+            if (statusCode == 500 || statusCode == 501)
+            {
+                details = context.Exception.StackTrace.Split(Environment.NewLine);
             }
 
             context.HttpContext.Response.StatusCode = statusCode;
-            context.Result = new JsonResult(new ApiError { Message = message });
+            context.Result = new JsonResult(new ApiError { Message = message, Details = details });
+
+            // Remove any caching headers
+            context.HttpContext.Response.Headers.Remove("cache-control");
+            context.HttpContext.Response.Headers.Remove("etag");
+            context.HttpContext.Response.Headers.Remove("last-modified");
 
             base.OnException(context);
         }

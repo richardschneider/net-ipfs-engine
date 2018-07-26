@@ -22,6 +22,18 @@ namespace Ipfs.Engine.CoreApi
     class BlockApi : IBlockApi
     {
         static ILog log = LogManager.GetLogger(typeof(BlockApi));
+        static DataBlock emptyDirectory = new DataBlock
+        {
+            DataBytes = ObjectApi.EmptyDirectory.ToArray(),
+            Id = ObjectApi.EmptyDirectory.Id,
+            Size = ObjectApi.EmptyDirectory.ToArray().Length
+        };
+        static DataBlock emptyNode = new DataBlock
+        {
+            DataBytes = ObjectApi.EmptyNode.ToArray(),
+            Id = ObjectApi.EmptyNode.Id,
+            Size = ObjectApi.EmptyNode.ToArray().Length
+        };
 
         IpfsEngine ipfs;
         string blocksFolder;
@@ -70,6 +82,12 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
+            // Hack for empty object and empty directory object
+            if (id == emptyDirectory.Id)
+                return emptyDirectory;
+            if (id == emptyNode.Id)
+                return emptyNode;
+
             // If identity hash, then CID has the content.
             if (id.Hash.IsIdentityHash)
             {

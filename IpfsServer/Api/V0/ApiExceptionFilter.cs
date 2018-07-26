@@ -30,9 +30,14 @@ namespace Ipfs.Server.Api.V0
             {
                 statusCode = 504; // Gateway Timeout
                 message = "The request took too long to process.";
-            } else if (context.Exception is NotImplementedException)
+            }
+            else if (context.Exception is NotImplementedException)
             {
                 statusCode = 501; // Not Implemented
+            }
+            else if (context.Exception is System.Reflection.TargetInvocationException)
+            {
+                message = context.Exception.InnerException.Message;
             }
 
             // Internal Server Error or Not Implemented get a stack dump.

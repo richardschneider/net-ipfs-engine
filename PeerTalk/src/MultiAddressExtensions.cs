@@ -28,17 +28,20 @@ namespace PeerTalk
         }
 
         /// <summary>
-        ///   Creates a clone of the multiaddress.
+        ///   Determines if the multiaddress references
+        ///   a loopback address.
         /// </summary>
         /// <param name="multiaddress">
         ///   The mutiaddress to clone.
         /// </param>
         /// <returns>
-        ///   A new multiaddress with a copy of the <see cref="MultiAddress.Protocols"/>.
+        ///   <b>true</b> for a loopback (127.0.0.1 or ::1).
         /// </returns>
-        public static MultiAddress Clone (this MultiAddress multiaddress)
+        public static bool IsLoopback(this MultiAddress multiaddress)
         {
-            return new MultiAddress(multiaddress.ToString());
+            return multiaddress.Protocols.Any(p =>
+                p.Name == "ip4" && p.Value == "127.0.0.1" ||
+                p.Name == "ip6" && p.Value == "::1");
         }
 
         /// <summary>

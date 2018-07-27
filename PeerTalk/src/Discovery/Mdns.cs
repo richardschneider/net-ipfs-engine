@@ -30,9 +30,9 @@ namespace PeerTalk.Discovery
         ///   The service name for our peers.
         /// </summary>
         /// <value>
-        ///   Defaults to "_ipfs._udp". _ipfs-discovery._udp.local
+        ///   Defaults to "_p2p._udp".
         /// </value>
-        public string ServiceName { get; set; } = "_ipfs._udp";
+        public string ServiceName { get; set; } = "_p2p._udp";
 
         /// <summary>
         ///   Determines if the local peer responds to a query.
@@ -66,7 +66,7 @@ namespace PeerTalk.Discovery
             txt.Strings = txt.Strings
                 .Where(s => !s.StartsWith("dnsaddr="))
                 .ToList();
-            foreach (var address in LocalPeer.Addresses)
+            foreach (var address in LocalPeer.Addresses.Where(a => !a.IsLoopback()))
             {
                 txt.Strings.Add($"dnsaddr={address.ToString()}");
             }
@@ -84,7 +84,7 @@ namespace PeerTalk.Discovery
                 serviceName: ServiceName,
                 port: 0
             );
-            foreach (var address in LocalPeer.Addresses)
+            foreach (var address in LocalPeer.Addresses.Where(a => !a.IsLoopback()))
             {
                 profile.AddProperty("dnsaddr", address.ToString());
             }

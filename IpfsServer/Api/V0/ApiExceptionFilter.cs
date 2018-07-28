@@ -26,6 +26,8 @@ namespace Ipfs.Server.Api.V0
             // Map special exceptions to a status code.
             if (context.Exception is FormatException)
                 statusCode = 400; // Bad Request
+            else if (context.Exception is KeyNotFoundException)
+                statusCode = 400; // Bad Request
             else if (context.Exception is TaskCanceledException)
             {
                 statusCode = 504; // Gateway Timeout

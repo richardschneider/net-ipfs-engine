@@ -29,7 +29,7 @@ namespace Ipfs.Server.Api.V0
             else if (context.Exception is TaskCanceledException)
             {
                 statusCode = 504; // Gateway Timeout
-                message = "The request took too long to process.";
+                message = "The request took too long to process or was cancelled.";
             }
             else if (context.Exception is NotImplementedException)
             {

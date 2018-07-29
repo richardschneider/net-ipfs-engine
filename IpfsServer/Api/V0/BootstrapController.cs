@@ -99,8 +99,16 @@ namespace Ipfs.Server.Api.V0
         /// </param>
         /// <returns></returns>
         [HttpGet, HttpPost, Route("bootstrap/rm")]
-        public async Task<BootstrapPeersDto> Remove(string arg)
+        public async Task<BootstrapPeersDto> Remove(
+            string arg,
+            bool all = false)
         {
+            if (all)
+            {
+                await IpfsCore.Bootstrap.RemoveAllAsync(Timeout.Token);
+                return new BootstrapPeersDto { Peers = new string[0] };
+            }
+
             var peer = await IpfsCore.Bootstrap.RemoveAsync(arg, Timeout.Token);
             return new BootstrapPeersDto
             {

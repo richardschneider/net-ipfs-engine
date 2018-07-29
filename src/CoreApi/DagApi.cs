@@ -134,7 +134,7 @@ namespace Ipfs.Engine.CoreApi
             if (IpldRegistry.Formats.TryGetValue(id.ContentType, out ILinkedDataFormat format))
                 return format;
 
-            throw new Exception($"Unknown IPLD format '{id.ContentType}'.");
+            throw new KeyNotFoundException($"Unknown IPLD format '{id.ContentType}'.");
         }
 
         ILinkedDataFormat GetDataFormat(string contentType)
@@ -142,7 +142,7 @@ namespace Ipfs.Engine.CoreApi
             if (IpldRegistry.Formats.TryGetValue(contentType, out ILinkedDataFormat format))
                 return format;
 
-            throw new Exception($"Unknown IPLD format '{contentType}'.");
+            throw new KeyNotFoundException($"Unknown IPLD format '{contentType}'.");
         }
     }
 }

@@ -72,6 +72,12 @@ namespace Ipfs.Server.Api.V0
             };
         }
 
+        /// <summary>
+        ///   Remove the CID from the want list.
+        /// </summary>
+        /// <param name="arg">
+        ///   The CID that is no longer needed.
+        /// </param>
         [HttpGet, HttpPost, Route("bitswap/unwant")]
         public async Task Unwants(string arg)
         {

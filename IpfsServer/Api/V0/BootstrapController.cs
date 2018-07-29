@@ -80,10 +80,23 @@ namespace Ipfs.Server.Api.V0
         /// <param name="arg">
         ///   The multiaddress of the peer.
         /// </param>
-        /// <returns></returns>
+        /// <param name="default">
+        ///   If <b>true</b>, add all the default bootstrap peers.
+        /// </param>
         [HttpGet, HttpPost, Route("bootstrap/add")]
-        public async Task<BootstrapPeersDto> Add(string arg)
+        public async Task<BootstrapPeersDto> Add(
+            string arg,
+            bool @default = false)
         {
+            if (@default)
+            {
+                var peers = await IpfsCore.Bootstrap.AddDefaultsAsync(Timeout.Token);
+                return new BootstrapPeersDto
+                {
+                    Peers = peers.Select(p => p.ToString())
+                };
+            }
+
             var peer = await IpfsCore.Bootstrap.AddAsync(arg, Timeout.Token);
             return new BootstrapPeersDto
             {
@@ -97,7 +110,9 @@ namespace Ipfs.Server.Api.V0
         /// <param name="arg">
         ///   The multiaddress of the peer.
         /// </param>
-        /// <returns></returns>
+        /// <param name="all">
+        ///   If <b>true</b>, remove all the bootstrap peers.
+        /// </param>
         [HttpGet, HttpPost, Route("bootstrap/rm")]
         public async Task<BootstrapPeersDto> Remove(
             string arg,

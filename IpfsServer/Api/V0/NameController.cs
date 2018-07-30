@@ -87,8 +87,8 @@ namespace Ipfs.Server.Api.V0
             if (String.IsNullOrWhiteSpace(lifetime))
                 throw new ArgumentNullException("type", "The lifetime is required.");
 
-            // TODO: Parse lifetime
-            var content = await IpfsCore.Name.PublishAsync(arg, resolve, key, null, Timeout.Token);
+            var duration = Duration.Parse(lifetime);
+            var content = await IpfsCore.Name.PublishAsync(arg, resolve, key, duration, Timeout.Token);
             return new NamedContentDto
             {
                 Name = content.NamePath,

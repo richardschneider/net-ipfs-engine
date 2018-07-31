@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Ipfs.CoreApi;
+using Ipfs.Engine;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +19,8 @@ namespace Ipfs.Server
     class Program
     {
         static CancellationTokenSource cancel = new CancellationTokenSource();
+        public static IpfsEngine IpfsEngine;
+        const string passphrase = "this is not a secure pass phrase";
 
         /// <summary>
         ///   Main entry point.
@@ -25,6 +29,9 @@ namespace Ipfs.Server
         {
             try
             {
+                IpfsEngine = new IpfsEngine(passphrase.ToCharArray());
+                IpfsEngine.StartAsync().Wait();
+
                 BuildWebHost(args)
                     .RunAsync(cancel.Token)
                     .Wait();
@@ -37,12 +44,31 @@ namespace Ipfs.Server
             {
                 Console.WriteLine(e.Message); // TODO: better error handling
             }
+
+            if (IpfsEngine != null)
+            {
+                IpfsEngine.StopAsync().Wait();
+            }
         }
 
-        static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        static IWebHost BuildWebHost(string[] args)
+        {
+            var urls = "http://127.0.0.1:5009";
+            var addr = (string)IpfsEngine.Config.GetAsync("Addresses.API").Result;
+            if (addr != null)
+            {
+                // Quick and dirty: multiaddress to URL
+                urls = addr
+                    .Replace("/ip4/", "http://")
+                    .Replace("/ip6/", "http://")
+                    .Replace("/tcp/", ":");
+            }
+
+            return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls(urls)
                 .Build();
+        }
 
         /// <summary>
         ///   Stop the program.

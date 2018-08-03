@@ -10,7 +10,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Ipfs.Server.Api.V0
+namespace Ipfs.Server.HttpApi.V0
 {
 
     /// <summary>

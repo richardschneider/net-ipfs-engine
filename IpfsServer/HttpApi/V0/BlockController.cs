@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 
-namespace Ipfs.Server.Api.V0
+namespace Ipfs.Server.HttpApi.V0
 {
 
     /// <summary>

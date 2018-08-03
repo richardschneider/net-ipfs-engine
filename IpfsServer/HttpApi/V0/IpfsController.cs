@@ -9,7 +9,7 @@ using System.Threading;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
-namespace Ipfs.Server.Api.V0
+namespace Ipfs.Server.HttpApi.V0
 {
     /// <summary>
     ///   A base controller for IPFS HTTP API.

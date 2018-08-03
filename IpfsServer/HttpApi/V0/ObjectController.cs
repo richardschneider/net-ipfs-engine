@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.Globalization;
 using System.Text;
 
-namespace Ipfs.Server.Api.V0
+namespace Ipfs.Server.HttpApi.V0
 {
 
     /// <summary>

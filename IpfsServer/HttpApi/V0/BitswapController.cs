@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Ipfs.Server.Api.V0
+namespace Ipfs.Server.HttpApi.V0
 {
 
     /// <summary>

@@ -1,7 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Ipfs.Server</AssemblyName>
+    <RootNamespace>Ipfs.Server</RootNamespace>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+
+    <!-- developer build is always 0.42 -->
+    <AssemblyVersion>0.42</AssemblyVersion>
+    <Version>0.42</Version>
+
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Ipfs.Core" Version="0.29.0" />

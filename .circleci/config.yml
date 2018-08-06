@@ -18,6 +18,7 @@ jobs:
       - run: dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./PeerTalk/test/PeerTalkTests.csproj --filter TestCategory!=IPv6
       - run: dotnet build -c Release --no-restore --framework netstandard2 ./src
       - run: dotnet test  -c Release --no-restore --framework netcoreapp2.0 ./test --filter TestCategory!=IPv6
+      - run: dotnet build -c Release --no-restore --framework netcoreapp2.0 ./IpfsServer
 
 # Circle CI does not completely support IPv6
 # see https://discuss.circleci.com/t/ipv6-support/13571

@@ -1,0 +1,37 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<div class="jumbotron">
+    <h1>IPFS</h1>
+    <p class="lead">Join the <a href="https://ipfs.io/">InterPlanetary File System</a> - the permanent distributed web.</p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Developer API</h2>
+        <p>
+            A REST interface to help developers build cool things with content addressing and
+            peer to peer technology.
+        </p>
+        <p>
+            <a class="btn btn-primary" href="/swagger/index.html">Learn more</a>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Gateway</h2>
+        <p>
+            The gateway allows todays HTTP/S web to easily use the web of tomorrow.
+            Just use <code>localhost:8080/ipfs/...</code> as the URL of some content.
+        </p>
+        <p><a class="btn btn-default" href="/solve">More...</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>WebUI</h2>
+        <p>
+            You can check on your node info, network addresses, see connections on a globe visually, see your files,
+            look at your config and logs without needing to touch the CLI.
+        </p>
+        <p><a class="btn btn-default" href="/webui">Try it out</a></p>
+    </div>
+</div>

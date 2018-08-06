@@ -4,9 +4,8 @@
     <TargetFrameworks>net461;netstandard14;netstandard2</TargetFrameworks>
     <AssemblyName>Ipfs.Engine</AssemblyName>
     <RootNamespace>Ipfs.Engine</RootNamespace>
-    <DocumentationFile>Ipfs.Engine.xml</DocumentationFile>
-    <DebugType>full</DebugType>
-    
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+
     <!-- developer build is always 0.42 -->
     <AssemblyVersion>0.42</AssemblyVersion>
     <Version>0.42</Version>

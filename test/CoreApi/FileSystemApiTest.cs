@@ -287,10 +287,11 @@ namespace Ipfs.Engine
                 Assert.AreEqual(nodes[i+1], (string)links[i].Id);
             }
 
-            foreach (var n in nodes)
-            {
-                Assert.IsNull(await ipfs.Block.StatAsync(n));
-            }
+            // TODO: Need a method to test that the CId is not held locally.
+            //foreach (var n in nodes)
+            //{
+            //    Assert.IsNull(await ipfs.Block.StatAsync(n));
+            //}
         }
 
         [TestMethod]

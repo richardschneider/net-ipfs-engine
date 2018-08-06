@@ -85,7 +85,7 @@ namespace Ipfs.Engine.CoreApi
         {
             var addrs = (await ListAddressFiltersAsync(persist, cancel)).ToList();
             if (!addrs.Any(a => a == address))
-                return address;
+                return null;
 
             addrs.Remove(address);
             var strings = addrs.Select(a => a.ToString());

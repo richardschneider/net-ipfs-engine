@@ -11,8 +11,8 @@ namespace Ipfs.Engine.CoreApi
 {
     class ObjectApi : IObjectApi
     {
-        static DagNode EmptyNode;
-        static DagNode EmptyDirectory;
+        internal static DagNode EmptyNode;
+        internal static DagNode EmptyDirectory;
 
         IpfsEngine ipfs;
 

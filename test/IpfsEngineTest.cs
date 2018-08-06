@@ -87,12 +87,13 @@ namespace Ipfs.Engine
             {
                 var swarm = await ipfs.SwarmService;
                 var knownPeers = swarm.KnownPeerAddresses.ToArray();
-                while (bootPeers.Count() != knownPeers.Count())
+                while (true)
                 {
+                    if (bootPeers.All(a => knownPeers.Contains(a)))
+                        break;
                     await Task.Delay(50);
                     knownPeers = swarm.KnownPeerAddresses.ToArray();
                 }
-                CollectionAssert.AreEquivalent(bootPeers, knownPeers);
             }
             finally
             {

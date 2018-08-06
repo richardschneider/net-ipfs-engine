@@ -198,7 +198,7 @@
               The service name for our peers.
             </summary>
             <value>
-              Defaults to "_ipfs._upd".
+              Defaults to "_ipfs._udp". _ipfs-discovery._udp.local
             </value>
         </member>
         <member name="P:PeerTalk.Discovery.Mdns.Broadcast">

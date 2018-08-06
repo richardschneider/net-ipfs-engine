@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - IPFS Server</title>
 
+    <link rel="icon" type="image/png" href="~/images/favicon.png">
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -24,17 +25,13 @@
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </button>
                 <a asp-page="/Index" class="navbar-brand">IPFS Server</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-page="/Index">Home</a></li>
                     <li><a href="/swagger/index.html">REST API</a></li>
                     <li><a asp-page="/About">About</a></li>
-                    <li><a asp-page="/Contact">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -43,7 +40,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2017 - IPFS Server</p>
+            <p>&copy; 2018 - IPFS Server</p>
         </footer>
     </div>
 

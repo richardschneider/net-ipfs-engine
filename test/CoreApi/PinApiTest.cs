@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ipfs.Engine
@@ -55,6 +56,19 @@ namespace Ipfs.Engine
             all = await ipfs.Pin.ListAsync();
             CollectionAssert.DoesNotContain(all.ToArray(), cid);
         }
+
+        [TestMethod]
+        public void Add_Unknown()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var dag = new DagNode(Encoding.UTF8.GetBytes("some unknown info for net-ipfs-engine-pin-test"));
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var cts = new CancellationTokenSource(250);
+                var _ = ipfs.Pin.AddAsync(dag.Id, true, cts.Token).Result;
+            });
+        }
+
     }
 }
 

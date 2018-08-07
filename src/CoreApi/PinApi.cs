@@ -24,9 +24,15 @@ namespace Ipfs.Engine.CoreApi
             todos.Push(id);
             var dones = new List<Cid>();
 
+            // The pin is added before the content is fetched, so that
+            // garbage collection will not delete the newly pinned
+            // content.
+
             while (todos.Count > 0)
             {
                 var current = todos.Pop();
+
+                // Add CID to PIN database.
                 using (var repo = await ipfs.Repository(cancel))
                 {
                     var cid = current.Encode();
@@ -40,6 +46,11 @@ namespace Ipfs.Engine.CoreApi
                         // Already pinned is okay.
                     }
                 }
+
+                // Make sure that the content is stored locally.
+                await ipfs.Block.GetAsync(current, cancel);
+
+                // Recursively pin the links?
                 if (recursive)
                 {
                     var links = await ipfs.Object.LinksAsync(current, cancel);

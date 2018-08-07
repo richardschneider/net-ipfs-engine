@@ -118,13 +118,11 @@ namespace Ipfs.Engine
 
         // https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DAG.md
         [TestMethod]
-        [Ignore("https://github.com/ipfs/interface-ipfs-core/issues/307")]
         public async Task Example1()
         {
-            Cid expected = "zdpuAzE1oAAMpsfdoexcJv6PmL9UhE8nddUYGU32R98tzV5fv";
+            Cid expected = "zBwWX9ecx5F4X54WAjmFLErnBT6ByfNxStr5ovowTL7AhaUR98RWvXPS1V3HqV1qs3r5Ec5ocv7eCdbqYQREXNUfYNuKG";
             var obj = new { simple = "object" };
-            var cid = await ipfs.Dag.PutAsync(obj);
-            // var cid = await ipfs.Dag.PutAsync(obj, multiHash: "sha3-512");
+            var cid = await ipfs.Dag.PutAsync(obj, multiHash: "sha3-512");
             Assert.AreEqual((string)expected, (string)cid);
         }
     }

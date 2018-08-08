@@ -51,7 +51,7 @@ namespace Ipfs.Engine.CoreApi
                 await ipfs.Block.GetAsync(current, cancel);
 
                 // Recursively pin the links?
-                if (recursive)
+                if (recursive && current.ContentType == "dag-pb")
                 {
                     var links = await ipfs.Object.LinksAsync(current, cancel);
                     foreach (var link in links)
@@ -59,6 +59,7 @@ namespace Ipfs.Engine.CoreApi
                         todos.Push(link.Id);
                     }
                 }
+
                 dones.Add(current);
             }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ipfs.CoreApi;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
@@ -69,6 +70,21 @@ namespace Ipfs.Engine
             });
         }
 
+        [TestMethod]
+        public async Task Add_Recursive()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ChunkSize = 3,
+                Pin = false,
+                RawLeaves = true,
+                Wrap = true,
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            var cids = await ipfs.Pin.AddAsync(node.Id, true);
+            Assert.AreEqual(6, cids.Count());
+        }
     }
 }
 

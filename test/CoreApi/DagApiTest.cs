@@ -118,7 +118,7 @@ namespace Ipfs.Engine
 
         // https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DAG.md
         [TestMethod]
-        [Ignore(https://github.com/richardschneider/net-ipfs-engine/issues/30)]
+        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/30")]
         public async Task Example1()
         {
             Cid expected = "zBwWX9ecx5F4X54WAjmFLErnBT6ByfNxStr5ovowTL7AhaUR98RWvXPS1V3HqV1qs3r5Ec5ocv7eCdbqYQREXNUfYNuKG";

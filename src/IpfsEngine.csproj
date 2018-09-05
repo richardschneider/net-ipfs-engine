@@ -16,7 +16,7 @@
     <Title>IPFS Engine</Title>
     <Description>An embedded IPFS engine for .Net</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/richardschneider/net-ipfs-engine/releases</PackageReleaseNotes>
     <Copyright>© 2018 Richard Schneider</Copyright>
     <PackageTags>ipfs peer-to-peer p2p distributed file-system web</PackageTags>
     <IncludeSymbols>True</IncludeSymbols>

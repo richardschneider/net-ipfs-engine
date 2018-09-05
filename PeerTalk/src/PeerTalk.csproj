@@ -4,7 +4,7 @@
     <TargetFrameworks>net461;netstandard14;netstandard2</TargetFrameworks>
     <AssemblyName>PeerTalk</AssemblyName>
     <RootNamespace>PeerTalk</RootNamespace>
-    <DocumentationFile>PeerTalk.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <DebugType>full</DebugType>
     
     <!-- developer build is always 0.42 -->

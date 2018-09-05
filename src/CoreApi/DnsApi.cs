@@ -20,18 +20,32 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
         {
-            var response = await ipfs.Options.Dns.QueryAsync(name, DnsType.TXT, cancel);
-            var link = response.Answers
-                .OfType<TXTRecord>()
-                .SelectMany(txt => txt.Strings)
-                .Where(s => s.StartsWith("dnslink="))
-                .Select(s => s.Substring(8))
-                .First();
+            var visited = new List<string>();
 
-            if (recursive && !link.StartsWith("/ipfs/"))
-                throw new NotImplementedException("Following DNS recursive link.");
+            while (true)
+            {
+                if (visited.Contains(name))
+                    throw new Exception($"Circular reference detected for '{name}'.");
 
-            return link;
+                var response = await ipfs.Options.Dns.QueryAsync(name, DnsType.TXT, cancel);
+                var link = response.Answers
+                    .OfType<TXTRecord>()
+                    .SelectMany(txt => txt.Strings)
+                    .Where(s => s.StartsWith("dnslink="))
+                    .Select(s => s.Substring(8))
+                    .FirstOrDefault();
+
+                if (link == null)
+                    throw new Exception($"{name} is missing a TXT record with a dnslink.");
+                if (!recursive || link.StartsWith("/ipfs/"))
+                    return link;
+
+                if (link.StartsWith("/ipns/"))
+                {
+                    return await ipfs.Name.ResolveAsync(link, recursive, false, cancel);
+                }
+                throw new NotSupportedException($"Cannot resolve '{link}'.");
+            }
         }
     }
 }

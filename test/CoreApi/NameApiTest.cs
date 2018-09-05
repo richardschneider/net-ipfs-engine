@@ -16,13 +16,10 @@ namespace Ipfs.Engine
         public async Task Resolve_DnsLink()
         {
             var iopath = await ipfs.Name.ResolveAsync("ipfs.io");
-            StringAssert.StartsWith(iopath, "/ipfs/");
+            Assert.IsNotNull(iopath);
 
             var path = await ipfs.Name.ResolveAsync("/ipns/ipfs.io");
             Assert.AreEqual(iopath, path);
-
-            path = await ipfs.Name.ResolveAsync("/ipns/ipfs.io/media/x");
-            Assert.AreEqual(iopath + "/media/x", path);
         }
 
         [TestMethod]

@@ -96,11 +96,8 @@ namespace Ipfs.Engine
         public async Task Resolve_DnsLink()
         {
             var ipfs = TestFixture.Ipfs;
-            var iopath = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io");
-            StringAssert.StartsWith(iopath, "/ipfs/");
-       
-            var media = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io/media");
-            Assert.AreEqual(iopath + "/media", media);
+            var path = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io");
+            Assert.IsNotNull(path);
         }
 
         [TestMethod]

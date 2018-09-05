@@ -16,7 +16,7 @@ namespace Ipfs.Engine
         public async Task Resolve()
         {
             var path = await ipfs.Dns.ResolveAsync("ipfs.io");
-            Assert.AreEqual("/ipfs/QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", path);
+            Assert.IsNotNull(path);
         }
 
         [TestMethod]

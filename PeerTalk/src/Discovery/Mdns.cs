@@ -50,25 +50,29 @@ namespace PeerTalk.Discovery
         /// </remarks>
         public void RefreshPeer()
         {
-            // Refresh the TXT multiaddresses
+            if (!Broadcast)
+                return;
+
+            // Remove the TXT multiaddresses
             var nameServer = discovery.NameServer;
-            Message query = new Message();
-            query.Questions.Add(new Question
+            var node = nameServer.Catalog[profile.FullyQualifiedName];
+            var txts = node.Resources
+                .OfType<TXTRecord>()
+                .Where(t => t.Strings.FirstOrDefault()?.StartsWith("dnsaddr") ?? false)
+                .ToArray();
+            foreach (var txt in txts)
             {
-                Name = profile.FullyQualifiedName,
-                Type = DnsType.TXT
+                node.Resources.Remove(txt);
             }
-            );
-            var txt = nameServer.ResolveAsync(query)
-                .Result
-                .Answers.OfType<TXTRecord>()
-                .First();
-            txt.Strings = txt.Strings
-                .Where(s => !s.StartsWith("dnsaddr="))
-                .ToList();
+
+            // Add the TXT multiaddresses
             foreach (var address in LocalPeer.Addresses.Where(a => !a.IsLoopback()))
             {
-                txt.Strings.Add($"dnsaddr={address.ToString()}");
+                node.Resources.Add(new TXTRecord
+                {
+                    Name = profile.FullyQualifiedName,
+                    Strings = { $"dnsaddr={address.ToString()}" }
+                });
             }
 
         }
@@ -84,10 +88,6 @@ namespace PeerTalk.Discovery
                 serviceName: ServiceName,
                 port: 0
             );
-            foreach (var address in LocalPeer.Addresses.Where(a => !a.IsLoopback()))
-            {
-                profile.AddProperty("dnsaddr", address.ToString());
-            }
 
             mdns = new MulticastService();
             discovery = new ServiceDiscovery(mdns);
@@ -110,6 +110,7 @@ namespace PeerTalk.Discovery
             {
                 log.Debug($"Advertising {profile.FullyQualifiedName}");
                 discovery.Advertise(profile);
+                RefreshPeer();
             }
             mdns.Start();
 

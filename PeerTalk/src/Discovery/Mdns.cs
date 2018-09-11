@@ -144,7 +144,8 @@ namespace PeerTalk.Discovery
                     .SelectMany(t => t.Strings)
                     .Where(s => s.StartsWith("dnsaddr="))
                     .Select(s => s.Substring(8))
-                    .Select(s => new MultiAddress(s));
+                    .Select(s => MultiAddress.TryCreate(s))
+                    .Where(a => a != null);
                 foreach (var address in addresses)
                 {
                     OnPeerDiscovered(new PeerDiscoveredEventArgs

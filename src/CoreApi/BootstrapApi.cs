@@ -64,7 +64,9 @@ namespace Ipfs.Engine.CoreApi
                 if (json == null)
                     return new MultiAddress[0];
 
-                return json.Select(a => new MultiAddress((string)a));
+                return json
+                    .Select(a => MultiAddress.TryCreate((string)a))
+                    .Where(a => a != null);
             }
             catch (KeyNotFoundException)
             {

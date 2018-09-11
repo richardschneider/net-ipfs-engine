@@ -84,7 +84,7 @@ namespace PeerTalk.Discovery
 
             // The best spec is https://github.com/libp2p/libp2p/issues/28
             profile = new ServiceProfile(
-                instanceName: LocalPeer.Id.ToBase58(),
+                instanceName: LocalPeer.Id.ToBase32(),
                 serviceName: ServiceName,
                 port: 0
             );
@@ -97,6 +97,7 @@ namespace PeerTalk.Discovery
                     return;
                 try
                 {
+                    // Ask all peers to broadcast discovery info.
                     mdns.SendQuery(profile.QualifiedServiceName, type: DnsType.PTR);
                 }
                 catch (Exception ex)

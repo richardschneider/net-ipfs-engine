@@ -163,8 +163,7 @@ namespace PeerTalk.Discovery
             // Do not discover ourself.
             var us = LocalPeer.Id;
             var them = e.Address.PeerId;
-                var us = Addresses.First().PeerId.ToBase58();
-                var them = e.Address.PeerId.ToBase58();
+            if (us != them)
             {
                 PeerDiscovered?.Invoke(this, e);
             }

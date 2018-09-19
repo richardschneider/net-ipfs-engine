@@ -64,7 +64,7 @@ namespace PeerTalk.Multiplex
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
-            var stream = new Substream();
+            var stream = new Substream { MessageHandler = null };
             stream.SetMessage(m1);
             Assert.IsTrue(stream.CanRead);
 
@@ -81,7 +81,7 @@ namespace PeerTalk.Multiplex
         {
             var ms = new MemoryStream();
             var muxer = new Muxer { Channel = ms };
-            var stream = new Substream { Muxer = muxer };
+            var stream = new Substream { Muxer = muxer, MessageHandler = null };
             var m1 = new byte[1];
             stream.SetMessage(new byte[] { 10 });
             Assert.IsTrue(stream.CanRead);

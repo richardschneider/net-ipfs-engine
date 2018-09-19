@@ -32,9 +32,9 @@ namespace PeerTalk.Protocols
 
 
         /// <inheritdoc />
-        public async Task ProcessMessageAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            var msg = await Message.ReadStringAsync(connection.Stream, cancel);
+            var msg = await Message.ReadStringAsync(stream, cancel);
 
             // TODO: msg == "ls"
             if (msg == "ls")
@@ -45,18 +45,18 @@ namespace PeerTalk.Protocols
             // Switch to the specified protocol
             if (!ProtocolRegistry.Protocols.TryGetValue(msg, out Func<IPeerProtocol> maker))
             {
-                await Message.WriteAsync("na", connection.Stream, cancel);
+                await Message.WriteAsync("na", stream, cancel);
                 return;
             }
 
             // Ack protocol switch
             log.Debug("switching to " + msg);
             // TODO: Get write access
-            await Message.WriteAsync(msg, connection.Stream, cancel);
+            await Message.WriteAsync(msg, stream, cancel);
 
             // Process protocol message.
             var protocol = maker();
-            await protocol.ProcessMessageAsync(connection, cancel);
+            await protocol.ProcessMessageAsync(connection, stream, cancel);
         }
 
     }

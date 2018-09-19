@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,9 @@ namespace PeerTalk.Multiplex
     /// <summary>
     ///   Supports multiple protocols over a single channel (stream).
     /// </summary>
+    /// <remarks>
+    ///   See <see href="https://github.com/libp2p/mplex"/> for the details.
+    /// </remarks>
     public class Muxer
     {
         static ILog log = LogManager.GetLogger(typeof(Muxer));
@@ -34,6 +38,14 @@ namespace PeerTalk.Multiplex
         ///   A <see cref="Stream"/> to exchange protocol messages.
         /// </value>
         public Stream Channel { get; set; }
+
+        /// <summary>
+        ///   The peer connection.
+        /// </summary>
+        /// <value>
+        ///   The peer connection that owns this muxer.
+        /// </value>
+        public PeerConnection Connection { get; set; }
 
         readonly AsyncLock ChannelWriteLock = new AsyncLock();
         
@@ -92,7 +104,8 @@ namespace PeerTalk.Multiplex
             var substream = new Substream
             {
                 Id = streamId,
-                Name = name
+                Name = name,
+                Muxer = this
             };
             Substreams.TryAdd(streamId, substream);
 
@@ -106,7 +119,6 @@ namespace PeerTalk.Multiplex
                 await Channel.WriteAsync(wireName, 0, wireName.Length);
                 await Channel.FlushAsync();
             }
-
             return substream;
         }
 
@@ -137,7 +149,8 @@ namespace PeerTalk.Multiplex
                             substream = new Substream
                             {
                                 Id = header.StreamId,
-                                Name = Encoding.UTF8.GetString(payload)
+                                Name = Encoding.UTF8.GetString(payload),
+                                Muxer = this
                             };
                             Substreams.TryAdd(substream.Id, substream);
                             break;
@@ -152,6 +165,18 @@ namespace PeerTalk.Multiplex
                             substream.SetMessage(payload);
                             break;
 
+                        case PacketType.ResetInitiator:
+                        case PacketType.ResetReceiver:
+                            if (substream == null)
+                            {
+                                log.Warn($"Reset of unknown stream #{header.StreamId}");
+                                continue;
+                            }
+                            Substreams.TryRemove(substream.Id, out Substream _);
+                            break;
+
+                        case PacketType.CloseInitiator:
+                        case PacketType.CloseReceiver:
                         default:
                             log.Error($"Unknown Muxer packet type '{header.PacketType}'.");
                             break;
@@ -160,6 +185,11 @@ namespace PeerTalk.Multiplex
                 }
             }
             catch (EndOfStreamException)
+            {
+                // eat it
+                Channel.Dispose();
+            }
+            catch (SocketException e) when (e.SocketErrorCode == SocketError.ConnectionReset)
             {
                 // eat it
                 Channel.Dispose();

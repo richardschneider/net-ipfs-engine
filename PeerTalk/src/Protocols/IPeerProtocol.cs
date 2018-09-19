@@ -35,13 +35,16 @@ namespace PeerTalk.Protocols
         /// <param name="connection">
         ///   A connection between two peers.
         /// </param>
+        /// <param name="stream">
+        ///   The message source.
+        /// </param>
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
         /// <returns>
         ///   A task that represents the asynchronous operation.
         /// </returns>
-        Task ProcessMessageAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken));
+        Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken));
 
     }
 }

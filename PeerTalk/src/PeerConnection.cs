@@ -140,7 +140,7 @@ namespace PeerTalk
             {
                 while (!cancel.IsCancellationRequested && stream != null)
                 {
-                    await protocol.ProcessMessageAsync(this, cancel);
+                    await protocol.ProcessMessageAsync(this, stream, cancel);
                 }
             }
             catch (EndOfStreamException)

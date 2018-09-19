@@ -1,4 +1,5 @@
 ﻿using Ipfs;
+using PeerTalk.Protocols;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,8 @@ namespace PeerTalk.Multiplex
     {
         Stream inStream;
         Stream outStream = new MemoryStream();
+
+        public IPeerProtocol MessageHandler = new Multistream1();
 
         /// <summary>
         ///   The stream identifier.
@@ -78,6 +81,7 @@ namespace PeerTalk.Multiplex
             inStream = new MemoryStream(message, writable: false);
             outStream.Position = 0;
             outStream.SetLength(0);
+            MessageHandler?.ProcessMessageAsync(Muxer.Connection, this);
         }
 
         /// <inheritdoc />
@@ -106,7 +110,7 @@ namespace PeerTalk.Multiplex
         }
 
         /// <inheritdoc />
-        public override async Task FlushAsync(CancellationToken cancellationToken)
+        public override async Task FlushAsync(CancellationToken cancel)
         {
             if (outStream.Length == 0)
                 return;
@@ -120,9 +124,11 @@ namespace PeerTalk.Multiplex
                     StreamId = Id,
                     PacketType = Muxer.Initiator ? PacketType.MessageInitiator : PacketType.MessageReceiver
                 };
-                await header.WriteAsync(Muxer.Channel);
-                await Varint.WriteVarintAsync(Muxer.Channel, outStream.Length);
+                await header.WriteAsync(Muxer.Channel, cancel);
+                await Varint.WriteVarintAsync(Muxer.Channel, outStream.Length, cancel);
                 await outStream.CopyToAsync(Muxer.Channel);
+                await Muxer.Channel.FlushAsync(cancel);
+
                 outStream.SetLength(0);
             }
         }

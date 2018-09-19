@@ -199,10 +199,14 @@ namespace PeerTalk.Transports
                         remote = new MultiAddress(s.ToString());
                         log.Debug("connection from " + remote);
                     }
+
+                    conn.NoDelay = true;
                     Stream peer = new NetworkStream(conn, ownsSocket: true);
+                    peer.WriteTimeout = 1000;
+                    peer.ReadTimeout = 1000;
 #if !NETSTANDARD14
                     // BufferedStream not available in .Net Standard 1.4
-                   // peer = new BufferedStream(peer);
+                    peer = new BufferedStream(peer);
 #endif
                     try
                     {

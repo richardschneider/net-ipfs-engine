@@ -32,7 +32,7 @@ namespace PeerTalk.Protocols
         }
 
         /// <inheritdoc />
-        public async Task ProcessMessageAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             // Send our identity.
             log.Debug("Sending identity to " + connection.RemoteAddress);
@@ -52,12 +52,12 @@ namespace PeerTalk.Protocols
                 res.PublicKey = Convert.FromBase64String(peer.PublicKey);
             }
             // TODO: Write access to connection
-            ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(connection.Stream, res, PrefixStyle.Base128);
-            await connection.Stream.FlushAsync();
+            ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(stream, res, PrefixStyle.Base128);
+            await stream.FlushAsync();
 
             // Receive remote identity.
             log.Debug("Receiving identity from " + connection.RemoteAddress);
-            var info = await ProtoBufHelper.ReadMessageAsync<Identify>(connection.Stream, cancel);
+            var info = await ProtoBufHelper.ReadMessageAsync<Identify>(stream, cancel);
             Peer remote = connection.RemotePeer;
             if (remote == null)
             {

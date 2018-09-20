@@ -1,5 +1,6 @@
 ﻿using Common.Logging;
 using Ipfs;
+using PeerTalk.Multiplex;
 using PeerTalk.Protocols;
 using System;
 using System.Collections.Generic;
@@ -86,14 +87,20 @@ namespace PeerTalk
         /// </remarks>
         public async Task<Peer> InitiateAsync(CancellationToken cancel = default(CancellationToken))
         {
-            //await EstablishProtocolAsync("/multistream/", cancel);
+            await EstablishProtocolAsync("/multistream/", cancel);
             await EstablishProtocolAsync("/plaintext/", cancel);
-            //await EstablishProtocolAsync("/multistream/", cancel);
 
-            ReadMessages(cancel);
-            await EstablishProtocolAsync("/ipfs/id/", cancel);
+            await EstablishProtocolAsync("/multistream/", cancel);
+            await EstablishProtocolAsync("/mplex/", cancel);
 
-            return null;
+            var muxer = new Muxer
+            {
+                Channel = Stream,
+                Initiator = true,
+            };
+            muxer.ProcessRequestsAsync(cancel);
+
+            return null; // TODO
         }
 
         /// <summary>

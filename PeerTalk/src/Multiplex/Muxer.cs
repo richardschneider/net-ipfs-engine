@@ -201,7 +201,11 @@ namespace PeerTalk.Multiplex
             }
             catch (Exception e)
             {
-                log.Error("failed", e);
+                // Log error if the channel is not closed.
+                if (Channel.CanRead || Channel.CanWrite)
+                {
+                    log.Error("failed", e);
+                }
                 Channel.Dispose();
             }
         }

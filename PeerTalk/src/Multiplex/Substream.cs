@@ -101,7 +101,6 @@ namespace PeerTalk.Multiplex
         {
             return inStream.Read(buffer, offset, count);
         }
-
         
         /// <inheritdoc />
         public override void Flush()
@@ -122,7 +121,7 @@ namespace PeerTalk.Multiplex
                 var header = new Header
                 {
                     StreamId = Id,
-                    PacketType = Muxer.Initiator ? PacketType.MessageInitiator : PacketType.MessageReceiver
+                    PacketType = PacketType.MessageReceiver
                 };
                 await header.WriteAsync(Muxer.Channel, cancel);
                 await Varint.WriteVarintAsync(Muxer.Channel, outStream.Length, cancel);

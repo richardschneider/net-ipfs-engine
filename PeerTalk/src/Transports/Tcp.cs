@@ -103,7 +103,7 @@ namespace PeerTalk.Transports
             return stream;
 #else
             return stream;
-            return new BufferedStream(stream);
+           // return new BufferedStream(stream);
 #endif
         }
 

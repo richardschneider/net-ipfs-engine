@@ -97,6 +97,7 @@ namespace PeerTalk
             {
                 Channel = Stream,
                 Initiator = true,
+                Connection = this
             };
             muxer.ProcessRequestsAsync(cancel);
 

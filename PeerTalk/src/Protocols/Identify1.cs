@@ -34,27 +34,7 @@ namespace PeerTalk.Protocols
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            // Send our identity.
-            log.Debug("Sending identity to " + connection.RemoteAddress);
-            var peer = connection.LocalPeer;
-            var res = new Identify
-            {
-                ProtocolVersion = peer.ProtocolVersion,
-                AgentVersion = peer.AgentVersion,
-                ListenAddresses = peer?.Addresses
-                     .Select(a => a.ToArray())
-                     .ToArray(),
-                ObservedAddress = connection.RemoteAddress?.ToArray(),
-                Protocols = null, // no longer sent
-            };
-            if (peer.PublicKey != null)
-            {
-                res.PublicKey = Convert.FromBase64String(peer.PublicKey);
-            }
-            // TODO: Write access to connection
-            ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(stream, res, PrefixStyle.Base128);
-            await stream.FlushAsync();
-
+#if false
             // Receive remote identity.
             log.Debug("Receiving identity from " + connection.RemoteAddress);
             var info = await ProtoBufHelper.ReadMessageAsync<Identify>(stream, cancel);
@@ -82,6 +62,28 @@ namespace PeerTalk.Protocols
                     .Union(remote.Addresses)
                     .ToList();
             }
+#endif
+
+            // Send our identity.
+            log.Debug("Sending identity to " + connection.RemoteAddress);
+            var peer = connection.LocalPeer;
+            var res = new Identify
+            {
+                ProtocolVersion = peer.ProtocolVersion,
+                AgentVersion = peer.AgentVersion,
+                ListenAddresses = peer?.Addresses
+                     .Select(a => a.ToArray())
+                     .ToArray(),
+                ObservedAddress = connection.RemoteAddress?.ToArray(),
+                Protocols = null, // no longer sent
+            };
+            if (peer.PublicKey != null)
+            {
+                res.PublicKey = Convert.FromBase64String(peer.PublicKey);
+            }
+
+            ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(stream, res, PrefixStyle.Base128);
+            await stream.FlushAsync();
         }
 
         [ProtoContract]

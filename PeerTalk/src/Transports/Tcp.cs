@@ -9,6 +9,11 @@ using Ipfs;
 using System.Net.Sockets;
 using Common.Logging;
 using System.Net;
+
+#if !NETSTANDARD14
+using JuiceStream;
+#endif
+
 #if !NET461
 using System.Runtime.InteropServices;
 #endif
@@ -99,11 +104,11 @@ namespace PeerTalk.Transports
             stream.ReadTimeout = timeout;
             stream.WriteTimeout = timeout;
 
-#if NETSTANDARD14
-            return stream;
+#if !NETSTANDARD14
+            // BufferedStream not available in .Net Standard 1.4
+            return new DuplexBufferedStream(stream);
 #else
             return stream;
-           // return new BufferedStream(stream);
 #endif
         }
 
@@ -202,11 +207,9 @@ namespace PeerTalk.Transports
 
                     conn.NoDelay = true;
                     Stream peer = new NetworkStream(conn, ownsSocket: true);
-                    peer.WriteTimeout = 1000;
-                    peer.ReadTimeout = 1000;
 #if !NETSTANDARD14
                     // BufferedStream not available in .Net Standard 1.4
-                    peer = new BufferedStream(peer);
+                    peer = new DuplexBufferedStream(peer);
 #endif
                     try
                     {

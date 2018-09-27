@@ -7,15 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace PeerTalk.Multiplex
 {
     /// <summary>
-    ///   A substream used by the <see cref="Muxer"/>.
+    ///   A duplex substream used by the <see cref="Muxer"/>.
     /// </summary>
+    /// <remarks>
+    ///   Reading of data waits on the Muxer calling <see cref="AddData(byte[])"/>.
+    ///   <see cref="NoMoreData"/> is used to signal the end of stream.
+    ///   <para>
+    ///   Writing data is buffered until <see cref="FlushAsync(CancellationToken)"/> is
+    ///   called.
+    ///   </para>
+    /// </remarks>
     public class Substream : Stream
     {
-        Stream inStream;
+        BufferBlock<byte[]> inBlocks = new BufferBlock<byte[]>();
+        byte[] inBlock;
+        int inBlockOffset;
+        bool eos;
+
         Stream outStream = new MemoryStream();
 
         public IPeerProtocol MessageHandler = new Multistream1();
@@ -42,7 +55,7 @@ namespace PeerTalk.Multiplex
         public Muxer Muxer { get; set; }
 
         /// <inheritdoc />
-        public override bool CanRead => true;
+        public override bool CanRead => !eos;
 
         /// <inheritdoc />
         public override bool CanSeek => false;
@@ -75,31 +88,61 @@ namespace PeerTalk.Multiplex
             throw new NotSupportedException();
         }
 
-        /// <inheritdoc />
-        public void SetMessage(byte[] message)
+        /// <summary>
+        ///   Add some data that should be read by the stream.
+        /// </summary>
+        /// <param name="data">
+        ///   The data to be read.
+        /// </param>
+        public void AddData(byte[] data)
         {
-            inStream = new MemoryStream(message, writable: false);
-            outStream.Position = 0;
-            outStream.SetLength(0);
+            inBlocks.Post(data);
             MessageHandler?.ProcessMessageAsync(Muxer.Connection, this);
         }
 
-        /// <inheritdoc />
-        public override int ReadByte()
+        /// <summary>
+        ///   Indicates that the stream will not receive any more data.
+        /// </summary>
+        public void NoMoreData()
         {
-            return inStream.ReadByte();
-        }
-
-        /// <inheritdoc />
-        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            return inStream.ReadAsync(buffer, offset, count, cancellationToken);
+            inBlocks.Complete();
         }
 
         /// <inheritdoc />
         public override int Read(byte[] buffer, int offset, int count)
         {
-            return inStream.Read(buffer, offset, count);
+            return ReadAsync(buffer, offset, count).Result;
+        }
+
+        /// <inheritdoc />
+        public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            int total = 0;
+            while (count > 0 && !eos)
+            {
+                if (inBlock != null && inBlockOffset < inBlock.Length)
+                {
+                    var n = Math.Min(inBlock.Length - inBlockOffset, count);
+                    Array.Copy(inBlock, inBlockOffset, buffer, offset, n);
+                    total += n;
+                    count -= n;
+                    offset += n;
+                    inBlockOffset += n;
+                }
+                else
+                {
+                    try
+                    {
+                        inBlock = await inBlocks.ReceiveAsync(cancellationToken);
+                        inBlockOffset = 0;
+                    }
+                    catch (InvalidOperationException e) // no more messages!
+                    {
+                        eos = true;
+                    }
+                }
+            }
+            return total;
         }
         
         /// <inheritdoc />

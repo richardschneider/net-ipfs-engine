@@ -65,7 +65,9 @@ namespace PeerTalk.Multiplex
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
             var stream = new Substream { MessageHandler = null };
-            stream.SetMessage(m1);
+            stream.AddData(new byte[] { 1, 2 });
+            stream.AddData(new byte[] { 3, 4 });
+            stream.NoMoreData();
             Assert.IsTrue(stream.CanRead);
 
             m2[0] = (byte) stream.ReadByte();
@@ -74,6 +76,45 @@ namespace PeerTalk.Multiplex
             CollectionAssert.AreEqual(m1, m2);
 
             Assert.AreEqual(-1, stream.ReadByte());
+            Assert.IsFalse(stream.CanRead);
+        }
+
+        [TestMethod]
+        public async Task Reading_Partial()
+        {
+            var m1 = new byte[] { 1, 2, 3, 4 };
+            var m2 = new byte[m1.Length];
+            var stream = new Substream { MessageHandler = null };
+            stream.AddData(m1);
+            stream.NoMoreData();
+
+            Assert.AreEqual(4, await stream.ReadAsync(m2, 0, 5));
+            CollectionAssert.AreEqual(m1, m2);
+
+            Assert.AreEqual(-1, stream.ReadByte());
+            Assert.IsFalse(stream.CanRead);
+        }
+
+        [TestMethod]
+        public async Task Reading_Delayed_Partial()
+        {
+            var m1 = new byte[] { 1, 2, 3, 4 };
+            var m2 = new byte[m1.Length];
+            var stream = new Substream { MessageHandler = null };
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            Task.Run(async () =>
+            {
+                await Task.Delay(100);
+                stream.AddData(new byte[] { 1, 2 });
+                await Task.Delay(100);
+                stream.AddData(new byte[] { 3, 4 });
+                await Task.Delay(100);
+                stream.NoMoreData();
+            });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+            Assert.AreEqual(4, await stream.ReadAsync(m2, 0, 5));
+            CollectionAssert.AreEqual(m1, m2);
         }
 
         [TestMethod]
@@ -83,7 +124,7 @@ namespace PeerTalk.Multiplex
             var muxer = new Muxer { Channel = ms };
             var stream = new Substream { Muxer = muxer, MessageHandler = null };
             var m1 = new byte[1];
-            stream.SetMessage(new byte[] { 10 });
+            stream.AddData(new byte[] { 10 });
             Assert.IsTrue(stream.CanRead);
             Assert.IsTrue(stream.CanWrite);
 

@@ -128,6 +128,7 @@ namespace PeerTalk.Multiplex
             {
                 while (!cancel.IsCancellationRequested)
                 {
+                    // Read the packet prefix.
                     var header = await Header.ReadAsync(Channel, cancel);
                     var length = await Varint.ReadVarint32Async(Channel, cancel);
                     if (log.IsDebugEnabled)
@@ -138,7 +139,7 @@ namespace PeerTalk.Multiplex
                     int offset = 0;
                     while (offset < length)
                     {
-                        offset += Channel.Read(payload, offset, length - offset);
+                        offset += await Channel.ReadAsync(payload, offset, length - offset, cancel);
                     }
 
                     // Process the packet
@@ -162,9 +163,11 @@ namespace PeerTalk.Multiplex
                                 log.Warn($"Message to unknown stream #{header.StreamId}");
                                 continue;
                             }
-                            substream.SetMessage(payload);
+                            substream.AddData(payload);
                             break;
 
+                        case PacketType.CloseInitiator:
+                        case PacketType.CloseReceiver:
                         case PacketType.ResetInitiator:
                         case PacketType.ResetReceiver:
                             if (substream == null)
@@ -172,15 +175,12 @@ namespace PeerTalk.Multiplex
                                 log.Warn($"Reset of unknown stream #{header.StreamId}");
                                 continue;
                             }
+                            substream.NoMoreData();
                             Substreams.TryRemove(substream.Id, out Substream _);
                             break;
 
-                        case PacketType.CloseInitiator:
-                        case PacketType.CloseReceiver:
                         default:
-                            log.Error($"Unknown Muxer packet type '{header.PacketType}'.");
-                            break;
-                            //throw new InvalidDataException($"Unknown Muxer packet type '{header.PacketType}'.");
+                            throw new InvalidDataException($"Unknown Muxer packet type '{header.PacketType}'.");
                     }
                 }
             }

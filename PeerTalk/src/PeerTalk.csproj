@@ -42,6 +42,7 @@
     <PackageReference Include="Nito.AsyncEx" Version="5.0.0-pre-05" />
     <PackageReference Include="protobuf-net" Version="2.3.7" />
     <PackageReference Include="semver" Version="2.0.4" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.9.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard14'">
     <PackageReference Include="System.Net.NameResolution" Version="4.3.0.0" />

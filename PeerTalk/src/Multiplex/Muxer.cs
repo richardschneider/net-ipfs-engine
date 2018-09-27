@@ -122,11 +122,23 @@ namespace PeerTalk.Multiplex
             return substream;
         }
 
+        /// <summary>
+        ///   Read the multiplex packets.
+        /// </summary>
+        /// <param name="cancel"></param>
+        /// <returns></returns>
+        /// <remarks>
+        ///   A background task that reads and processes the multiplex packets while
+        ///   the <see cref="Channel"/> is open and not <paramref name="cancel">cancelled</paramref>.
+        ///   <para>
+        ///   Any encountered errors will close the <see cref="Channel"/>.
+        ///   </para>
+        /// </remarks>
         public async Task ProcessRequestsAsync(CancellationToken cancel = default(CancellationToken))
         {
             try
             {
-                while (!cancel.IsCancellationRequested)
+                while (Channel.CanRead && !cancel.IsCancellationRequested)
                 {
                     // Read the packet prefix.
                     var header = await Header.ReadAsync(Channel, cancel);
@@ -153,7 +165,10 @@ namespace PeerTalk.Multiplex
                                 Name = Encoding.UTF8.GetString(payload),
                                 Muxer = this
                             };
-                            Substreams.TryAdd(substream.Id, substream);
+                            if (!Substreams.TryAdd(substream.Id, substream))
+                            {
+                                throw new Exception($"Stream {substream.Id} already exists");
+                            }
                             break;
 
                         case PacketType.MessageInitiator:
@@ -187,17 +202,14 @@ namespace PeerTalk.Multiplex
             catch (EndOfStreamException)
             {
                 // eat it
-                Channel.Dispose();
             }
             catch (SocketException e) when (e.SocketErrorCode == SocketError.ConnectionReset)
             {
                 // eat it
-                Channel.Dispose();
             }
             catch (Exception) when (cancel.IsCancellationRequested)
             {
                 // eat it
-                Channel.Dispose();
             }
             catch (Exception e)
             {
@@ -206,8 +218,14 @@ namespace PeerTalk.Multiplex
                 {
                     log.Error("failed", e);
                 }
-                Channel.Dispose();
             }
+
+            // Close all substreams.
+            foreach (var s in Substreams.Values)
+            {
+                s.Dispose();
+            }
+            Channel.Dispose();
         }
 
         /// <summary>

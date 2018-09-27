@@ -118,6 +118,22 @@ namespace PeerTalk.Multiplex
         }
 
         [TestMethod]
+        public async Task Reading_Empty()
+        {
+            var m1 = new byte[0];
+            var stream = new Substream { MessageHandler = null };
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            Task.Run(async () =>
+            {
+                await Task.Delay(100);
+                stream.NoMoreData();
+            });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+            Assert.AreEqual(-1, stream.ReadByte());
+        }
+
+        [TestMethod]
         public async Task Writing()
         {
             var ms = new MemoryStream();

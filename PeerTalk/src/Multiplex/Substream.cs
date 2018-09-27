@@ -94,6 +94,10 @@ namespace PeerTalk.Multiplex
         /// <param name="data">
         ///   The data to be read.
         /// </param>
+        /// <remarks>
+        ///   <b>AddData</b> is called when the muxer receives a packet for this
+        ///   stream.
+        /// </remarks>
         public void AddData(byte[] data)
         {
             inBlocks.Post(data);
@@ -103,6 +107,11 @@ namespace PeerTalk.Multiplex
         /// <summary>
         ///   Indicates that the stream will not receive any more data.
         /// </summary>
+        /// <seealso cref="AddData(byte[])"/>
+        /// <remarks>
+        ///   <b>NoMoreData</b> is called when the muxer receives a packet to
+        ///   close this stream.
+        /// </remarks>
         public void NoMoreData()
         {
             inBlocks.Complete();
@@ -120,6 +129,7 @@ namespace PeerTalk.Multiplex
             int total = 0;
             while (count > 0 && !eos)
             {
+                // Does the current block have some unread data?
                 if (inBlock != null && inBlockOffset < inBlock.Length)
                 {
                     var n = Math.Min(inBlock.Length - inBlockOffset, count);
@@ -129,6 +139,7 @@ namespace PeerTalk.Multiplex
                     offset += n;
                     inBlockOffset += n;
                 }
+                // Otherwise, wait for a new block of data.
                 else
                 {
                     try
@@ -136,7 +147,7 @@ namespace PeerTalk.Multiplex
                         inBlock = await inBlocks.ReceiveAsync(cancellationToken);
                         inBlockOffset = 0;
                     }
-                    catch (InvalidOperationException e) // no more messages!
+                    catch (InvalidOperationException) // no more data!
                     {
                         eos = true;
                     }

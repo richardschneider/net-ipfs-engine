@@ -111,6 +111,28 @@ namespace PeerTalk.Multiplex
         }
 
         [TestMethod]
+        public async Task CloseStream_Event()
+        {
+            var channel = new MemoryStream();
+            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            using (var foo = await muxer1.CreateStreamAsync("foo"))
+            using (var bar = await muxer1.CreateStreamAsync("bar"))
+            {
+                // open and close a stream.
+            }
+
+            channel.Position = 0;
+            var muxer2 = new Muxer { Channel = channel };
+            int closeCount = 0;
+            muxer2.SubstreamClosed += (s, e) =>
+            {
+                ++closeCount;
+            };
+            await muxer2.ProcessRequestsAsync();
+            Assert.AreEqual(2, closeCount);
+        }
+
+        [TestMethod]
         public async Task AcquireWrite()
         {
             var muxer = new Muxer();

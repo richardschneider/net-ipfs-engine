@@ -58,7 +58,7 @@ namespace PeerTalk.Multiplex
         public override bool CanSeek => false;
 
         /// <inheritdoc />
-        public override bool CanWrite => true;
+        public override bool CanWrite => outStream != null;
 
         /// <inheritdoc />
         public override bool CanTimeout => false;
@@ -198,6 +198,23 @@ namespace PeerTalk.Multiplex
         public override void WriteByte(byte value)
         {
             outStream.WriteByte(value);
+        }
+
+        /// <inheritdoc />
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Muxer?.RemoveStreamAsync(this);
+
+                eos = true;
+                if (outStream != null)
+                {
+                    outStream.Dispose();
+                    outStream = null;
+                }
+            }
+            base.Dispose(disposing);
         }
     }
 

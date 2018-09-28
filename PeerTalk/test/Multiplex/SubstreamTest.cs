@@ -158,5 +158,17 @@ namespace PeerTalk.Multiplex
             Assert.AreEqual(2, payload.Length);
             CollectionAssert.AreEqual(new byte[] { 10, 11 }, payload);
         }
+
+        [TestMethod]
+        public void Disposable()
+        {
+            var s = new Substream();
+            Assert.IsTrue(s.CanRead);
+            Assert.IsTrue(s.CanWrite);
+
+            s.Dispose();
+            Assert.IsFalse(s.CanRead);
+            Assert.IsFalse(s.CanWrite);
+        }
     }
 }

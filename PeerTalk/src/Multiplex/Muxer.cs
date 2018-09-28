@@ -133,6 +133,33 @@ namespace PeerTalk.Multiplex
         }
 
         /// <summary>
+        ///   Remvove the stream.
+        /// </summary>
+        /// <remarks>
+        ///   Internal method called by Substream.Dispose().
+        /// </remarks>
+        public async Task<Substream> RemoveStreamAsync(Substream stream, CancellationToken cancel = default(CancellationToken))
+        {
+            if (Substreams.TryRemove(stream.Id, out Substream _))
+            {
+                // Tell the other side.
+                using (await AcquireWriteAccessAsync())
+                {
+                    var header = new Header
+                    {
+                        StreamId = stream.Id,
+                        PacketType = PacketType.ResetInitiator
+                    };
+                    await header.WriteAsync(Channel, cancel);
+                    Channel.WriteByte(0); // length
+                    await Channel.FlushAsync();
+                }
+            }
+
+            return stream;
+        }
+
+        /// <summary>
         ///   Read the multiplex packets.
         /// </summary>
         /// <param name="cancel"></param>
@@ -232,11 +259,6 @@ namespace PeerTalk.Multiplex
                 }
             }
 
-            // Close all substreams.
-            foreach (var s in Substreams.Values)
-            {
-                s.Dispose();
-            }
             Channel.Dispose();
         }
 

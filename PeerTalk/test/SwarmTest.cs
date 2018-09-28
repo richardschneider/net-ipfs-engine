@@ -398,5 +398,34 @@ namespace PeerTalk
                 await swarm.StopAsync();
             }
         }
+
+        [TestMethod]
+        public async Task GoIPFS_Connect()
+        {
+            var remoteId = "QmdoxrwszT6b9srLXHYBPFVRXmZSFAosWLXoQS9TEEAaix";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4001/ipfs/{remoteId}";
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                var remotePeer = await swarm.ConnectAsync(remoteAddress);
+                Assert.IsNotNull(remotePeer.ConnectedAddress);
+                Assert.IsTrue(swarm.KnownPeers.Contains(remotePeer));
+                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+                Assert.IsTrue(remotePeer.IsValid());
+                await Task.Delay(2000);
+
+                await swarm.DisconnectAsync(remoteAddress);
+                Assert.IsNull(remotePeer.ConnectedAddress);
+                Assert.IsTrue(swarm.KnownPeers.Contains(remotePeer));
+                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
+        }
     }
 }
+

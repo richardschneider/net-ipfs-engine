@@ -47,6 +47,16 @@ namespace PeerTalk.Multiplex
         /// </value>
         public PeerConnection Connection { get; set; }
 
+        /// <summary>
+        ///   Raised when the remote end creates a new stream.
+        /// </summary>
+        public event EventHandler<Substream> SubstreamCreated;
+
+        /// <summary>
+        ///   Raised when the remote end closes a stream.
+        /// </summary>
+        public event EventHandler<Substream> SubstreamClosed;
+
         readonly AsyncLock ChannelWriteLock = new AsyncLock();
         
         /// <summary>
@@ -169,6 +179,7 @@ namespace PeerTalk.Multiplex
                             {
                                 throw new Exception($"Stream {substream.Id} already exists");
                             }
+                            SubstreamCreated?.Invoke(this, substream);
                             break;
 
                         case PacketType.MessageInitiator:
@@ -192,6 +203,7 @@ namespace PeerTalk.Multiplex
                             }
                             substream.NoMoreData();
                             Substreams.TryRemove(substream.Id, out Substream _);
+                            SubstreamClosed?.Invoke(this, substream);
                             break;
 
                         default:

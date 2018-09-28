@@ -43,7 +43,7 @@ namespace PeerTalk.Protocols
                 Initiator = false
             };
 
-            //await muxer.CreateStreamAsync();
+            muxer.SubstreamCreated += (s, e) => connection.ReadMessages(e, CancellationToken.None);
             await muxer.ProcessRequestsAsync();
 
             // TODO: Attach muxer to the connection.  It now becomes

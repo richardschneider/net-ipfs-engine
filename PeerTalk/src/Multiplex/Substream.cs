@@ -1,5 +1,4 @@
 ﻿using Ipfs;
-using PeerTalk.Protocols;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,8 +29,6 @@ namespace PeerTalk.Multiplex
         bool eos;
 
         Stream outStream = new MemoryStream();
-
-        public IPeerProtocol MessageHandler = new Multistream1();
 
         /// <summary>
         ///   The stream identifier.
@@ -101,7 +98,6 @@ namespace PeerTalk.Multiplex
         public void AddData(byte[] data)
         {
             inBlocks.Post(data);
-            MessageHandler?.ProcessMessageAsync(Muxer.Connection, this);
         }
 
         /// <summary>

@@ -92,6 +92,25 @@ namespace PeerTalk.Multiplex
         }
 
         [TestMethod]
+        public async Task NewStream_Event()
+        {
+            var channel = new MemoryStream();
+            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            var foo = await muxer1.CreateStreamAsync("foo");
+            var bar = await muxer1.CreateStreamAsync("bar");
+
+            channel.Position = 0;
+            var muxer2 = new Muxer { Channel = channel };
+            int createCount = 0;
+            muxer2.SubstreamCreated += (s, e) =>
+            {
+                ++createCount;
+            };
+            await muxer2.ProcessRequestsAsync();
+            Assert.AreEqual(2, createCount);
+        }
+
+        [TestMethod]
         public async Task AcquireWrite()
         {
             var muxer = new Muxer();

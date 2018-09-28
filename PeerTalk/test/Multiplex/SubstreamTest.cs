@@ -64,7 +64,7 @@ namespace PeerTalk.Multiplex
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
-            var stream = new Substream { MessageHandler = null };
+            var stream = new Substream();
             stream.AddData(new byte[] { 1, 2 });
             stream.AddData(new byte[] { 3, 4 });
             stream.NoMoreData();
@@ -84,7 +84,7 @@ namespace PeerTalk.Multiplex
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
-            var stream = new Substream { MessageHandler = null };
+            var stream = new Substream();
             stream.AddData(m1);
             stream.NoMoreData();
 
@@ -100,7 +100,7 @@ namespace PeerTalk.Multiplex
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
-            var stream = new Substream { MessageHandler = null };
+            var stream = new Substream();
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             Task.Run(async () =>
             {
@@ -121,7 +121,7 @@ namespace PeerTalk.Multiplex
         public async Task Reading_Empty()
         {
             var m1 = new byte[0];
-            var stream = new Substream { MessageHandler = null };
+            var stream = new Substream();
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             Task.Run(async () =>
             {
@@ -138,7 +138,7 @@ namespace PeerTalk.Multiplex
         {
             var ms = new MemoryStream();
             var muxer = new Muxer { Channel = ms };
-            var stream = new Substream { Muxer = muxer, MessageHandler = null };
+            var stream = new Substream { Muxer = muxer };
             var m1 = new byte[1];
             stream.AddData(new byte[] { 10 });
             Assert.IsTrue(stream.CanRead);

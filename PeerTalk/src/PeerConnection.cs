@@ -99,6 +99,7 @@ namespace PeerTalk
                 Initiator = true,
                 Connection = this
             };
+            muxer.SubstreamCreated += (s, e) => ReadMessages(e, CancellationToken.None);
             muxer.ProcessRequestsAsync(cancel);
 
             return null; // TODO
@@ -164,6 +165,32 @@ namespace PeerTalk
             }
 
             log.Debug($"stop reading messsages from {RemoteAddress}");
+        }
+
+        /// <summary>
+        ///   Starts reading messages from the remote peer on the specified stream.
+        /// </summary>
+        public async void ReadMessages(Stream stream, CancellationToken cancel)
+        {
+            IPeerProtocol protocol = new Multistream1();
+            try
+            {
+                while (!cancel.IsCancellationRequested && stream != null && stream.CanRead)
+                {
+                    await protocol.ProcessMessageAsync(this, stream, cancel);
+                }
+            }
+            catch (EndOfStreamException)
+            {
+                // eat it.
+            }
+            catch (Exception e)
+            {
+                if (!cancel.IsCancellationRequested && stream != null)
+                {
+                    log.Error("reading message failed", e);
+                }
+            }
         }
 
         #region IDisposable Support

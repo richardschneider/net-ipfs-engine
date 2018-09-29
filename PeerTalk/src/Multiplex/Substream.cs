@@ -31,6 +31,15 @@ namespace PeerTalk.Multiplex
         Stream outStream = new MemoryStream();
 
         /// <summary>
+        ///   The type of message of sent to the other side.
+        /// </summary>
+        /// <value>
+        ///   Either <see cref="PacketType.MessageInitiator"/> or <see cref="PacketType.MessageReceiver"/>.
+        ///   Defaults to <see cref="PacketType.MessageReceiver"/>.
+        /// </value>
+        public PacketType SentMessageType = PacketType.MessageReceiver;
+
+        /// <summary>
         ///   The stream identifier.
         /// </summary>
         /// <value>
@@ -171,7 +180,7 @@ namespace PeerTalk.Multiplex
                 var header = new Header
                 {
                     StreamId = Id,
-                    PacketType = PacketType.MessageReceiver
+                    PacketType = SentMessageType
                 };
                 await header.WriteAsync(Muxer.Channel, cancel);
                 await Varint.WriteVarintAsync(Muxer.Channel, outStream.Length, cancel);

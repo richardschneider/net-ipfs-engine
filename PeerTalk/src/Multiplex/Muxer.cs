@@ -115,7 +115,8 @@ namespace PeerTalk.Multiplex
             {
                 Id = streamId,
                 Name = name,
-                Muxer = this
+                Muxer = this,
+                SentMessageType = PacketType.MessageInitiator,
             };
             Substreams.TryAdd(streamId, substream);
 

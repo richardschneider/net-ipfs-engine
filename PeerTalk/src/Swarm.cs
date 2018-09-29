@@ -11,6 +11,7 @@ using Common.Logging;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using PeerTalk.Protocols;
 
 namespace PeerTalk
 {
@@ -210,6 +211,7 @@ namespace PeerTalk
 
             if (peer.ConnectedAddress != null)
             {
+                // TODO: Verify connection is still open
                 return peer;
             }
 
@@ -466,7 +468,19 @@ namespace PeerTalk
                 Stream = stream
             };
 
+            // Required by GO-IPFS
+            await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
+
+            // Wait for the handshake to complete.
             connection.ReadMessages(default(CancellationToken));
+            var muxer = await connection.MuxerEstablished.Task;
+
+            // Need details on the remote peer.
+            if (connection.RemotePeer == null)
+            {
+                await (new Identify1()).GetRemotePeer(connection);
+            }
+
         }
 
         /// <summary>

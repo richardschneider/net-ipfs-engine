@@ -34,35 +34,6 @@ namespace PeerTalk.Protocols
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-#if false
-            // Receive remote identity.
-            log.Debug("Receiving identity from " + connection.RemoteAddress);
-            var info = await ProtoBufHelper.ReadMessageAsync<Identify>(stream, cancel);
-            Peer remote = connection.RemotePeer;
-            if (remote == null)
-            {
-                remote = new Peer();
-                connection.RemotePeer = remote;
-            }
-            // TODO: remote.Addresses
-            remote.AgentVersion = info.AgentVersion;
-            remote.ProtocolVersion = info.ProtocolVersion;
-            if (info.PublicKey != null)
-            {
-                remote.PublicKey = Convert.ToBase64String(info.PublicKey);
-                if (remote.Id == null)
-                {
-                    remote.Id = MultiHash.ComputeHash(info.PublicKey);
-                }
-            }
-            if (info.ListenAddresses != null)
-            {
-                remote.Addresses = info.ListenAddresses
-                    .Select(b => new MultiAddress(b))
-                    .Union(remote.Addresses)
-                    .ToList();
-            }
-#endif
 
             // Send our identity.
             log.Debug("Sending identity to " + connection.RemoteAddress);
@@ -84,6 +55,54 @@ namespace PeerTalk.Protocols
 
             ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(stream, res, PrefixStyle.Base128);
             await stream.FlushAsync();
+        }
+
+        /// <summary>
+        ///   Gets the identity information of the remote peer.
+        /// </summary>
+        /// <param name="connection">
+        ///   The currenty connection to the remote peer.
+        /// </param>
+        /// <returns></returns>
+        public async Task<Peer> GetRemotePeer(PeerConnection connection)
+        {
+            var muxer = await connection.MuxerEstablished.Task;
+            log.Debug("Get remote identity");
+            using (var stream = await muxer.CreateStreamAsync("id"))
+            {
+                await connection.EstablishProtocolAsync("/multistream/", stream);
+                await connection.EstablishProtocolAsync("/ipfs/id/", stream);
+
+                var info = await ProtoBufHelper.ReadMessageAsync<Identify>(stream);
+                Peer remote = connection.RemotePeer;
+                if (remote == null)
+                {
+                    remote = new Peer();
+                    connection.RemotePeer = remote;
+                }
+
+                remote.AgentVersion = info.AgentVersion;
+                remote.ProtocolVersion = info.ProtocolVersion;
+                if (info.PublicKey != null)
+                {
+                    remote.PublicKey = Convert.ToBase64String(info.PublicKey);
+                    if (remote.Id == null)
+                    {
+                        remote.Id = MultiHash.ComputeHash(info.PublicKey);
+                    }
+                }
+                if (info.ListenAddresses != null)
+                {
+                    remote.Addresses = info.ListenAddresses
+                        .Select(b => new MultiAddress(b))
+                        .Union(remote.Addresses)
+                        .Union(new MultiAddress[] { connection.RemoteAddress })
+                        .ToList();
+                }
+            }
+
+            log.Debug($"Peer id '{connection.RemotePeer}' of {connection.RemoteAddress}");
+            return connection.RemotePeer;
         }
 
         [ProtoContract]

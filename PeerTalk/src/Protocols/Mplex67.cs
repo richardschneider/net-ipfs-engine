@@ -40,14 +40,13 @@ namespace PeerTalk.Protocols
             {
                 Channel = stream,
                 Connection = connection,
-                Initiator = false
+                Initiator = true // TODO: should be false https://github.com/ipfs/js-ipfs/issues/1601
             };
-
             muxer.SubstreamCreated += (s, e) => connection.ReadMessages(e, CancellationToken.None);
-            await muxer.ProcessRequestsAsync();
 
-            // TODO: Attach muxer to the connection.  It now becomes
-            // the message reader.
+            // Attach muxer to the connection.  It now becomes the message reader.
+            connection.MuxerEstablished.SetResult(muxer);
+            await muxer.ProcessRequestsAsync();
 
             log.Debug("stop processing from " + connection.RemoteAddress);
             connection.Dispose();

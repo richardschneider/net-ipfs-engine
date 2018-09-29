@@ -59,8 +59,10 @@ namespace PeerTalk
         /// <remarks>
         ///   This can be awaited.
         /// </remarks>
-        public TaskCompletionSource<bool> SecurityEstablished { get; }  = new TaskCompletionSource<bool>();
+        public TaskCompletionSource<bool> SecurityEstablished { get; } = new TaskCompletionSource<bool>();
 
+        public TaskCompletionSource<Muxer> MuxerEstablished { get; } = new TaskCompletionSource<Muxer>();
+        
         /// <summary>
         ///   When the connection was last used.
         /// </summary>
@@ -111,7 +113,19 @@ namespace PeerTalk
         /// <param name="name"></param>
         /// <param name="cancel"></param>
         /// <returns></returns>
-        public async Task EstablishProtocolAsync(string name, CancellationToken cancel)
+        public Task EstablishProtocolAsync(string name, CancellationToken cancel)
+        {
+            return EstablishProtocolAsync(name, Stream, cancel);
+        }
+
+        /// <summary>
+        ///   TODO:
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="stream"></param>
+        /// <param name="cancel"></param>
+        /// <returns></returns>
+        public async Task EstablishProtocolAsync(string name, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             // TODO: How to determine that the remote supports the protocol.
             var protocols = ProtocolRegistry.Protocols.Keys
@@ -121,8 +135,8 @@ namespace PeerTalk
                 .Select(vn => vn.ToString());
             foreach (var protocol in protocols)
             {
-                await Message.WriteAsync(protocol, Stream, cancel);
-                var result = await Message.ReadStringAsync(Stream, cancel);
+                await Message.WriteAsync(protocol, stream, cancel);
+                var result = await Message.ReadStringAsync(stream, cancel);
                 if (result == protocol)
                 {
                     return;

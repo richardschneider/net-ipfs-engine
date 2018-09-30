@@ -43,9 +43,11 @@ namespace PeerTalk.Protocols
         }
 
         /// <summary>
-        ///   TODO
+        ///   Remove the specified protocol.
         /// </summary>
-        /// <param name="protocolName"></param>
+        /// <param name="protocolName">
+        ///   The protocol name to remove.
+        /// </param>
         public static void Deregister(string protocolName)
         {
             Protocols.Remove(protocolName);

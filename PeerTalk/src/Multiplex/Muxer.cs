@@ -106,7 +106,9 @@ namespace PeerTalk.Multiplex
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
-        /// <returns>TODO</returns>
+        /// <returns>
+        ///   A duplex stream.
+        /// </returns>
         public async Task<Substream> CreateStreamAsync(string name = "", CancellationToken cancel = default(CancellationToken))
         {
             var streamId = NextStreamId;

@@ -370,6 +370,7 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        [Ignore("TODO: Move to interop tests")]
         public async Task JsIPFS_Connect()
         {
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
@@ -398,6 +399,7 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        [Ignore("TODO: Move to interop tests")]
         public async Task GoIPFS_Connect()
         {
             var remoteId = "QmdoxrwszT6b9srLXHYBPFVRXmZSFAosWLXoQS9TEEAaix";

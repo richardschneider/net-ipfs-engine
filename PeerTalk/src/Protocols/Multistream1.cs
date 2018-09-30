@@ -51,7 +51,6 @@ namespace PeerTalk.Protocols
 
             // Ack protocol switch
             log.Debug("switching to " + msg);
-            // TODO: Get write access
             await Message.WriteAsync(msg, stream, cancel);
 
             // Process protocol message.

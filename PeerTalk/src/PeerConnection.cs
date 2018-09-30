@@ -126,7 +126,6 @@ namespace PeerTalk
         /// <returns></returns>
         public async Task EstablishProtocolAsync(string name, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            // TODO: How to determine that the remote supports the protocol.
             var protocols = ProtocolRegistry.Protocols.Keys
                 .Where(k => k.StartsWith(name))
                 .Select(k => VersionedName.Parse(k))

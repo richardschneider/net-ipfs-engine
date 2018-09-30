@@ -26,6 +26,23 @@ namespace PeerTalk
             PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
         };
 
+        [TestMethod]
+        public async Task Start_Stop()
+        {
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            await swarm.StopAsync();
+        }
+
+        [TestMethod]
+        public void Start_NoLocalPeer()
+        {
+            var swarm = new Swarm();
+            ExceptionAssert.Throws<NotSupportedException>(() =>
+            {
+                swarm.StartAsync().Wait();
+            });
+        }
 
         [TestMethod]
         public async Task NewPeerAddress()

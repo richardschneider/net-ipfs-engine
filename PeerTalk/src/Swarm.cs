@@ -215,6 +215,10 @@ namespace PeerTalk
         /// <inheritdoc />
         public Task StartAsync()
         {
+            if (LocalPeer == null)
+            {
+                throw new NotSupportedException("The LocalPeer is not defined.");
+            }
             log.Debug("Starting");
 
             return Task.CompletedTask;

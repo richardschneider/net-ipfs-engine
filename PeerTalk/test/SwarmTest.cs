@@ -15,9 +15,17 @@ namespace PeerTalk
         MultiAddress earth = "/ip4/178.62.158.247/tcp/4001/ipfs/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd";
         Peer self = new Peer
         {
+            AgentVersion = "self",
             Id = "QmXK9VBxaXFuuT29AaPUTgW3jBWZ9JgLVZYdMYTHC6LLAH",
             PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQCC5r4nQBtnd9qgjnG8fBN5+gnqIeWEIcUFUdCG4su/vrbQ1py8XGKNUBuDjkyTv25Gd3hlrtNJV3eOKZVSL8ePAgMBAAE="
         };
+        Peer other = new Peer
+        {
+            AgentVersion = "other",
+            Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+            PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+        };
+
 
         [TestMethod]
         public async Task NewPeerAddress()
@@ -123,6 +131,7 @@ namespace PeerTalk
         {
             var peerB = new Peer
             {
+                AgentVersion = "peerB",
                 Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
                 PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
             };
@@ -235,10 +244,20 @@ namespace PeerTalk
         [TestMethod]
         public async Task Listening()
         {
-            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peerA = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             MultiAddress addr = "/ip4/127.0.0.1/tcp/4009";
             var swarmA = new Swarm { LocalPeer = peerA };
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = other.Id,
+                PublicKey = other.PublicKey,
+                AgentVersion = other.AgentVersion
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
             try
             {
@@ -263,7 +282,12 @@ namespace PeerTalk
         [TestMethod]
         public async Task Listening_Event()
         {
-            var peer = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peer = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             MultiAddress addr = "/ip4/127.0.0.1/tcp/4009";
             var swarm = new Swarm { LocalPeer = peer };
             Peer listeningPeer = null;
@@ -286,10 +310,20 @@ namespace PeerTalk
         [TestMethod]
         public async Task Listening_AnyPort()
         {
-            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peerA = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             MultiAddress addr = "/ip4/127.0.0.1/tcp/0";
             var swarmA = new Swarm { LocalPeer = peerA };
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = other.Id,
+                PublicKey = other.PublicKey,
+                AgentVersion = other.AgentVersion
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
             try
             {
@@ -313,10 +347,20 @@ namespace PeerTalk
         [TestMethod]
         public async Task Listening_IPv4Any()
         {
-            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peerA = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             MultiAddress addr = "/ip4/0.0.0.0/tcp/0";
             var swarmA = new Swarm { LocalPeer = peerA };
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = other.Id,
+                PublicKey = other.PublicKey,
+                AgentVersion = other.AgentVersion
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
             try
             {
@@ -342,10 +386,20 @@ namespace PeerTalk
         [TestCategory("IPv6")]
         public async Task Listening_IPv6Any()
         {
-            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peerA = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             MultiAddress addr = "/ip6/::/tcp/0";
             var swarmA = new Swarm { LocalPeer = peerA };
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = other.Id,
+                PublicKey = other.PublicKey,
+                AgentVersion = other.AgentVersion
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
             try
             {
@@ -370,7 +424,12 @@ namespace PeerTalk
         [TestMethod]
         public void Listening_MissingTransport()
         {
-            var peer = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peer = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             var swarm = new Swarm { LocalPeer = peer };
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
@@ -435,6 +494,33 @@ namespace PeerTalk
             {
                 await swarm.StopAsync();
             }
+        }
+
+        [TestMethod]
+        public void LocalPeer()
+        {
+            var swarm = new Swarm { LocalPeer = self };
+            Assert.AreEqual(self, swarm.LocalPeer)
+;
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                swarm.LocalPeer = null;
+            });
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                swarm.LocalPeer = new Peer { Id = self.Id };
+            });
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                swarm.LocalPeer = new Peer { PublicKey = self.PublicKey };
+            });
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                swarm.LocalPeer = new Peer { Id = self.Id, PublicKey = other.PublicKey };
+            });
+
+            swarm.LocalPeer = new Peer { Id = other.Id, PublicKey = other.PublicKey };
+            Assert.AreEqual(other, swarm.LocalPeer);
         }
     }
 }

@@ -22,6 +22,8 @@ namespace PeerTalk
     {
         static ILog log = LogManager.GetLogger(typeof(Swarm));
 
+        Peer localPeer;
+
         /// <summary>
         ///   Raised when a listener is establihed.
         /// </summary>
@@ -34,7 +36,26 @@ namespace PeerTalk
         /// <summary>
         ///  The local peer.
         /// </summary>
-        public Peer LocalPeer { get; set; }
+        /// <value>
+        ///   The local peer must have an <see cref="Peer.Id"/> and
+        ///   <see cref="Peer.PublicKey"/>.
+        /// </value>
+        public Peer LocalPeer
+        {
+            get { return localPeer; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                if (value.Id == null)
+                    throw new ArgumentNullException("peer.Id");
+                if (value.PublicKey == null)
+                    throw new ArgumentNullException("peer.PublicKey");
+                if (!value.IsValid())
+                    throw new ArgumentException("Invalid peer.");
+                localPeer = value;
+            }
+        }
 
         /// <summary>
         ///   Other nodes. Key is the bae58 hash of the peer ID.
@@ -155,9 +176,14 @@ namespace PeerTalk
         /// </remarks>
         public Peer RegisterPeer(Peer peer)
         {
+
+            if (peer.Id == null)
+            {
+                throw new ArgumentNullException("Peer.ID");
+            }
             if (peer.Id == LocalPeer.Id)
             {
-                throw new Exception("Cannot register to self.");
+                throw new ArgumentException("Cannot register to self.");
             }
 
             return otherPeers.AddOrUpdate(peer.Id.ToBase58(),

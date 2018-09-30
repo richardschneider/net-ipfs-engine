@@ -83,13 +83,14 @@ namespace PeerTalk.Protocols
 
                 remote.AgentVersion = info.AgentVersion;
                 remote.ProtocolVersion = info.ProtocolVersion;
-                if (info.PublicKey != null)
+                if (info.PublicKey == null || info.PublicKey.Length == 0)
                 {
-                    remote.PublicKey = Convert.ToBase64String(info.PublicKey);
-                    if (remote.Id == null)
-                    {
-                        remote.Id = MultiHash.ComputeHash(info.PublicKey);
-                    }
+                    throw new InvalidDataException("Public key is missing.");
+                }
+                remote.PublicKey = Convert.ToBase64String(info.PublicKey);
+                if (remote.Id == null)
+                {
+                    remote.Id = MultiHash.ComputeHash(info.PublicKey);
                 }
                 if (info.ListenAddresses != null)
                 {

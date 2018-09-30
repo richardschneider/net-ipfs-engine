@@ -89,7 +89,7 @@ namespace PeerTalk
         ///   Register that a peer's address has been discovered.
         /// </summary>
         /// <param name="address">
-        ///   An address to the peer. 
+        ///   An address to the peer. It must end with the peer ID.
         /// </param>
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
@@ -136,6 +136,43 @@ namespace PeerTalk
                         addrs.Add(address);
                     }
                     return peer;
+                });
+        }
+
+        /// <summary>
+        ///   Register that a peer has been discovered.
+        /// </summary>
+        /// <param name="peer">
+        ///   The newly discovered peer.
+        /// </param>
+        /// <returns>
+        ///   The registered peer.
+        /// </returns>
+        /// <remarks>
+        ///   If the peer already exists, then the existing peer is updated with supplied
+        ///   information and is then returned.  Otherwise, the <paramref name="peer"/>
+        ///   is added to known peers and is returned.
+        /// </remarks>
+        public Peer RegisterPeer(Peer peer)
+        {
+            if (peer.Id == LocalPeer.Id)
+            {
+                throw new Exception("Cannot register to self.");
+            }
+
+            return otherPeers.AddOrUpdate(peer.Id.ToBase58(),
+                (id) => peer,
+                (id, existing) =>
+                {
+                    existing.AgentVersion = peer.AgentVersion;
+                    existing.ProtocolVersion = peer.ProtocolVersion;
+                    existing.PublicKey = peer.PublicKey;
+                    existing.Latency = peer.Latency;
+                    existing.Addresses = existing
+                        .Addresses
+                        .Union(peer.Addresses)
+                        .ToList();
+                    return existing;
                 });
         }
 
@@ -225,6 +262,7 @@ namespace PeerTalk
             try
             {
                 await connection.InitiateAsync(cancel);
+                await (new Identify1()).GetRemotePeer(connection);
             }
             catch (Exception)
             {
@@ -478,9 +516,9 @@ namespace PeerTalk
             // Need details on the remote peer.
             if (connection.RemotePeer == null)
             {
-                await (new Identify1()).GetRemotePeer(connection);
+                connection.RemotePeer = await (new Identify1()).GetRemotePeer(connection);
             }
-
+            connection.RemotePeer = RegisterPeer(connection.RemotePeer);
         }
 
         /// <summary>

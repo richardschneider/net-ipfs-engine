@@ -121,32 +121,30 @@ namespace PeerTalk
         [TestMethod]
         public async Task Connect_Disconnect()
         {
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
-            var remoteAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+            var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+            Assert.IsTrue(peerB.Addresses.Count() > 0);
 
             var swarm = new Swarm { LocalPeer = self };
             await swarm.StartAsync();
             try
             {
-                var remotePeer = await swarm.ConnectAsync(remoteAddress);
+                var remotePeer = await swarm.ConnectAsync(peerBAddress);
                 Assert.IsNotNull(remotePeer.ConnectedAddress);
-                // TODO: Should have remote's public key
-                //Assert.IsNotNull(remotePeer.PublicKey);
-                Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
-                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+                Assert.AreEqual(peerB.PublicKey, remotePeer.PublicKey);
                 Assert.IsTrue(remotePeer.IsValid());
+                Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
+                Assert.IsTrue(swarmB.KnownPeers.Contains(self));
 
-                // TODO: Verify that swarm B knows self's ID and address
-                await Task.Delay(2000);
-                //Assert.IsTrue(swarmB.KnownPeers.Contains(self));
-                //Assert.IsFalse(swarmB.KnownPeers.Contains(peerB));
-
-
-                await swarm.DisconnectAsync(remoteAddress);
+                await swarm.DisconnectAsync(peerBAddress);
                 Assert.IsNull(remotePeer.ConnectedAddress);
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
-                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+                Assert.IsTrue(swarmB.KnownPeers.Contains(self));
             }
             finally
             {

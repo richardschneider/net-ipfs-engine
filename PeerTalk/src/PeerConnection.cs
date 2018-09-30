@@ -62,7 +62,7 @@ namespace PeerTalk
         public TaskCompletionSource<bool> SecurityEstablished { get; } = new TaskCompletionSource<bool>();
 
         public TaskCompletionSource<Muxer> MuxerEstablished { get; } = new TaskCompletionSource<Muxer>();
-        
+
         /// <summary>
         ///   When the connection was last used.
         /// </summary>
@@ -82,12 +82,11 @@ namespace PeerTalk
         ///  Establish the connection with the remote node.
         /// </summary>
         /// <param name="cancel"></param>
-        /// <returns></returns>
         /// <remarks>
         ///   This should be called when the local peer wants a connection with
         ///   the remote peer.
         /// </remarks>
-        public async Task<Peer> InitiateAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task InitiateAsync(CancellationToken cancel = default(CancellationToken))
         {
             await EstablishProtocolAsync("/multistream/", cancel);
             await EstablishProtocolAsync("/plaintext/", cancel);
@@ -98,13 +97,13 @@ namespace PeerTalk
             var muxer = new Muxer
             {
                 Channel = Stream,
-                Initiator = true,
+                Initiator = false, // TODO: should be true https://github.com/ipfs/js-ipfs/issues/1601
                 Connection = this
             };
             muxer.SubstreamCreated += (s, e) => ReadMessages(e, CancellationToken.None);
-            muxer.ProcessRequestsAsync(cancel);
+            this.MuxerEstablished.SetResult(muxer);
 
-            return null; // TODO
+            muxer.ProcessRequestsAsync(cancel);
         }
 
         /// <summary>

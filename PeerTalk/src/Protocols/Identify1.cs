@@ -101,6 +101,8 @@ namespace PeerTalk.Protocols
                 }
             }
 
+            // TODO: Verify the Peer ID
+
             log.Debug($"Peer id '{connection.RemotePeer}' of {connection.RemoteAddress}");
             return connection.RemotePeer;
         }

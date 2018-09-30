@@ -30,12 +30,6 @@ namespace PeerTalkSpike
             properties["showDateTime"] = "true";
             LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
 
-            // obtain logger instance
-            ILog log = LogManager.GetCurrentClassLogger();
-
-            // log something
-            log.Debug("Some Debug Log Output");
-
             ClientConnect();
 
             //ServerListen();

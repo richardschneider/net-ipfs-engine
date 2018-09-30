@@ -61,6 +61,12 @@ namespace PeerTalk
         /// </remarks>
         public TaskCompletionSource<bool> SecurityEstablished { get; } = new TaskCompletionSource<bool>();
 
+        /// <summary>
+        ///   Signals that the muxer for the connection is established.
+        /// </summary>
+        /// <remarks>
+        ///   This can be awaited.
+        /// </remarks>
         public TaskCompletionSource<Muxer> MuxerEstablished { get; } = new TaskCompletionSource<Muxer>();
 
         /// <summary>
@@ -103,7 +109,7 @@ namespace PeerTalk
             muxer.SubstreamCreated += (s, e) => ReadMessages(e, CancellationToken.None);
             this.MuxerEstablished.SetResult(muxer);
 
-            muxer.ProcessRequestsAsync(cancel);
+            var _ = muxer.ProcessRequestsAsync(cancel);
         }
 
         /// <summary>

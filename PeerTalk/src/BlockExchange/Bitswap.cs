@@ -20,6 +20,11 @@ namespace PeerTalk.BlockExchange
         ConcurrentDictionary<Cid, WantedBlock> wants = new ConcurrentDictionary<Cid, WantedBlock>();
 
         /// <summary>
+        ///   Provides access to other peers.
+        /// </summary>
+        public Swarm Swarm { get; set; }
+
+        /// <summary>
         ///   Raised when a blocked is needed.
         /// </summary>
         /// <remarks>

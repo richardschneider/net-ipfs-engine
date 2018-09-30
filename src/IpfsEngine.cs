@@ -84,7 +84,7 @@ namespace Ipfs.Engine
                 log.Debug("Building bitswap service");
                 var bitswap = new PeerTalk.BlockExchange.Bitswap
                 {
-                    // TODO: LocalPeer = await LocalPeer
+                    Swarm = await SwarmService
                 };
                 log.Debug("Built bitswap service");
                 return bitswap;

@@ -44,7 +44,8 @@ namespace PeerTalk
                 p.Name == "ip6" && p.Value == "::1");
         }
 
-        ///   The IP addresses for a host name.
+        /// <summary>
+        ///   Get all the addresses for the specified <see cref="MultiAddress"/>.
         /// </summary>
         /// <param name="multiaddress">
         ///   The multiaddress to resolve.

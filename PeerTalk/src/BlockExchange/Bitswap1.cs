@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+#pragma warning disable 0649 // disable warning about unassinged fields
+#pragma warning disable 0169// disable warning about unassinged fields
+
 namespace PeerTalk.BlockExchange
 {
     /// <summary>
@@ -38,9 +41,9 @@ namespace PeerTalk.BlockExchange
             log.Debug("Receiving message " + connection.RemoteAddress);
             var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel);
 
-            // Process want list
+            // TODO: Process want list
 
-            // Process sent blocks
+            // TODO: Process sent blocks
         }
 
         [ProtoContract]

@@ -40,7 +40,7 @@ namespace PeerTalk.Protocols
             {
                 Channel = stream,
                 Connection = connection,
-                Initiator = true // TODO: should be false https://github.com/ipfs/js-ipfs/issues/1601
+                Receiver = true
             };
             muxer.SubstreamCreated += (s, e) => connection.ReadMessages(e, CancellationToken.None);
 

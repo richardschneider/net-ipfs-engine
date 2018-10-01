@@ -103,7 +103,7 @@ namespace PeerTalk
             var muxer = new Muxer
             {
                 Channel = Stream,
-                Initiator = false, // TODO: should be true https://github.com/ipfs/js-ipfs/issues/1601
+                Initiator = true,
                 Connection = this
             };
             muxer.SubstreamCreated += (s, e) => ReadMessages(e, CancellationToken.None);

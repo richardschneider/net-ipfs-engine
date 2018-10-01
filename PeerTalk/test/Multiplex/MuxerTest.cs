@@ -16,8 +16,8 @@ namespace PeerTalk.Multiplex
         public void Defaults()
         {
             var muxer = new Muxer();
-            Assert.AreEqual(false, muxer.Initiator);
-            Assert.AreEqual(true, muxer.Receiver);
+            Assert.AreEqual(true, muxer.Initiator);
+            Assert.AreEqual(false, muxer.Receiver);
             Assert.AreEqual(0, muxer.NextStreamId);
         }
 
@@ -27,12 +27,12 @@ namespace PeerTalk.Multiplex
             var muxer = new Muxer { Initiator = true };
             Assert.AreEqual(true, muxer.Initiator);
             Assert.AreEqual(false, muxer.Receiver);
-            Assert.AreEqual(1, muxer.NextStreamId);
+            Assert.AreEqual(0, muxer.NextStreamId);
 
             muxer.Receiver = true;
             Assert.AreEqual(false, muxer.Initiator);
             Assert.AreEqual(true, muxer.Receiver);
-            Assert.AreEqual(2, muxer.NextStreamId);
+            Assert.AreEqual(1, muxer.NextStreamId);
         }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace PeerTalk.Multiplex
 
             // NewStream message is sent.
             var msg = channel.ToArray();
-            CollectionAssert.AreEqual(new byte[] { 0x08, 0x03, (byte)'f', (byte)'o', (byte)'o' }, msg);
+            CollectionAssert.AreEqual(new byte[] { 0x00, 0x03, (byte)'f', (byte)'o', (byte)'o' }, msg);
         }
 
         [TestMethod]

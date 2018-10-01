@@ -17,7 +17,7 @@ namespace PeerTalk.Multiplex
     ///   Supports multiple protocols over a single channel (stream).
     /// </summary>
     /// <remarks>
-    ///   See <see href="https://github.com/libp2p/mplex"/> for the details.
+    ///   See <see href="https://github.com/libp2p/mplex"/> for the spec.
     /// </remarks>
     public class Muxer
     {
@@ -27,7 +27,7 @@ namespace PeerTalk.Multiplex
         ///   The next stream ID to create.
         /// </summary>
         /// <value>
-        ///   The session initiator allocates odd IDs and the session receiver allocates even IDs.
+        ///   The session initiator allocates even IDs and the session receiver allocates odd IDs.
         /// </value>
         public long NextStreamId { get; private set; }
 
@@ -76,7 +76,7 @@ namespace PeerTalk.Multiplex
         /// <seealso cref="Receiver"/>
         public bool Initiator
         {
-            get { return (NextStreamId & 1) == 1; }
+            get { return (NextStreamId & 1) == 0; }
             set
             {
                 if (value != Initiator)

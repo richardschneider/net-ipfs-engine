@@ -133,7 +133,7 @@ namespace PeerTalk.Transports
             try
             {
                 socket.Bind(endPoint);
-                socket.Listen(1);
+                socket.Listen(100);
             }
             catch (Exception e)
             {

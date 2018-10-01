@@ -283,7 +283,7 @@ namespace PeerTalk
                 PublicKey = self.PublicKey,
                 AgentVersion = self.AgentVersion
             };
-            MultiAddress addr = "/ip4/127.0.0.1/tcp/4009";
+            MultiAddress addr = "/ip4/127.0.0.1/tcp/0";
             var swarmA = new Swarm { LocalPeer = peerA };
             var peerB = new Peer
             {
@@ -295,12 +295,11 @@ namespace PeerTalk
             try
             {
                 var another = await swarmA.StartListeningAsync(addr);
-                Assert.AreEqual(another.ToString(), $"{addr}/ipfs/{peerA.Id}");
                 Assert.IsTrue(peerA.Addresses.Contains(another));
 
                 await swarmB.ConnectAsync(another);
                 Assert.IsTrue(swarmB.KnownPeers.Contains(peerA));
-                // TODO: Assert.IsTrue(swarmA.KnownPeers.Contains(peerB));
+                Assert.IsTrue(swarmA.KnownPeers.Contains(peerB));
 
                 await swarmA.StopListeningAsync(addr);
                 Assert.AreEqual(0, peerA.Addresses.Count());
@@ -321,7 +320,7 @@ namespace PeerTalk
                 PublicKey = self.PublicKey,
                 AgentVersion = self.AgentVersion
             };
-            MultiAddress addr = "/ip4/127.0.0.1/tcp/4009";
+            MultiAddress addr = "/ip4/127.0.0.1/tcp/0";
             var swarm = new Swarm { LocalPeer = peer };
             Peer listeningPeer = null;
             swarm.ListenerEstablished += (s, e) =>

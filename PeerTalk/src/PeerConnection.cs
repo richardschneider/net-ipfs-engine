@@ -215,6 +215,11 @@ namespace PeerTalk
         private bool disposedValue = false; // To detect redundant calls
 
         /// <summary>
+        ///   Signals that the connection is closed (disposed).
+        /// </summary>
+        public event EventHandler<PeerConnection> Closed;
+
+        /// <summary>
         ///  TODO
         /// </summary>
         /// <param name="disposing"></param>
@@ -228,15 +233,28 @@ namespace PeerTalk
                     {
                         try
                         {
+                            log.Debug($"Closing connection to {RemoteAddress}");
                             stream.Dispose();
-                            log.Debug($"Closed connection to {RemoteAddress}");
-                            // TODO: Does swarm need to know this?
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // ignore stream already closed.
+                        }
+                        catch (Exception e)
+                        {
+                            log.Warn($"Failed to close connection to {RemoteAddress}", e);
+                            // eat it.
                         }
                         finally
                         {
                             stream = null;
                         }
                     }
+                    if (RemotePeer != null && RemotePeer.ConnectedAddress == RemoteAddress)
+                    {
+                        RemotePeer.ConnectedAddress = null;
+                    }
+                    Closed?.Invoke(this, this);
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.

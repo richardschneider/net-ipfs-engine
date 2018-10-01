@@ -175,12 +175,26 @@ namespace PeerTalk
                     if (swarmB.KnownPeers.Contains(self))
                         break;
                 }
+                var me = swarmB.KnownPeers.First(p => p == self);
+                Assert.AreEqual(self.Id, me.Id);
+                Assert.AreEqual(self.PublicKey, me.PublicKey);
+                Assert.IsNotNull(me.ConnectedAddress);
 
                 // Check disconnect
                 await swarm.DisconnectAsync(peerBAddress);
                 Assert.IsNull(remotePeer.ConnectedAddress);
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
                 Assert.IsTrue(swarmB.KnownPeers.Contains(self));
+
+                // wait for swarmB to settle
+                endTime = DateTime.Now.AddSeconds(1);
+                while (true)
+                {
+                    if (DateTime.Now > endTime)
+                        Assert.Fail("swarmB did not close connection.");
+                    if (me.ConnectedAddress == null)
+                        break;
+                }
             }
             finally
             {

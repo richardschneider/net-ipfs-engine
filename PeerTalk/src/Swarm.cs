@@ -289,6 +289,13 @@ namespace PeerTalk
             {
                 return null; // most likely a cancel
             }
+            connection.Closed += (s, e) =>
+            {
+                if (e.RemotePeer != null && e.RemotePeer.Id != null)
+                {
+                    connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
+                }
+            };
             try
             {
                 await connection.InitiateAsync(cancel);
@@ -387,7 +394,6 @@ namespace PeerTalk
                     {
                         connection.Dispose();
                     }
-                    peer.ConnectedAddress = null;
                 }
             }
 
@@ -535,6 +541,13 @@ namespace PeerTalk
                 RemoteAddress = remote,
                 Stream = stream
             };
+            connection.Closed += (s, e) =>
+            {
+                if (e.RemotePeer != null && e.RemotePeer.Id != null)
+                {
+                    connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
+                }
+            };
 
             // Required by GO-IPFS
             await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
@@ -549,6 +562,9 @@ namespace PeerTalk
                 connection.RemotePeer = await (new Identify1()).GetRemotePeer(connection);
             }
             connection.RemotePeer = RegisterPeer(connection.RemotePeer);
+            connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");
+            connection.RemotePeer.ConnectedAddress = connection.RemoteAddress;
+            connections[connection.RemotePeer.Id.ToBase58()] = connection;
         }
 
         /// <summary>

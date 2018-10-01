@@ -174,6 +174,7 @@ namespace PeerTalk
                         Assert.Fail("swarmB does not know about self");
                     if (swarmB.KnownPeers.Contains(self))
                         break;
+                    await Task.Delay(100);
                 }
                 var me = swarmB.KnownPeers.First(p => p == self);
                 Assert.AreEqual(self.Id, me.Id);
@@ -194,6 +195,7 @@ namespace PeerTalk
                         Assert.Fail("swarmB did not close connection.");
                     if (me.ConnectedAddress == null)
                         break;
+                    await Task.Delay(100);
                 }
             }
             finally

@@ -581,11 +581,14 @@ namespace PeerTalk
         ///   The addresses of the <see cref="LocalPeer"/> are updated.
         ///   </para>
         /// </remarks>
-        public Task StopListeningAsync(MultiAddress address)
+        public async Task StopListeningAsync(MultiAddress address)
         {
             if (listeners.TryRemove(address, out CancellationTokenSource listener))
             {
                 listener.Cancel();
+
+                // Give some time away, so that cancel can run.
+                await Task.Delay(200);
 
                 // Remove any local peer address that depends on the cancellation token.
                 var others = listeners
@@ -595,7 +598,6 @@ namespace PeerTalk
                     .Where(a => !others.Contains(a))
                     .ToArray();
             }
-            return Task.CompletedTask;
         }
 
         /// <inheritdoc />

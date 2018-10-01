@@ -27,18 +27,11 @@ namespace PeerTalk.Protocols
         }
 
         /// <inheritdoc />
-        public Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             connection.SecurityEstablished.SetResult(true);
-            return Task.CompletedTask;
+            await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
         }
-
-        /// <inheritdoc />
-        public Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
-        {
-            return Task.CompletedTask;
-        }
-
 
     }
 }

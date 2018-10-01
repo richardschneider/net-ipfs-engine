@@ -45,7 +45,7 @@ namespace PeerTalk
         }
 
         /// <summary>
-        ///   The IP addresses for a host name.
+        ///   Get all the addresses for the specified <see cref="MultiAddress"/>.
         /// </summary>
         /// <param name="multiaddress">
         ///   The multiaddress to resolve.

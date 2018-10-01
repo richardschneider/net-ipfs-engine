@@ -32,8 +32,10 @@ namespace PeerTalk.Protocols
         }
 
         /// <inheritdoc />
-        public async Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
+
+            // Send our identity.
             log.Debug("Sending identity to " + connection.RemoteAddress);
             var peer = connection.LocalPeer;
             var res = new Identify
@@ -50,41 +52,60 @@ namespace PeerTalk.Protocols
             {
                 res.PublicKey = Convert.FromBase64String(peer.PublicKey);
             }
-            ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(connection.Stream, res, PrefixStyle.Base128);
-            await connection.Stream.FlushAsync();
+
+            ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(stream, res, PrefixStyle.Base128);
+            await stream.FlushAsync();
         }
 
-        /// <inheritdoc />
-        public Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        /// <summary>
+        ///   Gets the identity information of the remote peer.
+        /// </summary>
+        /// <param name="connection">
+        ///   The currenty connection to the remote peer.
+        /// </param>
+        /// <returns></returns>
+        public async Task<Peer> GetRemotePeer(PeerConnection connection)
         {
-            log.Debug("Receiving identity from " + connection.RemoteAddress);
-            var info = Serializer.DeserializeWithLengthPrefix<Identify>(connection.Stream, PrefixStyle.Base128);
-            Peer remote = connection.RemotePeer;
-            if (remote == null)
+            var muxer = await connection.MuxerEstablished.Task;
+            log.Debug("Get remote identity");
+            using (var stream = await muxer.CreateStreamAsync("id"))
             {
-                remote = new Peer();
-                connection.RemotePeer = remote;
-            }
-            // TODO: remote.Addresses
-            remote.AgentVersion = info.AgentVersion;
-            remote.ProtocolVersion = info.ProtocolVersion;
-            if (info.PublicKey != null)
-            {
+                await connection.EstablishProtocolAsync("/multistream/", stream);
+                await connection.EstablishProtocolAsync("/ipfs/id/", stream);
+
+                var info = await ProtoBufHelper.ReadMessageAsync<Identify>(stream);
+                Peer remote = connection.RemotePeer;
+                if (remote == null)
+                {
+                    remote = new Peer();
+                    connection.RemotePeer = remote;
+                }
+
+                remote.AgentVersion = info.AgentVersion;
+                remote.ProtocolVersion = info.ProtocolVersion;
+                if (info.PublicKey == null || info.PublicKey.Length == 0)
+                {
+                    throw new InvalidDataException("Public key is missing.");
+                }
                 remote.PublicKey = Convert.ToBase64String(info.PublicKey);
                 if (remote.Id == null)
                 {
                     remote.Id = MultiHash.ComputeHash(info.PublicKey);
                 }
-            }
-            if (info.ListenAddresses != null)
-            {
-                remote.Addresses = info.ListenAddresses
-                    .Select(b => new MultiAddress(b))
-                    .Union(remote.Addresses)
-                    .ToList();
+                if (info.ListenAddresses != null)
+                {
+                    remote.Addresses = info.ListenAddresses
+                        .Select(b => new MultiAddress(b))
+                        .Union(remote.Addresses)
+                        .Union(new MultiAddress[] { connection.RemoteAddress })
+                        .ToList();
+                }
             }
 
-            return Task.CompletedTask;
+            // TODO: Verify the Peer ID
+
+            log.Debug($"Peer id '{connection.RemotePeer}' of {connection.RemoteAddress}");
+            return connection.RemotePeer;
         }
 
         [ProtoContract]

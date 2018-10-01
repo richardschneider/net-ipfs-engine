@@ -78,6 +78,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        [Ignore("Not deterministic")]
         public async Task Swarm_Gets_Bootstrap_Peers()
         {
             var ipfs = TestFixture.Ipfs;
@@ -87,10 +88,14 @@ namespace Ipfs.Engine
             {
                 var swarm = await ipfs.SwarmService;
                 var knownPeers = swarm.KnownPeerAddresses.ToArray();
+                var endTime = DateTime.Now.AddSeconds(3);
                 while (true)
                 {
+                    if (DateTime.Now > endTime)
+                        Assert.Fail("Bootstrap peers are not known.");
                     if (bootPeers.All(a => knownPeers.Contains(a)))
                         break;
+
                     await Task.Delay(50);
                     knownPeers = swarm.KnownPeerAddresses.ToArray();
                 }

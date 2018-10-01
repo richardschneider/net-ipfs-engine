@@ -30,17 +30,11 @@ namespace PeerTalkSpike
             properties["showDateTime"] = "true";
             LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
 
-            // obtain logger instance
-            ILog log = LogManager.GetCurrentClassLogger();
-
-            // log something
-            log.Debug("Some Debug Log Output");
-
-            ClientConnect();
-
+            //ClientConnect();
+            
             //ServerListen();
 
-            var t = new Test();
+            //var t = new Test();
             //t.Chunking().Wait();
             //log.Debug("--- RUN Can_Start_And_Stop");
             //t.Can_Start_And_Stop().Wait();
@@ -48,8 +42,12 @@ namespace PeerTalkSpike
             //t.Swarm_Gets_Bootstrap_Peers().Wait();
             //Console.WriteLine("finished");
             //Console.ReadKey();
+
+            var test = new PeerTalk.SwarmTest();
+            test.Connect_Disconnect().Wait();
+            Console.ReadKey();
         }
-        
+
         static void ServerListen()
         {
             var localEndPoint = new IPEndPoint(IPAddress.Any, 4009);

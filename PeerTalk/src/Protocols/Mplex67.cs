@@ -33,12 +33,19 @@ namespace PeerTalk.Protocols
         }
 
         /// <inheritdoc />
-        public async Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             log.Debug("start processing requests from " + connection.RemoteAddress);
-            var muxer = new Muxer { Channel = connection.Stream, Initiator = true };
+            var muxer = new Muxer
+            {
+                Channel = stream,
+                Connection = connection,
+                Initiator = true // TODO: should be false https://github.com/ipfs/js-ipfs/issues/1601
+            };
+            muxer.SubstreamCreated += (s, e) => connection.ReadMessages(e, CancellationToken.None);
 
-            await muxer.CreateStreamAsync();
+            // Attach muxer to the connection.  It now becomes the message reader.
+            connection.MuxerEstablished.SetResult(muxer);
             await muxer.ProcessRequestsAsync();
 
             log.Debug("stop processing from " + connection.RemoteAddress);

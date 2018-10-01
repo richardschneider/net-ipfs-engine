@@ -30,27 +30,21 @@ namespace PeerTalk.Protocols
         SemVersion Version { get; }
 
         /// <summary>
-        ///   Process a request for the protocol.
+        ///   Process a message for the protocol.
         /// </summary>
         /// <param name="connection">
-        ///   A connection to the peer.
+        ///   A connection between two peers.
+        /// </param>
+        /// <param name="stream">
+        ///   The message source.
         /// </param>
         /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
         /// <returns>
+        ///   A task that represents the asynchronous operation.
         /// </returns>
-        Task ProcessRequestAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken));
+        Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken));
 
-        /// <summary>
-        ///   Process a response from the protocol.
-        /// </summary>
-        /// <param name="connection">
-        ///   A connection to the peer.
-        /// </param>
-        /// <param name="cancel">
-        /// </param>
-        /// <returns>
-        /// </returns>
-        Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken));
     }
 }

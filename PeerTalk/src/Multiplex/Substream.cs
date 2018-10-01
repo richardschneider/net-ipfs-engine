@@ -6,16 +6,38 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace PeerTalk.Multiplex
 {
     /// <summary>
-    ///   A substream used by the <see cref="Muxer"/>.
+    ///   A duplex substream used by the <see cref="Muxer"/>.
     /// </summary>
+    /// <remarks>
+    ///   Reading of data waits on the Muxer calling <see cref="AddData(byte[])"/>.
+    ///   <see cref="NoMoreData"/> is used to signal the end of stream.
+    ///   <para>
+    ///   Writing data is buffered until <see cref="FlushAsync(CancellationToken)"/> is
+    ///   called.
+    ///   </para>
+    /// </remarks>
     public class Substream : Stream
     {
-        Stream inStream;
+        BufferBlock<byte[]> inBlocks = new BufferBlock<byte[]>();
+        byte[] inBlock;
+        int inBlockOffset;
+        bool eos;
+
         Stream outStream = new MemoryStream();
+
+        /// <summary>
+        ///   The type of message of sent to the other side.
+        /// </summary>
+        /// <value>
+        ///   Either <see cref="PacketType.MessageInitiator"/> or <see cref="PacketType.MessageReceiver"/>.
+        ///   Defaults to <see cref="PacketType.MessageReceiver"/>.
+        /// </value>
+        public PacketType SentMessageType = PacketType.MessageReceiver;
 
         /// <summary>
         ///   The stream identifier.
@@ -39,13 +61,13 @@ namespace PeerTalk.Multiplex
         public Muxer Muxer { get; set; }
 
         /// <inheritdoc />
-        public override bool CanRead => true;
+        public override bool CanRead => !eos;
 
         /// <inheritdoc />
         public override bool CanSeek => false;
 
         /// <inheritdoc />
-        public override bool CanWrite => true;
+        public override bool CanWrite => outStream != null;
 
         /// <inheritdoc />
         public override bool CanTimeout => false;
@@ -72,32 +94,72 @@ namespace PeerTalk.Multiplex
             throw new NotSupportedException();
         }
 
-        /// <inheritdoc />
-        public void SetMessage(byte[] message)
+        /// <summary>
+        ///   Add some data that should be read by the stream.
+        /// </summary>
+        /// <param name="data">
+        ///   The data to be read.
+        /// </param>
+        /// <remarks>
+        ///   <b>AddData</b> is called when the muxer receives a packet for this
+        ///   stream.
+        /// </remarks>
+        public void AddData(byte[] data)
         {
-            inStream = new MemoryStream(message, writable: false);
-            outStream.Position = 0;
-            outStream.SetLength(0);
+            inBlocks.Post(data);
         }
 
-        /// <inheritdoc />
-        public override int ReadByte()
+        /// <summary>
+        ///   Indicates that the stream will not receive any more data.
+        /// </summary>
+        /// <seealso cref="AddData(byte[])"/>
+        /// <remarks>
+        ///   <b>NoMoreData</b> is called when the muxer receives a packet to
+        ///   close this stream.
+        /// </remarks>
+        public void NoMoreData()
         {
-            return inStream.ReadByte();
-        }
-
-        /// <inheritdoc />
-        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            return inStream.ReadAsync(buffer, offset, count, cancellationToken);
+            inBlocks.Complete();
         }
 
         /// <inheritdoc />
         public override int Read(byte[] buffer, int offset, int count)
         {
-            return inStream.Read(buffer, offset, count);
+            return ReadAsync(buffer, offset, count).Result;
         }
 
+        /// <inheritdoc />
+        public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            int total = 0;
+            while (count > 0 && !eos)
+            {
+                // Does the current block have some unread data?
+                if (inBlock != null && inBlockOffset < inBlock.Length)
+                {
+                    var n = Math.Min(inBlock.Length - inBlockOffset, count);
+                    Array.Copy(inBlock, inBlockOffset, buffer, offset, n);
+                    total += n;
+                    count -= n;
+                    offset += n;
+                    inBlockOffset += n;
+                }
+                // Otherwise, wait for a new block of data.
+                else
+                {
+                    try
+                    {
+                        inBlock = await inBlocks.ReceiveAsync(cancellationToken);
+                        inBlockOffset = 0;
+                    }
+                    catch (InvalidOperationException) // no more data!
+                    {
+                        eos = true;
+                    }
+                }
+            }
+            return total;
+        }
         
         /// <inheritdoc />
         public override void Flush()
@@ -106,7 +168,7 @@ namespace PeerTalk.Multiplex
         }
 
         /// <inheritdoc />
-        public override async Task FlushAsync(CancellationToken cancellationToken)
+        public override async Task FlushAsync(CancellationToken cancel)
         {
             if (outStream.Length == 0)
                 return;
@@ -118,11 +180,13 @@ namespace PeerTalk.Multiplex
                 var header = new Header
                 {
                     StreamId = Id,
-                    PacketType = Muxer.Initiator ? PacketType.MessageInitiator : PacketType.MessageReceiver
+                    PacketType = SentMessageType
                 };
-                await header.WriteAsync(Muxer.Channel);
-                await Varint.WriteVarintAsync(Muxer.Channel, outStream.Length);
+                await header.WriteAsync(Muxer.Channel, cancel);
+                await Varint.WriteVarintAsync(Muxer.Channel, outStream.Length, cancel);
                 await outStream.CopyToAsync(Muxer.Channel);
+                await Muxer.Channel.FlushAsync(cancel);
+
                 outStream.SetLength(0);
             }
         }
@@ -143,6 +207,23 @@ namespace PeerTalk.Multiplex
         public override void WriteByte(byte value)
         {
             outStream.WriteByte(value);
+        }
+
+        /// <inheritdoc />
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Muxer?.RemoveStreamAsync(this);
+
+                eos = true;
+                if (outStream != null)
+                {
+                    outStream.Dispose();
+                    outStream = null;
+                }
+            }
+            base.Dispose(disposing);
         }
     }
 

@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+#pragma warning disable 0649 // disable warning about unassinged fields
+#pragma warning disable 0169// disable warning about unassinged fields
+
 namespace Ipfs.Engine.UnixFileSystem
 {
     enum DataType
@@ -21,7 +24,7 @@ namespace Ipfs.Engine.UnixFileSystem
     ///   The ProtoBuf data that is stored in a DAG.
     /// </summary>
     [ProtoContract]
-    class DataMessage
+    internal class DataMessage
     {
         [ProtoMember(1, IsRequired = true)]
         public DataType Type;
@@ -35,9 +38,11 @@ namespace Ipfs.Engine.UnixFileSystem
         [ProtoMember(4, IsRequired = false)]
         public ulong[] BlockSizes;
 
+#pragma warning disable 0649 // disable warning about unassinged fields
         [ProtoMember(5, IsRequired = false)]
         public ulong? HashType;
 
+#pragma warning disable 0649 // disable warning about unassinged fields
         [ProtoMember(6, IsRequired = false)]
         public ulong? Fanout;
     }

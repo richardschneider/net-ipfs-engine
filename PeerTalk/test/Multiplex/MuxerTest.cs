@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PeerTalk.Multiplex
@@ -70,6 +71,65 @@ namespace PeerTalk.Multiplex
             Assert.AreEqual(2, muxer2.Substreams.Count);
             Assert.AreEqual("foo", muxer2.Substreams[foo.Id].Name);
             Assert.AreEqual("bar", muxer2.Substreams[bar.Id].Name);
+        }
+
+        [TestMethod]
+        public async Task NewStream_AlreadyAssigned()
+        {
+            var channel = new MemoryStream();
+            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            var foo = await muxer1.CreateStreamAsync("foo");
+            var muxer2 = new Muxer { Channel = channel, Initiator = true };
+            var bar = await muxer2.CreateStreamAsync("bar");
+
+            channel.Position = 0;
+            var muxer3 = new Muxer { Channel = channel };
+            await muxer3.ProcessRequestsAsync(new CancellationTokenSource(500).Token);
+       
+            // The channel is closed because of 2 new streams with same id.
+            Assert.IsFalse(channel.CanRead);
+            Assert.IsFalse(channel.CanWrite);
+        }
+
+        [TestMethod]
+        public async Task NewStream_Event()
+        {
+            var channel = new MemoryStream();
+            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            var foo = await muxer1.CreateStreamAsync("foo");
+            var bar = await muxer1.CreateStreamAsync("bar");
+
+            channel.Position = 0;
+            var muxer2 = new Muxer { Channel = channel };
+            int createCount = 0;
+            muxer2.SubstreamCreated += (s, e) =>
+            {
+                ++createCount;
+            };
+            await muxer2.ProcessRequestsAsync();
+            Assert.AreEqual(2, createCount);
+        }
+
+        [TestMethod]
+        public async Task CloseStream_Event()
+        {
+            var channel = new MemoryStream();
+            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            using (var foo = await muxer1.CreateStreamAsync("foo"))
+            using (var bar = await muxer1.CreateStreamAsync("bar"))
+            {
+                // open and close a stream.
+            }
+
+            channel.Position = 0;
+            var muxer2 = new Muxer { Channel = channel };
+            int closeCount = 0;
+            muxer2.SubstreamClosed += (s, e) =>
+            {
+                ++closeCount;
+            };
+            await muxer2.ProcessRequestsAsync();
+            Assert.AreEqual(2, closeCount);
         }
 
         [TestMethod]

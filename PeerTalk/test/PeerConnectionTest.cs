@@ -14,8 +14,13 @@ namespace PeerTalk
         [TestMethod]
         public void Disposing()
         {
+            var closeCount = 0;
             var stream = new MemoryStream();
             var connection = new PeerConnection { Stream = stream };
+            connection.Closed += (s, e) =>
+            {
+                ++closeCount;
+            };
             Assert.IsNotNull(connection.Stream);
 
             connection.Dispose();
@@ -23,6 +28,8 @@ namespace PeerTalk
 
             // Can be disposed multiple times.
             connection.Dispose();
+
+            Assert.AreEqual(1, closeCount);
         }
 
         [TestMethod]

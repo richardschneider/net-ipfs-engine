@@ -295,17 +295,6 @@
               Extensions to <see cref="T:Ipfs.MultiAddress"/>.
             </summary>
         </member>
-        <member name="M:PeerTalk.MultiAddressExtensions.Clone(Ipfs.MultiAddress)">
-            <summary>
-              Creates a clone of the multiaddress.
-            </summary>
-            <param name="multiaddress">
-              The mutiaddress to clone.
-            </param>
-            <returns>
-              A new multiaddress with a copy of the <see cref="P:Ipfs.MultiAddress.Protocols"/>.
-            </returns>
-        </member>
         <member name="M:PeerTalk.MultiAddressExtensions.ResolveAsync(Ipfs.MultiAddress,System.Threading.CancellationToken)">
             <summary>
               The IP addresses for a host name.
@@ -408,6 +397,9 @@
             <summary>
               Supports multiple protocols over a single channel (stream).
             </summary>
+            <remarks>
+              See <see href="https://github.com/libp2p/mplex"/> for the details.
+            </remarks>
         </member>
         <member name="P:PeerTalk.Multiplex.Muxer.NextStreamId">
             <summary>
@@ -423,6 +415,14 @@
             </summary>
             <value>
               A <see cref="T:System.IO.Stream"/> to exchange protocol messages.
+            </value>
+        </member>
+        <member name="P:PeerTalk.Multiplex.Muxer.Connection">
+            <summary>
+              The peer connection.
+            </summary>
+            <value>
+              The peer connection that owns this muxer.
             </value>
         </member>
         <member name="F:PeerTalk.Multiplex.Muxer.Substreams">
@@ -594,6 +594,9 @@
             <summary>
               A connection between two peers.
             </summary>
+            <remarks>
+              A connection is used to exchange messages between peers.
+            </remarks>
         </member>
         <member name="P:PeerTalk.PeerConnection.LocalPeer">
             <summary>
@@ -654,16 +657,18 @@
               the remote peer.
             </remarks>
         </member>
-        <member name="M:PeerTalk.PeerConnection.RespondAsync(System.Threading.CancellationToken)">
+        <member name="M:PeerTalk.PeerConnection.EstablishProtocolAsync(System.String,System.Threading.CancellationToken)">
             <summary>
-              Accept a connection from the remote peer.
+              TODO:
             </summary>
+            <param name="name"></param>
             <param name="cancel"></param>
             <returns></returns>
-            <remarks>
-              This should be called when a remote peer is connecting to the
-              local peer.
-            </remarks>
+        </member>
+        <member name="M:PeerTalk.PeerConnection.ReadMessages(System.Threading.CancellationToken)">
+            <summary>
+              Starts reading messages from the remote peer.
+            </summary>
         </member>
         <member name="M:PeerTalk.PeerConnection.Dispose(System.Boolean)">
             <summary>
@@ -726,11 +731,28 @@
         <member name="M:PeerTalk.Protocols.Identify1.ToString">
             <inheritdoc />
         </member>
-        <member name="M:PeerTalk.Protocols.Identify1.ProcessRequestAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
+        <member name="M:PeerTalk.Protocols.Identify1.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:PeerTalk.Protocols.Identify1.ProcessResponseAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
-            <inheritdoc />
+        <member name="T:PeerTalk.Protocols.IEncryptionProtocol">
+            <summary>
+              Applies encryption to a <see cref="T:PeerTalk.PeerConnection"/>.
+            </summary>
+        </member>
+        <member name="M:PeerTalk.Protocols.IEncryptionProtocol.EncryptAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
+            <summary>
+              Creates an encrypted stream for the connection.
+            </summary>
+            <param name="connection">
+              A connection between two peers.
+            </param>
+            <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
+            </param>
+            <returns>
+              A task that represents the asynchronous operation. The task's result
+              is the encrypted stream.
+            </returns>
         </member>
         <member name="T:PeerTalk.Protocols.IPeerProtocol">
             <summary>
@@ -751,28 +773,21 @@
               The version of the protocol.
             </summary>
         </member>
-        <member name="M:PeerTalk.Protocols.IPeerProtocol.ProcessRequestAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
+        <member name="M:PeerTalk.Protocols.IPeerProtocol.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)">
             <summary>
-              Process a request for the protocol.
+              Process a message for the protocol.
             </summary>
             <param name="connection">
-              A connection to the peer.
+              A connection between two peers.
+            </param>
+            <param name="stream">
+              The message source.
             </param>
             <param name="cancel">
+              Is used to stop the task.  When cancelled, the <see cref="T:System.Threading.Tasks.TaskCanceledException"/> is raised.
             </param>
             <returns>
-            </returns>
-        </member>
-        <member name="M:PeerTalk.Protocols.IPeerProtocol.ProcessResponseAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
-            <summary>
-              Process a response from the protocol.
-            </summary>
-            <param name="connection">
-              A connection to the peer.
-            </param>
-            <param name="cancel">
-            </param>
-            <returns>
+              A task that represents the asynchronous operation.
             </returns>
         </member>
         <member name="T:PeerTalk.Protocols.Message">
@@ -859,7 +874,7 @@
         <member name="M:PeerTalk.Protocols.Mplex67.ToString">
             <inheritdoc />
         </member>
-        <member name="M:PeerTalk.Protocols.Mplex67.ProcessRequestAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
+        <member name="M:PeerTalk.Protocols.Mplex67.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:PeerTalk.Protocols.Mplex67.ProcessResponseAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
@@ -880,10 +895,7 @@
         <member name="M:PeerTalk.Protocols.Multistream1.ToString">
             <inheritdoc />
         </member>
-        <member name="M:PeerTalk.Protocols.Multistream1.ProcessRequestAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:PeerTalk.Protocols.Multistream1.ProcessResponseAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
+        <member name="M:PeerTalk.Protocols.Multistream1.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:PeerTalk.Protocols.Plaintext1">
@@ -900,10 +912,7 @@
         <member name="M:PeerTalk.Protocols.Plaintext1.ToString">
             <inheritdoc />
         </member>
-        <member name="M:PeerTalk.Protocols.Plaintext1.ProcessRequestAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:PeerTalk.Protocols.Plaintext1.ProcessResponseAsync(PeerTalk.PeerConnection,System.Threading.CancellationToken)">
+        <member name="M:PeerTalk.Protocols.Plaintext1.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:PeerTalk.Protocols.ProtocolRegistry">
@@ -1057,7 +1066,7 @@
             </returns>
             <exception cref="T:System.Exception">
               The <see cref="P:PeerTalk.Swarm.BlackList"/> or <see cref="P:PeerTalk.Swarm.WhiteList"/> policies forbid it.
-              Or the "ipfs" protocol name is missing.
+              Or the "p2p/ipfs" protocol name is missing.
             </exception>
             <remarks>
               If the <paramref name="address"/> is not already known, then it is
@@ -1170,9 +1179,6 @@
             </param>
             <remarks>
               Establishes the protocols of the connection.
-              <para>
-              If any error is encountered, then the connection is closed.
-              </para>
             </remarks>
         </member>
         <member name="M:PeerTalk.Swarm.StopListeningAsync(Ipfs.MultiAddress)">

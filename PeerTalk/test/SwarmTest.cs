@@ -15,8 +15,34 @@ namespace PeerTalk
         MultiAddress earth = "/ip4/178.62.158.247/tcp/4001/ipfs/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd";
         Peer self = new Peer
         {
-            Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd"
+            AgentVersion = "self",
+            Id = "QmXK9VBxaXFuuT29AaPUTgW3jBWZ9JgLVZYdMYTHC6LLAH",
+            PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQCC5r4nQBtnd9qgjnG8fBN5+gnqIeWEIcUFUdCG4su/vrbQ1py8XGKNUBuDjkyTv25Gd3hlrtNJV3eOKZVSL8ePAgMBAAE="
         };
+        Peer other = new Peer
+        {
+            AgentVersion = "other",
+            Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+            PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+        };
+
+        [TestMethod]
+        public async Task Start_Stop()
+        {
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            await swarm.StopAsync();
+        }
+
+        [TestMethod]
+        public void Start_NoLocalPeer()
+        {
+            var swarm = new Swarm();
+            ExceptionAssert.Throws<NotSupportedException>(() =>
+            {
+                swarm.StartAsync().Wait();
+            });
+        }
 
         [TestMethod]
         public async Task NewPeerAddress()
@@ -30,9 +56,16 @@ namespace PeerTalk
         public void NewPeerAddress_Self()
         {
             var swarm = new Swarm { LocalPeer = self };
+            var selfAddress = "/ip4/178.62.158.247/tcp/4001/ipfs/" + self.Id;
             ExceptionAssert.Throws<Exception>(() =>
             {
-                var _ = swarm.RegisterPeerAsync(earth).Result;
+                var _ = swarm.RegisterPeerAsync(selfAddress).Result;
+            });
+
+            selfAddress = "/ip4/178.62.158.247/tcp/4001/p2p/" + self.Id;
+            ExceptionAssert.Throws<Exception>(() =>
+            {
+                var _ = swarm.RegisterPeerAsync(selfAddress).Result;
             });
         }
 
@@ -113,25 +146,57 @@ namespace PeerTalk
         [TestMethod]
         public async Task Connect_Disconnect()
         {
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                AgentVersion = "peerB",
+                Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
-            var remoteAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+            var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+            Assert.IsTrue(peerB.Addresses.Count() > 0);
 
             var swarm = new Swarm { LocalPeer = self };
             await swarm.StartAsync();
             try
             {
-                var remotePeer = await swarm.ConnectAsync(remoteAddress);
+                var remotePeer = await swarm.ConnectAsync(peerBAddress);
                 Assert.IsNotNull(remotePeer.ConnectedAddress);
+                Assert.AreEqual(peerB.PublicKey, remotePeer.PublicKey);
+                Assert.IsTrue(remotePeer.IsValid());
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
-                Assert.IsFalse(swarm.KnownPeers.Contains(self));
 
-                // TODO: Verify that swarm knows peerB's ID and address
+                // wait for swarmB to settle
+                var endTime = DateTime.Now.AddSeconds(3);
+                while (true)
+                {
+                    if (DateTime.Now > endTime)
+                        Assert.Fail("swarmB does not know about self");
+                    if (swarmB.KnownPeers.Contains(self))
+                        break;
+                    await Task.Delay(100);
+                }
+                var me = swarmB.KnownPeers.First(p => p == self);
+                Assert.AreEqual(self.Id, me.Id);
+                Assert.AreEqual(self.PublicKey, me.PublicKey);
+                Assert.IsNotNull(me.ConnectedAddress);
 
-                await swarm.DisconnectAsync(remoteAddress);
+                // Check disconnect
+                await swarm.DisconnectAsync(peerBAddress);
                 Assert.IsNull(remotePeer.ConnectedAddress);
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
-                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+                Assert.IsTrue(swarmB.KnownPeers.Contains(self));
+
+                // wait for swarmB to settle
+                endTime = DateTime.Now.AddSeconds(3);
+                while (true)
+                {
+                    if (DateTime.Now > endTime)
+                        Assert.Fail("swarmB did not close connection.");
+                    if (me.ConnectedAddress == null)
+                        break;
+                    await Task.Delay(100);
+                }
             }
             finally
             {
@@ -212,20 +277,28 @@ namespace PeerTalk
         [TestMethod]
         public async Task Listening()
         {
-            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
-            MultiAddress addr = "/ip4/127.0.0.1/tcp/4009";
+            var peerA = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
+            MultiAddress addr = "/ip4/127.0.0.1/tcp/0";
             var swarmA = new Swarm { LocalPeer = peerA };
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = other.Id,
+                PublicKey = other.PublicKey,
+                AgentVersion = other.AgentVersion
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
             try
             {
                 var another = await swarmA.StartListeningAsync(addr);
-                Assert.AreEqual(another.ToString(), $"{addr}/ipfs/{peerA.Id}");
                 Assert.IsTrue(peerA.Addresses.Contains(another));
 
                 await swarmB.ConnectAsync(another);
                 Assert.IsTrue(swarmB.KnownPeers.Contains(peerA));
-                // TODO: Assert.IsTrue(swarmA.KnownPeers.Contains(peerB));
 
                 await swarmA.StopListeningAsync(addr);
                 Assert.AreEqual(0, peerA.Addresses.Count());
@@ -240,8 +313,13 @@ namespace PeerTalk
         [TestMethod]
         public async Task Listening_Event()
         {
-            var peer = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
-            MultiAddress addr = "/ip4/127.0.0.1/tcp/4009";
+            var peer = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
+            MultiAddress addr = "/ip4/127.0.0.1/tcp/0";
             var swarm = new Swarm { LocalPeer = peer };
             Peer listeningPeer = null;
             swarm.ListenerEstablished += (s, e) =>
@@ -263,10 +341,20 @@ namespace PeerTalk
         [TestMethod]
         public async Task Listening_AnyPort()
         {
-            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peerA = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             MultiAddress addr = "/ip4/127.0.0.1/tcp/0";
             var swarmA = new Swarm { LocalPeer = peerA };
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = other.Id,
+                PublicKey = other.PublicKey,
+                AgentVersion = other.AgentVersion
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
             try
             {
@@ -290,10 +378,20 @@ namespace PeerTalk
         [TestMethod]
         public async Task Listening_IPv4Any()
         {
-            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peerA = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             MultiAddress addr = "/ip4/0.0.0.0/tcp/0";
             var swarmA = new Swarm { LocalPeer = peerA };
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = other.Id,
+                PublicKey = other.PublicKey,
+                AgentVersion = other.AgentVersion
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
             try
             {
@@ -319,10 +417,20 @@ namespace PeerTalk
         [TestCategory("IPv6")]
         public async Task Listening_IPv6Any()
         {
-            var peerA = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peerA = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             MultiAddress addr = "/ip6/::/tcp/0";
             var swarmA = new Swarm { LocalPeer = peerA };
-            var peerB = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            var peerB = new Peer
+            {
+                Id = other.Id,
+                PublicKey = other.PublicKey,
+                AgentVersion = other.AgentVersion
+            };
             var swarmB = new Swarm { LocalPeer = peerB };
             try
             {
@@ -347,7 +455,12 @@ namespace PeerTalk
         [TestMethod]
         public void Listening_MissingTransport()
         {
-            var peer = new Peer { Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd" };
+            var peer = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
             var swarm = new Swarm { LocalPeer = peer };
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
@@ -355,5 +468,91 @@ namespace PeerTalk
             });
             Assert.AreEqual(0, peer.Addresses.Count());
         }
+
+        [TestMethod]
+        [Ignore("TODO: Move to interop tests")]
+        public async Task JsIPFS_Connect()
+        {
+            var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                var remotePeer = await swarm.ConnectAsync(remoteAddress);
+                Assert.IsNotNull(remotePeer.ConnectedAddress);
+                Assert.IsTrue(swarm.KnownPeers.Contains(remotePeer));
+                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+                Assert.IsTrue(remotePeer.IsValid());
+                await Task.Delay(2000);
+
+                await swarm.DisconnectAsync(remoteAddress);
+                Assert.IsNull(remotePeer.ConnectedAddress);
+                Assert.IsTrue(swarm.KnownPeers.Contains(remotePeer));
+                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        [Ignore("TODO: Move to interop tests")]
+        public async Task GoIPFS_Connect()
+        {
+            var remoteId = "QmdoxrwszT6b9srLXHYBPFVRXmZSFAosWLXoQS9TEEAaix";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4001/ipfs/{remoteId}";
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                var remotePeer = await swarm.ConnectAsync(remoteAddress);
+                Assert.IsNotNull(remotePeer.ConnectedAddress);
+                Assert.IsTrue(swarm.KnownPeers.Contains(remotePeer));
+                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+                Assert.IsTrue(remotePeer.IsValid());
+                await Task.Delay(2000);
+
+                await swarm.DisconnectAsync(remoteAddress);
+                Assert.IsNull(remotePeer.ConnectedAddress);
+                Assert.IsTrue(swarm.KnownPeers.Contains(remotePeer));
+                Assert.IsFalse(swarm.KnownPeers.Contains(self));
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public void LocalPeer()
+        {
+            var swarm = new Swarm { LocalPeer = self };
+            Assert.AreEqual(self, swarm.LocalPeer)
+;
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                swarm.LocalPeer = null;
+            });
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                swarm.LocalPeer = new Peer { Id = self.Id };
+            });
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                swarm.LocalPeer = new Peer { PublicKey = self.PublicKey };
+            });
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                swarm.LocalPeer = new Peer { Id = self.Id, PublicKey = other.PublicKey };
+            });
+
+            swarm.LocalPeer = new Peer { Id = other.Id, PublicKey = other.PublicKey };
+            Assert.AreEqual(other, swarm.LocalPeer);
+        }
     }
 }
+

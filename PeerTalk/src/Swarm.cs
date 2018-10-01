@@ -11,6 +11,7 @@ using Common.Logging;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using PeerTalk.Protocols;
 
 namespace PeerTalk
 {
@@ -20,6 +21,8 @@ namespace PeerTalk
     public class Swarm : IService, IPolicy<MultiAddress>
     {
         static ILog log = LogManager.GetLogger(typeof(Swarm));
+
+        Peer localPeer;
 
         /// <summary>
         ///   Raised when a listener is establihed.
@@ -33,7 +36,26 @@ namespace PeerTalk
         /// <summary>
         ///  The local peer.
         /// </summary>
-        public Peer LocalPeer { get; set; }
+        /// <value>
+        ///   The local peer must have an <see cref="Peer.Id"/> and
+        ///   <see cref="Peer.PublicKey"/>.
+        /// </value>
+        public Peer LocalPeer
+        {
+            get { return localPeer; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                if (value.Id == null)
+                    throw new ArgumentNullException("peer.Id");
+                if (value.PublicKey == null)
+                    throw new ArgumentNullException("peer.PublicKey");
+                if (!value.IsValid())
+                    throw new ArgumentException("Invalid peer.");
+                localPeer = value;
+            }
+        }
 
         /// <summary>
         ///   Other nodes. Key is the bae58 hash of the peer ID.
@@ -88,7 +110,7 @@ namespace PeerTalk
         ///   Register that a peer's address has been discovered.
         /// </summary>
         /// <param name="address">
-        ///   An address to the peer. 
+        ///   An address to the peer. It must end with the peer ID.
         /// </param>
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
@@ -99,7 +121,7 @@ namespace PeerTalk
         /// </returns>
         /// <exception cref="Exception">
         ///   The <see cref="BlackList"/> or <see cref="WhiteList"/> policies forbid it.
-        ///   Or the "ipfs" protocol name is missing.
+        ///   Or the "p2p/ipfs" protocol name is missing.
         /// </exception>
         /// <remarks>
         ///   If the <paramref name="address"/> is not already known, then it is
@@ -139,6 +161,48 @@ namespace PeerTalk
         }
 
         /// <summary>
+        ///   Register that a peer has been discovered.
+        /// </summary>
+        /// <param name="peer">
+        ///   The newly discovered peer.
+        /// </param>
+        /// <returns>
+        ///   The registered peer.
+        /// </returns>
+        /// <remarks>
+        ///   If the peer already exists, then the existing peer is updated with supplied
+        ///   information and is then returned.  Otherwise, the <paramref name="peer"/>
+        ///   is added to known peers and is returned.
+        /// </remarks>
+        public Peer RegisterPeer(Peer peer)
+        {
+
+            if (peer.Id == null)
+            {
+                throw new ArgumentNullException("Peer.ID");
+            }
+            if (peer.Id == LocalPeer.Id)
+            {
+                throw new ArgumentException("Cannot register to self.");
+            }
+
+            return otherPeers.AddOrUpdate(peer.Id.ToBase58(),
+                (id) => peer,
+                (id, existing) =>
+                {
+                    existing.AgentVersion = peer.AgentVersion;
+                    existing.ProtocolVersion = peer.ProtocolVersion;
+                    existing.PublicKey = peer.PublicKey;
+                    existing.Latency = peer.Latency;
+                    existing.Addresses = existing
+                        .Addresses
+                        .Union(peer.Addresses)
+                        .ToList();
+                    return existing;
+                });
+        }
+
+        /// <summary>
         ///   The addresses that cannot be used.
         /// </summary>
         public BlackList<MultiAddress> BlackList { get; set;  } = new BlackList<MultiAddress>();
@@ -151,6 +215,10 @@ namespace PeerTalk
         /// <inheritdoc />
         public Task StartAsync()
         {
+            if (LocalPeer == null)
+            {
+                throw new NotSupportedException("The LocalPeer is not defined.");
+            }
             log.Debug("Starting");
 
             return Task.CompletedTask;
@@ -210,6 +278,7 @@ namespace PeerTalk
 
             if (peer.ConnectedAddress != null)
             {
+                // TODO: Verify connection is still open
                 return peer;
             }
 
@@ -220,9 +289,17 @@ namespace PeerTalk
             {
                 return null; // most likely a cancel
             }
+            connection.Closed += (s, e) =>
+            {
+                if (e.RemotePeer != null && e.RemotePeer.Id != null)
+                {
+                    connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
+                }
+            };
             try
             {
                 await connection.InitiateAsync(cancel);
+                await (new Identify1()).GetRemotePeer(connection);
             }
             catch (Exception)
             {
@@ -308,7 +385,6 @@ namespace PeerTalk
         public Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
             var peerId = address.PeerId.ToBase58();
-
             if (otherPeers.TryGetValue(peerId, out Peer peer))
             {
                 if (peer.ConnectedAddress != null)
@@ -318,7 +394,6 @@ namespace PeerTalk
                     {
                         connection.Dispose();
                     }
-                    peer.ConnectedAddress = null;
                 }
             }
 
@@ -450,9 +525,6 @@ namespace PeerTalk
         /// </param>
         /// <remarks>
         ///   Establishes the protocols of the connection.
-        ///   <para>
-        ///   If any error is encountered, then the connection is closed.
-        ///   </para>
         /// </remarks>
         async void OnRemoteConnect(Stream stream, MultiAddress local, MultiAddress remote)
         {
@@ -469,17 +541,30 @@ namespace PeerTalk
                 RemoteAddress = remote,
                 Stream = stream
             };
-            try
+            connection.Closed += (s, e) =>
             {
-                await connection.RespondAsync();
+                if (e.RemotePeer != null && e.RemotePeer.Id != null)
+                {
+                    connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
+                }
+            };
 
-                // TODO: register the peer
-            } 
-            catch (Exception e)
+            // Required by GO-IPFS
+            await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
+
+            // Wait for the handshake to complete.
+            connection.ReadMessages(default(CancellationToken));
+            var muxer = await connection.MuxerEstablished.Task;
+
+            // Need details on the remote peer.
+            if (connection.RemotePeer == null)
             {
-                log.Error("Failed to accept remote connection", e);
-                connection.Dispose();
+                connection.RemotePeer = await (new Identify1()).GetRemotePeer(connection);
             }
+            connection.RemotePeer = RegisterPeer(connection.RemotePeer);
+            connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");
+            connection.RemotePeer.ConnectedAddress = connection.RemoteAddress;
+            connections[connection.RemotePeer.Id.ToBase58()] = connection;
         }
 
         /// <summary>
@@ -496,11 +581,14 @@ namespace PeerTalk
         ///   The addresses of the <see cref="LocalPeer"/> are updated.
         ///   </para>
         /// </remarks>
-        public Task StopListeningAsync(MultiAddress address)
+        public async Task StopListeningAsync(MultiAddress address)
         {
             if (listeners.TryRemove(address, out CancellationTokenSource listener))
             {
                 listener.Cancel();
+
+                // Give some time away, so that cancel can run.
+                await Task.Delay(200);
 
                 // Remove any local peer address that depends on the cancellation token.
                 var others = listeners
@@ -510,7 +598,6 @@ namespace PeerTalk
                     .Where(a => !others.Contains(a))
                     .ToArray();
             }
-            return Task.CompletedTask;
         }
 
         /// <inheritdoc />

@@ -167,7 +167,7 @@ namespace PeerTalk
                 Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
 
                 // wait for swarmB to settle
-                var endTime = DateTime.Now.AddSeconds(1);
+                var endTime = DateTime.Now.AddSeconds(3);
                 while (true)
                 {
                     if (DateTime.Now > endTime)
@@ -187,7 +187,7 @@ namespace PeerTalk
                 Assert.IsTrue(swarmB.KnownPeers.Contains(self));
 
                 // wait for swarmB to settle
-                endTime = DateTime.Now.AddSeconds(1);
+                endTime = DateTime.Now.AddSeconds(3);
                 while (true)
                 {
                     if (DateTime.Now > endTime)

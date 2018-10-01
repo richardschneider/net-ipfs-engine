@@ -299,7 +299,6 @@ namespace PeerTalk
 
                 await swarmB.ConnectAsync(another);
                 Assert.IsTrue(swarmB.KnownPeers.Contains(peerA));
-                Assert.IsTrue(swarmA.KnownPeers.Contains(peerB));
 
                 await swarmA.StopListeningAsync(addr);
                 Assert.AreEqual(0, peerA.Addresses.Count());

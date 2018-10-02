@@ -136,7 +136,7 @@ namespace PeerTalk.Multiplex
         }
 
         /// <summary>
-        ///   Remvove the stream.
+        ///   Remove the stream.
         /// </summary>
         /// <remarks>
         ///   Internal method called by Substream.Dispose().
@@ -199,6 +199,11 @@ namespace PeerTalk.Multiplex
                     switch (header.PacketType)
                     {
                         case PacketType.NewStream:
+                            if (substream != null)
+                            {
+                                log.Warn($"Stream {substream.Id} already exists");
+                                continue;
+                            }
                             substream = new Substream
                             {
                                 Id = header.StreamId,
@@ -207,12 +212,21 @@ namespace PeerTalk.Multiplex
                             };
                             if (!Substreams.TryAdd(substream.Id, substream))
                             {
+                                // Should not happen.
                                 throw new Exception($"Stream {substream.Id} already exists");
                             }
                             SubstreamCreated?.Invoke(this, substream);
                             break;
 
                         case PacketType.MessageInitiator:
+                            if (substream == null)
+                            {
+                                log.Warn($"Message to unknown stream #{header.StreamId}");
+                                continue;
+                            }
+                            substream.AddData(payload);
+                            break;
+
                         case PacketType.MessageReceiver:
                             if (substream == null)
                             {
@@ -242,6 +256,10 @@ namespace PeerTalk.Multiplex
                 }
             }
             catch (EndOfStreamException)
+            {
+                // eat it
+            }
+            catch (IOException)
             {
                 // eat it
             }

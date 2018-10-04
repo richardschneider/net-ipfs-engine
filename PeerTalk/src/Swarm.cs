@@ -578,11 +578,18 @@ namespace PeerTalk
                     connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
                 }
             };
+
+            // Mount the protocols
             connection.Protocols.Add(multistream.ToString(), multistream.ProcessMessageAsync);
             foreach (var protocol in SecurityProtocols)
             {
                 connection.Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
             }
+            foreach (var protocol in MuxerProtocols)
+            {
+                connection.Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+            }
+            connection.Protocols.Add(identity.ToString(), identity.ProcessMessageAsync);
 
             // Required by GO-IPFS
             await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
@@ -590,19 +597,14 @@ namespace PeerTalk
 
             // Wait for security to be established.
             await connection.SecurityEstablished.Task;
-            foreach (var protocol in MuxerProtocols)
-            {
-                connection.Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
-            }
 
             // Wait for the handshake to complete.
             var muxer = await connection.MuxerEstablished.Task;
-            connection.Protocols.Add(identity.ToString(), identity.ProcessMessageAsync);
 
             // Need details on the remote peer.
             if (connection.RemotePeer == null)
             {
-                connection.RemotePeer = await (new Identify1()).GetRemotePeer(connection);
+                connection.RemotePeer = await identity.GetRemotePeer(connection);
             }
             connection.RemotePeer = RegisterPeer(connection.RemotePeer);
             connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");

@@ -35,19 +35,31 @@ namespace PeerTalk.BlockExchange
             return $"/{Name}/{Version}";
         }
 
+        /// <summary>
+        ///   The <see cref="Bitswap"/> service.
+        /// </summary>
+        public Bitswap Bitswap { get; set; }
+
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel);
+            log.Debug("got request");
 
             // TODO: Process want list
             foreach (var entry in request.wantlist.entries)
             {
                 var s = Base58.ToBase58(entry.block);
                 Cid cid = s;
-                log.Debug($"{connection.RemoteAddress} wants {cid}");
+                log.Debug($"{connection.RemotePeer} wants {cid}");
+                //Bitswap.Want(cid, connection.RemotePeer.Id, CancellationToken.None);
             }
+
             // TODO: Process sent blocks
+            foreach (var sendBlock in request.payload)
+            {
+                // TODO
+            }
         }
 
         [ProtoContract]
@@ -79,6 +91,7 @@ namespace PeerTalk.BlockExchange
         {
             [ProtoMember(1)]
             public byte[] prefix;        // CID prefix (cid version, multicodec and multihash prefix (type + length)
+
             [ProtoMember(2)]
             byte[] data;
         }

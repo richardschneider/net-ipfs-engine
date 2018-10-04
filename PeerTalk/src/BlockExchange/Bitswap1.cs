@@ -35,6 +35,11 @@ namespace PeerTalk.BlockExchange
             return $"/{Name}/{Version}";
         }
 
+        /// <summary>
+        ///   The <see cref="Bitswap"/> service.
+        /// </summary>
+        public Bitswap Bitswap { get; set; }
+
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {

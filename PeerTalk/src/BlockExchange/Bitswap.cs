@@ -1,5 +1,6 @@
 ﻿using Common.Logging;
 using Ipfs;
+using PeerTalk.Protocols;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace PeerTalk.BlockExchange
         static ILog log = LogManager.GetLogger(typeof(Bitswap));
 
         ConcurrentDictionary<Cid, WantedBlock> wants = new ConcurrentDictionary<Cid, WantedBlock>();
+        List<IPeerProtocol> protocols = new List<IPeerProtocol>();
 
         /// <summary>
         ///   Provides access to other peers.
@@ -37,6 +39,16 @@ namespace PeerTalk.BlockExchange
         {
             log.Debug("Starting");
 
+            protocols.Add(new Bitswap11 { Bitswap = this });
+            protocols.Add(new Bitswap1 { Bitswap = this });
+            Swarm.ConnectionEstablished += (s, connection) =>
+            {
+                foreach (var p in protocols)
+                {
+                    connection.Protocols.Add(p.ToString(), p.ProcessMessageAsync);
+                }
+            };
+
             return Task.CompletedTask;
         }
 
@@ -50,6 +62,7 @@ namespace PeerTalk.BlockExchange
                 Unwant(cid);
             }
 
+            protocols.Clear();
             return Task.CompletedTask;
         }
 

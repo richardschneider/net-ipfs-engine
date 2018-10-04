@@ -43,7 +43,7 @@ namespace PeerTalk.Protocols
             }
 
             // Switch to the specified protocol
-            if (!ProtocolRegistry.Protocols.TryGetValue(msg, out Func<IPeerProtocol> maker))
+            if (!connection.Protocols.TryGetValue(msg, out Func<PeerConnection, Stream, CancellationToken, Task> protocol))
             {
                 await Message.WriteAsync("na", stream, cancel);
                 return;
@@ -54,8 +54,7 @@ namespace PeerTalk.Protocols
             await Message.WriteAsync(msg, stream, cancel);
 
             // Process protocol message.
-            var protocol = maker();
-            await protocol.ProcessMessageAsync(connection, stream, cancel);
+            await protocol(connection, stream, cancel);
         }
 
     }

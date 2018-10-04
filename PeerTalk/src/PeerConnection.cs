@@ -54,6 +54,16 @@ namespace PeerTalk
         }
 
         /// <summary>
+        ///   The protocols that the connection will handle.
+        /// </summary>
+        /// <value>
+        ///   The key is a protocol name, such as "/mplex/6.7.0".  The value
+        ///   is a function that will process the protocol message.
+        /// </value>
+        public Dictionary<string, Func<PeerConnection, Stream, CancellationToken, Task>> Protocols { get; }
+            = new Dictionary<string, Func<PeerConnection, Stream, CancellationToken, Task>>();
+
+        /// <summary>
         ///   Signals that the security for the connection is established.
         /// </summary>
         /// <remarks>

@@ -22,6 +22,17 @@ namespace PeerTalk
     {
         static ILog log = LogManager.GetLogger(typeof(Swarm));
 
+        IPeerProtocol multistream = new Multistream1();
+        IPeerProtocol identity = new Identify1();
+        List<IPeerProtocol> SecurityProtocols = new List<IPeerProtocol>
+        {
+            new Plaintext1()
+        };
+        List<IPeerProtocol> MuxerProtocols = new List<IPeerProtocol>
+        {
+            new Mplex67()
+        };
+
         Peer localPeer;
 
         /// <summary>
@@ -298,6 +309,8 @@ namespace PeerTalk
             };
             try
             {
+                connection.Protocols.Add(multistream.ToString(), multistream.ProcessMessageAsync);
+                connection.Protocols.Add(identity.ToString(), identity.ProcessMessageAsync);
                 await connection.InitiateAsync(cancel);
                 await (new Identify1()).GetRemotePeer(connection);
             }
@@ -548,13 +561,26 @@ namespace PeerTalk
                     connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
                 }
             };
+            connection.Protocols.Add(multistream.ToString(), multistream.ProcessMessageAsync);
+            foreach (var protocol in SecurityProtocols)
+            {
+                connection.Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+            }
 
             // Required by GO-IPFS
             await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
+            connection.ReadMessages(default(CancellationToken));
+
+            // Wait for security to be established.
+            await connection.SecurityEstablished.Task;
+            foreach (var protocol in MuxerProtocols)
+            {
+                connection.Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+            }
 
             // Wait for the handshake to complete.
-            connection.ReadMessages(default(CancellationToken));
             var muxer = await connection.MuxerEstablished.Task;
+            connection.Protocols.Add(identity.ToString(), identity.ProcessMessageAsync);
 
             // Need details on the remote peer.
             if (connection.RemotePeer == null)

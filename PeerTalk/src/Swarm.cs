@@ -23,11 +23,19 @@ namespace PeerTalk
         static ILog log = LogManager.GetLogger(typeof(Swarm));
 
         IPeerProtocol multistream = new Multistream1();
-        IPeerProtocol identity = new Identify1();
+        Identify1 identity = new Identify1();
+
+        /// <summary>
+        ///  The supported security protocols.
+        /// </summary>
         List<IPeerProtocol> SecurityProtocols = new List<IPeerProtocol>
         {
             new Plaintext1()
         };
+
+        /// <summary>
+        ///   The supported muxer protocols.
+        /// </summary>
         List<IPeerProtocol> MuxerProtocols = new List<IPeerProtocol>
         {
             new Mplex67()
@@ -43,6 +51,11 @@ namespace PeerTalk
         ///   succeeds.
         /// </remarks>
         public event EventHandler<Peer> ListenerEstablished;
+
+        /// <summary>
+        ///   Raised when a connection to another peer is established.
+        /// </summary>
+        public event EventHandler<PeerConnection> ConnectionEstablished;
 
         /// <summary>
         ///  The local peer.
@@ -312,7 +325,11 @@ namespace PeerTalk
                 connection.Protocols.Add(multistream.ToString(), multistream.ProcessMessageAsync);
                 connection.Protocols.Add(identity.ToString(), identity.ProcessMessageAsync);
                 await connection.InitiateAsync(cancel);
-                await (new Identify1()).GetRemotePeer(connection);
+
+                await connection.MuxerEstablished.Task;
+                ConnectionEstablished?.Invoke(this, connection);
+                await identity.GetRemotePeer(connection);
+
             }
             catch (Exception)
             {
@@ -591,6 +608,8 @@ namespace PeerTalk
             connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");
             connection.RemotePeer.ConnectedAddress = connection.RemoteAddress;
             connections[connection.RemotePeer.Id.ToBase58()] = connection;
+
+            ConnectionEstablished?.Invoke(this, connection);
         }
 
         /// <summary>

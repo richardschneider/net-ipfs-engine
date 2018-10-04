@@ -206,6 +206,53 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        public async Task ConnectionEstablished()
+        {
+            var peerB = new Peer
+            {
+                AgentVersion = "peerB",
+                Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+            };
+            var swarmB = new Swarm { LocalPeer = peerB };
+            var swarmBConnections = 0;
+            swarmB.ConnectionEstablished += (s, e) =>
+            {
+                ++swarmBConnections;
+            };
+            var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+
+            var swarm = new Swarm { LocalPeer = self };
+            var swarmConnections = 0;
+            swarm.ConnectionEstablished += (s, e) =>
+            {
+                ++swarmConnections;
+            };
+            await swarm.StartAsync();
+            try
+            {
+                var remotePeer = await swarm.ConnectAsync(peerBAddress);
+                Assert.AreEqual(1, swarmConnections);
+
+                // wait for swarmB to settle
+                var endTime = DateTime.Now.AddSeconds(3);
+                while (true)
+                {
+                    if (DateTime.Now > endTime)
+                        Assert.Fail("swarmB did not raise event.");
+                    if (swarmBConnections == 1)
+                        break;
+                    await Task.Delay(100);
+                }
+            }
+            finally
+            {
+                await swarm.StopAsync();
+                await swarmB.StopAsync();
+            }
+        }
+
+        [TestMethod]
         public void Connect_No_Transport()
         {
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";

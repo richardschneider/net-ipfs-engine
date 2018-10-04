@@ -159,6 +159,14 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Stat_Unknown()
+        {
+            var cid = "QmPv52ekjS75L4JmHpXVeuJ5uX2ecSfSZo88NSyxwA3rFF";
+            var block = await ipfs.Block.StatAsync(cid);
+            Assert.IsNull(block, "block should not exist locally");
+        }
+
+        [TestMethod]
         public async Task Remove()
         {
             var _ = ipfs.Block.PutAsync(blob).Result;

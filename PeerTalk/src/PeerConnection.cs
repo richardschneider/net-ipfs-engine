@@ -143,7 +143,7 @@ namespace PeerTalk
         public async Task EstablishProtocolAsync(string name, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             var protocols = ProtocolRegistry.Protocols.Keys
-                .Where(k => k.StartsWith(name))
+                .Where(k => k == name || k.StartsWith(name))
                 .Select(k => VersionedName.Parse(k))
                 .OrderByDescending(vn => vn)
                 .Select(vn => vn.ToString());

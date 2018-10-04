@@ -1,6 +1,7 @@
 ﻿using Ipfs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -603,6 +604,116 @@ namespace PeerTalk
             swarm.LocalPeer = new Peer { Id = other.Id, PublicKey = other.PublicKey };
             Assert.AreEqual(other, swarm.LocalPeer);
         }
+
+        [TestMethod]
+        public async Task Dial_Peer_No_Address()
+        {
+            var peer = new Peer
+            {
+                Id = mars.PeerId
+            };
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                ExceptionAssert.Throws<Exception>(() =>
+                {
+                    swarm.DialAsync(peer, "/foo/0.42.0").Wait();
+                });
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task Dial_Peer_Not_Listening()
+        {
+            var peer = new Peer
+            {
+                Id = mars.PeerId,
+                Addresses = new List<MultiAddress>
+                {
+                    new MultiAddress($"/ip4/127.0.0.1/tcp/4242/ipfs/{mars.PeerId}"),
+                    new MultiAddress($"/ip4/127.0.0.2/tcp/4242/ipfs/{mars.PeerId}")
+                }
+            };
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                ExceptionAssert.Throws<Exception>(() =>
+                {
+                    swarm.DialAsync(peer, "/foo/0.42.0").Wait();
+                });
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task Dial_Peer_UnknownProtocol()
+        {
+            var peerB = new Peer
+            {
+                AgentVersion = "peerB",
+                Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+            };
+            var swarmB = new Swarm { LocalPeer = peerB };
+            var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                ExceptionAssert.Throws<Exception>(() =>
+                {
+                    swarm.DialAsync(peerB, "/foo/0.42.0").Wait();
+                });
+            }
+            finally
+            {
+                await swarm.StopAsync();
+                await swarmB.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task Dial_Peer()
+        {
+            var peerB = new Peer
+            {
+                AgentVersion = "peerB",
+                Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+            };
+            var swarmB = new Swarm { LocalPeer = peerB };
+            var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                using (var stream = await swarm.DialAsync(peerB, "/ipfs/id/1.0.0"))
+                {
+                    Assert.IsNotNull(stream);
+                    Assert.IsTrue(stream.CanRead);
+                    Assert.IsTrue(stream.CanWrite);
+                }
+            }
+            finally
+            {
+                await swarm.StopAsync();
+                await swarmB.StopAsync();
+            }
+        }
+
     }
 }
 

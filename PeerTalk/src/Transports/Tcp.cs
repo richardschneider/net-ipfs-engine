@@ -77,22 +77,15 @@ namespace PeerTalk.Transports
             {
                 // eat it, the caller has cancelled and doesn't care.
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                log.Warn("failed " + address, e);
-                if (socket != null)
-                {
-                    socket.Dispose();
-                }
+                socket?.Dispose();
                 throw;
             }
             if (cancel.IsCancellationRequested)
             {
                 log.Debug("cancel " + address);
-                if (socket != null)
-                {
-                    socket.Dispose();
-                }
+                socket?.Dispose();
                 return null;
             }
 

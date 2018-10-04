@@ -175,6 +175,7 @@ namespace PeerTalk
                 },
                 (id, peer) =>
                 {
+                    peer.Addresses = peer.Addresses.ToList();
                     var addrs = (List<MultiAddress>)peer.Addresses;
                     if (!addrs.Contains(address))
                     {
@@ -214,10 +215,10 @@ namespace PeerTalk
                 (id) => peer,
                 (id, existing) =>
                 {
-                    existing.AgentVersion = peer.AgentVersion;
-                    existing.ProtocolVersion = peer.ProtocolVersion;
-                    existing.PublicKey = peer.PublicKey;
-                    existing.Latency = peer.Latency;
+                    existing.AgentVersion = peer.AgentVersion ?? existing.AgentVersion;
+                    existing.ProtocolVersion = peer.ProtocolVersion ?? existing.ProtocolVersion;
+                    existing.PublicKey = peer.PublicKey ?? existing.PublicKey;
+                    existing.Latency = peer.Latency ?? existing.Latency;
                     existing.Addresses = existing
                         .Addresses
                         .Union(peer.Addresses)
@@ -329,7 +330,6 @@ namespace PeerTalk
                 await connection.MuxerEstablished.Task;
                 ConnectionEstablished?.Invoke(this, connection);
                 await identity.GetRemotePeer(connection);
-
             }
             catch (Exception)
             {
@@ -340,6 +340,84 @@ namespace PeerTalk
             connections[peer.Id.ToBase58()] = connection;
             peer.ConnectedAddress = address;
             return peer;
+        }
+
+        /// <summary>
+        ///   Create a stream to the peer that talks the specified protocol.
+        /// </summary>
+        /// <param name="peer">
+        ///   The remote peer.
+        /// </param>
+        /// <param name="protocol">
+        ///   The protocol name, such as "/foo/0.42.0".
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result
+        ///   is the new <see cref="Stream"/> to the <paramref name="peer"/>.
+        /// </returns>
+        /// <remarks>
+        ///   <para>
+        ///   When finished, the caller must <see cref="Stream.Dispose()"/> the
+        ///   new stream.
+        ///   </para>
+        /// </remarks>
+        public async Task<Stream> DialAsync(Peer peer, string protocol, CancellationToken cancel = default(CancellationToken))
+        {
+            peer = RegisterPeer(peer);
+            if (peer.Addresses.Count() == 0)
+            {
+                throw new Exception($"Peer '{peer}' has no knonw addresses.");
+            }
+
+            // Get a connection and then a muxer to the peer.
+            var exceptions = new List<Exception>();
+            foreach (var a in peer.Addresses)
+            {
+                try
+                {
+                    await ConnectAsync(a, cancel);
+                }
+                catch (AggregateException e)
+                {
+                    exceptions.AddRange(e.InnerExceptions);
+                    continue;
+                }
+                catch (Exception e)
+                {
+                    exceptions.Add(e);
+                    continue;
+                }
+                break;
+            }
+            if (!connections.TryGetValue(peer.Id.ToBase58(), out PeerConnection connection))
+            {
+                throw new AggregateException($"Cannot establish connection to peer '{peer}'.", exceptions);
+            }
+            var muxer = await connection.MuxerEstablished.Task;
+
+            // Create a new stream for the peer protocol.
+            var stream = await muxer.CreateStreamAsync(protocol);
+            try
+            {
+                await connection.EstablishProtocolAsync("/multistream/", stream);
+
+                await Message.WriteAsync(protocol, stream, cancel);
+                var result = await Message.ReadStringAsync(stream, cancel);
+                if (result != protocol)
+                {
+                    throw new Exception($"Protocol '{protocol}' not supported by '{peer}'.");
+                }
+
+                return stream;
+            }
+            catch (Exception)
+            {
+                stream.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
@@ -385,7 +463,7 @@ namespace PeerTalk
                 }
                 catch (Exception e)
                 {
-                    exceptions.Add(new Exception($"Failed via '{addr}'.", e));
+                    exceptions.Add(new Exception($"Connect failed via '{addr}'.", e));
                 }
             }
 

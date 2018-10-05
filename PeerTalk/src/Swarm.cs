@@ -28,7 +28,7 @@ namespace PeerTalk
         /// <summary>
         ///  The supported security protocols.
         /// </summary>
-        List<IPeerProtocol> SecurityProtocols = new List<IPeerProtocol>
+        public List<IPeerProtocol> SecurityProtocols = new List<IPeerProtocol>
         {
             new Plaintext1()
         };
@@ -36,10 +36,15 @@ namespace PeerTalk
         /// <summary>
         ///   The supported muxer protocols.
         /// </summary>
-        List<IPeerProtocol> MuxerProtocols = new List<IPeerProtocol>
+        public List<IPeerProtocol> MuxerProtocols = new List<IPeerProtocol>
         {
             new Mplex67()
         };
+
+        /// <summary>
+        ///   Application specific protocols.
+        /// </summary>
+        public List<IPeerProtocol> OtherProtocols = new List<IPeerProtocol>();
 
         Peer localPeer;
 
@@ -323,13 +328,15 @@ namespace PeerTalk
             };
             try
             {
-                connection.Protocols.Add(multistream.ToString(), multistream.ProcessMessageAsync);
-                connection.Protocols.Add(identity.ToString(), identity.ProcessMessageAsync);
+                connections[peer.Id.ToBase58()] = connection;
+                peer.ConnectedAddress = address;
+
+                MountProtocols(connection);
                 await connection.InitiateAsync(cancel);
 
                 await connection.MuxerEstablished.Task;
-                ConnectionEstablished?.Invoke(this, connection);
                 await identity.GetRemotePeer(connection);
+                ConnectionEstablished?.Invoke(this, connection);
             }
             catch (Exception)
             {
@@ -337,8 +344,6 @@ namespace PeerTalk
                 throw;
             }
 
-            connections[peer.Id.ToBase58()] = connection;
-            peer.ConnectedAddress = address;
             return peer;
         }
 
@@ -657,17 +662,8 @@ namespace PeerTalk
                 }
             };
 
-            // Mount the protocols
-            connection.Protocols.Add(multistream.ToString(), multistream.ProcessMessageAsync);
-            foreach (var protocol in SecurityProtocols)
-            {
-                connection.Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
-            }
-            foreach (var protocol in MuxerProtocols)
-            {
-                connection.Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
-            }
-            connection.Protocols.Add(identity.ToString(), identity.ProcessMessageAsync);
+            // Mount the protocols.
+            MountProtocols(connection);
 
             // Required by GO-IPFS
             await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
@@ -690,6 +686,15 @@ namespace PeerTalk
             connections[connection.RemotePeer.Id.ToBase58()] = connection;
 
             ConnectionEstablished?.Invoke(this, connection);
+        }
+
+        void MountProtocols(PeerConnection connection)
+        {
+            connection.AddProtocol(multistream);
+            connection.AddProtocol(identity);
+            connection.AddProtocols(SecurityProtocols);
+            connection.AddProtocols(MuxerProtocols);
+            connection.AddProtocols(OtherProtocols);
         }
 
         /// <summary>

@@ -79,10 +79,10 @@ namespace Ipfs.Engine
                 log.Debug("Built swarm service");
                 return swarm;
             });
-            BitswapService = new AsyncLazy<PeerTalk.BlockExchange.Bitswap>(async () =>
+            BitswapService = new AsyncLazy<BlockExchange.Bitswap>(async () =>
             {
                 log.Debug("Building bitswap service");
-                var bitswap = new PeerTalk.BlockExchange.Bitswap
+                var bitswap = new BlockExchange.Bitswap
                 {
                     Swarm = await SwarmService
                 };
@@ -386,7 +386,7 @@ namespace Ipfs.Engine
         /// <summary>
         ///   Exchange blocks with other peers.
         /// </summary>
-        public AsyncLazy<PeerTalk.BlockExchange.Bitswap> BitswapService { get; private set; }
+        public AsyncLazy<BlockExchange.Bitswap> BitswapService { get; private set; }
 
         /// <summary>
         ///   Fired when a peer is discovered.

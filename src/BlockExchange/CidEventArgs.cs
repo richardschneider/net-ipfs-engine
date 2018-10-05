@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PeerTalk.BlockExchange
+namespace Ipfs.Engine.BlockExchange
 {
     /// <summary>
     ///   The content addressable ID related to an event. 

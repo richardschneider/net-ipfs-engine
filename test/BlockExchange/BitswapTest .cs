@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PeerTalk.BlockExchange
+namespace Ipfs.Engine.BlockExchange
 {
     [TestClass]
     public class BitswapTest

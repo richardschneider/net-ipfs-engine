@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PeerTalk.BlockExchange
+namespace Ipfs.Engine.BlockExchange
 {
     /// <summary>
     ///   A content addressable block that is wanted by a peer.

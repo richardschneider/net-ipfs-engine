@@ -1,5 +1,5 @@
 ﻿using Common.Logging;
-using Ipfs;
+using PeerTalk;
 using PeerTalk.Protocols;
 using ProtoBuf;
 using Semver;
@@ -14,20 +14,20 @@ using System.Threading.Tasks;
 #pragma warning disable 0649 // disable warning about unassinged fields
 #pragma warning disable 0169// disable warning about unassinged fields
 
-namespace PeerTalk.BlockExchange
+namespace Ipfs.Engine.BlockExchange
 {
     /// <summary>
     ///   Identifies the peer.
     /// </summary>
-    public class Bitswap1 : IPeerProtocol
+    public class Bitswap11 : IPeerProtocol
     {
-        static ILog log = LogManager.GetLogger(typeof(Bitswap1));
+        static ILog log = LogManager.GetLogger(typeof(Bitswap11));
 
         /// <inheritdoc />
         public string Name { get; } = "ipfs/bitswap";
 
         /// <inheritdoc />
-        public SemVersion Version { get; } = new SemVersion(1, 0);
+        public SemVersion Version { get; } = new SemVersion(1, 1);
 
         /// <inheritdoc />
         public override string ToString()
@@ -43,12 +43,23 @@ namespace PeerTalk.BlockExchange
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            log.Debug("Receiving message " + connection.RemoteAddress);
             var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel);
+            log.Debug("got request");
 
             // TODO: Process want list
+            foreach (var entry in request.wantlist.entries)
+            {
+                var s = Base58.ToBase58(entry.block);
+                Cid cid = s;
+                log.Debug($"{connection.RemotePeer} wants {cid}");
+                //Bitswap.Want(cid, connection.RemotePeer.Id, CancellationToken.None);
+            }
 
             // TODO: Process sent blocks
+            foreach (var sendBlock in request.payload)
+            {
+                // TODO
+            }
         }
 
         [ProtoContract]
@@ -80,6 +91,7 @@ namespace PeerTalk.BlockExchange
         {
             [ProtoMember(1)]
             public byte[] prefix;        // CID prefix (cid version, multicodec and multihash prefix (type + length)
+
             [ProtoMember(2)]
             byte[] data;
         }

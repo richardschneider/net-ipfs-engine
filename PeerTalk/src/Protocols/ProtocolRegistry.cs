@@ -1,5 +1,4 @@
-﻿using PeerTalk.BlockExchange;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,8 +27,6 @@ namespace PeerTalk.Protocols
             Register<Plaintext1>();
             Register<Identify1>();
             Register<Mplex67>();
-            Register<Bitswap1>();
-            Register<Bitswap11>();
         }
 
         /// <summary>

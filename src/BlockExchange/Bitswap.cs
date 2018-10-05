@@ -1,5 +1,5 @@
 ﻿using Common.Logging;
-using Ipfs;
+using PeerTalk;
 using PeerTalk.Protocols;
 using System;
 using System.Collections.Concurrent;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PeerTalk.BlockExchange
+namespace Ipfs.Engine.BlockExchange
 {
     /// <summary>
     ///   Exchange blocks with other peers.

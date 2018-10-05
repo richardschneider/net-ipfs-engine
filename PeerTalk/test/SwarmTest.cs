@@ -525,8 +525,6 @@ namespace PeerTalk
             var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
 
             var swarm = new Swarm { LocalPeer = self };
-            var bitswap = new PeerTalk.BlockExchange.Bitswap { Swarm = swarm };
-            await bitswap.StartAsync();
             await swarm.StartAsync();
             try
             {
@@ -545,7 +543,6 @@ namespace PeerTalk
             finally
             {
                 await swarm.StopAsync();
-                await bitswap.StopAsync();
             }
         }
 

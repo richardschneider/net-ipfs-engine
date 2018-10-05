@@ -5,6 +5,66 @@
   "files": [
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap.html",
+          "hash": "JODPusXC9Ol9F8RFi6NaCw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap1.html",
+          "hash": "Em34Z3knrK5HAXwfwb44bg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap11.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap11.html",
+          "hash": "bkHkB1s64pkoeebeQuiDWg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.CidEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.CidEventArgs.html",
+          "hash": "M7vZzZnXUlviTdLWOzeUYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.html",
+          "hash": "4QGBeUUOfnoY8bLwNEORlw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Ipfs.Engine.BlockOptions.yml",
       "output": {
         ".html": {
@@ -69,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.IpfsEngine.html",
-          "hash": "X3N+RgFVeVHuYFCEDjSWUQ=="
+          "hash": "fILgfhg/JsVm7frzDGMlrQ=="
         }
       },
       "is_incremental": false,
@@ -321,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "stnZqFqm5c+2cLsxTnPkGA=="
+          "hash": "Sq+JfNIlQFadk/UZvaEHYA=="
         }
       },
       "is_incremental": false,
@@ -489,17 +549,17 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "TocDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ResourceDocumentProcessor": {

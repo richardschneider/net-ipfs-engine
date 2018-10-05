@@ -1,0 +1,487 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Bitswap
+   | IPFS Engine documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Bitswap
+   | IPFS Engine documentation ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/ipfs-logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Ipfs.Engine.BlockExchange.Bitswap">
+  
+  
+  <h1 id="Ipfs_Engine_BlockExchange_Bitswap" data-uid="Ipfs.Engine.BlockExchange.Bitswap" class="text-break">Class Bitswap
+  </h1>
+  <div class="markdown level0 summary"><p>Exchange blocks with other peers.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><span class="xref">Bitswap</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">PeerTalk.IService</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.BlockExchange.html">Ipfs.Engine.BlockExchange</a></h6>
+  <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
+  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Bitswap : object, IService</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Swarm.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Swarm%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L27">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_Swarm_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Swarm*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Swarm" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Swarm">Swarm</h4>
+  <div class="markdown level1 summary"><p>Provides access to other peers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Swarm Swarm { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PeerTalk.Swarm</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Found_IDataBlock_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Found(IDataBlock)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L179">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_Found_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Found*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Found_IDataBlock_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Found(IDataBlock)">Found(IDataBlock)</h4>
+  <div class="markdown level1 summary"><p>Indicate that a block is found.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Found(IDataBlock block)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IDataBlock</span></td>
+        <td><span class="parametername">block</span></td>
+        <td><p>The block that was found.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><p>The number of consumers waiting for the <code data-dev-comment-type="paramref" class="paramref">block</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_Found_IDataBlock__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p><strong>Found</strong> should be called whenever a new block is discovered. 
+It will continue any Task that is waiting for the block and
+remove the block from the want list.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_PeerWants_MultiHash_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.PeerWants(MultiHash)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L78">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_PeerWants_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.PeerWants*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_PeerWants_MultiHash_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.PeerWants(MultiHash)">PeerWants(MultiHash)</h4>
+  <div class="markdown level1 summary"><p>The blocks needed by the peer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;Cid&gt; PeerWants(MultiHash peer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">MultiHash</span></td>
+        <td><span class="parametername">peer</span></td>
+        <td><p>The unique ID of the peer.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Cid</span>&gt;</td>
+        <td><p>The sequence of CIDs need by the <code data-dev-comment-type="paramref" class="paramref">peer</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_StartAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.StartAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L38">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_StartAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.StartAsync*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_StartAsync" data-uid="Ipfs.Engine.BlockExchange.Bitswap.StartAsync">StartAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task StartAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_StopAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.StopAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L56">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_StopAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.StopAsync*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_StopAsync" data-uid="Ipfs.Engine.BlockExchange.Bitswap.StopAsync">StopAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task StopAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Unwant_Cid_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Unwant(Cid)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L154">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_Unwant_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Unwant*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Unwant_Cid_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Unwant(Cid)">Unwant(Cid)</h4>
+  <div class="markdown level1 summary"><p>Removes the block from the want list.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Unwant(Cid id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Cid</span></td>
+        <td><span class="parametername">id</span></td>
+        <td><p>The CID of the block to remove from the want list.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_Unwant_Cid__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Any tasks waiting for the block are cancelled.
+<p>
+No exception is thrown if the <code data-dev-comment-type="paramref" class="paramref">id</code> is not
+on the want list.
+</p></p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Want_Cid_MultiHash_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Want(Cid%2CMultiHash%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L110">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_Want_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Want*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Want_Cid_MultiHash_CancellationToken_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Want(Cid,MultiHash,CancellationToken)">Want(Cid, MultiHash, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Adds a block to the want list.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IDataBlock&gt; Want(Cid id, MultiHash peer, CancellationToken cancel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Cid</span></td>
+        <td><span class="parametername">id</span></td>
+        <td><p>The CID of the block to add to the want list.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">MultiHash</span></td>
+        <td><span class="parametername">peer</span></td>
+        <td><p>The unique ID of the peer that wants the block.  This is for
+information purposes only.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">CancellationToken</span></td>
+        <td><span class="parametername">cancel</span></td>
+        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<span class="xref">IDataBlock</span>&gt;</td>
+        <td><p>A task that represents the asynchronous operation. The task&apos;s result is
+the contents of block.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_Want_Cid_MultiHash_CancellationToken__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Other peers are informed that the block is needed by this peer. Hopefully,
+someone will forward it to us.
+<p>
+Besides using <code data-dev-comment-type="paramref" class="paramref">cancel</code> for cancellation, the 
+<a class="xref" href="Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Unwant_Cid_">Unwant(Cid)</a> method will also cancel the operation.
+</p></p>
+</div>
+  <h3 id="events">Events
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_BlockNeeded.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.BlockNeeded%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L35">View Source</a>
+  </span>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_BlockNeeded" data-uid="Ipfs.Engine.BlockExchange.Bitswap.BlockNeeded">BlockNeeded</h4>
+  <div class="markdown level1 summary"><p>Raised when a blocked is needed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;CidEventArgs&gt; BlockNeeded</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">EventHandler</span>&lt;<a class="xref" href="Ipfs.Engine.BlockExchange.CidEventArgs.html">CidEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_BlockNeeded_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Only raised when a block is first requested.</p>
+</div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">PeerTalk.IService</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L17" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Generated by DocFX
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

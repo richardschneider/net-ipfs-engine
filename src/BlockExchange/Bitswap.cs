@@ -19,7 +19,18 @@ namespace Ipfs.Engine.BlockExchange
         static ILog log = LogManager.GetLogger(typeof(Bitswap));
 
         ConcurrentDictionary<Cid, WantedBlock> wants = new ConcurrentDictionary<Cid, WantedBlock>();
-        List<IPeerProtocol> protocols = new List<IPeerProtocol>();
+        IPeerProtocol[] protocols;
+
+        /// <summary>
+        ///   Creates a new instance of the <see cref="Bitswap"/> class.
+        /// </summary>
+        public Bitswap()
+        {
+            protocols = new IPeerProtocol[]
+            {
+                new Bitswap11 { Bitswap = this }
+            };
+        }
 
         /// <summary>
         ///   Provides access to other peers.
@@ -39,17 +50,24 @@ namespace Ipfs.Engine.BlockExchange
         {
             log.Debug("Starting");
 
-            protocols.Add(new Bitswap11 { Bitswap = this });
-            protocols.Add(new Bitswap1 { Bitswap = this });
-            Swarm.ConnectionEstablished += (s, connection) =>
-            {
-                foreach (var p in protocols)
-                {
-                    connection.Protocols.Add(p.ToString(), p.ProcessMessageAsync);
-                }
-            };
+            Swarm.OtherProtocols.AddRange(protocols);
+            Swarm.ConnectionEstablished += Swarm_ConnectionEstablished;
 
             return Task.CompletedTask;
+        }
+
+        // When a connection is established
+        // (1) Send the local peer's want list to the remote
+        async void Swarm_ConnectionEstablished(object sender, PeerConnection connection)
+        {
+            try
+            {
+                await SendWantListAsync(connection.RemotePeer);
+            }
+            catch (Exception e)
+            {
+                log.Warn("Mounting bitswap", e);
+            }
         }
 
         /// <inheritdoc />
@@ -57,12 +75,17 @@ namespace Ipfs.Engine.BlockExchange
         {
             log.Debug("Stopping");
 
+            Swarm.ConnectionEstablished -= Swarm_ConnectionEstablished;
+            foreach (var protocol in protocols)
+            {
+                Swarm.OtherProtocols.Remove(protocol);
+            }
+
             foreach (var cid in wants.Keys)
             {
                 Unwant(cid);
             }
 
-            protocols.Clear();
             return Task.CompletedTask;
         }
 
@@ -109,6 +132,8 @@ namespace Ipfs.Engine.BlockExchange
         /// </remarks>
         public Task<IDataBlock> Want(Cid id, MultiHash peer, CancellationToken cancel)
         {
+            log.Debug($"{peer} wants {id}");
+
             var tsc = new TaskCompletionSource<IDataBlock>();
             var want = wants.AddOrUpdate(
                 id,
@@ -189,5 +214,18 @@ namespace Ipfs.Engine.BlockExchange
 
             return 0;
         }
+
+        async Task SendWantListAsync(Peer peer)
+        {
+            if (wants.IsEmpty)
+                return;
+
+            using (var stream = await Swarm.DialAsync(peer, "/ipfs/bitswap/1.1.0"))
+            {
+                var protocol = new Bitswap11();
+                await protocol.Send(stream, wants.Values, full: true);
+            }
+        }
+
     }
 }

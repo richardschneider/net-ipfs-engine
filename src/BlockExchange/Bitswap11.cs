@@ -47,19 +47,47 @@ namespace Ipfs.Engine.BlockExchange
             log.Debug("got request");
 
             // TODO: Process want list
-            foreach (var entry in request.wantlist.entries)
+            foreach (var entry in request.wantlist?.entries)
             {
                 var s = Base58.ToBase58(entry.block);
                 Cid cid = s;
-                log.Debug($"{connection.RemotePeer} wants {cid}");
-                //Bitswap.Want(cid, connection.RemotePeer.Id, CancellationToken.None);
+                // TODO: await block and send to requestor
+                Bitswap.Want(cid, connection.RemotePeer.Id, CancellationToken.None);
             }
 
             // TODO: Process sent blocks
-            foreach (var sendBlock in request.payload)
+            if (request.payload != null)
             {
-                // TODO
+                foreach (var sendBlock in request.payload)
+                {
+                    // TODO
+                }
             }
+        }
+
+        internal async Task Send(
+            Stream stream,
+            IEnumerable<WantedBlock> wants,
+            bool full = true,
+            CancellationToken cancel = default(CancellationToken)
+            )
+        {
+            var message = new Message
+            {
+                wantlist = new Wantlist
+                {
+                    full = full,
+                    entries = wants
+                        .Select(w => new Entry
+                        {
+                            block = w.Id.Hash.ToArray()
+                        })
+                        .ToArray()
+                }
+            };
+
+            ProtoBuf.Serializer.SerializeWithLengthPrefix<Message>(stream, message, PrefixStyle.Base128);
+            await stream.FlushAsync(cancel);
         }
 
         [ProtoContract]

@@ -13,6 +13,7 @@ namespace Ipfs.Engine
     public class BitswapApiTest
     {
         IpfsEngine ipfs = TestFixture.Ipfs;
+        IpfsEngine ipfsOther = TestFixture.IpfsOther;
 
         [TestMethod]
         public async Task Wants()
@@ -61,5 +62,36 @@ namespace Ipfs.Engine
             Assert.IsTrue(wantTask.IsCanceled);
         }
 
+        [TestMethod]
+        public async Task OnConnect_Sends_WantList()
+        {
+            await ipfs.StartAsync();
+            await ipfsOther.StartAsync();
+            try
+            {
+                var local = await ipfs.LocalPeer;
+                var remote = await ipfsOther.LocalPeer;
+                var data = Guid.NewGuid().ToByteArray();
+                var cid = new Cid { Hash = MultiHash.ComputeHash(data) };
+                var _ = ipfs.Bitswap.GetAsync(cid);
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
+
+                var endTime = DateTime.Now.AddSeconds(3);
+                while (DateTime.Now < endTime)
+                {
+                    var wants = await ipfsOther.Bitswap.WantsAsync(local.Id);
+                    if (wants.Contains(cid))
+                        return;
+                    await Task.Delay(200);
+                }
+
+                Assert.Fail("want list not sent");
+            }
+            finally
+            {
+                await ipfsOther.StopAsync();
+                await ipfs.StopAsync();
+            }
+        }
     }
 }

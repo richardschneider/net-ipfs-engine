@@ -60,8 +60,35 @@ namespace PeerTalk
         ///   The key is a protocol name, such as "/mplex/6.7.0".  The value
         ///   is a function that will process the protocol message.
         /// </value>
+        /// <seealso cref="AddProtocol"/>
+        /// <seealso cref="AddProtocols"/>
         public Dictionary<string, Func<PeerConnection, Stream, CancellationToken, Task>> Protocols { get; }
             = new Dictionary<string, Func<PeerConnection, Stream, CancellationToken, Task>>();
+
+        /// <summary>
+        ///   Add a protocol that the connection will handle.
+        /// </summary>
+        /// <param name="protocol">
+        ///   A peer protocol to add.
+        /// </param>
+        public void AddProtocol(IPeerProtocol protocol)
+        {
+            Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+        }
+
+        /// <summary>
+        ///   Add a seequence of protocols that the connection will handle.
+        /// </summary>
+        /// <param name="protocols">
+        ///   The peer protocols to add.
+        /// </param>
+        public void AddProtocols(IEnumerable<IPeerProtocol> protocols)
+        {
+            foreach (var protocol in protocols)
+            {
+                Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+            }
+        }
 
         /// <summary>
         ///   Signals that the security for the connection is established.

@@ -1,5 +1,6 @@
 ﻿using Ipfs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PeerTalk.Protocols;
 using System;
 using System.IO;
 using System.Linq;
@@ -50,6 +51,19 @@ namespace PeerTalk
             connection.Stream.ReadByte();
             Assert.AreEqual(2, connection.BytesRead);
             Assert.AreEqual(3, connection.BytesWritten);
+        }
+
+        [TestMethod]
+        public void Protocols()
+        {
+            var connection = new PeerConnection();
+            Assert.AreEqual(0, connection.Protocols.Count);
+
+            connection.AddProtocol(new Identify1());
+            Assert.AreEqual(1, connection.Protocols.Count);
+
+            connection.AddProtocols(new IPeerProtocol[] { new Mplex67(), new Plaintext1() });
+            Assert.AreEqual(3, connection.Protocols.Count);
         }
     }
 }

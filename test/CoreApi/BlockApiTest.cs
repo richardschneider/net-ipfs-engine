@@ -79,8 +79,8 @@ namespace Ipfs.Engine
         [TestMethod]
         public void Put_Bytes_Cid_Encoding()
         {
-            var cid = ipfs.Block.PutAsync(blob, 
-                contentType: "raw", 
+            var cid = ipfs.Block.PutAsync(blob,
+                contentType: "raw",
                 encoding: "base32").Result;
             Assert.AreEqual(1, cid.Version);
             Assert.AreEqual("base32", cid.Encoding);
@@ -212,6 +212,21 @@ namespace Ipfs.Engine
             Assert.AreEqual(cid.Encode(), block.Id.Encode());
             Assert.AreEqual(blob.Length, block.Size);
             CollectionAssert.AreEqual(blob, block.DataBytes);
+        }
+
+        [TestMethod]
+        public async Task Put_Informs_Bitswap()
+        {
+            var data = Guid.NewGuid().ToByteArray();
+            var cid = new Cid { Hash = MultiHash.ComputeHash(data) };
+            var wantTask = ipfs.Bitswap.GetAsync(cid);
+
+            var cid1 = await ipfs.Block.PutAsync(data);
+            Assert.AreEqual(cid, cid1);
+            Assert.IsTrue(wantTask.IsCompleted);
+            Assert.AreEqual(cid, wantTask.Result.Id);
+            Assert.AreEqual(data.Length, wantTask.Result.Size);
+            CollectionAssert.AreEqual(data, wantTask.Result.DataBytes);
         }
     }
 }

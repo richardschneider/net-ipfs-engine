@@ -160,6 +160,14 @@ namespace Ipfs.Engine.CoreApi
                 }
                 log.DebugFormat("Added block '{0}'", cid);
             }
+
+            // Inform the Bitswap service.
+            (await ipfs.BitswapService).Found(new DataBlock
+            {
+                DataBytes = data,
+                Id = cid,
+                Size = data.Length
+            });
             
             // To pin or not.
             if (pin)

@@ -73,7 +73,7 @@ namespace Ipfs.Engine
                 var remote = await ipfsOther.LocalPeer;
                 var data = Guid.NewGuid().ToByteArray();
                 var cid = new Cid { Hash = MultiHash.ComputeHash(data) };
-                var _ = ipfs.Bitswap.GetAsync(cid);
+                var _ = ipfs.Block.GetAsync(cid);
                 await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
 
                 var endTime = DateTime.Now.AddSeconds(3);
@@ -86,6 +86,42 @@ namespace Ipfs.Engine
                 }
 
                 Assert.Fail("want list not sent");
+            }
+            finally
+            {
+                await ipfsOther.StopAsync();
+                await ipfs.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task GetsBlockFromRemote()
+        {
+            await ipfs.StartAsync();
+            await ipfsOther.StartAsync();
+            try
+            {
+                var data = Guid.NewGuid().ToByteArray();
+                var cid = await ipfsOther.Block.PutAsync(data);
+
+                var getTask = ipfs.Block.GetAsync(cid);
+
+                var remote = await ipfsOther.LocalPeer;
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
+
+                var endTime = DateTime.Now.AddSeconds(3);
+                while (DateTime.Now < endTime)
+                {
+                    if (getTask.IsCompleted)
+                        break;
+                    await Task.Delay(200);
+                }
+                Assert.IsFalse(getTask.IsCanceled);
+                Assert.IsFalse(getTask.IsFaulted);
+                Assert.IsTrue(getTask.IsCompleted);
+                var block = getTask.Result;
+                Assert.AreEqual(cid, block.Id);
+                CollectionAssert.AreEqual(data, block.DataBytes);
             }
             finally
             {

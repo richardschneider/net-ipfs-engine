@@ -1,4 +1,5 @@
 ﻿using Common.Logging;
+using Ipfs.CoreApi;
 using PeerTalk;
 using PeerTalk.Protocols;
 using System;
@@ -36,6 +37,12 @@ namespace Ipfs.Engine.BlockExchange
         ///   Provides access to other peers.
         /// </summary>
         public Swarm Swarm { get; set; }
+
+        /// <summary>
+        ///   Provides access to blocks of data.
+        /// </summary>
+        public IBlockApi BlockService { get; set; }
+
 
         /// <summary>
         ///   Raised when a blocked is needed.

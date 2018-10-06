@@ -84,7 +84,8 @@ namespace Ipfs.Engine
                 log.Debug("Building bitswap service");
                 var bitswap = new BlockExchange.Bitswap
                 {
-                    Swarm = await SwarmService
+                    Swarm = await SwarmService,
+                    BlockService = Block
                 };
                 log.Debug("Built bitswap service");
                 return bitswap;

@@ -38,6 +38,19 @@ references:
   commentId: E:Ipfs.Engine.BlockExchange.Bitswap.BlockNeeded
   fullName: Ipfs.Engine.BlockExchange.Bitswap.BlockNeeded
   nameWithType: Bitswap.BlockNeeded
+- uid: Ipfs.Engine.BlockExchange.Bitswap.BlockService
+  name: BlockService
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_BlockService
+  commentId: P:Ipfs.Engine.BlockExchange.Bitswap.BlockService
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.BlockService
+  nameWithType: Bitswap.BlockService
+- uid: Ipfs.Engine.BlockExchange.Bitswap.BlockService*
+  name: BlockService
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_BlockService_
+  commentId: Overload:Ipfs.Engine.BlockExchange.Bitswap.BlockService
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.BlockService
+  nameWithType: Bitswap.BlockService
 - uid: Ipfs.Engine.BlockExchange.Bitswap.Found(IDataBlock)
   name: Found(IDataBlock)
   href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Found_IDataBlock_

@@ -722,7 +722,8 @@ namespace PeerTalk
                 listener.Cancel();
 
                 // Give some time away, so that cancel can run.
-                await Task.Delay(1);
+                // TODO: Would be nice to make this deterministic.
+                await Task.Delay(TimeSpan.FromMilliseconds(100));
 
                 // Remove any local peer address that depends on the cancellation token.
                 var others = listeners

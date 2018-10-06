@@ -299,17 +299,9 @@ namespace Ipfs.Engine
             await Task.WhenAll(tasks);
             // TODO: Would be nice to make this deterministic.
             await Task.Delay(TimeSpan.FromMilliseconds(100));
+            log.Debug("all service started");
 
-            log.Debug("started");
-        }
-
-        async Task<Swarm> StartSwarmAsync()
-        {
-            var swarm = await SwarmService;
-            stopTasks.Add(new Task(async () => await swarm.StopAsync()));
-            await swarm.StartAsync();
-
-            // Add listeners
+            // Starting listening to the swarm.
             var json = await Config.GetAsync("Addresses.Swarm");
             var numberListeners = 0;
             foreach (string a in json)
@@ -329,6 +321,15 @@ namespace Ipfs.Engine
             {
                 log.Error("No listeners were created.");
             }
+
+            log.Debug("started");
+        }
+
+        async Task<Swarm> StartSwarmAsync()
+        {
+            var swarm = await SwarmService;
+            stopTasks.Add(new Task(async () => await swarm.StopAsync()));
+            await swarm.StartAsync();
 
             return swarm;
         }

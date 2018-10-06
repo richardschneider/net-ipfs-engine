@@ -359,6 +359,72 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        public async Task Listening_Start_Stop()
+        {
+            var peer = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
+            MultiAddress addr = "/ip4/0.0.0.0/tcp/0";
+            var swarm = new Swarm { LocalPeer = peer };
+            await swarm.StartAsync();
+
+            try
+            {
+                await swarm.StartListeningAsync(addr);
+                Assert.IsTrue(peer.Addresses.Count() > 0);
+
+                await swarm.StopListeningAsync(addr);
+                Assert.AreEqual(0, peer.Addresses.Count());
+
+                await swarm.StartListeningAsync(addr);
+                Assert.IsTrue(peer.Addresses.Count() > 0);
+
+                await swarm.StopListeningAsync(addr);
+                Assert.AreEqual(0, peer.Addresses.Count());
+            }
+            finally
+            {
+                await swarm.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task Stop_Closes_Listeners()
+        {
+            var peer = new Peer
+            {
+                Id = self.Id,
+                PublicKey = self.PublicKey,
+                AgentVersion = self.AgentVersion
+            };
+            MultiAddress addr = "/ip4/0.0.0.0/tcp/0";
+            var swarm = new Swarm { LocalPeer = peer };
+
+            try
+            {
+                await swarm.StartAsync();
+                await swarm.StartListeningAsync(addr);
+                Assert.IsTrue(peer.Addresses.Count() > 0);
+                await swarm.StopAsync();
+                Assert.AreEqual(0, peer.Addresses.Count());
+
+                await swarm.StartAsync();
+                await swarm.StartListeningAsync(addr);
+                Assert.IsTrue(peer.Addresses.Count() > 0);
+                await swarm.StopAsync();
+                Assert.AreEqual(0, peer.Addresses.Count());
+            }
+            catch (Exception)
+            {
+                await swarm.StopAsync();
+                throw;
+            }
+        }
+
+        [TestMethod]
         public async Task Listening_Event()
         {
             var peer = new Peer

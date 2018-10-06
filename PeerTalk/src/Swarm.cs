@@ -260,9 +260,13 @@ namespace PeerTalk
             log.Debug("Stopping");
 
             // Stop the listeners
-            foreach (var address in listeners.Keys)
+            while (listeners.Count > 0)
             {
-                await StopListeningAsync(address);
+                await StopListeningAsync(listeners.Keys.First());
+            }
+            while (LocalPeer.Addresses.Count() > 0)
+            {
+                await StopListeningAsync(LocalPeer.Addresses.First());
             }
 
             // Disconnect from remote peers
@@ -718,7 +722,7 @@ namespace PeerTalk
                 listener.Cancel();
 
                 // Give some time away, so that cancel can run.
-                await Task.Delay(200);
+                await Task.Delay(1);
 
                 // Remove any local peer address that depends on the cancellation token.
                 var others = listeners
@@ -728,6 +732,10 @@ namespace PeerTalk
                     .Where(a => !others.Contains(a))
                     .ToArray();
             }
+
+            LocalPeer.Addresses = LocalPeer.Addresses
+                .Where(a => a != address)
+                .ToArray();
         }
 
         /// <inheritdoc />

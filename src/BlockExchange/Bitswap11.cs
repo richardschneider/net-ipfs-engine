@@ -44,6 +44,11 @@ namespace Ipfs.Engine.BlockExchange
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel);
+
+            // There is a race condition between getting the remote identity and
+            // the remote sending the first wantlist.
+            await connection.IdentityEstablished.Task;
+
             log.Debug($"got message from {connection.RemotePeer}");
 
             // Process want list
@@ -90,7 +95,8 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     block = await Bitswap.Want(cid, remotePeer.Id, cancel);
                 }
-                // TODO: Send block to remote
+
+                // Send block to remote.
                 using (var stream = await Bitswap.Swarm.DialAsync(remotePeer, this.ToString()))
                 {
                     await SendAsync(stream, block, cancel);

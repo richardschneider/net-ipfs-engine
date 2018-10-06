@@ -107,6 +107,18 @@ namespace PeerTalk
         public TaskCompletionSource<Muxer> MuxerEstablished { get; } = new TaskCompletionSource<Muxer>();
 
         /// <summary>
+        ///   Signals that the identity of the remote endpoint is established.
+        /// </summary>
+        /// <remarks>
+        ///   This can be awaited.
+        /// </remarks>
+        /// <remarks>
+        ///   The data in <see cref="RemotePeer"/> is not complete until
+        ///   the identity is establish.
+        /// </remarks>
+        public TaskCompletionSource<Peer> IdentityEstablished { get; } = new TaskCompletionSource<Peer>();
+
+        /// <summary>
         ///   When the connection was last used.
         /// </summary>
         public DateTime LastUsed => stream.LastUsed;

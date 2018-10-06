@@ -68,13 +68,13 @@ namespace PeerTalk.Protocols
         {
             var muxer = await connection.MuxerEstablished.Task;
             log.Debug("Get remote identity");
+            Peer remote = connection.RemotePeer;
             using (var stream = await muxer.CreateStreamAsync("id"))
             {
                 await connection.EstablishProtocolAsync("/multistream/", stream);
                 await connection.EstablishProtocolAsync("/ipfs/id/", stream);
 
                 var info = await ProtoBufHelper.ReadMessageAsync<Identify>(stream);
-                Peer remote = connection.RemotePeer;
                 if (remote == null)
                 {
                     remote = new Peer();
@@ -104,8 +104,10 @@ namespace PeerTalk.Protocols
 
             // TODO: Verify the Peer ID
 
-            log.Debug($"Peer id '{connection.RemotePeer}' of {connection.RemoteAddress}");
-            return connection.RemotePeer;
+            connection.IdentityEstablished.SetResult(remote);
+
+            log.Debug($"Peer id '{remote}' of {connection.RemoteAddress}");
+            return remote;
         }
 
         [ProtoContract]

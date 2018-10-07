@@ -265,7 +265,7 @@ namespace Ipfs.Engine
                         Addresses = await this.Bootstrap.ListAsync()
                     };
                     bootstrap.PeerDiscovered += OnPeerDiscovered;
-                    stopTasks.Add(new Task(async () => await bootstrap.StopAsync()));
+                    stopTasks.Add(new Task(() => { bootstrap.StopAsync().Wait(); }));
                     await bootstrap.StartAsync();
                 }),
                 new Task(async () =>
@@ -279,13 +279,13 @@ namespace Ipfs.Engine
                     {
                         mdns.RefreshPeer();
                     };
-                    stopTasks.Add(new Task(async () => await mdns.StopAsync()));
+                    stopTasks.Add(new Task(() => { mdns.StopAsync().Wait(); }));
                     await mdns.StartAsync();
                 }),
                 new Task(async () =>
                 {
                     var bitswap = await BitswapService;
-                    stopTasks.Add(new Task(async () => await bitswap.StopAsync()));
+                    stopTasks.Add(new Task(() => { bitswap.StopAsync().Wait(); }));
                     await bitswap.StartAsync();
                 }),
             };
@@ -328,7 +328,7 @@ namespace Ipfs.Engine
         async Task<Swarm> StartSwarmAsync()
         {
             var swarm = await SwarmService;
-            stopTasks.Add(new Task(async () => await swarm.StopAsync()));
+            stopTasks.Add(new Task(() => { swarm.StopAsync().Wait(); }));
             await swarm.StartAsync();
 
             return swarm;

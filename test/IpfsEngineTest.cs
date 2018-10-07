@@ -39,17 +39,46 @@ namespace Ipfs.Engine
         public async Task Can_Start_And_Stop()
         {
             var ipfs = TestFixture.Ipfs;
-            await ipfs.StartAsync();
-            await ipfs.StopAsync();
+            var peer = await ipfs.LocalPeer;
 
             await ipfs.StartAsync();
+            Assert.AreNotEqual(0, peer.Addresses.Count());
             await ipfs.StopAsync();
+            Assert.AreEqual(0, peer.Addresses.Count());
 
             await ipfs.StartAsync();
+            Assert.AreNotEqual(0, peer.Addresses.Count());
+            await ipfs.StopAsync();
+            Assert.AreEqual(0, peer.Addresses.Count());
+
+            await ipfs.StartAsync();
+            Assert.AreNotEqual(0, peer.Addresses.Count());
             ExceptionAssert.Throws<Exception>(() => ipfs.StartAsync().Wait());
             await ipfs.StopAsync();
+            Assert.AreEqual(0, peer.Addresses.Count());
         }
 
+        [TestMethod]
+        public async Task Can_Start_And_Stop_MultipleEngines()
+        {
+            var ipfs1 = TestFixture.Ipfs;
+            var ipfs2 = TestFixture.IpfsOther;
+            var peer1 = await ipfs1.LocalPeer;
+            var peer2 = await ipfs2.LocalPeer;
+
+            for (int n = 0; n < 3; ++n)
+            {
+                await ipfs1.StartAsync();
+                Assert.AreNotEqual(0, peer1.Addresses.Count());
+                await ipfs2.StartAsync();
+                Assert.AreNotEqual(0, peer2.Addresses.Count());
+
+                await ipfs2.StopAsync();
+                Assert.AreEqual(0, peer2.Addresses.Count());
+                await ipfs1.StopAsync();
+                Assert.AreEqual(0, peer1.Addresses.Count());
+            }
+        }
 
         [TestMethod]
         public async Task LocalPeer()

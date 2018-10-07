@@ -264,10 +264,6 @@ namespace PeerTalk
             {
                 await StopListeningAsync(listeners.Keys.First());
             }
-            while (LocalPeer.Addresses.Count() > 0)
-            {
-                await StopListeningAsync(LocalPeer.Addresses.First());
-            }
 
             // Disconnect from remote peers
             foreach (var peer in otherPeers.Values.Where(p => p.ConnectedAddress != null))
@@ -717,26 +713,35 @@ namespace PeerTalk
         /// </remarks>
         public async Task StopListeningAsync(MultiAddress address)
         {
+            var others = new MultiAddress[0];
+
             if (listeners.TryRemove(address, out CancellationTokenSource listener))
             {
-                listener.Cancel();
+                if (!listener.IsCancellationRequested)
+                {
+                    listener.Cancel();
 
-                // Give some time away, so that cancel can run.
-                // TODO: Would be nice to make this deterministic.
-                await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    // Give some time away, so that cancel can run.
+                    // TODO: Would be nice to make this deterministic.
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-                // Remove any local peer address that depends on the cancellation token.
-                var others = listeners
-                    .Where(l => l.Value == listener)
-                    .Select(l => l.Key);
-                LocalPeer.Addresses = LocalPeer.Addresses
-                    .Where(a => !others.Contains(a))
-                    .ToArray();
+                    // Remove any local peer address that depend on the cancellation token.
+                    others = listeners
+                        .Where(l => l.Value == listener)
+                        .Select(l => l.Key)
+                        .ToArray();
+                }
             }
 
             LocalPeer.Addresses = LocalPeer.Addresses
                 .Where(a => a != address)
+                .Where(a => !others.Contains(a))
                 .ToArray();
+
+            foreach (var other in others)
+            {
+                listeners.TryRemove(other, out CancellationTokenSource _);
+            }
         }
 
         /// <inheritdoc />

@@ -29,7 +29,7 @@ namespace Ipfs.Engine
             IpfsOther.Options.KeyChain.DefaultKeySize = 512;
             IpfsOther.Config.SetAsync(
                 "Addresses.Swarm",
-                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/4008" })
+                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/0" })
             ).Wait();
         }
 

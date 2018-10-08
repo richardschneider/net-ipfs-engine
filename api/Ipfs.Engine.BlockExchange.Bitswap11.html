@@ -73,7 +73,7 @@
   
   <h1 id="Ipfs_Engine_BlockExchange_Bitswap11" data-uid="Ipfs.Engine.BlockExchange.Bitswap11" class="text-break">Class Bitswap11
   </h1>
-  <div class="markdown level0 summary"><p>Identifies the peer.</p>
+  <div class="markdown level0 summary"><p>Bitswap Protocol version 1.1.0 </p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -83,13 +83,14 @@
   </div>
   <div classs="implements">
     <h5>Implements</h5>
+    <div><a class="xref" href="Ipfs.Engine.BlockExchange.IBitswapProtocol.html">IBitswapProtocol</a></div>
     <div><span class="xref">PeerTalk.Protocols.IPeerProtocol</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.BlockExchange.html">Ipfs.Engine.BlockExchange</a></h6>
   <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
   <h5 id="Ipfs_Engine_BlockExchange_Bitswap11_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Bitswap11 : object, IPeerProtocol</code></pre>
+    <pre><code class="lang-csharp hljs">public class Bitswap11 : object, IBitswapProtocol, IPeerProtocol</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
@@ -245,6 +246,74 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap11_SendWantsAsync_Stream_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream%2CIEnumerable%7BIpfs.Engine.BlockExchange.WantedBlock%7D%2CSystem.Boolean%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap11.cs/#L117">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap11_SendWantsAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap11_SendWantsAsync_Stream_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_CancellationToken_" data-uid="Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)">SendWantsAsync(Stream, IEnumerable&lt;WantedBlock&gt;, Boolean, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Send a want list.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SendWantsAsync(Stream stream, IEnumerable&lt;WantedBlock&gt; wants, bool full = true, CancellationToken cancel = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Stream</span></td>
+        <td><span class="parametername">stream</span></td>
+        <td><p>The destination of the want list.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Ipfs.Engine.BlockExchange.WantedBlock.html">WantedBlock</a>&gt;</td>
+        <td><span class="parametername">wants</span></td>
+        <td><p>A sequence of <a class="xref" href="Ipfs.Engine.BlockExchange.WantedBlock.html">WantedBlock</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">full</span></td>
+        <td><p><strong>true</strong> if <code data-dev-comment-type="paramref" class="paramref">wants</code> is the full want list.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">CancellationToken</span></td>
+        <td><span class="parametername">cancel</span></td>
+        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td><p>A task that represents the asynchronous operation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap11_ToString.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap11.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -274,6 +343,9 @@
     </tbody>
   </table>
   <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Ipfs.Engine.BlockExchange.IBitswapProtocol.html">IBitswapProtocol</a>
+  </div>
   <div>
       <span class="xref">PeerTalk.Protocols.IPeerProtocol</span>
   </div>

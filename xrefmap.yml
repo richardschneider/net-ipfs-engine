@@ -187,6 +187,22 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync
   nameWithType: Bitswap1.ProcessMessageAsync
+- uid: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  name: SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_SendWantsAsync_Stream_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  name.vb: SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(Stream, IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, CancellationToken)
+  fullName.vb: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(Stream, IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, CancellationToken)
+  nameWithType: Bitswap1.SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
+  nameWithType.vb: Bitswap1.SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync*
+  name: SendWantsAsync
+  href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_SendWantsAsync_
+  commentId: Overload:Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync
+  nameWithType: Bitswap1.SendWantsAsync
 - uid: Ipfs.Engine.BlockExchange.Bitswap1.ToString
   name: ToString()
   href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_ToString
@@ -258,6 +274,22 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync
   nameWithType: Bitswap11.ProcessMessageAsync
+- uid: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  name: SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_SendWantsAsync_Stream_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  name.vb: SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream, IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, CancellationToken)
+  fullName.vb: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream, IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, CancellationToken)
+  nameWithType: Bitswap11.SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
+  nameWithType.vb: Bitswap11.SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync*
+  name: SendWantsAsync
+  href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_SendWantsAsync_
+  commentId: Overload:Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync
+  nameWithType: Bitswap11.SendWantsAsync
 - uid: Ipfs.Engine.BlockExchange.Bitswap11.ToString
   name: ToString()
   href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_ToString
@@ -303,6 +335,52 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.CidEventArgs.Id
   nameWithType: CidEventArgs.Id
+- uid: Ipfs.Engine.BlockExchange.IBitswapProtocol
+  name: IBitswapProtocol
+  href: api/Ipfs.Engine.BlockExchange.IBitswapProtocol.html
+  commentId: T:Ipfs.Engine.BlockExchange.IBitswapProtocol
+  fullName: Ipfs.Engine.BlockExchange.IBitswapProtocol
+  nameWithType: IBitswapProtocol
+- uid: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  name: SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.IBitswapProtocol.html#Ipfs_Engine_BlockExchange_IBitswapProtocol_SendWantsAsync_Stream_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  name.vb: SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(Stream, IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, CancellationToken)
+  fullName.vb: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(Stream, IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, CancellationToken)
+  nameWithType: IBitswapProtocol.SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
+  nameWithType.vb: IBitswapProtocol.SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync*
+  name: SendWantsAsync
+  href: api/Ipfs.Engine.BlockExchange.IBitswapProtocol.html#Ipfs_Engine_BlockExchange_IBitswapProtocol_SendWantsAsync_
+  commentId: Overload:Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync
+  nameWithType: IBitswapProtocol.SendWantsAsync
+- uid: Ipfs.Engine.BlockExchange.WantedBlock
+  name: WantedBlock
+  href: api/Ipfs.Engine.BlockExchange.WantedBlock.html
+  commentId: T:Ipfs.Engine.BlockExchange.WantedBlock
+  fullName: Ipfs.Engine.BlockExchange.WantedBlock
+  nameWithType: WantedBlock
+- uid: Ipfs.Engine.BlockExchange.WantedBlock.Consumers
+  name: Consumers
+  href: api/Ipfs.Engine.BlockExchange.WantedBlock.html#Ipfs_Engine_BlockExchange_WantedBlock_Consumers
+  commentId: F:Ipfs.Engine.BlockExchange.WantedBlock.Consumers
+  fullName: Ipfs.Engine.BlockExchange.WantedBlock.Consumers
+  nameWithType: WantedBlock.Consumers
+- uid: Ipfs.Engine.BlockExchange.WantedBlock.Id
+  name: Id
+  href: api/Ipfs.Engine.BlockExchange.WantedBlock.html#Ipfs_Engine_BlockExchange_WantedBlock_Id
+  commentId: F:Ipfs.Engine.BlockExchange.WantedBlock.Id
+  fullName: Ipfs.Engine.BlockExchange.WantedBlock.Id
+  nameWithType: WantedBlock.Id
+- uid: Ipfs.Engine.BlockExchange.WantedBlock.Peers
+  name: Peers
+  href: api/Ipfs.Engine.BlockExchange.WantedBlock.html#Ipfs_Engine_BlockExchange_WantedBlock_Peers
+  commentId: F:Ipfs.Engine.BlockExchange.WantedBlock.Peers
+  fullName: Ipfs.Engine.BlockExchange.WantedBlock.Peers
+  nameWithType: WantedBlock.Peers
 - uid: Ipfs.Engine.BlockOptions
   name: BlockOptions
   href: api/Ipfs.Engine.BlockOptions.html

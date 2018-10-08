@@ -17,9 +17,9 @@ using System.Threading.Tasks;
 namespace Ipfs.Engine.BlockExchange
 {
     /// <summary>
-    ///   Identifies the peer.
+    ///   Bitswap Protocol version 1.0.0 
     /// </summary>
-    public class Bitswap1 : IPeerProtocol
+    public class Bitswap1 : IBitswapProtocol
     {
         static ILog log = LogManager.GetLogger(typeof(Bitswap1));
 
@@ -43,12 +43,122 @@ namespace Ipfs.Engine.BlockExchange
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            log.Debug("Receiving message " + connection.RemoteAddress);
             var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel);
 
-            // TODO: Process want list
+            // There is a race condition between getting the remote identity and
+            // the remote sending the first wantlist.
+            await connection.IdentityEstablished.Task;
 
-            // TODO: Process sent blocks
+            log.Debug($"got message from {connection.RemotePeer}");
+
+            // Process want list
+            if (request.wantlist != null && request.wantlist.entries != null)
+            {
+                log.Debug("got want list");
+                foreach (var entry in request.wantlist.entries)
+                {
+                    var s = Base58.ToBase58(entry.block);
+                    Cid cid = s;
+                    if (entry.cancel)
+                    {
+                        // TODO: Unwant specific to remote peer
+                        Bitswap.Unwant(cid);
+                    }
+                    else
+                    {
+                        var _ = GetBlockAsync(cid, connection.RemotePeer, CancellationToken.None);
+                    }
+                }
+            }
+
+            // Forward sent blocks to the block service.  Eventually
+            // bitswap will here about and them and then continue
+            // any tasks (GetBlockAsync) waiting for the block.
+            if (request.blocks != null)
+            {
+                log.Debug("got some blocks");
+                foreach (var sentBlock in request.blocks)
+                {
+                    await Bitswap.BlockService.PutAsync(sentBlock);
+                }
+            }
+        }
+
+        async Task GetBlockAsync(Cid cid, Peer remotePeer, CancellationToken cancel)
+        {
+            // TODO: Determine if we will fetch the block for the remote
+            try
+            {
+                IDataBlock block;
+                if (null != await Bitswap.BlockService.StatAsync(cid, cancel))
+                {
+                    block = await Bitswap.BlockService.GetAsync(cid, cancel);
+                }
+                else
+                {
+                    block = await Bitswap.Want(cid, remotePeer.Id, cancel);
+                }
+
+                // Send block to remote.
+                using (var stream = await Bitswap.Swarm.DialAsync(remotePeer, this.ToString()))
+                {
+                    await SendAsync(stream, block, cancel);
+                }
+
+            }
+            catch (Exception e)
+            {
+                log.Warn("getting block for remote failed", e);
+                // eat it.
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task SendWantsAsync(
+            Stream stream,
+            IEnumerable<WantedBlock> wants,
+            bool full = true,
+            CancellationToken cancel = default(CancellationToken)
+            )
+        {
+            log.Debug("Sending want list");
+
+            var message = new Message
+            {
+                wantlist = new Wantlist
+                {
+                    full = full,
+                    entries = wants
+                        .Select(w => new Entry
+                        {
+                            block = w.Id.Hash.ToArray()
+                        })
+                        .ToArray()
+                }
+            };
+
+            ProtoBuf.Serializer.SerializeWithLengthPrefix<Message>(stream, message, PrefixStyle.Base128);
+            await stream.FlushAsync(cancel);
+        }
+
+        internal async Task SendAsync(
+            Stream stream,
+            IDataBlock block,
+            CancellationToken cancel = default(CancellationToken)
+            )
+        {
+            log.Debug($"Sending block {block.Id}");
+
+            var message = new Message
+            {
+                blocks = new byte[][]
+                {
+                    block.DataBytes
+                }
+            };
+
+            ProtoBuf.Serializer.SerializeWithLengthPrefix<Message>(stream, message, PrefixStyle.Base128);
+            await stream.FlushAsync(cancel);
         }
 
         [ProtoContract]
@@ -72,16 +182,7 @@ namespace Ipfs.Engine.BlockExchange
             public Entry[] entries;       // a list of wantlist entries
 
             [ProtoMember(2)]
-            public bool full;           // whether this is the full wa2tlist. default to false
-        }
-
-        [ProtoContract]
-        class Block
-        {
-            [ProtoMember(1)]
-            public byte[] prefix;        // CID prefix (cid version, multicodec and multihash prefix (type + length)
-            [ProtoMember(2)]
-            byte[] data;
+            public bool full;           // whether this is the full wantlist. default to false
         }
 
         [ProtoContract]
@@ -91,10 +192,7 @@ namespace Ipfs.Engine.BlockExchange
             public Wantlist wantlist;
 
             [ProtoMember(2)]
-            public byte[][] blocks;          // used to send Blocks in bitswap 1.0.0
-
-            [ProtoMember(3)]
-            public List<Block> payload;         // used to send Blocks in bitswap 1.1.0
+            public byte[][] blocks;
         }
 
     }

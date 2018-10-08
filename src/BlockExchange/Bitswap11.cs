@@ -17,9 +17,9 @@ using System.Threading.Tasks;
 namespace Ipfs.Engine.BlockExchange
 {
     /// <summary>
-    ///   Identifies the peer.
+    ///   Bitswap Protocol version 1.1.0 
     /// </summary>
-    public class Bitswap11 : IPeerProtocol
+    public class Bitswap11 : IBitswapProtocol
     {
         static ILog log = LogManager.GetLogger(typeof(Bitswap11));
 
@@ -52,9 +52,9 @@ namespace Ipfs.Engine.BlockExchange
             log.Debug($"got message from {connection.RemotePeer}");
 
             // Process want list
-            if (request.wantlist != null)
+            if (request.wantlist != null && request.wantlist.entries != null)
             {
-                log.Debug("got want list"); ;
+                log.Debug("got want list");
                 foreach (var entry in request.wantlist.entries)
                 {
                     var s = Base58.ToBase58(entry.block);
@@ -70,7 +70,10 @@ namespace Ipfs.Engine.BlockExchange
                     }
                 }
             }
-            // Process sent blocks
+
+            // Forward sent blocks to the block service.  Eventually
+            // bitswap will here about and them and then continue
+            // any tasks (GetBlockAsync) waiting for the block.
             if (request.payload != null)
             {
                 log.Debug("got some blocks");
@@ -110,7 +113,8 @@ namespace Ipfs.Engine.BlockExchange
             }
         }
 
-        internal async Task Send(
+        /// <inheritdoc />
+        public async Task SendWantsAsync(
             Stream stream,
             IEnumerable<WantedBlock> wants,
             bool full = true,
@@ -151,7 +155,7 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     new Block
                     {
-                        prefix =  block.Id.Hash.ToArray(),
+                        prefix =  GetCidPrefix(block.Id),
                         data = block.DataBytes
                     }
                 }
@@ -159,6 +163,27 @@ namespace Ipfs.Engine.BlockExchange
 
             ProtoBuf.Serializer.SerializeWithLengthPrefix<Message>(stream, message, PrefixStyle.Base128);
             await stream.FlushAsync(cancel);
+        }
+
+        /// <summary>
+        ///   Gets the CID "prefix".
+        /// </summary>
+        /// <param name="id">
+        ///   The CID.
+        /// </param>
+        /// <returns>
+        ///   A byte array of consisting of cid version, multicodec and multihash prefix (type + length).
+        /// </returns>
+        byte[] GetCidPrefix(Cid id)
+        {
+            using (var ms = new MemoryStream())
+            {
+                ms.WriteVarint(id.Version);
+                ms.WriteMultiCodec(id.ContentType);
+                ms.WriteVarint(id.Hash.Algorithm.Code);
+                ms.WriteVarint(id.Hash.Digest.Length);
+                return ms.ToArray();
+            }
         }
 
         [ProtoContract]

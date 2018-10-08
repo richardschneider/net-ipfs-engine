@@ -13,7 +13,7 @@ namespace Ipfs.Engine.BlockExchange
     /// <summary>
     ///   A content addressable block that is wanted by a peer.
     /// </summary>
-    class WantedBlock
+    public class WantedBlock
     {
         /// <summary>
         ///   The content ID of the block;

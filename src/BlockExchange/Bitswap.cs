@@ -20,16 +20,17 @@ namespace Ipfs.Engine.BlockExchange
         static ILog log = LogManager.GetLogger(typeof(Bitswap));
 
         ConcurrentDictionary<Cid, WantedBlock> wants = new ConcurrentDictionary<Cid, WantedBlock>();
-        IPeerProtocol[] protocols;
+        IBitswapProtocol[] protocols;
 
         /// <summary>
         ///   Creates a new instance of the <see cref="Bitswap"/> class.
         /// </summary>
         public Bitswap()
         {
-            protocols = new IPeerProtocol[]
+            protocols = new IBitswapProtocol[]
             {
-                new Bitswap11 { Bitswap = this }
+                new Bitswap11 { Bitswap = this },
+                new Bitswap1 { Bitswap = this }
             };
         }
 
@@ -222,16 +223,35 @@ namespace Ipfs.Engine.BlockExchange
             return 0;
         }
 
-        async Task SendWantListAsync(Peer peer)
+        Task SendWantListAsync(Peer peer)
         {
             if (wants.IsEmpty)
-                return;
+                return Task.CompletedTask;
 
-            using (var stream = await Swarm.DialAsync(peer, "/ipfs/bitswap/1.1.0"))
+            return SendWantListAsync(peer, wants.Values, true);
+        }
+
+        async Task SendWantListAsync(Peer peer, IEnumerable<WantedBlock> wants, bool full)
+        {
+            // Send the want list to the peer on any bitswap protocol
+            // that it supports.
+            foreach (var protocol in protocols)
             {
-                var protocol = new Bitswap11();
-                await protocol.Send(stream, wants.Values, full: true);
+                try
+                {
+                    using (var stream = await Swarm.DialAsync(peer, protocol.ToString()))
+                    {
+                        await protocol.SendWantsAsync(stream, wants, full: full);
+                    }
+                    return;
+                }
+                catch (Exception e)
+                {
+                    log.Debug($"{peer} refused {protocol}", e);
+                }
             }
+
+            log.Warn($"{peer} does not support any bitswap protocol");
         }
 
     }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -33,14 +34,14 @@ namespace Ipfs.Engine
                 {
                     Folder = folder,
                     NameToKey = name => name.ToString(),
-                    Serialize = (s, e) =>
+                    Serialize = (s, name, e, cancel) =>
                     {
                         var x = JsonConvert.SerializeObject(e);
                         var b = Encoding.UTF8.GetBytes(x);
                         s.Write(b, 0, b.Length);
                         return Task.CompletedTask;
                     },
-                    Deserialize = (s) =>
+                    Deserialize = (s, name, cancel) =>
                     {
                         var buffer = new byte[1024];
                         var n = s.Read(buffer, 0, buffer.Length);

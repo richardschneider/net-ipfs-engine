@@ -41,12 +41,12 @@ namespace Ipfs.Engine
         /// <summary>
         ///   Sends the value to the stream.
         /// </summary>
-        public Func<Stream, TValue, Task> Serialize { get; set; }
+        public Func<Stream, TName, TValue, CancellationToken, Task> Serialize { get; set; }
 
         /// <summary>
         ///   Retrieves the value from the stream.
         /// </summary>
-        public Func<Stream, Task<TValue>> Deserialize { get; set; }
+        public Func<Stream, TName, CancellationToken, Task<TValue>> Deserialize { get; set; }
 
         /// <summary>
         ///   Try to get the value with the specified name.
@@ -72,7 +72,7 @@ namespace Ipfs.Engine
 
             using (var content = File.OpenRead(path))
             {
-                return await Deserialize(content);
+                return await Deserialize(content, name, cancel);
             }
         }
 
@@ -125,7 +125,7 @@ namespace Ipfs.Engine
 
             using (var stream = File.Create(path))
             {
-                await Serialize(stream, value);
+                await Serialize(stream, name, value, cancel);
             }
         }
 
@@ -175,6 +175,25 @@ namespace Ipfs.Engine
             if (fi.Exists)
                 length = fi.Length;
             return Task.FromResult(length);
+        }
+
+        /// <summary>
+        ///   Determines if the name exists.
+        /// </summary>
+        /// <param name="name">
+        ///   The unique name of the entity.
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result is
+        ///   <b>true</b> if the <paramref name="name"/> exists.
+        /// </returns>
+        public Task<bool> ExistsAsync(TName name, CancellationToken cancel = default(CancellationToken))
+        {
+            var path = GetPath(name);
+            return Task.FromResult(File.Exists(path));
         }
 
         /// <summary>

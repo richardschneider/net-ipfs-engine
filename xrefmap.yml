@@ -1477,6 +1477,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.RepositoryOptions.DatabaseName
   nameWithType: RepositoryOptions.DatabaseName
+- uid: Ipfs.Engine.RepositoryOptions.ExistingFolder
+  name: ExistingFolder()
+  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_ExistingFolder
+  commentId: M:Ipfs.Engine.RepositoryOptions.ExistingFolder
+  fullName: Ipfs.Engine.RepositoryOptions.ExistingFolder()
+  nameWithType: RepositoryOptions.ExistingFolder()
+- uid: Ipfs.Engine.RepositoryOptions.ExistingFolder*
+  name: ExistingFolder
+  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_ExistingFolder_
+  commentId: Overload:Ipfs.Engine.RepositoryOptions.ExistingFolder
+  isSpec: "True"
+  fullName: Ipfs.Engine.RepositoryOptions.ExistingFolder
+  nameWithType: RepositoryOptions.ExistingFolder
 - uid: Ipfs.Engine.RepositoryOptions.Folder
   name: Folder
   href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_Folder

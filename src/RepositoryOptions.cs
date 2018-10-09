@@ -43,6 +43,25 @@ namespace Ipfs.Engine
         public string Folder { get; set; }
 
         /// <summary>
+        ///   Get the existing directory of the repository.
+        /// </summary>
+        /// <returns>
+        ///   An existing directory.
+        /// </returns>
+        /// <remarks>
+        ///   Creates the <see cref="Folder"/> if it does not exist.
+        /// </remarks>
+        public string ExistingFolder()
+        {
+            var path = Folder;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            return path;
+        }
+
+        /// <summary>
         ///   The fully qualified name of the database.
         /// </summary>
         /// <value>

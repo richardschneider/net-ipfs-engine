@@ -55,7 +55,8 @@ namespace Ipfs.Engine.CoreApi
                     store = new FileStore<Cid, DataBlock>
                     {
                         Folder = folder,
-                        NameToKey = (cid) => Base32z.Codec.Encode(cid.Hash.Digest, false),
+                        NameToKey = (cid) => cid.Hash.ToBase32(),
+                        KeyToName = (key) => new MultiHash(key.FromBase32()),
                         Serialize = async (stream, cid, block, cancel) => 
                         {
                             await stream.WriteAsync(block.DataBytes, 0, block.DataBytes.Length, cancel);

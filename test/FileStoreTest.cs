@@ -34,6 +34,7 @@ namespace Ipfs.Engine
                 {
                     Folder = folder,
                     NameToKey = name => name.ToString(),
+                    KeyToName = key => Int32.Parse(key),
                     Serialize = (s, name, e, cancel) =>
                     {
                         var x = JsonConvert.SerializeObject(e);
@@ -127,6 +128,28 @@ namespace Ipfs.Engine
             var store = Store;
             var length = await store.LengthAsync(7);
             Assert.IsFalse(length.HasValue);
+        }
+
+        [TestMethod]
+        public async Task Values()
+        {
+            var store = Store;
+            await store.PutAsync(8, new Entity { Value = "v0" });
+            await store.PutAsync(9, new Entity { Value = "v1" });
+            await store.PutAsync(10, new Entity { Value = "v0" });
+            var values = Store.Values.Where(e => e.Value == "v0").ToArray();
+            Assert.AreEqual(2, values.Length);
+        }
+
+        [TestMethod]
+        public async Task Names()
+        {
+            var store = Store;
+            await store.PutAsync(11, a);
+            await store.PutAsync(12, a);
+            await store.PutAsync(13, a);
+            var names = Store.Names.Where(n => n == 11 || n == 13).ToArray();
+            Assert.AreEqual(2, names.Length);
         }
     }
 }

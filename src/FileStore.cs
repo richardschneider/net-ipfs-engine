@@ -39,6 +39,11 @@ namespace Ipfs.Engine
         public Func<TName, string> NameToKey { get; set; }
 
         /// <summary>
+        ///   A function that converts the case insensitive key to a name.
+        /// </summary>
+        public Func<string, TName> KeyToName { get; set; }
+
+        /// <summary>
         ///   Sends the value to the stream.
         /// </summary>
         public Func<Stream, TName, TValue, CancellationToken, Task> Serialize { get; set; }
@@ -194,6 +199,45 @@ namespace Ipfs.Engine
         {
             var path = GetPath(name);
             return Task.FromResult(File.Exists(path));
+        }
+
+        /// <summary>
+        ///   Gets the values in the file store.
+        /// </summary>
+        /// <value>
+        ///   A sequence of <typeparamref name="TValue"/>.
+        /// </value>
+        public IEnumerable<TValue> Values
+        {
+            get
+            {
+                return Directory
+                    .EnumerateFiles(Folder)
+                    .Select(path =>
+                    {
+                        using (var content = File.OpenRead(path))
+                        {
+                            var name = KeyToName(Path.GetFileName(path));
+                            return Deserialize(content, name, CancellationToken.None).Result;
+                        }
+                    });
+            }
+        }
+
+        /// <summary>
+        ///   Gets the names in the file store.
+        /// </summary>
+        /// <value>
+        ///   A sequence of <typeparamref name="TName"/>.
+        /// </value>
+        public IEnumerable<TName> Names
+        {
+            get
+            {
+                return Directory
+                    .EnumerateFiles(Folder)
+                    .Select(path => KeyToName(Path.GetFileName(path)));
+            }
         }
 
         /// <summary>

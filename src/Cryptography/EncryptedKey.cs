@@ -16,9 +16,12 @@ namespace Ipfs.Engine.Cryptography
         /// <summary>
         ///   The local name of the key.
         /// </summary>
-        [Key]
-        [Column(Order = 0)]
         public string Name { get; set; }
+
+        /// <summary>
+        ///   The unique ID of the key.
+        /// </summary>
+        public string Id { get; set; }
 
         /// <summary>
         ///   PKCS #8 container.
@@ -26,7 +29,6 @@ namespace Ipfs.Engine.Cryptography
         /// <value>
         ///   Password protected PKCS #8 structure in the PEM format
         /// </value>
-        [Column(Order = 1)]
         public string Pem { get; set; }
 
     }

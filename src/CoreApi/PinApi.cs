@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,13 +9,42 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ipfs.Engine.CoreApi
 {
+    class Pin
+    {
+        public static Pin Default = new Pin();
+    }
+
     class PinApi : IPinApi
     {
         IpfsEngine ipfs;
+        FileStore<Cid, Pin> store;
 
         public PinApi(IpfsEngine ipfs)
         {
             this.ipfs = ipfs;
+        }
+
+        FileStore<Cid, Pin> Store
+        {
+            get
+            {
+                if (store == null)
+                {
+                    var folder = Path.Combine(ipfs.Options.Repository.Folder, "pins");
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    // TODO: Need cid.Encode("base32")
+                    store = new FileStore<Cid, Pin>
+                    {
+                        Folder = folder,
+                        NameToKey = (cid) => cid.Encode(),
+                        KeyToName = (key) => Cid.Decode(key),
+                        Serialize = (stream, cid, block, cancel) => Task.CompletedTask,
+                        Deserialize = (stream, cid, cancel) => Task.FromResult(Pin.Default)
+                    };
+                }
+                return store;
+            }
         }
 
         public async Task<IEnumerable<Cid>> AddAsync(string path, bool recursive = true, CancellationToken cancel = default(CancellationToken))
@@ -33,19 +63,7 @@ namespace Ipfs.Engine.CoreApi
                 var current = todos.Pop();
 
                 // Add CID to PIN database.
-                using (var repo = await ipfs.Repository(cancel))
-                {
-                    var cid = current.Encode();
-                    try
-                    {
-                        repo.Add(new Repository.Pin { Cid = cid });
-                        await repo.SaveChangesAsync(cancel);
-                    }
-                    catch (DbUpdateException)
-                    {
-                        // Already pinned is okay.
-                    }
-                }
+                await Store.PutAsync(current, Pin.Default);
 
                 // Make sure that the content is stored locally.
                 await ipfs.Block.GetAsync(current, cancel);
@@ -66,13 +84,10 @@ namespace Ipfs.Engine.CoreApi
             return dones;
         }
 
-        public async Task<IEnumerable<Cid>> ListAsync(CancellationToken cancel = default(CancellationToken))
+        public Task<IEnumerable<Cid>> ListAsync(CancellationToken cancel = default(CancellationToken))
         {
-            using (var repo = await ipfs.Repository(cancel))
-            {
-                var pins = await repo.Pins.ToArrayAsync(cancel);
-                return pins.Select(pin => (Cid)pin.Cid);
-            }
+            var cids = Store.Names.ToArray();
+            return Task.FromResult((IEnumerable<Cid>)cids);
         }
 
         public async Task<IEnumerable<Cid>> RemoveAsync(Cid id, bool recursive = true, CancellationToken cancel = default(CancellationToken))
@@ -86,16 +101,7 @@ namespace Ipfs.Engine.CoreApi
                 var current = todos.Pop();
                 // TODO: exists is never set to true!
                 bool exists = false;
-                using (var repo = await ipfs.Repository(cancel))
-                {
-                    var cid = current.Encode();
-                    var pin = await repo.Pins.FindAsync(new object[] { cid }, cancel);
-                    if (pin != null)
-                    {
-                        repo.Pins.Remove(pin);
-                        await repo.SaveChangesAsync(cancel);
-                    }
-                }
+                await Store.RemoveAsync(current, cancel);
                 if (exists && recursive)
                 {
                     var links = await ipfs.Object.LinksAsync(current, cancel);

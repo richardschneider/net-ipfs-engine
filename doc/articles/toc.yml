@@ -10,8 +10,6 @@
 - name: Repository
   href: repository.md
   items:
-    - name: Database
-      href: repo/database.md
     - name: Block
       href: repo/block.md
 - name: Class Reference

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Ipfs.CoreApi;
 using Common.Logging;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -36,49 +35,51 @@ namespace Ipfs.Engine.CoreApi
         };
 
         IpfsEngine ipfs;
-        string blocksFolder;
+        FileStore<Cid, DataBlock> store;
 
         public BlockApi(IpfsEngine ipfs)
         {
             this.ipfs = ipfs;
         }
 
-        string BlocksFolder
+        FileStore<Cid, DataBlock> Store
         {
             get
             {
-                if (blocksFolder == null)
+                if (store == null)
                 {
-                    blocksFolder = Path.Combine(ipfs.Options.Repository.Folder, "blocks");
-                    if (!Directory.Exists(blocksFolder))
+                    var folder = Path.Combine(ipfs.Options.Repository.Folder, "blocks");
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    store = new FileStore<Cid, DataBlock>
                     {
-                        log.DebugFormat("creating folder '{0}'", blocksFolder);
-                        Directory.CreateDirectory(blocksFolder);
-                    }
+                        Folder = folder,
+                        NameToKey = (cid) => cid.Hash.ToBase32(),
+                        KeyToName = (key) => new MultiHash(key.FromBase32()),
+                        Serialize = async (stream, cid, block, cancel) => 
+                        {
+                            await stream.WriteAsync(block.DataBytes, 0, block.DataBytes.Length, cancel);
+                        },
+                        Deserialize = async (stream, cid, cancel) =>
+                        {
+                            var block = new DataBlock
+                            {
+                                Id = cid,
+                                Size = stream.Length
+                            };
+                            block.DataBytes = new byte[block.Size];
+                            for (int i = 0, n; i < block.Size; i += n)
+                            {
+                                n = await stream.ReadAsync(block.DataBytes, i, (int)block.Size - i, cancel);
+                            }
+                            return block;
+                        }
+                    };
                 }
-                return blocksFolder;
+                return store;
             }
         }
 
-        /// <summary>
-        ///   Local file system path of the content ID.
-        /// </summary>
-        /// <param name="id">
-        ///   The conten ID.
-        /// </param>
-        /// <returns>
-        ///   The path to the <paramref name="id"/>.
-        /// </returns>
-        /// <remarks>
-        ///   To support case insenstive file systems, the content ID's multihash value
-        ///   is z-base-32 encoded.
-        /// </remarks>
-        string GetPath(Cid id)
-        {
-            return Path.Combine(
-                BlocksFolder, 
-                Base32z.Codec.Encode(id.Hash.Digest, false));
-        }
 
         public async Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
@@ -100,22 +101,9 @@ namespace Ipfs.Engine.CoreApi
             }
 
             // Check the local filesystem for the block.
-            var contentPath = GetPath(id);
-            if (File.Exists(contentPath))
+            var block = await Store.TryGetAsync(id, cancel);
+            if (block != null)
             {
-                var block = new DataBlock
-                {
-                    Id = id,
-                    Size = new FileInfo(contentPath).Length
-                };
-                block.DataBytes = new byte[block.Size];
-                using (var content = File.OpenRead(contentPath))
-                {
-                    for (int i = 0, n; i < block.Size; i += n)
-                    {
-                        n = await content.ReadAsync(block.DataBytes, i, (int)block.Size - i, cancel);
-                    }
-                }
                 return block;
             }
 
@@ -147,27 +135,24 @@ namespace Ipfs.Engine.CoreApi
                 Encoding = encoding,
                 Hash = MultiHash.ComputeHash(data, multiHash)
             };
-            var contentPath = GetPath(cid);
-            if (File.Exists(contentPath))
+            var block = new DataBlock
+            {
+                DataBytes = data,
+                Id = cid,
+                Size = data.Length
+            };
+            if (await Store.ExistsAsync(cid))
             {
                 log.DebugFormat("Block '{0}' already present", cid);
             }
             else
             {
-                using (var stream = File.Create(contentPath))
-                {
-                    await stream.WriteAsync(data, 0, data.Length, cancel);
-                }
+                await Store.PutAsync(cid, block, cancel);
                 log.DebugFormat("Added block '{0}'", cid);
             }
 
             // Inform the Bitswap service.
-            (await ipfs.BitswapService).Found(new DataBlock
-            {
-                DataBytes = data,
-                Id = cid,
-                Size = data.Length
-            });
+            (await ipfs.BitswapService).Found(block);
             
             // To pin or not.
             if (pin)
@@ -203,10 +188,9 @@ namespace Ipfs.Engine.CoreApi
             {
                 return id;
             }
-            var contentPath = GetPath(id);
-            if (File.Exists(contentPath))
+            if (await Store.ExistsAsync(id, cancel))
             {
-                File.Delete(contentPath);
+                await Store.RemoveAsync(id, cancel);
                 await ipfs.Pin.RemoveAsync(id, recursive: false, cancel: cancel);
                 return id;
             }
@@ -214,26 +198,25 @@ namespace Ipfs.Engine.CoreApi
             throw new KeyNotFoundException($"Block '{id}' does not exist.");
         }
 
-        public Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+        public async Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
             if (id.Hash.IsIdentityHash)
             {
-                return GetAsync(id, cancel);
+                return await GetAsync(id, cancel);
             }
 
             IDataBlock block = null;
-            var contentPath = GetPath(id);
-            if (File.Exists(contentPath))
+            var length = await Store.LengthAsync(id, cancel);
+            if (length.HasValue)
             {
                 block = new DataBlock
                 {
                     Id = id,
-                    Size = new FileInfo(contentPath).Length
+                    Size = length.Value
                 };
             }
 
-            // Not held locally.
-            return Task.FromResult(block);
+            return block;
         }
     }
 }

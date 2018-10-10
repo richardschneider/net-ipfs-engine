@@ -1,5 +1,4 @@
 ﻿using Common.Logging;
-using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
@@ -30,6 +29,7 @@ namespace Ipfs.Engine.Cryptography
 
         IpfsEngine ipfs;
         char[] dek;
+        FileStore<string, EncryptedKey> store;
 
         /// <summary>
         ///   Create a new instance of the <see cref="KeyChain"/> class.
@@ -40,6 +40,26 @@ namespace Ipfs.Engine.Cryptography
         public KeyChain(IpfsEngine ipfs)
         {
             this.ipfs = ipfs;
+        }
+
+        FileStore<string, EncryptedKey> Store
+        {
+            get
+            {
+                if (store == null)
+                {
+                    var folder = Path.Combine(ipfs.Options.Repository.Folder, "keys");
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    store = new FileStore<string, EncryptedKey>
+                    {
+                        Folder = folder,
+                        NameToKey = (name) => name,
+                        KeyToName = (key) => key
+                    };
+                }
+                return store;
+            }
         }
 
         /// <summary>
@@ -80,19 +100,16 @@ namespace Ipfs.Engine.Cryptography
             dek = key.GetKey().ToBase64NoPad().ToCharArray();
 
             // Verify that that pass phrase is okay, by reading a key.
-            using (var repo = await ipfs.Repository(cancel))
+            var akey = await Store.TryGetAsync("self", cancel);
+            if (akey != null)
             {
-                var akey = await repo.EncryptedKeys.FirstOrDefaultAsync(cancel);
-                if (akey != null)
+                try
                 {
-                    try
-                    {
-                        UseEncryptedKey(akey, _ => { });
-                    }
-                    catch (Exception e)
-                    {
-                        throw new UnauthorizedAccessException("The pass phrase is wrong.", e);
-                    }
+                    UseEncryptedKey(akey, _ => { });
+                }
+                catch (Exception e)
+                {
+                    throw new UnauthorizedAccessException("The pass phrase is wrong.", e);
                 }
             }
 
@@ -114,12 +131,10 @@ namespace Ipfs.Engine.Cryptography
         /// </returns>
         public async Task<IKey> FindKeyByNameAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
-            using (var repo = await ipfs.Repository(cancel))
-            {
-                return await repo.Keys
-                    .Where(k => k.Name == name)
-                    .FirstOrDefaultAsync(cancel);
-            }
+            var key = await Store.TryGetAsync(name, cancel);
+            if (key == null)
+                return null;
+            return new KeyInfo { Id = key.Id, Name = key.Name };
         }
 
         /// <summary>
@@ -143,38 +158,33 @@ namespace Ipfs.Engine.Cryptography
         public async Task<string> GetPublicKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
             string result = null;
-            using (var repo = await ipfs.Repository(cancel))
+            var ekey = await Store.TryGetAsync(name, cancel);
+            if (ekey != null)
             {
-                var ekey = await repo.EncryptedKeys
-                    .Where(k => k.Name == name)
-                    .FirstOrDefaultAsync(cancel);
-                if (ekey != null)
+                UseEncryptedKey(ekey, key =>
                 {
-                    UseEncryptedKey(ekey, key =>
+                    var kp = GetKeyPairFromPrivateKey(key);
+                    var spki = SubjectPublicKeyInfoFactory
+                        .CreateSubjectPublicKeyInfo(kp.Public)
+                        .GetDerEncoded();
+                    // Add protobuf cruft.
+                    var publicKey = new Proto.PublicKey
                     {
-                        var kp = GetKeyPairFromPrivateKey(key);
-                        var spki = SubjectPublicKeyInfoFactory
-                            .CreateSubjectPublicKeyInfo(kp.Public)
-                            .GetDerEncoded();
-                        // Add protobuf cruft.
-                        var publicKey = new Proto.PublicKey
-                        {
-                            Data = spki
-                        };
-                        if (kp.Public is RsaKeyParameters)
-                            publicKey.Type = Proto.KeyType.RSA;
-                        else if (kp.Public is ECPublicKeyParameters)
-                            publicKey.Type = Proto.KeyType.Secp256k1;
-                        else
-                            throw new NotSupportedException($"The key type {kp.Public.GetType().Name} is not supported.");
+                        Data = spki
+                    };
+                    if (kp.Public is RsaKeyParameters)
+                        publicKey.Type = Proto.KeyType.RSA;
+                    else if (kp.Public is ECPublicKeyParameters)
+                        publicKey.Type = Proto.KeyType.Secp256k1;
+                    else
+                        throw new NotSupportedException($"The key type {kp.Public.GetType().Name} is not supported.");
 
-                        using (var ms = new MemoryStream())
-                        {
-                            ProtoBuf.Serializer.Serialize(ms, publicKey);
-                            result = Convert.ToBase64String(ms.ToArray());
-                        }
-                    });
-                }
+                    using (var ms = new MemoryStream())
+                    {
+                        ProtoBuf.Serializer.Serialize(ms, publicKey);
+                        result = Convert.ToBase64String(ms.ToArray());
+                    }
+                });
             }
             return result;
         }
@@ -220,27 +230,21 @@ namespace Ipfs.Engine.Cryptography
         public async Task<string> ExportAsync(string name, char[] password, CancellationToken cancel = default(CancellationToken))
         {
             string pem = "";
-            using (var repo = await ipfs.Repository(cancel))
+            var key = await Store.GetAsync(name, cancel);
+            UseEncryptedKey(key, pkey => 
             {
-                var pk = new string[] { name };
-                var key = await repo.EncryptedKeys
-                    .Where(k => k.Name == name)
-                    .FirstAsync(cancel);
-                UseEncryptedKey(key, pkey => 
+                using (var sw = new StringWriter())
                 {
-                    using (var sw = new StringWriter())
+                    var pkcs8 = new Pkcs8Generator(pkey, Pkcs8Generator.PbeSha1_3DES)
                     {
-                        var pkcs8 = new Pkcs8Generator(pkey, Pkcs8Generator.PbeSha1_3DES)
-                        {
-                            Password = password
-                        };
-                        var pw = new PemWriter(sw);
-                        pw.WriteObject(pkcs8);
-                        pw.Writer.Flush();
-                        pem = sw.ToString();
-                    }
-                });
-            }
+                        Password = password
+                    };
+                    var pw = new PemWriter(sw);
+                    pw.WriteObject(pkcs8);
+                    pw.Writer.Flush();
+                    pem = sw.ToString();
+                }
+            });
 
             return pem;
         }
@@ -269,63 +273,37 @@ namespace Ipfs.Engine.Cryptography
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<IKey>> ListAsync(CancellationToken cancel = default(CancellationToken))
+        public Task<IEnumerable<IKey>> ListAsync(CancellationToken cancel = default(CancellationToken))
         {
-            using (var repo = await ipfs.Repository(cancel))
-            {
-                return await repo.Keys.ToArrayAsync(cancel);
-            }
+            var keys = Store
+                .Values
+                .Select(key => (IKey)new KeyInfo { Id = key.Id, Name = key.Name })
+                ;
+            return Task.FromResult(keys);
         }
 
         /// <inheritdoc />
         public async Task<IKey> RemoveAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
-            using (var repo = await ipfs.Repository(cancel))
-            {
-                var pk = new string[] { name };
-                var keyInfo = await repo.Keys.FindAsync(pk, cancel);
-                if (keyInfo != null)
-                {
-                    repo.Keys.Remove(keyInfo);
-                    var key = await repo.EncryptedKeys.FindAsync(pk, cancel);
-                    repo.EncryptedKeys.Remove(key);
-                    await repo.SaveChangesAsync(cancel);
-                }
-                return keyInfo;
-            }
+            var key = await Store.TryGetAsync(name, cancel);
+            if (key == null)
+                return null;
+
+            await Store.RemoveAsync(name, cancel);
+            return new KeyInfo { Id = key.Id, Name = key.Name };
         }
 
         /// <inheritdoc />
         public async Task<IKey> RenameAsync(string oldName, string newName, CancellationToken cancel = default(CancellationToken))
         {
-            using (var repo = await ipfs.Repository(cancel))
-            {
-                var pk = new string[] { oldName };
-                var keyInfo = await repo.Keys.FindAsync(pk, cancel);
-                if (keyInfo == null)
-                    return null;
+            var key = await Store.TryGetAsync(oldName, cancel);
+            if (key == null)
+                return null;
+            key.Name = newName;
+            await Store.PutAsync(newName, key, cancel);
+            await Store.RemoveAsync(oldName,  cancel);
 
-                var key = await repo.EncryptedKeys.FindAsync(pk, cancel);
-                repo.Keys.Remove(keyInfo);
-                repo.EncryptedKeys.Remove(key);
-                await repo.SaveChangesAsync(cancel);
-
-                keyInfo = new KeyInfo
-                {
-                    Id = keyInfo.Id,
-                    Name = newName
-                };
-                key = new EncryptedKey
-                {
-                    Name = newName,
-                    Pem = key.Pem
-                };
-                await repo.AddAsync(keyInfo, cancel);
-                await repo.AddAsync(key, cancel);
-                await repo.SaveChangesAsync(cancel);
-
-                return keyInfo;
-            }
+            return new KeyInfo { Id = key.Id, Name = newName };
         }
 
         void UseEncryptedKey(EncryptedKey key, Action<AsymmetricKeyParameter> action)
@@ -359,25 +337,16 @@ namespace Ipfs.Engine.Cryptography
             }
 
             // Store the key in the repository.
-            var keyInfo = new KeyInfo
-            {
-                Name = name,
-                Id = keyId
-            };
             var key = new EncryptedKey
             {
+                Id = keyId.ToBase58(),
                 Name = name,
                 Pem = pem
             };
-            using (var repo = await ipfs.Repository(cancel))
-            {
-                await repo.AddAsync(keyInfo, cancel);
-                await repo.AddAsync(key, cancel);
-                await repo.SaveChangesAsync(cancel);
+            await Store.PutAsync(name, key);
+            log.DebugFormat("Added key '{0}' with ID {1}", name, keyId);
 
-                log.DebugFormat("Added key '{0}' with ID {1}", name, keyId);
-                return keyInfo;
-            }
+            return new KeyInfo { Id = key.Id, Name = key.Name };
         }
 
         /// <summary>

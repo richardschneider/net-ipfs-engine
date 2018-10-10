@@ -24,7 +24,6 @@ namespace Ipfs.Engine
     {
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));
 
-        bool repositoryInited;
         KeyChain keyChain;
         char[] passphrase;
         List<Task> stopTasks = new List<Task>();
@@ -141,27 +140,6 @@ namespace Ipfs.Engine
 
         /// <inheritdoc />
         public ISwarmApi Swarm { get; private set; }
-
-        internal Task<Repository> Repository(CancellationToken cancel = default(CancellationToken))
-        {
-            Repository repo = new Repository
-            {
-                Options = Options.Repository
-            };
-
-            if (!repositoryInited)
-            {
-                lock (this)
-                {
-                    if (!repositoryInited)
-                    {
-                        repo.CreateAsync(cancel).Wait();
-                        repositoryInited = true;
-                    }
-                }
-            }
-            return Task.FromResult(repo);
-        }
 
         /// <summary>
         ///   Provides access to the <see cref="KeyChain"/>.

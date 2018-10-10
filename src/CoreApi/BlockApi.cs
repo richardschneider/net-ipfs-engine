@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Ipfs.CoreApi;
 using Common.Logging;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ipfs.Engine.CoreApi
 {

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ipfs.Engine.CoreApi
 {

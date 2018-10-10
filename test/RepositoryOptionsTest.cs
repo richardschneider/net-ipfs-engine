@@ -18,16 +18,8 @@ namespace Ipfs.Engine
         {
             var options = new RepositoryOptions();
             Assert.IsNotNull(options.Folder);
-            Assert.IsNotNull(options.DatabaseName);
         }
 
-        [TestMethod]
-        public void Folder()
-        {
-            var options = new RepositoryOptions { Folder = "x" };
-            var sep = Path.DirectorySeparatorChar;
-            Assert.AreEqual($"x{sep}ipfs.db", options.DatabaseName);
-        }
 
         [TestMethod]
         public void Environment_Home()
@@ -44,12 +36,10 @@ namespace Ipfs.Engine
                 Environment.SetEnvironmentVariable("HOME", $"{sep}home1");
                 var options = new RepositoryOptions();
                 Assert.AreEqual($"{sep}home1{sep}.csipfs", options.Folder);
-                Assert.AreEqual($"{sep}home1{sep}.csipfs{sep}ipfs.db", options.DatabaseName);
 
                 Environment.SetEnvironmentVariable("HOME", $"{sep}home2{sep}");
                 options = new RepositoryOptions();
                 Assert.AreEqual($"{sep}home2{sep}.csipfs", options.Folder);
-                Assert.AreEqual($"{sep}home2{sep}.csipfs{sep}ipfs.db", options.DatabaseName);
             }
             finally
             {
@@ -76,12 +66,10 @@ namespace Ipfs.Engine
                 Environment.SetEnvironmentVariable("HOMEPATH", $"{sep}home1");
                 var options = new RepositoryOptions();
                 Assert.AreEqual($"{sep}home1{sep}.csipfs", options.Folder);
-                Assert.AreEqual($"{sep}home1{sep}.csipfs{sep}ipfs.db", options.DatabaseName);
 
                 Environment.SetEnvironmentVariable("HOMEPATH", $"{sep}home2{sep}");
                 options = new RepositoryOptions();
                 Assert.AreEqual($"{sep}home2{sep}.csipfs", options.Folder);
-                Assert.AreEqual($"{sep}home2{sep}.csipfs{sep}ipfs.db", options.DatabaseName);
             }
             finally
             {
@@ -108,12 +96,10 @@ namespace Ipfs.Engine
                 Environment.SetEnvironmentVariable("IPFS_PATH", $"{sep}x1");
                 var options = new RepositoryOptions();
                 Assert.AreEqual($"{sep}x1", options.Folder);
-                Assert.AreEqual($"{sep}x1{sep}ipfs.db", options.DatabaseName);
 
                 Environment.SetEnvironmentVariable("IPFS_PATH", $"{sep}x2{sep}");
                 options = new RepositoryOptions();
                 Assert.AreEqual($"{sep}x2{sep}", options.Folder);
-                Assert.AreEqual($"{sep}x2{sep}ipfs.db", options.DatabaseName);
             }
             finally
             {

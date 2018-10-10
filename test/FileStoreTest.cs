@@ -34,21 +34,7 @@ namespace Ipfs.Engine
                 {
                     Folder = folder,
                     NameToKey = name => name.ToString(),
-                    KeyToName = key => Int32.Parse(key),
-                    Serialize = (s, name, e, cancel) =>
-                    {
-                        var x = JsonConvert.SerializeObject(e);
-                        var b = Encoding.UTF8.GetBytes(x);
-                        s.Write(b, 0, b.Length);
-                        return Task.CompletedTask;
-                    },
-                    Deserialize = (s, name, cancel) =>
-                    {
-                        var buffer = new byte[1024];
-                        var n = s.Read(buffer, 0, buffer.Length);
-                        var b = Encoding.UTF8.GetString(buffer, 0, n);
-                        return Task.FromResult(JsonConvert.DeserializeObject<Entity>(b));
-                    }
+                    KeyToName = key => Int32.Parse(key)
                 };
             }
         }

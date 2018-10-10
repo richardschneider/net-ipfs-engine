@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,41 @@ namespace Ipfs.Engine
     public class FileStore<TName, TValue>
         where TValue : class
     {
+        /// <summary>
+        ///   A function to write the JSON encoded entity to the stream.
+        /// </summary>
+        /// <remarks>
+        ///   This is the default <see cref="Serialize"/>.
+        /// </remarks>
+        public static Func<Stream, TName, TValue, CancellationToken, Task> JsonSerialize =
+            (stream, name, value, canel) =>
+            {
+                using (var writer = new StreamWriter(stream))
+                using (var jtw = new JsonTextWriter(writer) { Formatting = Formatting.Indented })
+                {
+                    var ser = new JsonSerializer();
+                    ser.Serialize(jtw, value);
+                    jtw.Flush();
+                    return Task.CompletedTask;
+                }
+            };
+
+        /// <summary>
+        ///  A function to read the JSON encoded entity from the stream. 
+        /// </summary>
+        /// <remarks>
+        ///   This is the default <see cref="Deserialize"/>.
+        /// </remarks>
+        public static Func<Stream, TName, CancellationToken, Task<TValue>> JsonDeserialize =
+            (stream, name, cancel) =>
+            {
+                using (var reader = new StreamReader(stream))
+                using (var jtr = new JsonTextReader(reader))
+                {
+                    var ser = new JsonSerializer();
+                    return Task.FromResult(ser.Deserialize<TValue>(jtr));
+                }
+            };
 
         /// <summary>
         ///   The fully qualififed path to a directory
@@ -46,12 +82,20 @@ namespace Ipfs.Engine
         /// <summary>
         ///   Sends the value to the stream.
         /// </summary>
-        public Func<Stream, TName, TValue, CancellationToken, Task> Serialize { get; set; }
+        /// <value>
+        ///   Defaults to using <see cref="JsonSerialize"/>.
+        /// </value>
+        public Func<Stream, TName, TValue, CancellationToken, Task> Serialize
+            { get; set; } = JsonSerialize;
 
         /// <summary>
         ///   Retrieves the value from the stream.
         /// </summary>
-        public Func<Stream, TName, CancellationToken, Task<TValue>> Deserialize { get; set; }
+        /// <value>
+        ///   Defaults to using <see cref="JsonDeserialize"/>
+        /// </value>
+        public Func<Stream, TName, CancellationToken, Task<TValue>> Deserialize
+            { get; set; } = JsonDeserialize;
 
         /// <summary>
         ///   Try to get the value with the specified name.

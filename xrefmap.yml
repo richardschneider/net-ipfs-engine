@@ -680,6 +680,252 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainOptions.Dek
   nameWithType: KeyChainOptions.Dek
+- uid: Ipfs.Engine.FileStore`2
+  name: FileStore<TName, TValue>
+  href: api/Ipfs.Engine.FileStore-2.html
+  commentId: T:Ipfs.Engine.FileStore`2
+  name.vb: FileStore(Of TName, TValue)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue)
+  nameWithType: FileStore<TName, TValue>
+  nameWithType.vb: FileStore(Of TName, TValue)
+- uid: Ipfs.Engine.FileStore`2.Deserialize
+  name: Deserialize
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Deserialize
+  commentId: P:Ipfs.Engine.FileStore`2.Deserialize
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Deserialize
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Deserialize
+  nameWithType: FileStore<TName, TValue>.Deserialize
+  nameWithType.vb: FileStore(Of TName, TValue).Deserialize
+- uid: Ipfs.Engine.FileStore`2.Deserialize*
+  name: Deserialize
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Deserialize_
+  commentId: Overload:Ipfs.Engine.FileStore`2.Deserialize
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Deserialize
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Deserialize
+  nameWithType: FileStore<TName, TValue>.Deserialize
+  nameWithType.vb: FileStore(Of TName, TValue).Deserialize
+- uid: Ipfs.Engine.FileStore`2.ExistsAsync(`0,CancellationToken)
+  name: ExistsAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_ExistsAsync__0_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.ExistsAsync(`0,CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.ExistsAsync(TName, CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).ExistsAsync(TName, CancellationToken)
+  nameWithType: FileStore<TName, TValue>.ExistsAsync(TName, CancellationToken)
+  nameWithType.vb: FileStore(Of TName, TValue).ExistsAsync(TName, CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.ExistsAsync*
+  name: ExistsAsync
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_ExistsAsync_
+  commentId: Overload:Ipfs.Engine.FileStore`2.ExistsAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.ExistsAsync
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).ExistsAsync
+  nameWithType: FileStore<TName, TValue>.ExistsAsync
+  nameWithType.vb: FileStore(Of TName, TValue).ExistsAsync
+- uid: Ipfs.Engine.FileStore`2.Folder
+  name: Folder
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Folder
+  commentId: P:Ipfs.Engine.FileStore`2.Folder
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Folder
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Folder
+  nameWithType: FileStore<TName, TValue>.Folder
+  nameWithType.vb: FileStore(Of TName, TValue).Folder
+- uid: Ipfs.Engine.FileStore`2.Folder*
+  name: Folder
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Folder_
+  commentId: Overload:Ipfs.Engine.FileStore`2.Folder
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Folder
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Folder
+  nameWithType: FileStore<TName, TValue>.Folder
+  nameWithType.vb: FileStore(Of TName, TValue).Folder
+- uid: Ipfs.Engine.FileStore`2.GetAsync(`0,CancellationToken)
+  name: GetAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_GetAsync__0_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.GetAsync(`0,CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.GetAsync(TName, CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).GetAsync(TName, CancellationToken)
+  nameWithType: FileStore<TName, TValue>.GetAsync(TName, CancellationToken)
+  nameWithType.vb: FileStore(Of TName, TValue).GetAsync(TName, CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.GetAsync*
+  name: GetAsync
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_GetAsync_
+  commentId: Overload:Ipfs.Engine.FileStore`2.GetAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.GetAsync
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).GetAsync
+  nameWithType: FileStore<TName, TValue>.GetAsync
+  nameWithType.vb: FileStore(Of TName, TValue).GetAsync
+- uid: Ipfs.Engine.FileStore`2.JsonDeserialize
+  name: JsonDeserialize
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_JsonDeserialize
+  commentId: F:Ipfs.Engine.FileStore`2.JsonDeserialize
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.JsonDeserialize
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).JsonDeserialize
+  nameWithType: FileStore<TName, TValue>.JsonDeserialize
+  nameWithType.vb: FileStore(Of TName, TValue).JsonDeserialize
+- uid: Ipfs.Engine.FileStore`2.JsonSerialize
+  name: JsonSerialize
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_JsonSerialize
+  commentId: F:Ipfs.Engine.FileStore`2.JsonSerialize
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.JsonSerialize
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).JsonSerialize
+  nameWithType: FileStore<TName, TValue>.JsonSerialize
+  nameWithType.vb: FileStore(Of TName, TValue).JsonSerialize
+- uid: Ipfs.Engine.FileStore`2.KeyToName
+  name: KeyToName
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_KeyToName
+  commentId: P:Ipfs.Engine.FileStore`2.KeyToName
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.KeyToName
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).KeyToName
+  nameWithType: FileStore<TName, TValue>.KeyToName
+  nameWithType.vb: FileStore(Of TName, TValue).KeyToName
+- uid: Ipfs.Engine.FileStore`2.KeyToName*
+  name: KeyToName
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_KeyToName_
+  commentId: Overload:Ipfs.Engine.FileStore`2.KeyToName
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.KeyToName
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).KeyToName
+  nameWithType: FileStore<TName, TValue>.KeyToName
+  nameWithType.vb: FileStore(Of TName, TValue).KeyToName
+- uid: Ipfs.Engine.FileStore`2.LengthAsync(`0,CancellationToken)
+  name: LengthAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_LengthAsync__0_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.LengthAsync(`0,CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.LengthAsync(TName, CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).LengthAsync(TName, CancellationToken)
+  nameWithType: FileStore<TName, TValue>.LengthAsync(TName, CancellationToken)
+  nameWithType.vb: FileStore(Of TName, TValue).LengthAsync(TName, CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.LengthAsync*
+  name: LengthAsync
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_LengthAsync_
+  commentId: Overload:Ipfs.Engine.FileStore`2.LengthAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.LengthAsync
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).LengthAsync
+  nameWithType: FileStore<TName, TValue>.LengthAsync
+  nameWithType.vb: FileStore(Of TName, TValue).LengthAsync
+- uid: Ipfs.Engine.FileStore`2.Names
+  name: Names
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Names
+  commentId: P:Ipfs.Engine.FileStore`2.Names
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Names
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Names
+  nameWithType: FileStore<TName, TValue>.Names
+  nameWithType.vb: FileStore(Of TName, TValue).Names
+- uid: Ipfs.Engine.FileStore`2.Names*
+  name: Names
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Names_
+  commentId: Overload:Ipfs.Engine.FileStore`2.Names
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Names
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Names
+  nameWithType: FileStore<TName, TValue>.Names
+  nameWithType.vb: FileStore(Of TName, TValue).Names
+- uid: Ipfs.Engine.FileStore`2.NameToKey
+  name: NameToKey
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_NameToKey
+  commentId: P:Ipfs.Engine.FileStore`2.NameToKey
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.NameToKey
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).NameToKey
+  nameWithType: FileStore<TName, TValue>.NameToKey
+  nameWithType.vb: FileStore(Of TName, TValue).NameToKey
+- uid: Ipfs.Engine.FileStore`2.NameToKey*
+  name: NameToKey
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_NameToKey_
+  commentId: Overload:Ipfs.Engine.FileStore`2.NameToKey
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.NameToKey
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).NameToKey
+  nameWithType: FileStore<TName, TValue>.NameToKey
+  nameWithType.vb: FileStore(Of TName, TValue).NameToKey
+- uid: Ipfs.Engine.FileStore`2.PutAsync(`0,`1,CancellationToken)
+  name: PutAsync(TName, TValue, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_PutAsync__0__1_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.PutAsync(`0,`1,CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.PutAsync(TName, TValue, CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).PutAsync(TName, TValue, CancellationToken)
+  nameWithType: FileStore<TName, TValue>.PutAsync(TName, TValue, CancellationToken)
+  nameWithType.vb: FileStore(Of TName, TValue).PutAsync(TName, TValue, CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.PutAsync*
+  name: PutAsync
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_PutAsync_
+  commentId: Overload:Ipfs.Engine.FileStore`2.PutAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.PutAsync
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).PutAsync
+  nameWithType: FileStore<TName, TValue>.PutAsync
+  nameWithType.vb: FileStore(Of TName, TValue).PutAsync
+- uid: Ipfs.Engine.FileStore`2.RemoveAsync(`0,CancellationToken)
+  name: RemoveAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_RemoveAsync__0_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.RemoveAsync(`0,CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.RemoveAsync(TName, CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).RemoveAsync(TName, CancellationToken)
+  nameWithType: FileStore<TName, TValue>.RemoveAsync(TName, CancellationToken)
+  nameWithType.vb: FileStore(Of TName, TValue).RemoveAsync(TName, CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.RemoveAsync*
+  name: RemoveAsync
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_RemoveAsync_
+  commentId: Overload:Ipfs.Engine.FileStore`2.RemoveAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.RemoveAsync
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).RemoveAsync
+  nameWithType: FileStore<TName, TValue>.RemoveAsync
+  nameWithType.vb: FileStore(Of TName, TValue).RemoveAsync
+- uid: Ipfs.Engine.FileStore`2.Serialize
+  name: Serialize
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Serialize
+  commentId: P:Ipfs.Engine.FileStore`2.Serialize
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Serialize
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Serialize
+  nameWithType: FileStore<TName, TValue>.Serialize
+  nameWithType.vb: FileStore(Of TName, TValue).Serialize
+- uid: Ipfs.Engine.FileStore`2.Serialize*
+  name: Serialize
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Serialize_
+  commentId: Overload:Ipfs.Engine.FileStore`2.Serialize
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Serialize
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Serialize
+  nameWithType: FileStore<TName, TValue>.Serialize
+  nameWithType.vb: FileStore(Of TName, TValue).Serialize
+- uid: Ipfs.Engine.FileStore`2.TryGetAsync(`0,CancellationToken)
+  name: TryGetAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_TryGetAsync__0_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.TryGetAsync(`0,CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.TryGetAsync(TName, CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).TryGetAsync(TName, CancellationToken)
+  nameWithType: FileStore<TName, TValue>.TryGetAsync(TName, CancellationToken)
+  nameWithType.vb: FileStore(Of TName, TValue).TryGetAsync(TName, CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.TryGetAsync*
+  name: TryGetAsync
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_TryGetAsync_
+  commentId: Overload:Ipfs.Engine.FileStore`2.TryGetAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.TryGetAsync
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).TryGetAsync
+  nameWithType: FileStore<TName, TValue>.TryGetAsync
+  nameWithType.vb: FileStore(Of TName, TValue).TryGetAsync
+- uid: Ipfs.Engine.FileStore`2.Values
+  name: Values
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Values
+  commentId: P:Ipfs.Engine.FileStore`2.Values
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Values
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Values
+  nameWithType: FileStore<TName, TValue>.Values
+  nameWithType.vb: FileStore(Of TName, TValue).Values
+- uid: Ipfs.Engine.FileStore`2.Values*
+  name: Values
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_Values_
+  commentId: Overload:Ipfs.Engine.FileStore`2.Values
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.Values
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Values
+  nameWithType: FileStore<TName, TValue>.Values
+  nameWithType.vb: FileStore(Of TName, TValue).Values
 - uid: Ipfs.Engine.IpfsEngine
   name: IpfsEngine
   href: api/Ipfs.Engine.IpfsEngine.html
@@ -1259,192 +1505,6 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.LinkedData.RawFormat.Serialize
   nameWithType: RawFormat.Serialize
-- uid: Ipfs.Engine.Migrations
-  name: Ipfs.Engine.Migrations
-  href: api/Ipfs.Engine.Migrations.html
-  commentId: N:Ipfs.Engine.Migrations
-  fullName: Ipfs.Engine.Migrations
-  nameWithType: Ipfs.Engine.Migrations
-- uid: Ipfs.Engine.Migrations.Blocks
-  name: Blocks
-  href: api/Ipfs.Engine.Migrations.Blocks.html
-  commentId: T:Ipfs.Engine.Migrations.Blocks
-  fullName: Ipfs.Engine.Migrations.Blocks
-  nameWithType: Blocks
-- uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
-  name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel(ModelBuilder)
-  nameWithType: Blocks.BuildTargetModel(ModelBuilder)
-- uid: Ipfs.Engine.Migrations.Blocks.BuildTargetModel*
-  name: BuildTargetModel
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_BuildTargetModel_
-  commentId: Overload:Ipfs.Engine.Migrations.Blocks.BuildTargetModel
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Blocks.BuildTargetModel
-  nameWithType: Blocks.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
-  name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.Down(MigrationBuilder)
-  nameWithType: Blocks.Down(MigrationBuilder)
-- uid: Ipfs.Engine.Migrations.Blocks.Down*
-  name: Down
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Down_
-  commentId: Overload:Ipfs.Engine.Migrations.Blocks.Down
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Blocks.Down
-  nameWithType: Blocks.Down
-- uid: Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
-  name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Blocks.Up(MigrationBuilder)
-  nameWithType: Blocks.Up(MigrationBuilder)
-- uid: Ipfs.Engine.Migrations.Blocks.Up*
-  name: Up
-  href: api/Ipfs.Engine.Migrations.Blocks.html#Ipfs_Engine_Migrations_Blocks_Up_
-  commentId: Overload:Ipfs.Engine.Migrations.Blocks.Up
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Blocks.Up
-  nameWithType: Blocks.Up
-- uid: Ipfs.Engine.Migrations.Initial
-  name: Initial
-  href: api/Ipfs.Engine.Migrations.Initial.html
-  commentId: T:Ipfs.Engine.Migrations.Initial
-  fullName: Ipfs.Engine.Migrations.Initial
-  nameWithType: Initial
-- uid: Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
-  name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_BuildTargetModel_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel(ModelBuilder)
-  nameWithType: Initial.BuildTargetModel(ModelBuilder)
-- uid: Ipfs.Engine.Migrations.Initial.BuildTargetModel*
-  name: BuildTargetModel
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_BuildTargetModel_
-  commentId: Overload:Ipfs.Engine.Migrations.Initial.BuildTargetModel
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Initial.BuildTargetModel
-  nameWithType: Initial.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
-  name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Down_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.Down(MigrationBuilder)
-  nameWithType: Initial.Down(MigrationBuilder)
-- uid: Ipfs.Engine.Migrations.Initial.Down*
-  name: Down
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Down_
-  commentId: Overload:Ipfs.Engine.Migrations.Initial.Down
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Initial.Down
-  nameWithType: Initial.Down
-- uid: Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
-  name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Up_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Initial.Up(MigrationBuilder)
-  nameWithType: Initial.Up(MigrationBuilder)
-- uid: Ipfs.Engine.Migrations.Initial.Up*
-  name: Up
-  href: api/Ipfs.Engine.Migrations.Initial.html#Ipfs_Engine_Migrations_Initial_Up_
-  commentId: Overload:Ipfs.Engine.Migrations.Initial.Up
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Initial.Up
-  nameWithType: Initial.Up
-- uid: Ipfs.Engine.Migrations.Keys
-  name: Keys
-  href: api/Ipfs.Engine.Migrations.Keys.html
-  commentId: T:Ipfs.Engine.Migrations.Keys
-  fullName: Ipfs.Engine.Migrations.Keys
-  nameWithType: Keys
-- uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
-  name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel(ModelBuilder)
-  nameWithType: Keys.BuildTargetModel(ModelBuilder)
-- uid: Ipfs.Engine.Migrations.Keys.BuildTargetModel*
-  name: BuildTargetModel
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_BuildTargetModel_
-  commentId: Overload:Ipfs.Engine.Migrations.Keys.BuildTargetModel
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Keys.BuildTargetModel
-  nameWithType: Keys.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
-  name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.Down(MigrationBuilder)
-  nameWithType: Keys.Down(MigrationBuilder)
-- uid: Ipfs.Engine.Migrations.Keys.Down*
-  name: Down
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Down_
-  commentId: Overload:Ipfs.Engine.Migrations.Keys.Down
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Keys.Down
-  nameWithType: Keys.Down
-- uid: Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
-  name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Keys.Up(MigrationBuilder)
-  nameWithType: Keys.Up(MigrationBuilder)
-- uid: Ipfs.Engine.Migrations.Keys.Up*
-  name: Up
-  href: api/Ipfs.Engine.Migrations.Keys.html#Ipfs_Engine_Migrations_Keys_Up_
-  commentId: Overload:Ipfs.Engine.Migrations.Keys.Up
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Keys.Up
-  nameWithType: Keys.Up
-- uid: Ipfs.Engine.Migrations.Pins
-  name: Pins
-  href: api/Ipfs.Engine.Migrations.Pins.html
-  commentId: T:Ipfs.Engine.Migrations.Pins
-  fullName: Ipfs.Engine.Migrations.Pins
-  nameWithType: Pins
-- uid: Ipfs.Engine.Migrations.Pins.BuildTargetModel(ModelBuilder)
-  name: BuildTargetModel(ModelBuilder)
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_BuildTargetModel_ModelBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Pins.BuildTargetModel(ModelBuilder)
-  fullName: Ipfs.Engine.Migrations.Pins.BuildTargetModel(ModelBuilder)
-  nameWithType: Pins.BuildTargetModel(ModelBuilder)
-- uid: Ipfs.Engine.Migrations.Pins.BuildTargetModel*
-  name: BuildTargetModel
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_BuildTargetModel_
-  commentId: Overload:Ipfs.Engine.Migrations.Pins.BuildTargetModel
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Pins.BuildTargetModel
-  nameWithType: Pins.BuildTargetModel
-- uid: Ipfs.Engine.Migrations.Pins.Down(MigrationBuilder)
-  name: Down(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Down_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Pins.Down(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Pins.Down(MigrationBuilder)
-  nameWithType: Pins.Down(MigrationBuilder)
-- uid: Ipfs.Engine.Migrations.Pins.Down*
-  name: Down
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Down_
-  commentId: Overload:Ipfs.Engine.Migrations.Pins.Down
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Pins.Down
-  nameWithType: Pins.Down
-- uid: Ipfs.Engine.Migrations.Pins.Up(MigrationBuilder)
-  name: Up(MigrationBuilder)
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Up_MigrationBuilder_
-  commentId: M:Ipfs.Engine.Migrations.Pins.Up(MigrationBuilder)
-  fullName: Ipfs.Engine.Migrations.Pins.Up(MigrationBuilder)
-  nameWithType: Pins.Up(MigrationBuilder)
-- uid: Ipfs.Engine.Migrations.Pins.Up*
-  name: Up
-  href: api/Ipfs.Engine.Migrations.Pins.html#Ipfs_Engine_Migrations_Pins_Up_
-  commentId: Overload:Ipfs.Engine.Migrations.Pins.Up
-  isSpec: "True"
-  fullName: Ipfs.Engine.Migrations.Pins.Up
-  nameWithType: Pins.Up
 - uid: Ipfs.Engine.RepositoryOptions
   name: RepositoryOptions
   href: api/Ipfs.Engine.RepositoryOptions.html
@@ -1464,19 +1524,6 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.RepositoryOptions.RepositoryOptions
   nameWithType: RepositoryOptions.RepositoryOptions
-- uid: Ipfs.Engine.RepositoryOptions.DatabaseName
-  name: DatabaseName
-  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_DatabaseName
-  commentId: P:Ipfs.Engine.RepositoryOptions.DatabaseName
-  fullName: Ipfs.Engine.RepositoryOptions.DatabaseName
-  nameWithType: RepositoryOptions.DatabaseName
-- uid: Ipfs.Engine.RepositoryOptions.DatabaseName*
-  name: DatabaseName
-  href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_DatabaseName_
-  commentId: Overload:Ipfs.Engine.RepositoryOptions.DatabaseName
-  isSpec: "True"
-  fullName: Ipfs.Engine.RepositoryOptions.DatabaseName
-  nameWithType: RepositoryOptions.DatabaseName
 - uid: Ipfs.Engine.RepositoryOptions.ExistingFolder
   name: ExistingFolder()
   href: api/Ipfs.Engine.RepositoryOptions.html#Ipfs_Engine_RepositoryOptions_ExistingFolder

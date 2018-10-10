@@ -69,8 +69,43 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="repository">Repository</h1>
 
-<p>The repository is a local persistent store for IPFS data. By default, it is located at <code>$HOME/.csipfs</code>.  If not present, the <a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html">IPFS Engine</a> will create it with the factory defaults.</p>
-<p>To change its name and/or location use the <a href="envvars.html">environment variables</a> or the <a class="xref" href="../api/Ipfs.Engine.RepositoryOptions.html">Repository Options</a>.</p>
+<p>The repository is a local persistent store for IPFS data. By default, it is located 
+at <code>$HOME/.csipfs</code>.  If not present, the <a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html">IPFS Engine</a> 
+will create it with the factory defaults.</p>
+<p>To change its name and/or location use the <a href="envvars.html">environment variables</a> 
+or the <a class="xref" href="../api/Ipfs.Engine.RepositoryOptions.html">Repository Options</a>.</p>
+<h1 id="contents">Contents</h1>
+<table>
+<thead>
+<tr>
+<th>File/Folder</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>config</td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Config">Config API</a></td>
+<td>The configuration information</td>
+</tr>
+<tr>
+<td>blocks</td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Block">Block API</a></td>
+<td>A <a href="repo/block.html">Block</a> of data</td>
+</tr>
+<tr>
+<td>keys</td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Key">Key API</a></td>
+<td>Crytographic keys</td>
+</tr>
+<tr>
+<td>pins</td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Pin">Pin API</a></td>
+<td>A <a href="repo/block.html">Block</a> that is pinned to the local repository</td>
+</tr>
+</tbody>
+</table>
 </article>
           </div>
           

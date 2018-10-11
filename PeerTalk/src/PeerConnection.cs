@@ -22,7 +22,8 @@ namespace PeerTalk
     {
         static ILog log = LogManager.GetLogger(typeof(PeerConnection));
 
-        StatsStream stream;
+        Stream stream;
+        StatsStream statsStream;
 
         /// <summary>
         ///   The local peer.
@@ -50,7 +51,15 @@ namespace PeerTalk
         public Stream Stream
         {
             get { return stream; }
-            set { stream = new StatsStream(value); }
+            set
+            {
+                if (statsStream == null)
+                {
+                    statsStream = new StatsStream(value);
+                    value = statsStream;
+                }
+                stream = value;
+            }
         }
 
         /// <summary>
@@ -121,17 +130,17 @@ namespace PeerTalk
         /// <summary>
         ///   When the connection was last used.
         /// </summary>
-        public DateTime LastUsed => stream.LastUsed;
+        public DateTime LastUsed => statsStream.LastUsed;
 
         /// <summary>
         ///   Number of bytes read over the connection.
         /// </summary>
-        public long BytesRead => stream.BytesRead;
+        public long BytesRead => statsStream.BytesRead;
 
         /// <summary>
         ///   Number of bytes written over the connection.
         /// </summary>
-        public long BytesWritten => stream.BytesWritten;
+        public long BytesWritten => statsStream.BytesWritten;
 
         /// <summary>
         ///  Establish the connection with the remote node.
@@ -214,9 +223,9 @@ namespace PeerTalk
             IPeerProtocol protocol = new Multistream1();
             try
             {
-                while (!cancel.IsCancellationRequested && stream != null)
+                while (!cancel.IsCancellationRequested && Stream != null)
                 {
-                    await protocol.ProcessMessageAsync(this, stream, cancel);
+                    await protocol.ProcessMessageAsync(this, Stream, cancel);
                 }
             }
             catch (EndOfStreamException)
@@ -225,7 +234,7 @@ namespace PeerTalk
             }
             catch (Exception e)
             {
-                if (!cancel.IsCancellationRequested && stream != null)
+                if (!cancel.IsCancellationRequested && Stream != null)
                 {
                     log.Error("reading message failed", e);
                 }
@@ -278,12 +287,12 @@ namespace PeerTalk
             {
                 if (disposing)
                 {
-                    if (stream != null)
+                    if (Stream != null)
                     {
                         try
                         {
                             log.Debug($"Closing connection to {RemoteAddress}");
-                            stream.Dispose();
+                            Stream.Dispose();
                         }
                         catch (ObjectDisposedException)
                         {
@@ -296,7 +305,7 @@ namespace PeerTalk
                         }
                         finally
                         {
-                            stream = null;
+                            Stream = null;
                         }
                     }
                     if (RemotePeer != null && RemotePeer.ConnectedAddress == RemoteAddress)

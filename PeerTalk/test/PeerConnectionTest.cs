@@ -65,5 +65,20 @@ namespace PeerTalk
             connection.AddProtocols(new IPeerProtocol[] { new Mplex67(), new Plaintext1() });
             Assert.AreEqual(3, connection.Protocols.Count);
         }
+
+        [TestMethod]
+        public void CreatesOneStatsStream()
+        {
+            var a = new MemoryStream();
+            var b = new MemoryStream();
+            var connection = new PeerConnection();
+            Assert.AreEqual(null, connection.Stream);
+
+            connection.Stream = a;
+            Assert.AreNotSame(a, connection.Stream);
+
+            connection.Stream = b;
+            Assert.AreSame(b, connection.Stream);
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace PeerTalk.Multiplex
         /// <value>
         ///   The session initiator allocates even IDs and the session receiver allocates odd IDs.
         /// </value>
-        public long NextStreamId { get; private set; }
+        public long NextStreamId { get; private set; } = 1000;
 
         /// <summary>
         ///   The signle channel to exchange protocol messages.
@@ -216,6 +216,25 @@ namespace PeerTalk.Multiplex
                                 throw new Exception($"Stream {substream.Id} already exists");
                             }
                             SubstreamCreated?.Invoke(this, substream);
+
+                            // Special hack for go-ipfs
+#if true
+                            if (Receiver && (substream.Id & 1) == 1)
+                            {
+                                log.Debug($"go-hack sending newstream {substream.Id}");
+                                using (await AcquireWriteAccessAsync())
+                                {
+                                    var hdr = new Header
+                                    {
+                                        StreamId = substream.Id,
+                                        PacketType = PacketType.NewStream
+                                    };
+                                    await hdr.WriteAsync(Channel, cancel);
+                                    Channel.WriteByte(0); // length
+                                    await Channel.FlushAsync();
+                                }
+                            }
+#endif
                             break;
 
                         case PacketType.MessageInitiator:

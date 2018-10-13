@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ipfs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,6 @@ namespace PeerTalk.Multiplex
             var muxer = new Muxer();
             Assert.AreEqual(true, muxer.Initiator);
             Assert.AreEqual(false, muxer.Receiver);
-            Assert.AreEqual(0, muxer.NextStreamId);
         }
 
         [TestMethod]
@@ -27,12 +27,12 @@ namespace PeerTalk.Multiplex
             var muxer = new Muxer { Initiator = true };
             Assert.AreEqual(true, muxer.Initiator);
             Assert.AreEqual(false, muxer.Receiver);
-            Assert.AreEqual(0, muxer.NextStreamId);
+            Assert.AreEqual(0, muxer.NextStreamId & 1);
 
             muxer.Receiver = true;
             Assert.AreEqual(false, muxer.Initiator);
             Assert.AreEqual(true, muxer.Receiver);
-            Assert.AreEqual(1, muxer.NextStreamId);
+            Assert.AreEqual(1, muxer.NextStreamId & 1);
         }
 
         [TestMethod]
@@ -53,8 +53,13 @@ namespace PeerTalk.Multiplex
             Assert.AreSame(stream, muxer.Substreams[stream.Id]);
 
             // NewStream message is sent.
-            var msg = channel.ToArray();
-            CollectionAssert.AreEqual(new byte[] { 0x00, 0x03, (byte)'f', (byte)'o', (byte)'o' }, msg);
+            channel.Position = 0;
+            Assert.AreEqual(stream.Id << 3, channel.ReadVarint32());
+            Assert.AreEqual(3, channel.ReadVarint32());
+            var name = new byte[3];
+            channel.Read(name, 0, 3);
+            Assert.AreEqual("foo", Encoding.UTF8.GetString(name));
+            Assert.AreEqual(channel.Length, channel.Position);
         }
 
         [TestMethod]

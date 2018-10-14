@@ -53,7 +53,7 @@ namespace PeerTalk
             get { return stream; }
             set
             {
-                if (statsStream == null)
+                if (value != null && statsStream == null)
                 {
                     statsStream = new StatsStream(value);
                     value = statsStream;
@@ -306,6 +306,7 @@ namespace PeerTalk
                         finally
                         {
                             Stream = null;
+                            statsStream = null;
                         }
                     }
                     if (RemotePeer != null && RemotePeer.ConnectedAddress == RemoteAddress)

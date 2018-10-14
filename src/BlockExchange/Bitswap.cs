@@ -163,9 +163,10 @@ namespace Ipfs.Engine.BlockExchange
             cancel.Register(() => Unwant(id));
 
             // If first time, tell other peers.
-            if (want.Consumers.Count == 1  && BlockNeeded != null)
+            if (want.Consumers.Count == 1)
             {
-                BlockNeeded(this, new CidEventArgs { Id = want.Id });
+                var _ = SendWantListToAllAsync(new [] { want }, full: false);
+                BlockNeeded?.Invoke(this, new CidEventArgs { Id = want.Id });
             }
 
             return tsc.Task;
@@ -229,6 +230,17 @@ namespace Ipfs.Engine.BlockExchange
                 return Task.CompletedTask;
 
             return SendWantListAsync(peer, wants.Values, true);
+        }
+
+        Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
+        {
+            if (Swarm == null)
+                return Task.CompletedTask;
+
+            var tasks = Swarm.KnownPeers
+                .Where(p => p.ConnectedAddress != null)
+                .Select(p => SendWantListAsync(p, wants, full));
+            return Task.WhenAll(tasks);
         }
 
         async Task SendWantListAsync(Peer peer, IEnumerable<WantedBlock> wants, bool full)

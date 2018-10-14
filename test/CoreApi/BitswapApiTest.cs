@@ -95,7 +95,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        public async Task GetsBlockFromRemote()
+        public async Task GetsBlock_OnConnect()
         {
             await ipfs.StartAsync();
             await ipfsOther.StartAsync();
@@ -120,6 +120,31 @@ namespace Ipfs.Engine
                 Assert.IsFalse(getTask.IsFaulted);
                 Assert.IsTrue(getTask.IsCompleted);
                 var block = getTask.Result;
+                Assert.AreEqual(cid, block.Id);
+                CollectionAssert.AreEqual(data, block.DataBytes);
+            }
+            finally
+            {
+                await ipfsOther.StopAsync();
+                await ipfs.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task GetsBlock_OnRequest()
+        {
+            await ipfs.StartAsync();
+            await ipfsOther.StartAsync();
+            try
+            {
+                var data = Guid.NewGuid().ToByteArray();
+                var cid = await ipfsOther.Block.PutAsync(data);
+
+                var remote = await ipfsOther.LocalPeer;
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
+
+                var cts = new CancellationTokenSource(3000);
+                var block = await ipfs.Block.GetAsync(cid, cts.Token);
                 Assert.AreEqual(cid, block.Id);
                 CollectionAssert.AreEqual(data, block.DataBytes);
             }

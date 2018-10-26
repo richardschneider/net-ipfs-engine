@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <PackageReference Include="Common.Logging" Version="3.4.1" />
+    <PackageReference Include="Ipfs.Api" Version="0.22.1" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
   </ItemGroup>
 
   <ItemGroup>

@@ -50,10 +50,9 @@ namespace Ipfs.Server
                     Description = "The API for interacting with IPFS nodes.",  
                     Version = "v0" });
 
-                var basePath = AppContext.BaseDirectory;
-                var assemblyName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
-                var fileName = System.IO.Path.GetFileName(assemblyName + ".xml");
-                c.IncludeXmlComments(System.IO.Path.Combine(basePath, fileName));
+                var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                path = Path.ChangeExtension(path, ".xml");
+                c.IncludeXmlComments(path);
             });
         }
 

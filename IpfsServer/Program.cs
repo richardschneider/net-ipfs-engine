@@ -19,6 +19,9 @@ namespace Ipfs.Server
     public class Program
     {
         static CancellationTokenSource cancel = new CancellationTokenSource();
+        /// <summary>
+        ///   The IPFS Core API engine.
+        /// </summary>
         public static IpfsEngine IpfsEngine;
         const string passphrase = "this is not a secure pass phrase";
 

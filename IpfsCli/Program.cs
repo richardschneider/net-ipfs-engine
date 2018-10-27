@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command("ipfs")]
+    [Command("csipfs")]
     [VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]
     [Subcommand("init", typeof(InitCommand))]
     [Subcommand("add", typeof(AddCommand))]

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Show info on an IPFS peer [WIP]")]
+    [Command(Description = "Show info on an IPFS peer")]
     class IdCommand : CommandBase
     {
         [Argument(0, "peerid", "The IPFS peer ID")]
@@ -17,8 +17,8 @@ namespace Ipfs.Cli
 
         protected override async Task<int> OnExecute(CommandLineApplication app)
         {
-            // TODO: optional peer id
-            var peer = await Parent.CoreApi.Generic.IdAsync();
+            MultiHash id = PeerId == null ? null : new MultiHash(PeerId);
+            var peer = await Parent.CoreApi.Generic.IdAsync(id);
             using (JsonWriter writer = new JsonTextWriter(app.Out))
             {
                 writer.Formatting = Formatting.Indented;
@@ -32,7 +32,8 @@ namespace Ipfs.Cli
                 writer.WriteStartArray();
                 foreach (var a in peer.Addresses)
                 {
-                    writer.WriteValue(a.ToString());
+                    if (a != null)
+                        writer.WriteValue(a.ToString());
                 }
                 writer.WriteEndArray();
                 writer.WritePropertyName("AgentVersion");

@@ -49,25 +49,44 @@ namespace Ipfs.Cli
     [Subcommand("update", typeof(UpdateCommand))]
     class Program : CommandBase
     {
-        public static void Main(string[] args)
+        static bool debugging;
+
+        public static int Main(string[] args)
         {
-            CommandLineApplication.Execute<Program>(args);
+            try
+            {
+                return CommandLineApplication.Execute<Program>(args);
+            }
+            catch (Exception e)
+            {
+                for (; e != null; e = e.InnerException)
+                {
+                    Console.Error.WriteLine(e.Message);
+                    if (debugging)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine(e.StackTrace);
+                    }
+                }
+                return -1;
+            }
         }
 
         [Option("--api <url>",  Description = "Use a specific API instance")]
         public string ApiUrl { get; set;  } = IpfsClient.DefaultApiUri.ToString();
 
         [Option("-L|--local", Description = "Run the command locally, instead of using the daemon")]
-        public bool LocaleEngine { get; set; }
+        public bool UseLocalEngine { get; set; }
 
         [Option("--debug", Description = "Show debugging info")]
         public bool Debug {
             set
             {
+                debugging = value;
                 var properties = new Common.Logging.Configuration.NameValueCollection();
                 properties["level"] = value ? "DEBUG" : "OFF";
                 properties["showLogName"] = "true";
-                properties["showDateTime"] = "true";
+                properties["showDateTime"] = "false";
                 LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
             }
         }
@@ -85,7 +104,7 @@ namespace Ipfs.Cli
             {
                 if (coreApi == null)
                 {
-                    if (LocaleEngine)
+                    if (UseLocalEngine)
                     {
                         // TODO: Add option --pass
                         string passphrase = "this is not a secure pass phrase";

@@ -16,7 +16,7 @@ namespace Ipfs.Server
     /// <summary>
     ///   Manages an IPFS server.
     /// </summary>
-    class Program
+    public class Program
     {
         static CancellationTokenSource cancel = new CancellationTokenSource();
         public static IpfsEngine IpfsEngine;

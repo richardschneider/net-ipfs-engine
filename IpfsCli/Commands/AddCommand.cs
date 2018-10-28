@@ -58,8 +58,10 @@ namespace Ipfs.Cli
                 Wrap = Wrap
             };
             var node = await Parent.CoreApi.FileSystem.AddFileAsync(FilePath, options);
-            app.Out.WriteLine($"{node.Id.Encode()} added");
-            return 0;
+            return Parent.Output(app, node, (data, writer) =>
+            {
+                    writer.WriteLine($"{data.Id.Encode()} added");
+            });
         }
 
     }

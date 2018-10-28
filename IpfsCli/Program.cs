@@ -5,6 +5,7 @@ using Ipfs.Api;
 using Ipfs.CoreApi;
 using Ipfs.Engine;
 using McMaster.Extensions.CommandLineUtils;
+using Newtonsoft.Json;
 using PeerTalk;
 using PeerTalk.Protocols;
 using PeerTalk.Transports;
@@ -78,6 +79,9 @@ namespace Ipfs.Cli
         [Option("-L|--local", Description = "Run the command locally, instead of using the daemon")]
         public bool UseLocalEngine { get; set; }
 
+        [Option("--enc", Description = "The output type (json, xml, or text)")]
+        public string OutputEncoding { get; set; } = "text";
+
         [Option("--debug", Description = "Show debugging info")]
         public bool Debug {
             set
@@ -120,6 +124,29 @@ namespace Ipfs.Cli
 
                 return coreApi;
             }
+        }
+
+        public int Output<T>(CommandLineApplication app, T data, Action<T, TextWriter> text)
+            where T: class
+        {
+            switch (OutputEncoding.ToLowerInvariant())
+            {
+                case "text":
+                    text(data, app.Out);
+                    break;
+
+                case "json":
+                    var x = new JsonSerializer();
+                    x.Formatting = Formatting.Indented;
+                    x.Serialize(app.Out, data);
+                    break;
+
+                default:
+                    app.Error.WriteLine($"Unknown output encoding '{OutputEncoding}'");
+                    return 1;
+            }
+
+            return 0;
         }
 
         private static string GetVersion()

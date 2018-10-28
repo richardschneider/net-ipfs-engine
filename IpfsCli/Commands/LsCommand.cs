@@ -19,11 +19,13 @@ namespace Ipfs.Cli
         protected override async Task<int> OnExecute(CommandLineApplication app)
         {
             var node = await Parent.CoreApi.FileSystem.ListFileAsync(IpfsPath);
-            foreach (var link in node.Links)
+            return Parent.Output(app, node, (data, writer) =>
             {
-                app.Out.WriteLine($"{link.Id.Encode()} {link.Size} {link.Name}");
-            }
-            return 0;
+                foreach (var link in data.Links)
+                {
+                    writer.WriteLine($"{link.Id.Encode()} {link.Size} {link.Name}");
+                }
+            });
         }
 
     }

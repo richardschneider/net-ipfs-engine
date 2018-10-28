@@ -12,7 +12,7 @@ namespace Ipfs.Cli
         protected virtual Task<int> OnExecute(CommandLineApplication app)
         {
             app.Error.WriteLine($"The command '{app.Name}' is not implemented.");
-            return Task.FromResult(-1);
+            return Task.FromResult(1);
         }
     }
 }

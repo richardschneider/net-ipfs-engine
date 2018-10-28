@@ -22,7 +22,7 @@ namespace Ipfs.Cli
         protected override async Task<int> OnExecute(CommandLineApplication app)
         {
             var result = await Parent.CoreApi.Generic.ResolveAsync(Name, Recursive);
-            app.Out.WriteLine(result);
+            app.Out.Write(result);
             return 0;
         }
 

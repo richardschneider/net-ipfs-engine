@@ -69,7 +69,7 @@ namespace Ipfs.Cli
                         Console.WriteLine(e.StackTrace);
                     }
                 }
-                return -1;
+                return 1;
             }
         }
 

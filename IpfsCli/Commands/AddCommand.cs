@@ -3,7 +3,7 @@ using McMaster.Extensions.CommandLineUtils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Ipfs.Cli
@@ -14,7 +14,6 @@ namespace Ipfs.Cli
         static AddFileOptions DefaultOptions = new AddFileOptions();
 
         [Argument(0, "path", "The path to a file to be added to ipfs")]
-        [FileOrDirectoryExists]
         [Required]
         public string FilePath { get; set; }
 
@@ -42,6 +41,9 @@ namespace Ipfs.Cli
         [Option("-w|--wrap", Description = "Wrap file in a directory")]
         public bool Wrap { get; set; } = DefaultOptions.Wrap;
 
+        [Option("-r|--recursive", Description = "Add directory paths recursively")]
+        public bool Recursive { get; set; }
+
         Program Parent { get; set; }
 
         protected override async Task<int> OnExecute(CommandLineApplication app)
@@ -57,7 +59,15 @@ namespace Ipfs.Cli
                 Trickle = Trickle,
                 Wrap = Wrap
             };
-            var node = await Parent.CoreApi.FileSystem.AddFileAsync(FilePath, options);
+            IFileSystemNode node;
+            if (Directory.Exists(FilePath))
+            {
+                node = await Parent.CoreApi.FileSystem.AddDirectoryAsync(FilePath, Recursive, options);
+            }
+            else
+            {
+                node = await Parent.CoreApi.FileSystem.AddFileAsync(FilePath, options);
+            }
             return Parent.Output(app, node, (data, writer) =>
             {
                     writer.WriteLine($"{data.Id.Encode()} added");

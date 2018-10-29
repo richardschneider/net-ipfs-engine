@@ -69,6 +69,10 @@ namespace Ipfs.Server
 
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                })
                 .UseUrls(urls)
                 .Build();
         }

@@ -124,7 +124,32 @@ namespace Ipfs.Server.HttpApi.V0
             return dto;
         }
 
-        // TODO: rename
+        /// <summary>
+        ///   Rename a key.
+        /// </summary>
+        /// <param name="arg">
+        ///   The old and new key name.
+        /// </param>
+        [HttpGet, HttpPost, Route("key/rename")]
+        public async Task<CryptoKeysDto> Rename(string[] arg)
+        {
+            if (arg.Length != 2)
+                throw new ArgumentException("Missing the old and/or new key name.");
+
+            var key = await IpfsCore.Key.RenameAsync(arg[0], arg[1], Timeout.Token);
+            var dto = new CryptoKeysDto();
+            if (key != null)
+            {
+                dto.Keys = new[] { new CryptoKeyDto
+                {
+                    Name = key.Name,
+                    Id = key.Id.ToString()
+                }};
+            }
+
+            return dto;
+        }
+
         // TODO: import
         // TODO: export
     }

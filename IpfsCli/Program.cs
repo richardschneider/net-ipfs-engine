@@ -54,6 +54,14 @@ namespace Ipfs.Cli
 
         public static int Main(string[] args)
         {
+            // Need to setup common.logging early.
+            debugging = args.Any(s => s == "--debug");
+            var properties = new Common.Logging.Configuration.NameValueCollection();
+            properties["level"] = debugging ? "DEBUG" : "OFF";
+            properties["showLogName"] = "true";
+            properties["showDateTime"] = "false";
+            LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
+
             try
             {
                 return CommandLineApplication.Execute<Program>(args);
@@ -83,17 +91,7 @@ namespace Ipfs.Cli
         public string OutputEncoding { get; set; } = "text";
 
         [Option("--debug", Description = "Show debugging info")]
-        public bool Debug {
-            set
-            {
-                debugging = value;
-                var properties = new Common.Logging.Configuration.NameValueCollection();
-                properties["level"] = value ? "DEBUG" : "OFF";
-                properties["showLogName"] = "true";
-                properties["showDateTime"] = "false";
-                LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
-            }
-        }
+        public bool Debug { get; set; }  // just for documentation, already parsed in Main
 
         protected override Task<int> OnExecute(CommandLineApplication app)
         {

@@ -36,6 +36,9 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<MultiAddress> AddAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
+            // Throw if missing peer ID
+            var _ = address.PeerId;
+
             var addrs = (await ListAsync(cancel)).ToList();
             if (addrs.Any(a => a == address))
                 return address;

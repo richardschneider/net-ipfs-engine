@@ -57,6 +57,11 @@ namespace Ipfs.Server.HttpApi.V0
         public async Task<BlockStatsDto> Stats(string arg)
         {
             var info = await IpfsCore.Block.StatAsync(arg, Timeout.Token);
+            if (info == null)
+            {
+                throw new KeyNotFoundException($"Block '{arg}' does not exist.");
+            }
+
             Immutable();
             return new BlockStatsDto { Key = info.Id, Size = info.Size };
         }

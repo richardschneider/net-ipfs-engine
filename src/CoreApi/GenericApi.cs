@@ -24,7 +24,17 @@ namespace Ipfs.Engine.CoreApi
                 return await ipfs.LocalPeer;
             }
 
-            throw new NotImplementedException();
+            // Maybe the swarm knows about it.
+            var swarm = await ipfs.SwarmService;
+            var found = swarm.KnownPeers.FirstOrDefault(p => p.Id == peer);
+
+            // Fallback to dht
+            if (found == null)
+                found = await ipfs.Dht.FindPeerAsync(peer, cancel);
+
+            // TODO: if no public key, try connecting to the peer.
+
+            return found;
         }
 
         public async Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))

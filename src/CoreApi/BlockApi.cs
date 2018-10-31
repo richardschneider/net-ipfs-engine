@@ -7,14 +7,22 @@ using System.Threading.Tasks;
 using Ipfs.CoreApi;
 using Common.Logging;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ipfs.Engine.CoreApi
 {
+    [DataContract]
     class DataBlock : IDataBlock
     {
+        [DataMember]
         public byte[] DataBytes { get; set; }
+
         public Stream DataStream { get { return new MemoryStream(DataBytes, false); } }
+
+        [DataMember]
         public Cid Id  { get; set; }
+
+        [DataMember]
         public long Size { get; set; }
     }
 
@@ -195,7 +203,7 @@ namespace Ipfs.Engine.CoreApi
                 return id;
             }
             if (ignoreNonexistent) return null;
-            throw new KeyNotFoundException($"Block '{id}' does not exist.");
+            throw new KeyNotFoundException($"Block '{id.Encode()}' does not exist.");
         }
 
         public async Task<IDataBlock> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))

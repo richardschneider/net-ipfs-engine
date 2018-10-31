@@ -1,7 +1,11 @@
 ﻿using Common.Logging;
 using Common.Logging.Simple;
 using Ipfs;
+using Ipfs.Api;
+using Ipfs.CoreApi;
 using Ipfs.Engine;
+using McMaster.Extensions.CommandLineUtils;
+using Newtonsoft.Json;
 using PeerTalk;
 using PeerTalk.Protocols;
 using PeerTalk.Transports;
@@ -12,119 +16,139 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    class Program
+    [Command("csipfs")]
+    [VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]
+    [Subcommand("init", typeof(InitCommand))]
+    [Subcommand("add", typeof(AddCommand))]
+    [Subcommand("cat", typeof(CatCommand))]
+    [Subcommand("get", typeof(GetCommand))]
+    [Subcommand("ls", typeof(LsCommand))]
+    [Subcommand("refs", typeof(RefsCommand))]
+    [Subcommand("id", typeof(IdCommand))]
+    [Subcommand("object", typeof(ObjectCommand))]
+    [Subcommand("block", typeof(BlockCommand))]
+    [Subcommand("files", typeof(FilesCommand))]
+    [Subcommand("daemon", typeof(DaemonCommand))]
+    [Subcommand("resolve", typeof(ResolveCommand))]
+    [Subcommand("name", typeof(NameCommand))]
+    [Subcommand("key", typeof(KeyCommand))]
+    [Subcommand("dns", typeof(DnsCommand))]
+    [Subcommand("pin", typeof(PinCommand))]
+    [Subcommand("bootstrap", typeof(BootstrapCommand))]
+    [Subcommand("swarm", typeof(SwarmCommand))]
+    [Subcommand("dht", typeof(DhtCommand))]
+    [Subcommand("config", typeof(ConfigCommand))]
+    [Subcommand("version", typeof(VersionCommand))]
+    [Subcommand("shutdown", typeof(ShutdownCommand))]
+    [Subcommand("update", typeof(UpdateCommand))]
+    class Program : CommandBase
     {
-        const string passphrase = "this is not a secure pass phrase";
-        public static IpfsEngine ipfs = new IpfsEngine(passphrase.ToCharArray());
+        static bool debugging;
 
-        static void Main(string[] args)
+        public static int Main(string[] args)
         {
-            // set logger factory
+            // Need to setup common.logging early.
+            debugging = args.Any(s => s == "--debug");
             var properties = new Common.Logging.Configuration.NameValueCollection();
-            properties["level"] = "TRACE";
+            properties["level"] = debugging ? "DEBUG" : "OFF";
             properties["showLogName"] = "true";
-            properties["showDateTime"] = "true";
+            properties["showDateTime"] = "false";
             LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
 
-            ipfs.StartAsync().Wait();
-
-            Console.ReadKey();
-        }
-        
-    }
-
-    class Test
-    {
-        const string passphrase = "this is not a secure pass phrase";
-        public static IpfsEngine ipfs = new IpfsEngine(passphrase.ToCharArray());
-
-        static Test()
-        {
-            ipfs.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "ipfs-test4");
-        }
-        public async Task Can_Start_And_Stop()
-        {
-            await ipfs.StartAsync();
-            //await Task.Delay(1000);
-            await ipfs.StopAsync();
-#if false
-            await ipfs.StartAsync();
-            await ipfs.StopAsync();
-
-            await ipfs.StartAsync();
-            //ExceptionAssert.Throws<Exception>(() => ipfs.StartAsync().Wait());
-            await ipfs.StopAsync();
-#endif
-        }
-        public async Task Swarm_Gets_Bootstrap_Peers()
-        {
-            var bootPeers = (await ipfs.Bootstrap.ListAsync()).ToArray();
-            await ipfs.StartAsync();
             try
             {
-                var swarm = await ipfs.SwarmService;
-                var knownPeers = swarm.KnownPeerAddresses.ToArray();
-                while (bootPeers.Count() != knownPeers.Count())
+                return CommandLineApplication.Execute<Program>(args);
+            }
+            catch (Exception e)
+            {
+                for (; e != null; e = e.InnerException)
                 {
-                    await Task.Delay(50);
-                    knownPeers = swarm.KnownPeerAddresses.ToArray();
+                    Console.Error.WriteLine(e.Message);
+                    if (debugging)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine(e.StackTrace);
+                    }
                 }
-                //CollectionAssert.AreEquivalent(bootPeers, knownPeers);
-            }
-            finally
-            {
-                await ipfs.StopAsync();
+                return 1;
             }
         }
 
+        [Option("--api <url>",  Description = "Use a specific API instance")]
+        public string ApiUrl { get; set;  } = IpfsClient.DefaultApiUri.ToString();
 
-        public async Task SendReceive()
+        [Option("-L|--local", Description = "Run the command locally, instead of using the daemon")]
+        public bool UseLocalEngine { get; set; }
+
+        [Option("--enc", Description = "The output type (json, xml, or text)")]
+        public string OutputEncoding { get; set; } = "text";
+
+        [Option("--debug", Description = "Show debugging info")]
+        public bool Debug { get; set; }  // just for documentation, already parsed in Main
+
+        protected override Task<int> OnExecute(CommandLineApplication app)
         {
-            var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            var tcp = new Tcp();
-            using (var server = new HelloServer())
-            using (var stream = await tcp.ConnectAsync(server.Address, cs.Token))
-            {
-                var bytes = new byte[5];
-                await stream.ReadAsync(bytes, 0, bytes.Length);
-                Console.WriteLine("got " + Encoding.UTF8.GetString(bytes));
-                //Assert.AreEqual("hello", Encoding.UTF8.GetString(bytes));
-            }
+            app.ShowHelp();
+            return Task.FromResult(0);
         }
 
-        class HelloServer : IDisposable
+        ICoreApi coreApi;
+        public ICoreApi CoreApi
         {
-            CancellationTokenSource cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-
-            public HelloServer()
+            get
             {
-                var tcp = new Tcp();
-                Address = tcp.Listen("/ip4/127.0.0.1", Handler, cs.Token);
-                Console.WriteLine("HelloServer " + Address);
-            }
+                if (coreApi == null)
+                {
+                    if (UseLocalEngine)
+                    {
+                        // TODO: Add option --pass
+                        string passphrase = "this is not a secure pass phrase";
+                        var engine = new IpfsEngine(passphrase.ToCharArray());
+                        engine.StartAsync().Wait();
+                        coreApi = engine;
+                    }
+                    else
+                    {
+                        coreApi = new IpfsClient(ApiUrl);
+                    }
+                }
 
-            public MultiAddress Address { get; set; }
-
-            public void Dispose()
-            {
-                Console.WriteLine("HelloServer: Dispose");
-                cs.Cancel();
-            }
-
-            void Handler(Stream stream, MultiAddress local, MultiAddress remote)
-            {
-                var msg = Encoding.UTF8.GetBytes("hello");
-                stream.Write(msg, 0, msg.Length);
-                stream.Flush();
-                stream.Dispose();
+                return coreApi;
             }
         }
 
+        public int Output<T>(CommandLineApplication app, T data, Action<T, TextWriter> text)
+            where T: class
+        {
+            switch (OutputEncoding.ToLowerInvariant())
+            {
+                case "text":
+                    text(data, app.Out);
+                    break;
+
+                case "json":
+                    var x = new JsonSerializer();
+                    x.Formatting = Formatting.Indented;
+                    x.Serialize(app.Out, data);
+                    break;
+
+                default:
+                    app.Error.WriteLine($"Unknown output encoding '{OutputEncoding}'");
+                    return 1;
+            }
+
+            return 0;
+        }
+
+        private static string GetVersion()
+            => typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
     }
+
 }

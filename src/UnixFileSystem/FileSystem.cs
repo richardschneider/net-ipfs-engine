@@ -70,7 +70,7 @@ namespace Ipfs.Engine.UnixFileSystem
             var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
 
             if (dm.Type != DataType.File)
-                throw new Exception($"'{id} is not a file.");
+                throw new Exception($"'{id.Encode()}' is not a file.");
 
             if (dm.Fanout.HasValue) throw new NotImplementedException("files with a fanout");
 

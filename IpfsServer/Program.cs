@@ -16,9 +16,12 @@ namespace Ipfs.Server
     /// <summary>
     ///   Manages an IPFS server.
     /// </summary>
-    class Program
+    public class Program
     {
         static CancellationTokenSource cancel = new CancellationTokenSource();
+        /// <summary>
+        ///   The IPFS Core API engine.
+        /// </summary>
         public static IpfsEngine IpfsEngine;
         const string passphrase = "this is not a secure pass phrase";
 
@@ -66,6 +69,10 @@ namespace Ipfs.Server
 
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                })
                 .UseUrls(urls)
                 .Build();
         }

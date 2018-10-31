@@ -18,12 +18,12 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<Peer> FindPeerAsync(MultiHash id, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("DHT is not yet implemented.");
         }
 
         public Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("DHT is not yet implemented.");
         }
     }
 }

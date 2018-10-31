@@ -1,5 +1,6 @@
 ﻿using Ipfs.CoreApi;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -100,5 +101,25 @@ namespace Ipfs.Server.HttpApi.V0
             }
         }
 
+        /// <summary>
+        ///  Replace all the configuration settings.
+        /// </summary>
+        /// <param name="file">
+        ///   The new configuration settings.
+        /// </param>
+        [HttpGet, HttpPost, Route("config/replace")]
+        public async Task Replace(IFormFile file)
+        {
+            if (file == null)
+                throw new ArgumentNullException("file");
+
+            using (var stream = file.OpenReadStream())
+            using (var text = new StreamReader(stream))
+            using (var reader = new JsonTextReader(text))
+            {
+                var json = await JObject.LoadAsync(reader);
+                await IpfsCore.Config.ReplaceAsync(json);
+            }
+        }
     }
 }

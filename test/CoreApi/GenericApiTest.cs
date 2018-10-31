@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,6 @@ namespace Ipfs.Engine
     [TestClass]
     public class GenericApiTest
     {
-        const string marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
 
         [TestMethod]
         public async Task Local_Info()
@@ -28,12 +28,17 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("NYI")]
         public async Task Mars_Info()
         {
+            var marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
+            var marsAddr = $"/ip6/::1/p2p/{marsId}";
             var ipfs = TestFixture.Ipfs;
+            var swarm = await ipfs.SwarmService;
+            var mars = await swarm.RegisterPeerAsync(marsAddr);
+
             var peer = await ipfs.Generic.IdAsync(marsId);
-            Assert.IsInstanceOfType(peer, typeof(Peer));
+            Assert.AreEqual(mars.Id, peer.Id);
+            Assert.AreEqual(mars.Addresses.First(), peer.Addresses.First());
         }
 
         [TestMethod]

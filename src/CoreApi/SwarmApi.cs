@@ -80,7 +80,7 @@ namespace Ipfs.Engine.CoreApi
         public async Task<IEnumerable<Peer>> PeersAsync(CancellationToken cancel = default(CancellationToken))
         {
             var swarm = await ipfs.SwarmService;
-            return swarm.KnownPeers;
+            return swarm.KnownPeers.Where(p => p.ConnectedAddress != null);
         }
 
         public async Task<MultiAddress> RemoveAddressFilterAsync(MultiAddress address, bool persist = false, CancellationToken cancel = default(CancellationToken))

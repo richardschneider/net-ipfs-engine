@@ -20,11 +20,17 @@ namespace Ipfs.Server.HttpApi.V0
         /// <summary>
         ///   Information about the peer.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="arg">
+        ///   The peer's ID or empty for the local peer.
+        /// </param>
         [HttpGet, HttpPost, Route("id")]
-        public async Task<PeerInfoDto> Get()
+        public async Task<PeerInfoDto> Get(string arg)
         {
-            var peer = await IpfsCore.Generic.IdAsync(null, Timeout.Token);
+            MultiHash id = null;
+            if (!String.IsNullOrEmpty(arg))
+                id = arg;
+
+            var peer = await IpfsCore.Generic.IdAsync(id, Timeout.Token);
             return new PeerInfoDto(peer);
         }
 

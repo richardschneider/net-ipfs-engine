@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Common.Logging" Version="3.4.1" />
-    <PackageReference Include="Ipfs.Api" Version="0.22.2" />
+    <PackageReference Include="Ipfs.Api" Version="0.23.1" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.9.0" />

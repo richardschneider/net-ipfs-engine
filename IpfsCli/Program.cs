@@ -48,6 +48,7 @@ namespace Ipfs.Cli
     [Subcommand("version", typeof(VersionCommand))]
     [Subcommand("shutdown", typeof(ShutdownCommand))]
     [Subcommand("update", typeof(UpdateCommand))]
+    [Subcommand("bitswap", typeof(BitswapCommand))]
     class Program : CommandBase
     {
         static bool debugging;

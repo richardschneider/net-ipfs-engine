@@ -49,7 +49,6 @@ namespace PeerTalk.Protocols
             await muxer.ProcessRequestsAsync();
 
             log.Debug("stop processing from " + connection.RemoteAddress);
-            connection.Dispose();
         }
 
         /// <inheritdoc />

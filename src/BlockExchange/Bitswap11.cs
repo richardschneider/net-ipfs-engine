@@ -134,11 +134,13 @@ namespace Ipfs.Engine.BlockExchange
                             block = w.Id.Hash.ToArray()
                         })
                         .ToArray()
-                }
+                },
+                payload = new List<Block>(0)
             };
 
             ProtoBuf.Serializer.SerializeWithLengthPrefix<Message>(stream, message, PrefixStyle.Base128);
             await stream.FlushAsync(cancel);
+            log.Debug("Sent want list");
         }
 
         internal async Task SendAsync(

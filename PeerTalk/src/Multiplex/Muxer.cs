@@ -298,8 +298,7 @@ namespace PeerTalk.Multiplex
                     log.Error("failed", e);
                 }
             }
-
-            Channel.Dispose();
+            Connection.Dispose();
         }
 
         /// <summary>

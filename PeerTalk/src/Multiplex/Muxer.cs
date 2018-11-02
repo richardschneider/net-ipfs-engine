@@ -298,7 +298,12 @@ namespace PeerTalk.Multiplex
                     log.Error("failed", e);
                 }
             }
-            Connection.Dispose();
+
+            // Some of the tests do not pass a connection.
+            if (Connection != null)
+                Connection.Dispose();
+            else if (Channel != null)
+                Channel.Dispose();
         }
 
         /// <summary>

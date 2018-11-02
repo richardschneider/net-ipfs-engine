@@ -21,12 +21,12 @@ namespace Ipfs.Engine.CoreApi
             throw new NotImplementedException();
         }
 
-        public Task Publish(string topic, string message, CancellationToken cancel = default(CancellationToken))
+        public Task PublishAsync(string topic, string message, CancellationToken cancel = default(CancellationToken))
         {
             throw new NotImplementedException();
         }
 
-        public Task Subscribe(string topic, Action<IPublishedMessage> handler, CancellationToken cancellationToken)
+        public Task SubscribeAsync(string topic, Action<IPublishedMessage> handler, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

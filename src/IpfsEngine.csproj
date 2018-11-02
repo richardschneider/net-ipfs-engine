@@ -36,13 +36,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ipfs.Core" Version="0.33.0" />
+    <PackageReference Include="Ipfs.Core" Version="0.34.1" />
     <PackageReference Include="Makaretu.Dns.Unicast" Version="0.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0-pre-05" />
     <PackageReference Include="PeterO.Cbor" Version="3.1.0" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.8.2" />
-    <PackageReference Include="protobuf-net" Version="2.3.7" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.8.3.37" />
+    <PackageReference Include="protobuf-net" Version="2.4.0" />
   </ItemGroup>
   
   <ItemGroup>

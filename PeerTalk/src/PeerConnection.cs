@@ -167,7 +167,7 @@ namespace PeerTalk
             muxer.SubstreamCreated += (s, e) => ReadMessages(e, CancellationToken.None);
             this.MuxerEstablished.SetResult(muxer);
 
-            var _ = muxer.ProcessRequestsAsync(cancel);
+            var _ = muxer.ProcessRequestsAsync();
         }
 
         /// <summary>
@@ -287,11 +287,11 @@ namespace PeerTalk
             {
                 if (disposing)
                 {
+                    log.Debug($"Closing connection to {RemoteAddress}");
                     if (Stream != null)
                     {
                         try
                         {
-                            log.Debug($"Closing connection to {RemoteAddress}");
                             Stream.Dispose();
                         }
                         catch (ObjectDisposedException)

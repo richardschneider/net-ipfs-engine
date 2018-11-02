@@ -306,11 +306,20 @@ namespace PeerTalk
         {
             var peer = await RegisterPeerAsync(address, cancel);
 
+            // If connected and still open, then use the existing connection.
             if (peer.ConnectedAddress != null)
             {
-                // TODO: Verify connection is still open
-                return peer;
+                if (connections.TryGetValue(peer.Id.ToBase58(), out PeerConnection conn))
+                {
+                    if (conn.Stream != null && conn.Stream.CanRead && conn.Stream.CanWrite)
+                    {
+                        return peer;
+                    }
+                    log.Debug($"Connection was closed");
+                    conn.Dispose();
+                }
             }
+            peer.ConnectedAddress = null;
 
             // Establish a stream.
             var addrs = await address.ResolveAsync(cancel);
@@ -323,6 +332,7 @@ namespace PeerTalk
             {
                 if (e.RemotePeer != null && e.RemotePeer.Id != null)
                 {
+                    log.Debug($"Connection to {e.RemotePeer.Id} closed");
                     connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
                 }
             };

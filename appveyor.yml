@@ -46,7 +46,6 @@ before_build:
 
 build_script:
   - dotnet build -c %CONFIGURATION% -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
-  - dotnet build -c %CONFIGURATION% --no-restore ./PeerTalk/src
   - dotnet pack -c %CONFIGURATION% --no-build --no-restore -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
 
 after_build:
@@ -62,7 +61,7 @@ after_test:
     - packages\OpenCover.4.6.519\tools\OpenCover.Console.exe 
         -register:user -filter:"+[Ipfs.Engine*]* -[*Tests]*" 
         -target:"c:\Program Files\dotnet\dotnet.exe" 
-        -targetargs:"test -c Debug --no-build --no-restore --framework netcoreapp2.0 test" 
+        -targetargs:"test -c Debug --no-build --no-restore --framework netcoreapp2.1 test" 
         -output:coverage.xml  
         -mergeoutput 
         -hideskipped:File 

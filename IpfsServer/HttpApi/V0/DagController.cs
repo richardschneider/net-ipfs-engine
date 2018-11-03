@@ -64,7 +64,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("dag/get")]
         public async Task<JToken> Get(string arg)
         {
-            return await IpfsCore.Dag.GetAsync(arg, Timeout.Token);
+            return await IpfsCore.Dag.GetAsync(arg, Cancel);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Ipfs.Server.HttpApi.V0
                     multiHash: hash,
                     encoding: cidBase,
                     pin: false,
-                    cancel: Timeout.Token);
+                    cancel: Cancel);
                 return new LinkedDataCidDto { Cid = new LinkedDataDto { Link = cid } };
             }
         }

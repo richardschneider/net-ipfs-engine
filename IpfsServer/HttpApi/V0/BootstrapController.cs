@@ -45,7 +45,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("bootstrap/list")]
         public async Task<BootstrapPeersDto> List()
         {
-            var peers = await IpfsCore.Bootstrap.ListAsync(Timeout.Token);
+            var peers = await IpfsCore.Bootstrap.ListAsync(Cancel);
             return new BootstrapPeersDto
             {
                 Peers = peers.Select(peer => peer.ToString())
@@ -58,7 +58,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("bootstrap/rm/all")]
         public async Task RemoveAll()
         {
-            await IpfsCore.Bootstrap.RemoveAllAsync(Timeout.Token);
+            await IpfsCore.Bootstrap.RemoveAllAsync(Cancel);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("bootstrap/add/default")]
         public async Task<BootstrapPeersDto> AddDefaults()
         {
-            var peers = await IpfsCore.Bootstrap.AddDefaultsAsync(Timeout.Token);
+            var peers = await IpfsCore.Bootstrap.AddDefaultsAsync(Cancel);
             return new BootstrapPeersDto
             {
                 Peers = peers.Select(peer => peer.ToString())
@@ -90,14 +90,14 @@ namespace Ipfs.Server.HttpApi.V0
         {
             if (@default)
             {
-                var peers = await IpfsCore.Bootstrap.AddDefaultsAsync(Timeout.Token);
+                var peers = await IpfsCore.Bootstrap.AddDefaultsAsync(Cancel);
                 return new BootstrapPeersDto
                 {
                     Peers = peers.Select(p => p.ToString())
                 };
             }
 
-            var peer = await IpfsCore.Bootstrap.AddAsync(arg, Timeout.Token);
+            var peer = await IpfsCore.Bootstrap.AddAsync(arg, Cancel);
             return new BootstrapPeersDto
             {
                 Peers = new [] { peer?.ToString() }
@@ -120,11 +120,11 @@ namespace Ipfs.Server.HttpApi.V0
         {
             if (all)
             {
-                await IpfsCore.Bootstrap.RemoveAllAsync(Timeout.Token);
+                await IpfsCore.Bootstrap.RemoveAllAsync(Cancel);
                 return new BootstrapPeersDto { Peers = new string[0] };
             }
 
-            var peer = await IpfsCore.Bootstrap.RemoveAsync(arg, Timeout.Token);
+            var peer = await IpfsCore.Bootstrap.RemoveAsync(arg, Cancel);
             return new BootstrapPeersDto
             {
                 Peers = new[] { peer?.ToString() }

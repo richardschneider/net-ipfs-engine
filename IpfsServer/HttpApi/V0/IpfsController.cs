@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 
 namespace Ipfs.Server.HttpApi.V0
 {
@@ -23,8 +24,6 @@ namespace Ipfs.Server.HttpApi.V0
     [ApiExceptionFilter]
     public abstract class IpfsController : Controller
     {
-        CancellationTokenSource timeout;
-
         /// <summary>
         ///   Creates a new instance of the controller.
         /// </summary>
@@ -42,17 +41,20 @@ namespace Ipfs.Server.HttpApi.V0
         protected ICoreApi IpfsCore { get; }
 
         /// <summary>
-        ///   The default timeout for an API request.
+        ///   Notifies when the request is cancelled.
         /// </summary>
         /// <value>
-        ///   30 seconds.
+        ///   See <see cref="HttpContext.RequestAborted"/>
         /// </value>
-        protected CancellationTokenSource Timeout
+        /// <remarks>
+        ///   There is no timeout for a request, because of the 
+        ///   distributed nature of IPFS.
+        /// </remarks>
+        protected CancellationToken Cancel
         {
             get
             {
-                timeout = timeout ?? new CancellationTokenSource(TimeSpan.FromSeconds(30)); 
-                return timeout;
+                return HttpContext.RequestAborted;
             }
         }
 

@@ -42,7 +42,7 @@ namespace Ipfs.Server.HttpApi.V0
         [Produces("application/octet-stream")]
         public async Task<IActionResult> Get(string arg)
         {
-            var block = await IpfsCore.Block.GetAsync(arg, Timeout.Token);
+            var block = await IpfsCore.Block.GetAsync(arg, Cancel);
             Immutable();
             return File(block.DataStream, "application/octet-stream", arg, null, ETag(block.Id));
         }
@@ -56,7 +56,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("block/stat")]
         public async Task<BlockStatsDto> Stats(string arg)
         {
-            var info = await IpfsCore.Block.StatAsync(arg, Timeout.Token);
+            var info = await IpfsCore.Block.StatAsync(arg, Cancel);
             if (info == null)
             {
                 throw new KeyNotFoundException($"Block '{arg}' does not exist.");
@@ -99,7 +99,7 @@ namespace Ipfs.Server.HttpApi.V0
                     multiHash: mhtype,
                     encoding: cidBase,
                     pin: false,
-                    cancel: Timeout.Token);
+                    cancel: Cancel);
                 return new KeyDto { Key = cid };
             }
         }
@@ -119,7 +119,7 @@ namespace Ipfs.Server.HttpApi.V0
             string arg,
             bool force = false)
         {
-            var cid = await IpfsCore.Block.RemoveAsync(arg, true, Timeout.Token);
+            var cid = await IpfsCore.Block.RemoveAsync(arg, true, Cancel);
             var dto = new HashDto();
             if (cid == null && !force)
             {

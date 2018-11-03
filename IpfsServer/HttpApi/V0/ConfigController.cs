@@ -46,7 +46,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("config/show")]
         public Task<JObject> GetAllKeys()
         {
-            return IpfsCore.Config.GetAsync(Timeout.Token);
+            return IpfsCore.Config.GetAsync(Cancel);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Ipfs.Server.HttpApi.V0
         {
             if (arg.Length == 1)
             {
-                var value = await IpfsCore.Config.GetAsync(arg[0], Timeout.Token);
+                var value = await IpfsCore.Config.GetAsync(arg[0], Cancel);
                 return new ConfigDetailDto
                 {
                     Key = arg[0],
@@ -79,7 +79,7 @@ namespace Ipfs.Server.HttpApi.V0
                 if (json)
                 {
                     var value = JToken.Parse(arg[1]);
-                    await IpfsCore.Config.SetAsync(arg[0], value, Timeout.Token);
+                    await IpfsCore.Config.SetAsync(arg[0], value, Cancel);
                     return new ConfigDetailDto
                     {
                         Key = arg[0],
@@ -88,7 +88,7 @@ namespace Ipfs.Server.HttpApi.V0
                 }
 
                 // Else a text value
-                await IpfsCore.Config.SetAsync(arg[0], arg[1], Timeout.Token);
+                await IpfsCore.Config.SetAsync(arg[0], arg[1], Cancel);
                 return new ConfigDetailDto
                 {
                     Key = arg[0],

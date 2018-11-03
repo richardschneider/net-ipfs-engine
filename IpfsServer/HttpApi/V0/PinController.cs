@@ -58,7 +58,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("pin/ls")]
         public async Task<PinDetailsDto> List()
         {
-            var cids = await IpfsCore.Pin.ListAsync(Timeout.Token);
+            var cids = await IpfsCore.Pin.ListAsync(Cancel);
             return new PinDetailsDto
             {
                 Keys = cids.ToDictionary(cid => cid.Encode(), cid => new PinDetailDto())
@@ -79,7 +79,7 @@ namespace Ipfs.Server.HttpApi.V0
             string arg,
             bool recursive = true)
         {
-            var cids = await IpfsCore.Pin.AddAsync(arg, recursive, Timeout.Token);
+            var cids = await IpfsCore.Pin.AddAsync(arg, recursive, Cancel);
             return new PinsDto
             {
                 Pins = cids.Select(cid => cid.Encode())
@@ -101,7 +101,7 @@ namespace Ipfs.Server.HttpApi.V0
             string arg,
             bool recursive = true)
         {
-            var cids = await IpfsCore.Pin.RemoveAsync(arg, recursive, Timeout.Token);
+            var cids = await IpfsCore.Pin.RemoveAsync(arg, recursive, Cancel);
             return new PinsDto
             {
                 Pins = cids.Select(cid => cid.Encode())

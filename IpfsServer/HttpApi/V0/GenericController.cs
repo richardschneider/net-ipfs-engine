@@ -30,7 +30,7 @@ namespace Ipfs.Server.HttpApi.V0
             if (!String.IsNullOrEmpty(arg))
                 id = arg;
 
-            var peer = await IpfsCore.Generic.IdAsync(id, Timeout.Token);
+            var peer = await IpfsCore.Generic.IdAsync(id, Cancel);
             return new PeerInfoDto(peer);
         }
 
@@ -40,7 +40,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("version")]
         public async Task<Dictionary<string, string>> Version()
         {
-            return await IpfsCore.Generic.VersionAsync(Timeout.Token);
+            return await IpfsCore.Generic.VersionAsync(Cancel);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet(), HttpPost(), Route("resolve")]
         public async Task<PathDto> Resolve(string arg, bool recursive = false)
         {
-            var path = await IpfsCore.Generic.ResolveAsync(arg, recursive, Timeout.Token);
+            var path = await IpfsCore.Generic.ResolveAsync(arg, recursive, Cancel);
             return new PathDto(path);
         }
 

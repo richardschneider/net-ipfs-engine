@@ -56,7 +56,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("key/list")]
         public async Task<CryptoKeysDto> List()
         {
-            var keys = await IpfsCore.Key.ListAsync(Timeout.Token);
+            var keys = await IpfsCore.Key.ListAsync(Cancel);
             return new CryptoKeysDto
             {
                 Keys = keys.Select(key => new CryptoKeyDto
@@ -90,7 +90,7 @@ namespace Ipfs.Server.HttpApi.V0
             if (String.IsNullOrWhiteSpace(type))
                 throw new ArgumentNullException("type", "The key type is required.");
 
-            var key = await IpfsCore.Key.CreateAsync(arg, type, size, Timeout.Token);
+            var key = await IpfsCore.Key.CreateAsync(arg, type, size, Cancel);
             return new CryptoKeyDto
             {
                 Name = key.Name,
@@ -110,7 +110,7 @@ namespace Ipfs.Server.HttpApi.V0
             if (String.IsNullOrWhiteSpace(arg))
                 throw new ArgumentNullException("arg", "The key name is required.");
 
-            var key = await IpfsCore.Key.RemoveAsync(arg, Timeout.Token);
+            var key = await IpfsCore.Key.RemoveAsync(arg, Cancel);
             var dto = new CryptoKeysDto();
             if (key != null)
             {
@@ -136,7 +136,7 @@ namespace Ipfs.Server.HttpApi.V0
             if (arg.Length != 2)
                 throw new ArgumentException("Missing the old and/or new key name.");
 
-            var key = await IpfsCore.Key.RenameAsync(arg[0], arg[1], Timeout.Token);
+            var key = await IpfsCore.Key.RenameAsync(arg[0], arg[1], Cancel);
             var dto = new CryptoKeysDto();
             if (key != null)
             {

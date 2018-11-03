@@ -54,7 +54,7 @@ namespace Ipfs.Server.HttpApi.V0
             bool recursive = false,
             bool nocache = false)
         {
-            var path = await IpfsCore.Name.ResolveAsync(arg, recursive, nocache, Timeout.Token);
+            var path = await IpfsCore.Name.ResolveAsync(arg, recursive, nocache, Cancel);
             return new PathDto(path);
         }
 
@@ -88,7 +88,7 @@ namespace Ipfs.Server.HttpApi.V0
                 throw new ArgumentNullException("type", "The lifetime is required.");
 
             var duration = Duration.Parse(lifetime);
-            var content = await IpfsCore.Name.PublishAsync(arg, resolve, key, duration, Timeout.Token);
+            var content = await IpfsCore.Name.PublishAsync(arg, resolve, key, duration, Cancel);
             return new NamedContentDto
             {
                 Name = content.NamePath,

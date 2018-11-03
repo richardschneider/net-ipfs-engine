@@ -133,7 +133,7 @@ namespace Ipfs.Server.HttpApi.V0
             long offset = 0,
             long length = 0)
         {
-            var stream = await IpfsCore.FileSystem.ReadFileAsync(arg, offset, length, Timeout.Token);
+            var stream = await IpfsCore.FileSystem.ReadFileAsync(arg, offset, length, Cancel);
             return File(stream, "application/octet-stream", arg);
         }
 
@@ -148,7 +148,7 @@ namespace Ipfs.Server.HttpApi.V0
         public async Task<FileSystemDetailsDto> Stat(
             string arg)
         {
-            var node = await IpfsCore.FileSystem.ListFileAsync(arg, Timeout.Token);
+            var node = await IpfsCore.FileSystem.ListFileAsync(arg, Cancel);
             var dto = new FileSystemDetailsDto
             {
                 Arguments = new Dictionary<string, string>(),
@@ -218,7 +218,7 @@ namespace Ipfs.Server.HttpApi.V0
             using (var stream = file.OpenReadStream())
             {
                 // TODO: AddAsync returns a list of nodes containing every node added not just the top level.
-                var node = await IpfsCore.FileSystem.AddAsync(stream, file.FileName, options, Timeout.Token);
+                var node = await IpfsCore.FileSystem.AddAsync(stream, file.FileName, options, Cancel);
                 return new FileSystemNodeDto
                 {
                     Name = node.Id,

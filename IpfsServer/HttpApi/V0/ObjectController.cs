@@ -85,7 +85,7 @@ namespace Ipfs.Server.HttpApi.V0
         public async Task<ObjectLinkDetailDto> Create(
             string arg)
         {
-            var node = await IpfsCore.Object.NewAsync(arg, Timeout.Token);
+            var node = await IpfsCore.Object.NewAsync(arg, Cancel);
             Immutable();
             return new ObjectLinkDetailDto
             {
@@ -133,7 +133,7 @@ namespace Ipfs.Server.HttpApi.V0
                     using (var stream = file.OpenReadStream())
                     {
                         var dag = new DagNode(stream);
-                        node = await IpfsCore.Object.PutAsync(dag, Timeout.Token);
+                        node = await IpfsCore.Object.PutAsync(dag, Cancel);
                     }
                     break;
 
@@ -144,7 +144,7 @@ namespace Ipfs.Server.HttpApi.V0
 
             if (pin)
             {
-                await IpfsCore.Pin.AddAsync(node.Id, false, Timeout.Token);
+                await IpfsCore.Pin.AddAsync(node.Id, false, Cancel);
             }
 
             return new ObjectLinkDetailDto
@@ -169,7 +169,7 @@ namespace Ipfs.Server.HttpApi.V0
         public async Task<ObjectDataDetailDto> Get(
             string arg)
         {
-            var node = await IpfsCore.Object.GetAsync(arg, Timeout.Token);
+            var node = await IpfsCore.Object.GetAsync(arg, Cancel);
             Immutable();
             return new ObjectDataDetailDto
             {
@@ -194,7 +194,7 @@ namespace Ipfs.Server.HttpApi.V0
         public async Task<ObjectLinkDetailDto> Links(
             string arg)
         {
-            var links = await IpfsCore.Object.LinksAsync(arg, Timeout.Token);
+            var links = await IpfsCore.Object.LinksAsync(arg, Cancel);
             Immutable();
             return new ObjectLinkDetailDto
             {
@@ -218,9 +218,9 @@ namespace Ipfs.Server.HttpApi.V0
         [Produces("text/plain")]
         public async Task<IActionResult> Data(string arg)
         {
-            var r = await IpfsCore.Generic.ResolveAsync(arg, true, Timeout.Token);
+            var r = await IpfsCore.Generic.ResolveAsync(arg, true, Cancel);
             var cid = Cid.Decode(r.Remove(0, 6));  // strip '/ipfs/'.
-            var stream = await IpfsCore.Object.DataAsync(cid, Timeout.Token);
+            var stream = await IpfsCore.Object.DataAsync(cid, Cancel);
 
             return File(stream, "text/plain");
         }

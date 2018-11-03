@@ -62,7 +62,7 @@ namespace Ipfs.Server.HttpApi.V0
         public async Task<BitswapWantsDto> Wants(string arg)
         {
             MultiHash peer = String.IsNullOrEmpty(arg) ? null : new MultiHash(arg);
-            var cids = await IpfsCore.Bitswap.WantsAsync(peer, Timeout.Token);
+            var cids = await IpfsCore.Bitswap.WantsAsync(peer, Cancel);
             return new BitswapWantsDto
             {
                 Keys = cids.Select(cid => new BitswapLinkDto
@@ -81,7 +81,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("bitswap/unwant")]
         public async Task Unwants(string arg)
         {
-            await IpfsCore.Bitswap.UnwantAsync(arg, Timeout.Token);
+            await IpfsCore.Bitswap.UnwantAsync(arg, Cancel);
         }
 
     }

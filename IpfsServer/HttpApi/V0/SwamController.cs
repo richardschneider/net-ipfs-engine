@@ -93,7 +93,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("swarm/addrs")]
         public async Task<AddrsDto> PeerAddresses()
         {
-            var peers = await IpfsCore.Swarm.AddressesAsync(Timeout.Token);
+            var peers = await IpfsCore.Swarm.AddressesAsync(Cancel);
             var dto = new AddrsDto();
             foreach (var peer in peers)
             {
@@ -108,7 +108,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("swarm/peers")]
         public async Task<ConnectedPeersDto> ConnectedPeers()
         {
-            var peers = await IpfsCore.Swarm.PeersAsync(Timeout.Token);
+            var peers = await IpfsCore.Swarm.PeersAsync(Cancel);
             return new ConnectedPeersDto
             {
                 Peers = peers.Select(peer => new ConnectedPeerDto(peer)).ToArray()
@@ -121,7 +121,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("swarm/filters")]
         public async Task<FiltersDto> ListFilters()
         {
-            var filters = await IpfsCore.Swarm.ListAddressFiltersAsync(persist: false, cancel: Timeout.Token);
+            var filters = await IpfsCore.Swarm.ListAddressFiltersAsync(persist: false, cancel: Cancel);
             return new FiltersDto
             {
                 Strings = filters.Select(f => f.ToString()).ToArray()
@@ -137,7 +137,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("swarm/filters/add")]
         public async Task<FiltersDto> AddFilter(string arg)
         {
-            var filter = await IpfsCore.Swarm.AddAddressFilterAsync(arg, persist: false, cancel: Timeout.Token);
+            var filter = await IpfsCore.Swarm.AddAddressFilterAsync(arg, persist: false, cancel: Cancel);
             return new FiltersDto
             {
                 Strings = filter == null ? new string[0] : new [] { filter.ToString() }
@@ -153,7 +153,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("swarm/filters/rm")]
         public async Task<FiltersDto> RemoveFilter(string arg)
         {
-            var filter = await IpfsCore.Swarm.RemoveAddressFilterAsync(arg, persist: false, cancel: Timeout.Token);
+            var filter = await IpfsCore.Swarm.RemoveAddressFilterAsync(arg, persist: false, cancel: Cancel);
             return new FiltersDto
             {
                 Strings = filter == null ? new string[0] : new[] { filter.ToString() }
@@ -169,7 +169,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("swarm/connect")]
         public Task Connect(string arg)
         {
-            return IpfsCore.Swarm.ConnectAsync(arg, Timeout.Token);
+            return IpfsCore.Swarm.ConnectAsync(arg, Cancel);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("swarm/disconnect")]
         public Task Disconnect(string arg)
         {
-            return IpfsCore.Swarm.DisconnectAsync(arg, Timeout.Token);
+            return IpfsCore.Swarm.DisconnectAsync(arg, Cancel);
         }
     }
 }

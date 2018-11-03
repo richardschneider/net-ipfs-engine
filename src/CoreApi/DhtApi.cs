@@ -21,7 +21,7 @@ namespace Ipfs.Engine.CoreApi
             throw new NotImplementedException("DHT is not yet implemented.");
         }
 
-        public Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+        public Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, CancellationToken cancel = default(CancellationToken))
         {
             throw new NotImplementedException("DHT is not yet implemented.");
         }

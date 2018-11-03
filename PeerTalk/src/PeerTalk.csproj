@@ -14,12 +14,12 @@
     <!-- Nuget specs -->
     <PackageId>PeerTalk</PackageId>
     <Authors>Richard Schneider</Authors>
-    <Title>IPFS Engine</Title>
-    <Description>An embedded IPFS engine for .Net</Description>
+    <Title>Peer to Peer communication</Title>
+    <Description>An implementation of the IPFS libp2p</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Copyright>© 2018 Richard Schneider</Copyright>
-    <PackageTags>ipfs peer-to-peer p2p distributed web</PackageTags>
+    <PackageTags>ipfs peer-to-peer libp2p p2p distributed web</PackageTags>
     <IncludeSymbols>True</IncludeSymbols>
     <PackageLicenseUrl>https://github.com/richardschneider/net-ipfs-engine/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-engine</PackageProjectUrl>

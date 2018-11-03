@@ -48,10 +48,10 @@ build_script:
   - dotnet build -c %CONFIGURATION% -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
   - dotnet build -c %CONFIGURATION% --no-restore ./PeerTalk/src
   - dotnet pack -c %CONFIGURATION% --no-build --no-restore -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
-  - dotnet pack ./PeerTalk/src-c %CONFIGURATION% --no-build --no-restore -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
 
 after_build:
   - cmd: appveyor PushArtifact "src\bin\%CONFIGURATION%\Ipfs.Engine.%GitVersion_MajorMinorPatch%.nupkg"
+  - cmd: appveyor PushArtifact "PeerTalk\src\bin\%CONFIGURATION%\PeerTalk.%GitVersion_MajorMinorPatch%.nupkg"
 
 test_script:
   - dotnet test -c %CONFIGURATION% --no-build --no-restore ./PeerTalk/test

@@ -14,6 +14,7 @@ using PeerTalk;
 using System.Reflection;
 using PeerTalk.Discovery;
 using Nito.AsyncEx;
+using Makaretu.Dns;
 
 namespace Ipfs.Engine
 {
@@ -234,6 +235,9 @@ namespace Ipfs.Engine
             // Everybody needs the swarm.
             var swarm = await StartSwarmAsync();
 
+            var multicast = new MulticastService();
+            stopTasks.Add(new Task(() => { multicast.Dispose(); }));
+
             var tasks = new List<Task>
             {
                 new Task(async () =>
@@ -248,15 +252,34 @@ namespace Ipfs.Engine
                 }),
                 new Task(async () =>
                 {
-                    var mdns = new PeerTalk.Discovery.Mdns
+                    var mdns = new PeerTalk.Discovery.MdnsNext
                     {
-                        LocalPeer = localPeer
+                        LocalPeer = localPeer,
+                        MulticastService = multicast
                     };
                     mdns.PeerDiscovered += OnPeerDiscovered;
-                    swarm.ListenerEstablished += (s, e) =>
+                    stopTasks.Add(new Task(() => { mdns.StopAsync().Wait(); }));
+                    await mdns.StartAsync();
+                }),
+                new Task(async () =>
+                {
+                    var mdns = new PeerTalk.Discovery.MdnsJs
                     {
-                        mdns.RefreshPeer();
+                        LocalPeer = localPeer,
+                        MulticastService = multicast
                     };
+                    mdns.PeerDiscovered += OnPeerDiscovered;
+                    stopTasks.Add(new Task(() => { mdns.StopAsync().Wait(); }));
+                    await mdns.StartAsync();
+                }),
+                new Task(async () =>
+                {
+                    var mdns = new PeerTalk.Discovery.MdnsGo
+                    {
+                        LocalPeer = localPeer,
+                        MulticastService = multicast
+                    };
+                    mdns.PeerDiscovered += OnPeerDiscovered;
                     stopTasks.Add(new Task(() => { mdns.StopAsync().Wait(); }));
                     await mdns.StartAsync();
                 }),
@@ -298,6 +321,10 @@ namespace Ipfs.Engine
             if (numberListeners == 0)
             {
                 log.Error("No listeners were created.");
+            }
+            else
+            {
+                multicast.Start();
             }
 
             log.Debug("started");

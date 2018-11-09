@@ -675,8 +675,8 @@ namespace PeerTalk
             // Mount the protocols.
             MountProtocols(connection);
 
-            // Required by GO-IPFS
-            await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
+            // Start the handshake
+            // TODO: Isn't connection cancel token required.
             connection.ReadMessages(default(CancellationToken));
 
             // Wait for security to be established.

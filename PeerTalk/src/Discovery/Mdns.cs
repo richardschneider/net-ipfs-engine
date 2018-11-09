@@ -3,20 +3,19 @@ using Ipfs;
 using Makaretu.Dns;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace PeerTalk.Discovery
 {
     /// <summary>
-    ///   Discovers peers using Multicast DNS.
+    ///   Base class to discover peers using Multicast DNS.
     /// </summary>
-    public class Mdns : IPeerDiscovery
+    public abstract class Mdns : IPeerDiscovery
     {
         static ILog log = LogManager.GetLogger(typeof(Mdns));
-        MulticastService mdns;
-        ServiceDiscovery discovery;
-        ServiceProfile profile;
 
         /// <inheritdoc />
         public event EventHandler<PeerDiscoveredEventArgs> PeerDiscovered;
@@ -27,12 +26,17 @@ namespace PeerTalk.Discovery
         public Peer LocalPeer { get; set; }
 
         /// <summary>
+        ///   The Muticast Domain Name Service to use.
+        /// </summary>
+        public MulticastService MulticastService { get; set; }
+
+        /// <summary>
         ///   The service name for our peers.
         /// </summary>
         /// <value>
-        ///   Defaults to "_p2p._udp".
+        ///   Defaults to "ipfs".
         /// </value>
-        public string ServiceName { get; set; } = "_p2p._udp";
+        public string ServiceName { get; set; } = "ipfs";
 
         /// <summary>
         ///   Determines if the local peer responds to a query.
@@ -42,63 +46,26 @@ namespace PeerTalk.Discovery
         /// </value>
         public bool Broadcast { get; set; } = true;
 
-        /// <summary>
-        ///   Refresh state because the peer has change.
-        /// </summary>
-        /// <remarks>
-        ///   Internal method to refresh the DNS-SD TXT record.
-        /// </remarks>
-        public void RefreshPeer()
-        {
-            if (!Broadcast)
-                return;
-
-            // Remove the TXT multiaddresses
-            var nameServer = discovery.NameServer;
-            var node = nameServer.Catalog[profile.FullyQualifiedName];
-            var txts = node.Resources
-                .OfType<TXTRecord>()
-                .Where(t => t.Strings.FirstOrDefault()?.StartsWith("dnsaddr") ?? false)
-                .ToArray();
-            foreach (var txt in txts)
-            {
-                node.Resources.Remove(txt);
-            }
-
-            // Add the TXT multiaddresses
-            foreach (var address in LocalPeer.Addresses.Where(a => !a.IsLoopback()))
-            {
-                node.Resources.Add(new TXTRecord
-                {
-                    Name = profile.FullyQualifiedName,
-                    Strings = { $"dnsaddr={address.ToString()}" }
-                });
-            }
-
-        }
-
         /// <inheritdoc />
         public Task StartAsync()
         {
-            log.Debug("Starting");
-
-            // The best spec is https://github.com/libp2p/libp2p/issues/28
-            profile = new ServiceProfile(
-                instanceName: LocalPeer.Id.ToBase32(),
-                serviceName: ServiceName,
-                port: 0
-            );
-
-            mdns = new MulticastService();
-            discovery = new ServiceDiscovery(mdns);
-            mdns.NetworkInterfaceDiscovered += (s, e) =>
+            MulticastService.NetworkInterfaceDiscovered += (s, e) =>
             {
-                if (mdns == null)
-                    return;
                 try
                 {
+                    var profile = BuildProfile();
+                    var discovery = new ServiceDiscovery(MulticastService);
+                    OnServiceDiscovery(discovery);
+                    discovery.ServiceInstanceDiscovered += OnServiceInstanceDiscovered;
+
+                    if (Broadcast && profile != null)
+                    {
+                        log.Debug($"Advertising {profile.FullyQualifiedName}");
+                        discovery.Advertise(profile);
+                    }
+
                     // Ask all peers to broadcast discovery info.
-                    mdns.SendQuery(profile.QualifiedServiceName, type: DnsType.PTR);
+                    discovery.QueryServiceInstances(ServiceName);
                 }
                 catch (Exception ex)
                 {
@@ -106,67 +73,63 @@ namespace PeerTalk.Discovery
                     // eat it
                 }
             };
-            mdns.AnswerReceived += OnAnswerReceived;
-            if (Broadcast)
-            {
-                log.Debug($"Advertising {profile.FullyQualifiedName}");
-                discovery.Advertise(profile);
-                RefreshPeer();
-            }
-            mdns.Start();
 
             return Task.CompletedTask;
         }
+
 
         /// <inheritdoc />
         public Task StopAsync()
         {
-            log.Debug("Stopping");
-            if (mdns != null)
-            {
-                mdns.Stop();
-                mdns = null;
-            }
             PeerDiscovered = null;
             return Task.CompletedTask;
         }
 
-        private void OnAnswerReceived(object sender, MessageEventArgs e)
+        void OnServiceInstanceDiscovered(object sender, ServiceInstanceDiscoveryEventArgs e)
         {
             var msg = e.Message;
-            var peerServerNames = msg.Answers
-                .OfType<PTRRecord>()
-                .Where(a => DnsObject.NamesEquals(a.Name, profile.QualifiedServiceName))
-                .Select(a => a.DomainName);
-            foreach (var name in peerServerNames)
+
+            // Is it our service?
+            var qsn = ServiceName + ".local";
+            if (!e.ServiceInstanceName.EndsWith(qsn))
+                return;
+
+            foreach (var address in GetAddresses(msg))
             {
-                var addresses = msg.AdditionalRecords
-                    .OfType<TXTRecord>()
-                    .Where(t => t.Name == name)
-                    .SelectMany(t => t.Strings)
-                    .Where(s => s.StartsWith("dnsaddr="))
-                    .Select(s => s.Substring(8))
-                    .Select(s => MultiAddress.TryCreate(s))
-                    .Where(a => a != null);
-                foreach (var address in addresses)
+                if (LocalPeer.Id == address.PeerId)
                 {
-                    OnPeerDiscovered(new PeerDiscoveredEventArgs
-                    {
-                        Address = address
-                    });
+                    continue;
                 }
+                PeerDiscovered?.Invoke(this, new PeerDiscoveredEventArgs { Address = address });
             }
         }
+    
+        /// <summary>
+        ///   Build the profile which contains the DNS records that are needed
+        ///   to locate and connect to the local peer.
+        /// </summary>
+        /// <returns>
+        ///   Describes the service.
+        /// </returns>
+        public abstract ServiceProfile BuildProfile();
 
-        void OnPeerDiscovered(PeerDiscoveredEventArgs e)
+        /// <summary>
+        ///   Get the addresses of the peer in the DNS message.
+        /// </summary>
+        /// <param name="message">
+        ///   An answer describing a peer.
+        /// </param>
+        /// <returns>
+        ///   All the addresses of the peer.
+        /// </returns>
+        public abstract IEnumerable<MultiAddress> GetAddresses(Message message);
+
+        /// <summary>
+        ///   Allows derived class to modify the service discovery behavior.
+        /// </summary>
+        /// <param name="discovery"></param>
+        protected virtual void OnServiceDiscovery(ServiceDiscovery discovery)
         {
-            // Do not discover ourself.
-            var us = LocalPeer.Id;
-            var them = e.Address.PeerId;
-            if (us != them)
-            {
-                PeerDiscovered?.Invoke(this, e);
-            }
         }
     }
 }

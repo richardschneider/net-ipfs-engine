@@ -3,6 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+
 	  <AssemblyName>csipfs</AssemblyName>
     <RootNamespace>Ipfs.Cli</RootNamespace>
     

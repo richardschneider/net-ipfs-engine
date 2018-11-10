@@ -5,6 +5,7 @@
     <RootNamespace>Ipfs.Server</RootNamespace>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <MvcBuildViews>true</MvcBuildViews>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
 
     <!-- developer build is always 0.42 -->
     <AssemblyVersion>0.42</AssemblyVersion>

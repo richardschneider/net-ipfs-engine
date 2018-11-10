@@ -145,15 +145,35 @@ namespace PeerTalk
         /// <summary>
         ///  Establish the connection with the remote node.
         /// </summary>
+        /// <param name="securityProtocols"></param>
         /// <param name="cancel"></param>
         /// <remarks>
         ///   This should be called when the local peer wants a connection with
         ///   the remote peer.
         /// </remarks>
-        public async Task InitiateAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task InitiateAsync(
+            IEnumerable<IEncryptionProtocol> securityProtocols,
+            CancellationToken cancel = default(CancellationToken))
         {
             await EstablishProtocolAsync("/multistream/", cancel);
-            await EstablishProtocolAsync("/plaintext/", cancel);
+
+            // Find the first security protocol that is also supported by the remote.
+            foreach (var protocol in securityProtocols)
+            {
+                try
+                {
+                    await EstablishProtocolAsync(protocol.ToString(), cancel);
+                }
+                catch (Exception e)
+                {
+                    log.Warn(e); // eat it
+                }
+
+                await protocol.EncryptAsync(this, cancel);
+                break;
+            }
+            if (!SecurityEstablished.Task.IsCompleted)
+                throw new Exception("Could not establish a secure connection.");
 
             await EstablishProtocolAsync("/multistream/", cancel);
             await EstablishProtocolAsync("/mplex/", cancel);
@@ -240,6 +260,7 @@ namespace PeerTalk
                 }
             }
 
+            Stream.Dispose();
             log.Debug($"stop reading messsages from {RemoteAddress}");
         }
 

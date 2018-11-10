@@ -28,8 +28,9 @@ namespace PeerTalk
         /// <summary>
         ///  The supported security protocols.
         /// </summary>
-        public List<IPeerProtocol> SecurityProtocols = new List<IPeerProtocol>
+        public List<IEncryptionProtocol> SecurityProtocols = new List<IEncryptionProtocol>
         {
+            //new SecureCommunication.Secio1(),
             new Plaintext1()
         };
 
@@ -342,7 +343,7 @@ namespace PeerTalk
                 peer.ConnectedAddress = address;
 
                 MountProtocols(connection);
-                await connection.InitiateAsync(cancel);
+                await connection.InitiateAsync(SecurityProtocols, cancel);
 
                 await connection.MuxerEstablished.Task;
                 await identity.GetRemotePeer(connection);

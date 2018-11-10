@@ -96,8 +96,6 @@ namespace PeerTalk.Protocols
                 {
                     remote.Addresses = info.ListenAddresses
                         .Select(b => new MultiAddress(b))
-                        .Union(remote.Addresses)
-                        .Union(new MultiAddress[] { connection.RemoteAddress })
                         .ToList();
                 }
             }

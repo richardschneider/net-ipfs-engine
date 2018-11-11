@@ -306,6 +306,32 @@ namespace Ipfs.Engine.Cryptography
             return new KeyInfo { Id = key.Id, Name = newName };
         }
 
+        /// <summary>
+        ///   Gets the Bouncy Castle representation of the private key.
+        /// </summary>
+        /// <param name="name">
+        ///   The local name of key.
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result is
+        ///   the private key as an <see cref="AsymmetricKeyParameter"/>.
+        /// </returns>
+        public async Task<AsymmetricKeyParameter> GetPrivateKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
+        {
+            var key = await Store.TryGetAsync(name, cancel);
+            if (key == null)
+                throw new KeyNotFoundException($"The key 'name' does not exist.");
+            AsymmetricKeyParameter kp = null;
+            UseEncryptedKey(key, pkey =>
+            {
+                kp = pkey;
+            });
+            return kp;
+        }
+
         void UseEncryptedKey(EncryptedKey key, Action<AsymmetricKeyParameter> action)
         {
             using (var sr = new StringReader(key.Pem))

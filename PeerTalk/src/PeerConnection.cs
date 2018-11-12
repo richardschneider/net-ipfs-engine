@@ -176,6 +176,7 @@ namespace PeerTalk
                 catch (Exception e)
                 {
                     log.Warn(e); // eat it
+                    continue;
                 }
 
                 await protocol.EncryptAsync(this, cancel);

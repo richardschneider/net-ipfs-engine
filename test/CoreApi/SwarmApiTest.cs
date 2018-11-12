@@ -45,5 +45,35 @@ namespace Ipfs.Engine
             }
         }
 
+        [TestMethod]
+        [Ignore("TODO: Move to interop tests")]
+        public async Task JsIPFS_Connect()
+        {
+            var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
+
+            Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
+            await ipfs.Swarm.ConnectAsync(remoteAddress);
+            Assert.AreEqual(1, (await ipfs.Swarm.PeersAsync()).Count());
+
+            await ipfs.Swarm.DisconnectAsync(remoteAddress);
+            Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
+        }
+
+        [TestMethod]
+        //[Ignore("TODO: Move to interop tests")]
+        public async Task GoIPFS_Connect()
+        {
+            var remoteId = "QmdoxrwszT6b9srLXHYBPFVRXmZSFAosWLXoQS9TEEAaix";
+            var remoteAddress = $"/ip4/127.0.0.1/tcp/4001/ipfs/{remoteId}";
+
+            Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
+            await ipfs.Swarm.ConnectAsync(remoteAddress);
+            Assert.AreEqual(1, (await ipfs.Swarm.PeersAsync()).Count());
+
+            await ipfs.Swarm.DisconnectAsync(remoteAddress);
+            Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
+        }
+
     }
 }

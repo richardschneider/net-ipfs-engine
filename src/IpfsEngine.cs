@@ -72,9 +72,13 @@ namespace Ipfs.Engine
             SwarmService = new AsyncLazy<Swarm>(async () =>
             {
                 log.Debug("Building swarm service");
+                var peer = await LocalPeer;
+                var keyChain = await KeyChain();
+                var self = await keyChain.GetPrivateKeyAsync("self");
                 var swarm = new Swarm
                 {
-                    LocalPeer = await LocalPeer
+                    LocalPeer = peer,
+                    LocalPeerKey = PeerTalk.Cryptography.Key.CreatePrivateKey(self)
                 };
                 log.Debug("Built swarm service");
                 return swarm;

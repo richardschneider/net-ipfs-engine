@@ -1,5 +1,6 @@
 ﻿using Common.Logging;
 using Ipfs;
+using PeerTalk.Cryptography;
 using PeerTalk.Multiplex;
 using PeerTalk.Protocols;
 using System;
@@ -44,6 +45,14 @@ namespace PeerTalk
         ///   The remote peer's end point.
         /// </summary>
         public MultiAddress RemoteAddress { get; set; }
+
+        /// <summary>
+        ///   The private key of the local peer.
+        /// </summary>
+        /// <value>
+        ///   Used to prove the identity of the <see cref="LocalPeer"/>.
+        /// </value>
+        public Key LocalPeerKey { get; set; }
 
         /// <summary>
         ///   The duplex stream between the two peers.

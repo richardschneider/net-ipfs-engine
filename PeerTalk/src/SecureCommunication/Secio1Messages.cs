@@ -42,4 +42,15 @@ namespace PeerTalk.SecureCommunication
         [ProtoMember(5)]
         public string Hashes;
     }
+
+    [ProtoContract]
+    class Secio1Exchange
+    {
+        [ProtoMember(1)]
+        public byte[] EPublicKey;
+
+        [ProtoMember(2)]
+        public byte[] Signature;
+
+    }
 }

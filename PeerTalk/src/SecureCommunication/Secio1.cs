@@ -2,6 +2,7 @@
 using Ipfs;
 using Ipfs.Registry;
 using Org.BouncyCastle.Security;
+using PeerTalk.Cryptography;
 using PeerTalk.Protocols;
 using ProtoBuf;
 using Semver;
@@ -120,10 +121,36 @@ namespace PeerTalk.SecureCommunication
             // step 2. Exchange -- exchange (signed) ephemeral keys. verify signatures.
 
             // Generate EphemeralPubKey
-            // Send Exchange packet and receive their Exchange packet
+            var localEphemeralKey = EphermalKey.Generate(curveName);
+            var localEphemeralPublicKey = localEphemeralKey.PublicKeyBytes();
+
+            // Send Exchange packet
+            var localExchange = new Secio1Exchange();
+            using (var ms = new MemoryStream())
+            {
+                ProtoBuf.Serializer.Serialize(ms, localProposal);
+                ProtoBuf.Serializer.Serialize(ms, remoteProposal);
+                ms.Write(localEphemeralPublicKey, 0, localEphemeralPublicKey.Length);
+                localExchange.Signature = connection.LocalPeerKey.Sign(ms.ToArray());
+            }
+            localExchange.EPublicKey = localEphemeralPublicKey;
+            ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, localExchange, PrefixStyle.Fixed32BigEndian);
+            await stream.FlushAsync();
+
+            // Receive their Exchange packet
+            var remoteExchange = ProtoBuf.Serializer.DeserializeWithLengthPrefix<Secio1Exchange>(stream, PrefixStyle.Fixed32BigEndian);
 
             // =============================================================================
             // step 2.1. Verify -- verify their exchange packet is good.
+            var remotePeerKey = Key.CreatePublicKeyFromIpfs(remoteProposal.PublicKey);
+            using (var ms = new MemoryStream())
+            {
+                ProtoBuf.Serializer.Serialize(ms, remoteProposal);
+                ProtoBuf.Serializer.Serialize(ms, localProposal);
+                ms.Write(remoteExchange.EPublicKey, 0, remoteExchange.EPublicKey.Length);
+                remotePeerKey.Verify(ms.ToArray(), remoteExchange.Signature);
+            }
+            var remoteEphemeralKey = EphermalKey.CreatePublicKeyFromIpfs(curveName, remoteExchange.EPublicKey);
 
             // =============================================================================
             // step 2.2. Keys -- generate keys for mac + encryption
@@ -139,6 +166,8 @@ namespace PeerTalk.SecureCommunication
             remotePeer.PublicKey = Convert.ToBase64String(remoteProposal.PublicKey);
             // todo: maybe addresses
 
+            // TODO: Create a secure stream
+            // TODO: Set secure task done
             throw new NotImplementedException("SECIO is NYI.");
         }
 

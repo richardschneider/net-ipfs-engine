@@ -26,7 +26,7 @@ namespace PeerTalk.Cryptography
     public class EphermalKey
     {
         ECPublicKeyParameters publicKey;
-        AsymmetricKeyParameter privateKey;
+        ECPrivateKeyParameters privateKey;
 
         /// <summary>
         ///   Gets the IPFS encoding of the public key.
@@ -46,7 +46,11 @@ namespace PeerTalk.Cryptography
         /// <returns></returns>
         public byte[] GenerateSharedSecret(EphermalKey other)
         {
-
+            var agreement = AgreementUtilities.GetBasicAgreement("ECDH");
+            agreement.Init(privateKey);
+            return agreement
+                .CalculateAgreement(other.publicKey)
+                .ToByteArrayUnsigned();
         }
 
         /// <summary>
@@ -81,7 +85,7 @@ namespace PeerTalk.Cryptography
 
             return new EphermalKey
             {
-                privateKey = keyPair.Private,
+                privateKey = (ECPrivateKeyParameters)keyPair.Private,
                 publicKey = (ECPublicKeyParameters)keyPair.Public
             };
         }

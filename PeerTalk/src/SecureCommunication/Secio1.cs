@@ -155,15 +155,22 @@ namespace PeerTalk.SecureCommunication
             // =============================================================================
             // step 2.2. Keys -- generate keys for mac + encryption
             var sharedSecret = localEphemeralKey.GenerateSharedSecret(remoteEphemeralKey);
+            StretchedKey.Generate(cipherName, hashName, sharedSecret, out StretchedKey k1, out StretchedKey k2);
+            if (order < 0)
+            {
+                StretchedKey tmp = k1;
+                k1 = k2;
+                k2 = tmp;
+            }
 
             // =============================================================================
             // step 2.3. MAC + Cipher -- prepare MAC + cipher
 
-                // =============================================================================
-                // step 3. Finish -- send expected message to verify encryption works (send local nonce)
+            // =============================================================================
+            // step 3. Finish -- send expected message to verify encryption works (send local nonce)
 
-                // Fill in the remote peer
-                remotePeer.PublicKey = Convert.ToBase64String(remoteProposal.PublicKey);
+            // Fill in the remote peer
+            remotePeer.PublicKey = Convert.ToBase64String(remoteProposal.PublicKey);
             // todo: maybe addresses
 
             // TODO: Create a secure stream

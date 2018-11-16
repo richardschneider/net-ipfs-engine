@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Org.BouncyCastle.Crypto.Engines;
 
 namespace PeerTalk.SecureCommunication
 {
@@ -27,22 +28,32 @@ namespace PeerTalk.SecureCommunication
     /// </remarks>
     public class Secio1Stream : Stream
     {
-        static ILog log = LogManager.GetLogger(typeof(Secio1Stream));
-
         Stream stream;
         byte[] inBlock;
         int inBlockOffset;
         MemoryStream outStream = new MemoryStream();
         HMac inHmac;
         HMac outHmac;
-        IBufferedCipher decrypt;
-        IBufferedCipher encrypt;
+        IStreamCipher decrypt;
+        IStreamCipher encrypt;
 
         /// <summary>
         ///   Creates a new instance of the <see cref="Secio1Stream"/> class. 
         /// </summary>
         /// <param name="stream">
-        ///   The source/destination  of SECIO packets.
+        ///   The source/destination of SECIO packets.
+        /// </param>
+        /// <param name="cipherName">
+        ///   The cipher for the <paramref name="stream"/>, such as AES-256 or AES-128.
+        /// </param>
+        /// <param name="hashName">
+        ///   The hash for the <paramref name="stream"/>, such as SHA256.
+        /// </param>
+        /// <param name="localKey">
+        ///   The keys used by the local endpoint.
+        /// </param>
+        /// <param name="remoteKey">
+        ///   The keys used by the remote endpoint.
         /// </param>
         public Secio1Stream(
             Stream stream, 
@@ -59,11 +70,11 @@ namespace PeerTalk.SecureCommunication
 
             if (cipherName == "AES-256" || cipherName == "AES-512")
             {
-                decrypt = CipherUtilities.GetCipher("AES/CTR/NOPADDING");
+                decrypt = new CtrStreamCipher(new AesEngine());
                 var p = new ParametersWithIV(new KeyParameter(remoteKey.CipherKey), remoteKey.IV);
                 decrypt.Init(false, p);
 
-                encrypt = CipherUtilities.GetCipher("AES/CTR/PKCS7PADDING");
+                encrypt = new CtrStreamCipher(new AesEngine());
                 p = new ParametersWithIV(new KeyParameter(localKey.CipherKey), localKey.IV);
                 encrypt.Init(true, p);
             }
@@ -132,7 +143,6 @@ namespace PeerTalk.SecureCommunication
                 // Otherwise, wait for a new block of data.
                 else
                 {
-                    log.Debug("Need next packet");
                     inBlock = await ReadPacketAsync(cancellationToken);
                     inBlockOffset = 0;
                 }
@@ -160,12 +170,9 @@ namespace PeerTalk.SecureCommunication
                 (int)lengthBuffer[3];
             if (length <= outHmac.GetMacSize())
                 throw new InvalidDataException($"Invalid secio packet length of {length}.");
-            log.Debug($"Reading packet, length {length}");
 
             var encryptedData = await ReadPacketBytesAsync(length - outHmac.GetMacSize(), cancel);
             var signature = await ReadPacketBytesAsync(outHmac.GetMacSize(), cancel);
-            log.Debug($"Reading encrypted, length {encryptedData.Length}");
-            log.Debug($"Extra bytes = {encryptedData.Length % decrypt.GetBlockSize()}");
 
             var hmac = outHmac;
             var mac = new byte[hmac.GetMacSize()];
@@ -175,24 +182,9 @@ namespace PeerTalk.SecureCommunication
             if (!signature.SequenceEqual(mac))
                 throw new InvalidDataException("HMac error");
 
-            // Decrypt the data.
-            //decrypt.Reset();
-            var plainText = new byte[decrypt.GetOutputSize(encryptedData.Length)];
-            var len = decrypt.ProcessBytes(encryptedData, 0, encryptedData.Length, plainText, 0);
-            //decrypt.DoFinal(plainText, len);
-            //var plainText = decrypt.ProcessBytes(encryptedData);
-
-            var extraBytes = encryptedData.Length % decrypt.GetBlockSize();
-            if (extraBytes > 0)
-            {
-                var padding = new byte[decrypt.GetBlockSize() - extraBytes];
-                var x = decrypt.ProcessBytes(padding);
-                Buffer.BlockCopy(x, 0, plainText, len, extraBytes);
-            }
-
-            log.Debug($"Read plain data {plainText.ToHexString()}");
-            log.Debug($"Read plain text {Encoding.UTF8.GetString(plainText)}");
-            return plainText;
+            // Decrypt the data in-place.
+            decrypt.ProcessBytes(encryptedData, 0, encryptedData.Length, encryptedData, 0);
+            return encryptedData;
         }
 
         async Task<byte[]> ReadPacketBytesAsync(int count, CancellationToken cancel)
@@ -219,26 +211,21 @@ namespace PeerTalk.SecureCommunication
             if (outStream.Length == 0)
                 return;
 
-            var plainData = outStream.ToArray();
-            log.Debug($"Write plain data {plainData.ToHexString()}");
-            log.Debug($"Write plain text {Encoding.UTF8.GetString(plainData)}");
-
-            //encrypt.Reset();
-            var encryptedData = encrypt.ProcessBytes(plainData);
-            log.Debug($"Writer cipher length {encryptedData.Length}");
+            var data = outStream.ToArray();  // plain text
+            encrypt.ProcessBytes(data, 0, data.Length, data, 0);
 
             var hmac = inHmac;
             var mac = new byte[hmac.GetMacSize()];
             hmac.Reset();
-            hmac.BlockUpdate(encryptedData, 0, encryptedData.Length);
+            hmac.BlockUpdate(data, 0, data.Length);
             hmac.DoFinal(mac, 0);
 
-            var length = encryptedData.Length + mac.Length;
+            var length = data.Length + mac.Length;
             stream.WriteByte((byte)(length >> 24));
             stream.WriteByte((byte)(length >> 16));
             stream.WriteByte((byte)(length >> 8));
             stream.WriteByte((byte)(length));
-            stream.Write(encryptedData, 0, encryptedData.Length);
+            stream.Write(data, 0, data.Length);
             stream.Write(mac, 0, mac.Length);
             await stream.FlushAsync(cancel);
 

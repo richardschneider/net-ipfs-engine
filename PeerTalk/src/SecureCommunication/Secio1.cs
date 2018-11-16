@@ -38,13 +38,15 @@ namespace PeerTalk.SecureCommunication
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException("SECIO is NYI.");
+            await EncryptAsync(connection, cancel);
         }
 
+        /// <inheritdoc />
         public async Task<Stream> EncryptAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
         {
             var stream = connection.Stream;
             var localPeer = connection.LocalPeer;
+            connection.RemotePeer = connection.RemotePeer ?? new Peer();
             var remotePeer = connection.RemotePeer;
 
             // =============================================================================
@@ -108,9 +110,6 @@ namespace PeerTalk.SecureCommunication
             }
             if (order == 0)
                 throw new Exception("Same keys and nonces; talking to self");
-            log.Debug($"OH1 = {oh1.ToHexString()}");
-            log.Debug($"OH2 = {oh2.ToHexString()}");
-            log.Debug($"Order = {order}");
             var curveName = SelectBest(order, localProposal.Exchanges, remoteProposal.Exchanges);
             if (curveName == null)
                 throw new Exception("Cannot agree on a key exchange.");
@@ -164,7 +163,6 @@ namespace PeerTalk.SecureCommunication
             StretchedKey.Generate(cipherName, hashName, sharedSecret, out StretchedKey k1, out StretchedKey k2);
             if (order < 0)
             {
-                log.Debug("Swapping keys");
                 StretchedKey tmp = k1;
                 k1 = k2;
                 k2 = tmp;
@@ -188,6 +186,8 @@ namespace PeerTalk.SecureCommunication
             {
                 throw new Exception($"SECIO verification message failure.");
             }
+
+            log.Debug("Secure session established");
 
             // Fill in the remote peer
             remotePeer.PublicKey = Convert.ToBase64String(remoteProposal.PublicKey);

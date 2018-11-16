@@ -56,6 +56,9 @@ namespace PeerTalk.Cryptography
         /// <summary>
         ///   Create a public key from the IPFS ephermal encoding.
         /// </summary>
+        /// <param name="curveName">
+        ///   The name of the curve, for example "P-256".
+        /// </param>
         /// <param name="bytes">
         ///   The IPFS encoded ephermal key.
         /// </param>
@@ -63,7 +66,7 @@ namespace PeerTalk.Cryptography
         {
             X9ECParameters ecP = ECNamedCurveTable.GetByName(curveName);
             if (ecP == null)
-                throw new Exception($"Unknown curve name '{curveName}'.");
+                throw new KeyNotFoundException($"Unknown curve name '{curveName}'.");
             var domain = new ECDomainParameters(ecP.Curve, ecP.G, ecP.N, ecP.H, ecP.GetSeed());
             var q = ecP.Curve.DecodePoint(bytes);
             return new EphermalKey
@@ -73,6 +76,15 @@ namespace PeerTalk.Cryptography
         }
 
 
+        /// <summary>
+        ///   Create a new ephermal key on the curve.
+        /// </summary>
+        /// <param name="curveName">
+        ///   The name of the curve, for example "P-256".
+        /// </param>
+        /// <returns>
+        ///   The new created emphermal key.
+        /// </returns>
         public static EphermalKey Generate(string curveName)
         {
             X9ECParameters ecP = ECNamedCurveTable.GetByName(curveName);

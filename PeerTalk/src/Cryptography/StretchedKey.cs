@@ -9,20 +9,32 @@ using Org.BouncyCastle.Crypto.Parameters;
 
 namespace PeerTalk.Cryptography
 {
+    /// <summary>
+    ///   Symmetric keys for SECIO.
+    /// </summary>
+    /// <remarks>
+    ///   Keys derived from a shared secret.
+    /// </remarks>
     public class StretchedKey
     {
+        /// <summary>
+        ///   The nonce.
+        /// </summary>
         public byte[] IV { get; set; }
+
+        /// <summary>
+        ///   The message authentication code.
+        /// </summary>
         public byte[] MacKey { get; set; }
+
+        /// <summary>
+        ///   The encyption key.
+        /// </summary>
         public byte[] CipherKey { get; set; }
 
         /// <summary>
-        /// 
+        ///   Create two streched keys from the shared secret.
         /// </summary>
-        /// <param name="cipherName"></param>
-        /// <param name="hashName"></param>
-        /// <param name="secret"></param>
-        /// <param name="k1"></param>
-        /// <param name="k2"></param>
         /// <remarks>
         ///   The is no spec for this.  Copied https://github.com/libp2p/go-libp2p-crypto/blob/0f79fbebcb64f746a636aba79ece0635ec5919e9/key.go#L183
         /// </remarks>

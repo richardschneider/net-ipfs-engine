@@ -22,6 +22,18 @@ namespace PeerTalk.Cryptography
         AsymmetricKeyParameter publicKey;
         AsymmetricKeyParameter privateKey;
 
+        /// <summary>
+        ///   Verify that signature matches the data.
+        /// </summary>
+        /// <param name="data">
+        ///   The data to check.
+        /// </param>
+        /// <param name="signature">
+        ///   The supplied signature of the <paramref name="data"/>.
+        /// </param>
+        /// <exception cref="InvalidDataException">
+        ///   The <paramref name="data"/> does match the <paramref name="signature"/>.
+        /// </exception>
         public void Verify(byte[] data, byte[] signature)
         {
             var signer = SignerUtilities.GetSigner(signingAlgorithmName);
@@ -31,6 +43,15 @@ namespace PeerTalk.Cryptography
                 throw new InvalidDataException("Data does not match the signature.");
         }
 
+        /// <summary>
+        ///   Create a signature for the data.
+        /// </summary>
+        /// <param name="data">
+        ///   The data to sign.
+        /// </param>
+        /// <returns>
+        ///   The signature.
+        /// </returns>
         public byte[] Sign(byte[] data)
         {
             var signer = SignerUtilities.GetSigner(signingAlgorithmName);
@@ -45,7 +66,9 @@ namespace PeerTalk.Cryptography
         /// <param name="bytes">
         ///   The IPFS encoded protobuf PublicKey message.
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        ///   The public key.
+        /// </returns>
         public static Key CreatePublicKeyFromIpfs(byte[] bytes)
         {
             var key = new Key();
@@ -64,8 +87,9 @@ namespace PeerTalk.Cryptography
         /// <summary>
         ///   Create the key from the Bouncy Castle private key.
         /// </summary>
-        /// <param name="privateKey"></param>
-        /// <returns></returns>
+        /// <param name="privateKey">
+        ///   The Bouncy Castle private key.  Only RSA keys are currently supported.
+        /// </param>
         public static Key CreatePrivateKey(AsymmetricKeyParameter privateKey)
         {
             var key = new Key();
@@ -94,11 +118,12 @@ namespace PeerTalk.Cryptography
         class PublicKeyMessage
         {
             [ProtoMember(1, IsRequired = true)]
-            public KeyType Type;
+            public KeyType Type { get; set; }
             [ProtoMember(2, IsRequired = true)]
-            public byte[] Data;
+            public byte[] Data { get; set; }
         }
 
+#if false
         [ProtoContract]
         class PrivateKeyMessage
         {
@@ -107,6 +132,6 @@ namespace PeerTalk.Cryptography
             [ProtoMember(2, IsRequired = true)]
             public byte[] Data;
         }
-
+#endif
     }
 }

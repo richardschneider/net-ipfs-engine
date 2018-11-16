@@ -33,6 +33,7 @@ namespace PeerTalk.Protocols
             await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
         }
 
+        /// <inheritdoc />
         public Task<Stream> EncryptAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
         {
             connection.SecurityEstablished.SetResult(true);

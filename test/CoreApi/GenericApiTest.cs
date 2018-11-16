@@ -106,7 +106,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("Need a working bitswap")]
+        [Ignore("Need a working IPNS")]
         public async Task Resolve_DnsLink_Recursive()
         {
             var ipfs = TestFixture.Ipfs;

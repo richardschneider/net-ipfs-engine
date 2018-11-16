@@ -117,7 +117,6 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("Not deterministic")]
         public async Task Swarm_Gets_Bootstrap_Peers()
         {
             var ipfs = TestFixture.Ipfs;

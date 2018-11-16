@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ipfs.Engine
@@ -29,15 +30,14 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("Need SECIO")]
-        public async Task Connect_Disconnect()
+        public async Task Connect_Disconnect_Mars()
         {
-            var mars = "/dns/mars.i.ipfs.io/tcp/4001/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
+            var mars = "/dns/mars.i.ipfs.io/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";
             await ipfs.Swarm.ConnectAsync(mars);
             try
             {
                 var peers = await ipfs.Swarm.PeersAsync();
-                Assert.IsTrue(peers.Any(p => p.Id == "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3"));
+                Assert.IsTrue(peers.Any(p => p.Id == "QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"));
             }
             finally
             {
@@ -49,11 +49,12 @@ namespace Ipfs.Engine
         [Ignore("TODO: Move to interop tests")]
         public async Task JsIPFS_Connect()
         {
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
             var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
 
             Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
-            await ipfs.Swarm.ConnectAsync(remoteAddress);
+            await ipfs.Swarm.ConnectAsync(remoteAddress, cts.Token);
             Assert.AreEqual(1, (await ipfs.Swarm.PeersAsync()).Count());
 
             await ipfs.Swarm.DisconnectAsync(remoteAddress);
@@ -61,14 +62,15 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        //[Ignore("TODO: Move to interop tests")]
+        [Ignore("TODO: Move to interop tests")]
         public async Task GoIPFS_Connect()
         {
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             var remoteId = "QmdoxrwszT6b9srLXHYBPFVRXmZSFAosWLXoQS9TEEAaix";
             var remoteAddress = $"/ip4/127.0.0.1/tcp/4001/ipfs/{remoteId}";
 
             Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
-            await ipfs.Swarm.ConnectAsync(remoteAddress);
+            await ipfs.Swarm.ConnectAsync(remoteAddress, cts.Token);
             Assert.AreEqual(1, (await ipfs.Swarm.PeersAsync()).Count());
 
             await ipfs.Swarm.DisconnectAsync(remoteAddress);

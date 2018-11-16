@@ -31,7 +31,7 @@ namespace PeerTalk
         /// </summary>
         public List<IEncryptionProtocol> SecurityProtocols = new List<IEncryptionProtocol>
         {
-            //new SecureCommunication.Secio1(),
+            new SecureCommunication.Secio1(),
             new Plaintext1()
         };
 
@@ -708,10 +708,8 @@ namespace PeerTalk
             var muxer = await connection.MuxerEstablished.Task;
 
             // Need details on the remote peer.
-            if (connection.RemotePeer == null)
-            {
-                connection.RemotePeer = await identity.GetRemotePeer(connection);
-            }
+            connection.RemotePeer = await identity.GetRemotePeer(connection);
+
             connection.RemotePeer = RegisterPeer(connection.RemotePeer);
             connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");
             connection.RemotePeer.ConnectedAddress = connection.RemoteAddress;

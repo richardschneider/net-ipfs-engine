@@ -270,7 +270,7 @@ namespace PeerTalk
                 }
             }
 
-            Stream.Dispose();
+            Stream?.Dispose();
             log.Debug($"stop reading messsages from {RemoteAddress}");
         }
 

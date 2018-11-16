@@ -24,6 +24,7 @@ namespace PeerTalk.Protocols
         {
             Protocols = new Dictionary<string, Func<IPeerProtocol>>();
             Register<Multistream1>();
+            Register<SecureCommunication.Secio1>();
             Register<Plaintext1>();
             Register<Identify1>();
             Register<Mplex67>();

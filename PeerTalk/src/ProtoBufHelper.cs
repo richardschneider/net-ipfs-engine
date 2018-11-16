@@ -15,7 +15,7 @@ namespace PeerTalk
     public static class ProtoBufHelper
     {
         /// <summary>
-        ///   Read a proto buf message.
+        ///   Read a proto buf message with a varint length prefix.
         /// </summary>
         /// <typeparam name="T">
         ///   The type of message.

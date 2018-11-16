@@ -107,7 +107,16 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("Not deterministic")]
+        public async Task KeyChain_GetKey()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var keyChain = await ipfs.KeyChain();
+            var key = await keyChain.GetPrivateKeyAsync("self");
+            Assert.IsNotNull(key);
+            Assert.IsTrue(key.IsPrivate);
+        }
+
+        [TestMethod]
         public async Task Swarm_Gets_Bootstrap_Peers()
         {
             var ipfs = TestFixture.Ipfs;

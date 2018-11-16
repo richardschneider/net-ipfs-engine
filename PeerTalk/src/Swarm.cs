@@ -12,6 +12,7 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using PeerTalk.Protocols;
+using PeerTalk.Cryptography;
 
 namespace PeerTalk
 {
@@ -28,8 +29,9 @@ namespace PeerTalk
         /// <summary>
         ///  The supported security protocols.
         /// </summary>
-        public List<IPeerProtocol> SecurityProtocols = new List<IPeerProtocol>
+        public List<IEncryptionProtocol> SecurityProtocols = new List<IEncryptionProtocol>
         {
+            new SecureCommunication.Secio1(),
             new Plaintext1()
         };
 
@@ -85,6 +87,14 @@ namespace PeerTalk
                 localPeer = value;
             }
         }
+
+        /// <summary>
+        ///   The private key of the local peer.
+        /// </summary>
+        /// <value>
+        ///   Used to prove the identity of the <see cref="LocalPeer"/>.
+        /// </value>
+        public Key LocalPeerKey { get; set; }
 
         /// <summary>
         ///   Other nodes. Key is the bae58 hash of the peer ID.
@@ -249,6 +259,15 @@ namespace PeerTalk
             {
                 throw new NotSupportedException("The LocalPeer is not defined.");
             }
+
+            // Many of the unit tests do not setup the LocalPeerKey.  If
+            // its missing, then just use plaintext connection.
+            // TODO: make the tests setup the security protocols.
+            if (LocalPeerKey == null)
+            {
+                SecurityProtocols = new List<IEncryptionProtocol> { new Plaintext1() };
+            }
+
             log.Debug("Starting");
 
             return Task.CompletedTask;
@@ -342,7 +361,7 @@ namespace PeerTalk
                 peer.ConnectedAddress = address;
 
                 MountProtocols(connection);
-                await connection.InitiateAsync(cancel);
+                await connection.InitiateAsync(SecurityProtocols, cancel);
 
                 await connection.MuxerEstablished.Task;
                 await identity.GetRemotePeer(connection);
@@ -461,6 +480,7 @@ namespace PeerTalk
                                 {
                                     LocalPeer = LocalPeer,
                                     // TODO: LocalAddress
+                                    LocalPeerKey = LocalPeerKey,
                                     RemotePeer = remote,
                                     RemoteAddress = addr,
                                     Stream = stream
@@ -661,6 +681,7 @@ namespace PeerTalk
             {
                 LocalPeer = LocalPeer,
                 LocalAddress = local,
+                LocalPeerKey = LocalPeerKey,
                 RemoteAddress = remote,
                 Stream = stream
             };
@@ -681,15 +702,14 @@ namespace PeerTalk
 
             // Wait for security to be established.
             await connection.SecurityEstablished.Task;
+            // TODO: Maybe connection.LocalPeerKey = null;
 
             // Wait for the handshake to complete.
             var muxer = await connection.MuxerEstablished.Task;
 
             // Need details on the remote peer.
-            if (connection.RemotePeer == null)
-            {
-                connection.RemotePeer = await identity.GetRemotePeer(connection);
-            }
+            connection.RemotePeer = await identity.GetRemotePeer(connection);
+
             connection.RemotePeer = RegisterPeer(connection.RemotePeer);
             connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");
             connection.RemotePeer.ConnectedAddress = connection.RemoteAddress;

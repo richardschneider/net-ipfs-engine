@@ -12,7 +12,7 @@ namespace PeerTalk.Protocols
     /// <summary>
     ///   TODO
     /// </summary>
-    public class Plaintext1 : IPeerProtocol
+    public class Plaintext1 : IEncryptionProtocol
     {
         /// <inheritdoc />
         public string Name { get; } = "plaintext";
@@ -31,6 +31,13 @@ namespace PeerTalk.Protocols
         {
             connection.SecurityEstablished.SetResult(true);
             await connection.EstablishProtocolAsync("/multistream/", CancellationToken.None);
+        }
+
+        /// <inheritdoc />
+        public Task<Stream> EncryptAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        {
+            connection.SecurityEstablished.SetResult(true);
+            return Task.FromResult(connection.Stream);
         }
 
     }

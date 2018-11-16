@@ -6,7 +6,8 @@ namespace Ipfs.Engine.Cryptography.Proto
     {
         RSA = 0,
         Ed25519 = 1,
-        Secp256k1 = 2
+        Secp256k1 = 2,
+        ECDH = 4,
     }
 
     [ProtoContract]

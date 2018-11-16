@@ -118,7 +118,6 @@ namespace Ipfs.Engine.CoreApi
 #endif
 
         [TestMethod]
-        [Ignore("Waiting for bitswap")]
         public async Task Get_Nonexistent()
         {
             var data = Encoding.UTF8.GetBytes("Some data for net-ipfs-engine-test that cannot be found");

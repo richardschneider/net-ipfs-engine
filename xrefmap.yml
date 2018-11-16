@@ -480,6 +480,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
   nameWithType: KeyChain.FindKeyByNameAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String,CancellationToken)
+  name: GetPrivateKeyAsync(String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String, CancellationToken)
+  nameWithType: KeyChain.GetPrivateKeyAsync(String, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync*
+  name: GetPrivateKeyAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync
+  nameWithType: KeyChain.GetPrivateKeyAsync
 - uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,CancellationToken)
   name: GetPublicKeyAsync(String, CancellationToken)
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_CancellationToken_

@@ -15,6 +15,7 @@ using System.Reflection;
 using PeerTalk.Discovery;
 using Nito.AsyncEx;
 using Makaretu.Dns;
+using System.Collections.Concurrent;
 
 namespace Ipfs.Engine
 {
@@ -27,7 +28,7 @@ namespace Ipfs.Engine
 
         KeyChain keyChain;
         char[] passphrase;
-        List<Task> stopTasks = new List<Task>();
+        ConcurrentBag<Task> stopTasks = new ConcurrentBag<Task>();
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
@@ -358,7 +359,7 @@ namespace Ipfs.Engine
             try
             {
                 var tasks = stopTasks.ToArray();
-                stopTasks = new List<Task>();
+                stopTasks = new ConcurrentBag<Task>();
                 foreach (var task in tasks)
                 {
                     task.Start();

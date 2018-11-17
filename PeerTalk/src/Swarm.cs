@@ -13,6 +13,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using PeerTalk.Protocols;
 using PeerTalk.Cryptography;
+using PeerTalk.Discovery;
 
 namespace PeerTalk
 {
@@ -63,6 +64,11 @@ namespace PeerTalk
         ///   Raised when a connection to another peer is established.
         /// </summary>
         public event EventHandler<PeerConnection> ConnectionEstablished;
+
+        /// <summary>
+        ///   Raised when a new peer is discovered for the first time.
+        /// </summary>
+        public event EventHandler<Peer> PeerDiscovered;
 
         /// <summary>
         ///  The local peer.
@@ -179,9 +185,11 @@ namespace PeerTalk
                 throw new Exception($"Communication with '{address}' is not allowed.");
             }
 
-            return otherPeers.AddOrUpdate(peerId.ToBase58(),
+            var isNew = false;
+            var p = otherPeers.AddOrUpdate(peerId.ToBase58(),
                 (id) => {
                     log.Debug("new peer " + peerId);
+                    isNew = true;
                     return new Peer
                     {
                         Id = id,
@@ -198,6 +206,13 @@ namespace PeerTalk
                     }
                     return peer;
                 });
+
+            if (isNew)
+            {
+                PeerDiscovered?.Invoke(this, p);
+            }
+
+            return p;
         }
 
         /// <summary>
@@ -226,8 +241,13 @@ namespace PeerTalk
                 throw new ArgumentException("Cannot register to self.");
             }
 
-            return otherPeers.AddOrUpdate(peer.Id.ToBase58(),
-                (id) => peer,
+            var isNew = false;
+            var p = otherPeers.AddOrUpdate(peer.Id.ToBase58(),
+                (id) => 
+                {
+                    isNew = true;
+                    return peer;
+                },
                 (id, existing) =>
                 {
                     existing.AgentVersion = peer.AgentVersion ?? existing.AgentVersion;
@@ -240,6 +260,13 @@ namespace PeerTalk
                         .ToList();
                     return existing;
                 });
+
+            if (isNew)
+            {
+                PeerDiscovered?.Invoke(this, p);
+            }
+
+            return p;
         }
 
         /// <summary>

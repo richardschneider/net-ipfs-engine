@@ -66,6 +66,7 @@ namespace Ipfs.Engine.BlockExchange
                     }
                     else
                     {
+                        // TODO: Should we have a timeout?
                         var _ = GetBlockAsync(cid, connection.RemotePeer, CancellationToken.None);
                     }
                 }

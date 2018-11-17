@@ -16,14 +16,16 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task<Peer> FindPeerAsync(MultiHash id, CancellationToken cancel = default(CancellationToken))
+        public async Task<Peer> FindPeerAsync(MultiHash id, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException("DHT is not yet implemented.");
+            var dht = await ipfs.DhtService;
+            return await dht.FindPeerAsync(id, cancel);
         }
 
-        public Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, CancellationToken cancel = default(CancellationToken))
+        public async Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException("DHT is not yet implemented.");
+            var dht = await ipfs.DhtService;
+            return await dht.FindProvidersAsync(id, limit, cancel);
         }
     }
 }

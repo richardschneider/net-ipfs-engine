@@ -95,6 +95,16 @@ namespace Ipfs.Engine
                 log.Debug("Built bitswap service");
                 return bitswap;
             });
+            DhtService = new AsyncLazy<PeerTalk.Routing.Dht1>(async () =>
+            {
+                log.Debug("Building DHT service");
+                var dht = new PeerTalk.Routing.Dht1
+                {
+                    Swarm = await SwarmService
+                };
+                log.Debug("Built DHT service");
+                return dht;
+            });
         }
 
         /// <summary>
@@ -294,6 +304,12 @@ namespace Ipfs.Engine
                     stopTasks.Add(new Task(() => { bitswap.StopAsync().Wait(); }));
                     await bitswap.StartAsync();
                 }),
+                new Task(async () =>
+                {
+                    var dht = await DhtService;
+                    stopTasks.Add(new Task(() => { dht.StopAsync().Wait(); }));
+                    await dht.StartAsync();
+                }),
             };
 
             foreach(var task in tasks)
@@ -399,6 +415,11 @@ namespace Ipfs.Engine
         ///   Exchange blocks with other peers.
         /// </summary>
         public AsyncLazy<BlockExchange.Bitswap> BitswapService { get; private set; }
+
+        /// <summary>
+        ///   Finds information with a distributed hash table.
+        /// </summary>
+        public AsyncLazy<PeerTalk.Routing.Dht1> DhtService { get; private set; }
 
         /// <summary>
         ///   Fired when a peer is discovered.

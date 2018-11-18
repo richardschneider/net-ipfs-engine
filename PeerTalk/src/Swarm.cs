@@ -231,14 +231,28 @@ namespace PeerTalk
         /// </remarks>
         public Peer RegisterPeer(Peer peer)
         {
-
             if (peer.Id == null)
             {
-                throw new ArgumentNullException("Peer.ID");
+                throw new ArgumentNullException("peer.ID");
             }
             if (peer.Id == LocalPeer.Id)
             {
-                throw new ArgumentException("Cannot register to self.");
+                throw new ArgumentException("Cannot register self.");
+            }
+
+            // Must contain an address for the peer.
+            if (peer.Addresses == null || peer.Addresses.Count() == 0)
+            {
+                throw new ArgumentException("Must contain at least one address.", "peer.Addresses");
+            }
+
+            // All addresses must contain the correct peer ID.
+            foreach (var a in peer.Addresses)
+            {
+                if (peer.Id != a.PeerId)
+                {
+                    throw new ArgumentException($"Address '{a}' is not for peer '{peer.Id}'.");
+                }
             }
 
             var isNew = false;

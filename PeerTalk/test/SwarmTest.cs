@@ -103,7 +103,7 @@ namespace PeerTalk
         }
 
         [TestMethod]
-        public void NewPeerAddress_InvalidAddress()
+        public void NewPeerAddress_InvalidAddress_MissingPeerId()
         {
             var swarm = new Swarm { LocalPeer = self };
             ExceptionAssert.Throws<Exception>(() =>
@@ -122,6 +122,34 @@ namespace PeerTalk
 
             await swarm.RegisterPeerAsync(mars);
             Assert.AreEqual(1, swarm.KnownPeerAddresses.Count());
+        }
+
+        [TestMethod]
+        public void RegisterPeer_NoAddresses()
+        {
+            var swarm = new Swarm { LocalPeer = self };
+            var venus = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                swarm.RegisterPeer(venus);
+            });
+        }
+
+        [TestMethod]
+        public void RegisterPeer_AddressesNotToPeer()
+        {
+            var swarm = new Swarm { LocalPeer = self };
+            var venus = new Peer {
+                Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64",
+                Addresses = new MultiAddress[]
+                {
+                    new MultiAddress("/ip4/127.0.0.1/tcp/4001/p2p/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd")
+                }
+            };
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                swarm.RegisterPeer(venus);
+            });
         }
 
         [TestMethod]

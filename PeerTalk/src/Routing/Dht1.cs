@@ -33,6 +33,8 @@ namespace PeerTalk.Routing
         /// </summary>
         public Swarm Swarm { get; set; }
 
+        public RoutingTable RoutingTable = new RoutingTable();
+
         /// <inheritdoc />
         public override string ToString()
         {
@@ -53,7 +55,13 @@ namespace PeerTalk.Routing
         {
             log.Debug("Starting");
 
+            RoutingTable = new RoutingTable();
             Swarm.OtherProtocols.Add(this);
+            Swarm.PeerDiscovered += Swarm_PeerDiscovered;
+            foreach (var peer in Swarm.KnownPeers)
+            {
+                RoutingTable.Peers.Add(peer);
+            }
 
             return Task.CompletedTask;
         }
@@ -64,22 +72,67 @@ namespace PeerTalk.Routing
             log.Debug("Stopping");
 
             Swarm.OtherProtocols.Remove(this);
+            Swarm.PeerDiscovered -= Swarm_PeerDiscovered;
 
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        ///   The swarm has discovered a new peer, update the routing table.
+        /// </summary>
+        void Swarm_PeerDiscovered(object sender, Peer e)
+        {
+            RoutingTable.Peers.Add(e);
+        }
+
         /// <inheritdoc />
-        public Task<Peer> FindPeerAsync(MultiHash id, CancellationToken cancel = default(CancellationToken))
+        public async Task<Peer> FindPeerAsync(MultiHash id, CancellationToken cancel = default(CancellationToken))
         {
             // Can always find self.
             if (Swarm.LocalPeer.Id == id)
-                return Task.FromResult(Swarm.LocalPeer);
+                return Swarm.LocalPeer;
 
             // Maybe the swarm knows about it.
             var found = Swarm.KnownPeers.FirstOrDefault(p => p.Id == id);
             if (found != null)
-                return Task.FromResult(found);
+                return found;
 
+            // Ask our peers for information of requested peer.
+            var nearest = RoutingTable.NearestPeers(id);
+            var query = new DhtMessage
+            {
+                Type = MessageType.FindNode,
+                Key = id.ToArray()
+            };
+            log.Debug($"Query {query.Type}");
+            foreach (var peer in nearest)
+            {
+                log.Debug($"Query peer {peer.Id} for {query.Type}");
+
+                using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
+                {
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
+                    await stream.FlushAsync(cancel);
+                    var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
+                    if (response.CloserPeers == null)
+                    {
+                        continue;
+                    }
+                    foreach (var closer in response.CloserPeers)
+                    {
+                        var closerPeer = Swarm.RegisterPeer(closer.ToPeer());
+
+                        if (id == closerPeer.Id)
+                        {
+                            log.Debug("Found answer");
+                            return closerPeer;
+                        }
+
+                    }
+                }
+            }
+
+            // Unknown peer ID.
             throw new KeyNotFoundException($"Cannot locate peer '{id}'.");
 
         }

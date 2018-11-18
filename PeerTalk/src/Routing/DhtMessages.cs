@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using Ipfs;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,32 @@ namespace PeerTalk.Routing
         // used to signal the sender's connection capabilities to the peer
         [ProtoMember(3)]
         ConnectionType Connection { get; set; }
+
+        public Peer ToPeer()
+        {
+            var id = new MultiHash(Id);
+            var x = new MultiAddress($"/ipfs/{id}");
+            return new Peer
+            {
+                Id = id,
+                Addresses = Addresses
+                    .Select(bytes =>
+                    {
+                        try
+                        {
+                            var ma = new MultiAddress(bytes);
+                            ma.Protocols.AddRange(x.Protocols);
+                            return ma;
+                        }
+                        catch
+                        {
+                            return null;
+                        }
+                    })
+                    .Where(a => a != null)
+                    .ToArray()
+            };
+        }
     }
 
     [ProtoContract]

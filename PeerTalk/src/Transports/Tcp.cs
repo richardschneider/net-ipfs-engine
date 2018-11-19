@@ -79,7 +79,7 @@ namespace PeerTalk.Transports
             {
                 log.Debug("cancel " + address);
                 socket?.Dispose();
-                return null;
+                cancel.ThrowIfCancellationRequested();
             }
 
             var timeout = (int) Math.Max(MinReadTimeout.TotalMilliseconds, latency.TotalMilliseconds * 3);

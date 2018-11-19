@@ -240,12 +240,6 @@ namespace PeerTalk
                 throw new ArgumentException("Cannot register self.");
             }
 
-            // Must contain an address for the peer.
-            if (peer.Addresses == null || peer.Addresses.Count() == 0)
-            {
-                throw new ArgumentException("Must contain at least one address.", "peer.Addresses");
-            }
-
             // All addresses must contain the correct peer ID.
             foreach (var a in peer.Addresses)
             {

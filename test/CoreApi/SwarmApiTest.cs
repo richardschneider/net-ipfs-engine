@@ -78,6 +78,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        [Ignore("TODO: Move to interop tests")]
         public async Task GoIPFS_Connect_v0_4_17()
         {
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));

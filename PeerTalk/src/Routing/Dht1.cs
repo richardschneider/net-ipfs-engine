@@ -5,6 +5,7 @@ using PeerTalk.Protocols;
 using ProtoBuf;
 using Semver;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -107,6 +108,11 @@ namespace PeerTalk.Routing
             log.Debug($"Query {query.Type}");
             foreach (var peer in nearest)
             {
+                if (found != null)
+                {
+                    return found;
+                }
+
                 log.Debug($"Query peer {peer.Id} for {query.Type}");
 
                 using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
@@ -120,21 +126,21 @@ namespace PeerTalk.Routing
                     }
                     foreach (var closer in response.CloserPeers)
                     {
-                        var closerPeer = Swarm.RegisterPeer(closer.ToPeer());
-
-                        if (id == closerPeer.Id)
+                        if (closer.TryToPeer(out Peer p))
                         {
-                            log.Debug("Found answer");
-                            return closerPeer;
+                            p = Swarm.RegisterPeer(p);
+                            if (id == p.Id)
+                            {
+                                log.Debug("Found answer");
+                                found = p;
+                            }
                         }
-
                     }
                 }
             }
 
             // Unknown peer ID.
             throw new KeyNotFoundException($"Cannot locate peer '{id}'.");
-
         }
 
         /// <inheritdoc />
@@ -144,9 +150,83 @@ namespace PeerTalk.Routing
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, CancellationToken cancel = default(CancellationToken))
+        public async Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException("DHT FindProvidersAsync");
+            var providers = new List<Peer>();
+            var visited = new List<Peer> { Swarm.LocalPeer };
+            var peersToVisit = new ConcurrentQueue<Peer>();
+
+            //var key = Encoding.ASCII.GetBytes(id.Encode());
+            var key = id.Hash.ToArray();
+
+            // Ask our peers for information of requested peer.
+            foreach (var peer in RoutingTable.NearestPeers(id.Hash).Take(3))
+            {
+                peersToVisit.Enqueue(peer);
+            }
+
+            var query = new DhtMessage
+            {
+                Type = MessageType.GetProviders,
+                Key = key
+            };
+            log.Debug($"Query {query.Type}");
+            while (peersToVisit.TryDequeue(out Peer peer))
+            {
+                if (providers.Count >= limit)
+                    break;
+                if (visited.Contains(peer))
+                {
+                    continue;
+                }
+                log.Debug($"Query peer {peer.Id} for {query.Type}");
+                visited.Add(peer);
+
+                try
+                {
+                    using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
+                    {
+                        ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
+                        await stream.FlushAsync(cancel);
+                        var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
+                        if (response.CloserPeers != null)
+                        {
+                            foreach (var closer in response.CloserPeers)
+                            {
+                                if (closer.TryToPeer(out Peer p))
+                                {
+                                    p = Swarm.RegisterPeer(p);
+                                    if (!visited.Contains(p))
+                                    {
+                                        Console.WriteLine($"Closer peer {p}");
+                                        peersToVisit.Enqueue(p);
+                                    }
+                                }
+                            }
+                        }
+                        if (response.ProviderPeers != null)
+                        {
+                            foreach (var provider in response.ProviderPeers)
+                            {
+                                if (provider.TryToPeer(out Peer p))
+                                {
+                                    Console.WriteLine($"FOUND peer {p}");
+                                    providers.Add(Swarm.RegisterPeer(p));
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                catch (Exception e)
+                {
+                    log.Warn(e); //eat it
+                }
+            }
+
+            // All peers queried or the limit has been reached.
+            log.Debug($"Found {providers.Count} providers, visited {visited.Count} peers");
+            return providers.Take(limit);
         }
     }
 }

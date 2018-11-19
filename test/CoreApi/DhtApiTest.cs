@@ -44,6 +44,24 @@ namespace Ipfs.Engine
             }
         }
 
+        [TestMethod]
+        [Ignore("TODO: way too slow")]
+        public async Task FindProvider()
+        {
+            var folder = "QmXarR6rgkQ2fDSHjSY5nM2kuCXKYGViky5nohtwgF65Ec";
+            var ipfs = TestFixture.Ipfs;
+            await ipfs.StartAsync();
+            try
+            {
+                var providers = await ipfs.Dht.FindProvidersAsync(folder, 1);
+                Assert.AreEqual(1, providers.Count());
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
+        }
+
     }
 }
 

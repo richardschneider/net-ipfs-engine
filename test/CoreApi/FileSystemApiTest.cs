@@ -488,6 +488,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        [Ignore("Waiting for BlockApi to call Dht.FindProvider")] // TODO
         public async Task ReadFromNetwork()
         {
             var ipfs = TestFixture.Ipfs;

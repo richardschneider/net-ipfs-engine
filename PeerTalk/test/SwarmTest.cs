@@ -125,17 +125,6 @@ namespace PeerTalk
         }
 
         [TestMethod]
-        public void RegisterPeer_NoAddresses()
-        {
-            var swarm = new Swarm { LocalPeer = self };
-            var venus = new Peer { Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64" };
-            ExceptionAssert.Throws<ArgumentException>(() =>
-            {
-                swarm.RegisterPeer(venus);
-            });
-        }
-
-        [TestMethod]
         public void RegisterPeer_AddressesNotToPeer()
         {
             var swarm = new Swarm { LocalPeer = self };

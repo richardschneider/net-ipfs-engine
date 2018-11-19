@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace PeerTalk.Routing
 {
-    // From https://github.com/libp2p/js-libp2p-kad-dht/blob/master/src/message/dht.proto.js
+    // From https://github.com/libp2p/js-libp2p-kad-dht/blob/master/src/message/dht.proto.js\
+    // and https://github.com/libp2p/go-libp2p-kad-dht/blob/master/pb/dht.proto
     [ProtoContract]
     class DhtRecordMessage
     {
@@ -69,11 +70,17 @@ namespace PeerTalk.Routing
         [ProtoMember(3)]
         ConnectionType Connection { get; set; }
 
-        public Peer ToPeer()
+        public bool TryToPeer(out Peer peer)
         {
+            peer = null;
+
+            // Sanity checks.
+            if (Id == null || Id.Length == 0 || Addresses == null || Addresses.Length == 0)
+                return false;
+
             var id = new MultiHash(Id);
             var x = new MultiAddress($"/ipfs/{id}");
-            return new Peer
+            peer = new Peer
             {
                 Id = id,
                 Addresses = Addresses
@@ -93,6 +100,8 @@ namespace PeerTalk.Routing
                     .Where(a => a != null)
                     .ToArray()
             };
+
+            return peer.Addresses.Count() > 0;
         }
     }
 

@@ -104,7 +104,10 @@ namespace PeerTalk
         {
             foreach (var protocol in protocols)
             {
-                Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+                if (protocol != null)
+                {
+                    Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+                }
             }
         }
 

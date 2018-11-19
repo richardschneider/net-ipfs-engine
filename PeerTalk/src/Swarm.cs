@@ -358,7 +358,12 @@ namespace PeerTalk
         /// </remarks>
         public async Task<Peer> ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            var peer = await RegisterPeerAsync(address, cancel);
+            return await ConnectAsync(new MultiAddress[] { address }, cancel);
+        }
+
+        public async Task<Peer> ConnectAsync(IEnumerable<MultiAddress> addresses, CancellationToken cancel = default(CancellationToken))
+        {
+            var peer = await RegisterPeerAsync(addresses.First(), cancel);
 
             // If connected and still open, then use the existing connection.
             if (peer.ConnectedAddress != null)
@@ -376,12 +381,7 @@ namespace PeerTalk
             peer.ConnectedAddress = null;
 
             // Establish a stream.
-            var addrs = await address.ResolveAsync(cancel);
-            var connection = await Dial(peer, addrs, cancel);
-            if (connection == null)
-            {
-                return null; // most likely a cancel
-            }
+            var connection = await Dial(peer, addresses, cancel);
             connection.Closed += (s, e) =>
             {
                 if (e.RemotePeer != null && e.RemotePeer.Id != null)
@@ -393,7 +393,6 @@ namespace PeerTalk
             try
             {
                 connections[peer.Id.ToBase58()] = connection;
-                peer.ConnectedAddress = address;
 
                 MountProtocols(connection);
                 await connection.InitiateAsync(SecurityProtocols, cancel);
@@ -438,32 +437,14 @@ namespace PeerTalk
             peer = RegisterPeer(peer);
             if (peer.Addresses.Count() == 0)
             {
-                throw new Exception($"Peer '{peer}' has no knonw addresses.");
+                throw new Exception($"Peer '{peer}' has no known addresses.");
             }
 
             // Get a connection and then a muxer to the peer.
-            var exceptions = new List<Exception>();
-            foreach (var a in peer.Addresses)
-            {
-                try
-                {
-                    await ConnectAsync(a, cancel);
-                }
-                catch (AggregateException e)
-                {
-                    exceptions.AddRange(e.InnerExceptions);
-                    continue;
-                }
-                catch (Exception e)
-                {
-                    exceptions.Add(e);
-                    continue;
-                }
-                break;
-            }
+            var _ = await ConnectAsync(peer.Addresses, cancel);
             if (!connections.TryGetValue(peer.Id.ToBase58(), out PeerConnection connection))
             {
-                throw new AggregateException($"Cannot establish connection to peer '{peer}'.", exceptions);
+                throw new Exception($"Cannot establish connection to peer '{peer}'.");
             }
             var muxer = await connection.MuxerEstablished.Task;
 
@@ -496,52 +477,55 @@ namespace PeerTalk
         /// <param name="addrs"></param>
         /// <param name="cancel"></param>
         /// <returns></returns>
-        async Task<PeerConnection> Dial(Peer remote, List<MultiAddress> addrs, CancellationToken cancel)
+        async Task<PeerConnection> Dial(Peer remote, IEnumerable<MultiAddress> addrs, CancellationToken cancel)
         {
-            var exceptions = new List<Exception>();
-            foreach (var addr in addrs)
+            var possibleAddresses = (await Task.WhenAll(addrs.Select(a => a.ResolveAsync(cancel))))
+                .SelectMany(a => a);
+
+            // Try the various addresses in parallel.  The first one
+            // to complete wins.
+            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancel))
             {
-                try
+                var attempts = possibleAddresses
+                    .Select(a => DialAsync(remote, a, cts.Token));
+                var winner = await Task.WhenAny(attempts);
+                cts.Cancel();
+                return await winner; // Will throw if all attempts failed.
+            }
+        }
+
+        async Task<PeerConnection> DialAsync(Peer remote, MultiAddress addr, CancellationToken cancel)
+        {
+            foreach (var protocol in addr.Protocols)
+            {
+                cancel.ThrowIfCancellationRequested();
+                if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
                 {
-                    foreach (var protocol in addr.Protocols)
+                    var stream = await transport().ConnectAsync(addr, cancel);
+                    if (stream != null)
                     {
-                        if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
+                        if (cancel.IsCancellationRequested)
                         {
-                            var stream = await transport().ConnectAsync(addr, cancel);
-                            if (stream != null)
-                            {
-                                remote.ConnectedAddress = addr;
-                                var connection = new PeerConnection
-                                {
-                                    LocalPeer = LocalPeer,
-                                    // TODO: LocalAddress
-                                    LocalPeerKey = LocalPeerKey,
-                                    RemotePeer = remote,
-                                    RemoteAddress = addr,
-                                    Stream = stream
-                                };
-
-                                return connection;
-                            }
+                            stream.Dispose();
+                            continue;
                         }
+                        remote.ConnectedAddress = addr;
+                        var connection = new PeerConnection
+                        {
+                            LocalPeer = LocalPeer,
+                            // TODO: LocalAddress
+                            LocalPeerKey = LocalPeerKey,
+                            RemotePeer = remote,
+                            RemoteAddress = addr,
+                            Stream = stream
+                        };
+
+                        return connection;
                     }
-                    throw new Exception("Missing a transport protocol name.");
-                }
-                catch (Exception) when (cancel.IsCancellationRequested)
-                {
-                    return null;
-                }
-                catch (Exception e)
-                {
-                    exceptions.Add(new Exception($"Connect failed via '{addr}'.", e));
                 }
             }
 
-            if (addrs.Count == 0)
-            {
-                exceptions.Add(new Exception("No known address."));
-            }
-            throw new AggregateException($"Peer '{remote.Id}' is not reachable.", exceptions);
+            throw new Exception("Missing a known transport protocol name.");
         }
 
         /// <summary>

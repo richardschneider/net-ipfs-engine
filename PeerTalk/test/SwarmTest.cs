@@ -224,6 +224,42 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        public async Task Connect_WithSomeUnreachableAddresses()
+        {
+            var peerB = new Peer
+            {
+                AgentVersion = "peerB",
+                Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+            };
+            var swarmB = new Swarm { LocalPeer = peerB };
+            var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+            Assert.IsTrue(peerB.Addresses.Count() > 0);
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                var bAddresses = new MultiAddress[]
+                {
+                    $"/ip4/127.0.0.2/tcp/2/ipfs/{peerB.Id}",
+                    $"/ip4/127.0.0.3/tcp/3/ipfs/{peerB.Id}",
+                    peerBAddress
+                };
+                var remotePeer = await swarm.ConnectAsync(bAddresses);
+                Assert.IsNotNull(remotePeer.ConnectedAddress);
+                Assert.AreEqual(peerB.PublicKey, remotePeer.PublicKey);
+                Assert.IsTrue(remotePeer.IsValid());
+                Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
+            }
+            finally
+            {
+                await swarm.StopAsync();
+                await swarmB.StopAsync();
+            }
+        }
+
+        [TestMethod]
         public async Task ConnectionEstablished()
         {
             var peerB = new Peer
@@ -307,15 +343,17 @@ namespace PeerTalk
         }
 
         [TestMethod]
-        public async Task Connect_Cancelled()
+        public void Connect_Cancelled()
         {
             var cs = new CancellationTokenSource();
             cs.Cancel();
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
             var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
             var swarm = new Swarm { LocalPeer = self };
-            var remotePeer = await swarm.ConnectAsync(remoteAddress, cs.Token);
-            Assert.IsNull(remotePeer);
+            ExceptionAssert.Throws<OperationCanceledException>(() =>
+            {
+                var _ = swarm.ConnectAsync(remoteAddress, cs.Token).Result;
+            });
         }
 
         [TestMethod]

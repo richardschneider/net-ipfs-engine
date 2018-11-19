@@ -57,13 +57,6 @@ namespace PeerTalk.Transports
                 SocketType.Stream,
                 ProtocolType.Tcp);
 
-            // Handle cancellation of the connect attempt
-            cancel.Register(() =>
-            {
-                socket.Dispose();
-                socket = null;
-            });
-
             TimeSpan latency = MinReadTimeout; // keep compiler happy
             try
             {

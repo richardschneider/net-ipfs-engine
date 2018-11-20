@@ -506,27 +506,25 @@ namespace PeerTalk
                 if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
                 {
                     var stream = await transport().ConnectAsync(addr, cancel);
-                    if (stream != null)
+                    if (cancel.IsCancellationRequested)
                     {
-                        if (cancel.IsCancellationRequested)
-                        {
-                            stream.Dispose();
-                            continue;
-                        }
-                        remote.ConnectedAddress = addr;
-                        var connection = new PeerConnection
-                        {
-                            LocalPeer = LocalPeer,
-                            // TODO: LocalAddress
-                            LocalPeerKey = LocalPeerKey,
-                            RemotePeer = remote,
-                            RemoteAddress = addr,
-                            Stream = stream
-                        };
-
-                        return connection;
+                        stream?.Dispose();
+                        continue;
                     }
+                    remote.ConnectedAddress = addr;
+                    var connection = new PeerConnection
+                    {
+                        LocalPeer = LocalPeer,
+                        // TODO: LocalAddress
+                        LocalPeerKey = LocalPeerKey,
+                        RemotePeer = remote,
+                        RemoteAddress = addr,
+                        Stream = stream
+                    };
+
+                    return connection;
                 }
+
             }
 
             throw new Exception("Missing a known transport protocol name.");

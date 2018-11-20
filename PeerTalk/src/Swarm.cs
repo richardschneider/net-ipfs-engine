@@ -488,13 +488,9 @@ namespace PeerTalk
             {
                 var attempts = possibleAddresses
                     .Select(a => DialAsync(remote, a, cts.Token));
-                var winner = await Task.WhenAny(attempts);
+                var winner = await TaskHelper.WhenAnyResult(attempts, cancel);
                 cts.Cancel();
-                if (winner.Status == TaskStatus.RanToCompletion)
-                {
-                    return winner.Result;
-                }
-                return await winner; // Will throw if all attempts failed.
+                return winner;
             }
         }
 

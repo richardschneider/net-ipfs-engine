@@ -62,7 +62,14 @@ namespace PeerTalk.Transports
             {
                 log.Debug("connecting to " + address);
                 var start = DateTime.Now;
-                await socket.ConnectAsync(ip.Value, port);
+
+                // Handle cancellation of the connect attempt by disposing
+                // of the socket.  This will force ConnectAsync to return.
+                using (var _ = cancel.Register(() => { socket?.Dispose(); socket = null; }))
+                {
+                    await socket.ConnectAsync(ip.Value, port);
+                };
+
                 latency = DateTime.Now - start;
                 log.Debug($"connected to {address} in {latency.TotalMilliseconds} ms");
             }

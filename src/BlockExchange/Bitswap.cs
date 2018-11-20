@@ -58,7 +58,10 @@ namespace Ipfs.Engine.BlockExchange
         {
             log.Debug("Starting");
 
-            Swarm.OtherProtocols.AddRange(protocols);
+            foreach (var protocol in protocols)
+            {
+                Swarm.AddProtocol(protocol);
+            }
             Swarm.ConnectionEstablished += Swarm_ConnectionEstablished;
 
             return Task.CompletedTask;
@@ -86,7 +89,7 @@ namespace Ipfs.Engine.BlockExchange
             Swarm.ConnectionEstablished -= Swarm_ConnectionEstablished;
             foreach (var protocol in protocols)
             {
-                Swarm.OtherProtocols.Remove(protocol);
+                Swarm.RemoveProtocol(protocol);
             }
 
             foreach (var cid in wants.Keys)

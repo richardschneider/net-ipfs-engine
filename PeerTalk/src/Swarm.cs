@@ -11,6 +11,7 @@ using Common.Logging;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using PeerTalk.Protocols;
 using PeerTalk.Cryptography;
 using PeerTalk.Discovery;
@@ -24,30 +25,24 @@ namespace PeerTalk
     {
         static ILog log = LogManager.GetLogger(typeof(Swarm));
 
-        IPeerProtocol multistream = new Multistream1();
-        Identify1 identity = new Identify1();
-
         /// <summary>
-        ///  The supported security protocols.
+        ///  The supported protocols.
         /// </summary>
-        public List<IEncryptionProtocol> SecurityProtocols = new List<IEncryptionProtocol>
+        /// <remarks>
+        ///   Use sychronized access, e.g. <code>lock (protocols) { ... }</code>.
+        /// </remarks>
+        List<IPeerProtocol> protocols = new List<IPeerProtocol>
         {
+            new Multistream1(),
             new SecureCommunication.Secio1(),
-            new Plaintext1()
-        };
-
-        /// <summary>
-        ///   The supported muxer protocols.
-        /// </summary>
-        public List<IPeerProtocol> MuxerProtocols = new List<IPeerProtocol>
-        {
+            new Identify1(),
             new Mplex67()
         };
 
         /// <summary>
-        ///   Application specific protocols.
+        ///   Added to connection protocols when needed.
         /// </summary>
-        public List<IPeerProtocol> OtherProtocols = new List<IPeerProtocol>();
+        Plaintext1 plaintext1 = new Plaintext1();
 
         Peer localPeer;
 
@@ -228,6 +223,15 @@ namespace PeerTalk
         ///   If the peer already exists, then the existing peer is updated with supplied
         ///   information and is then returned.  Otherwise, the <paramref name="peer"/>
         ///   is added to known peers and is returned.
+        ///   <para>
+        ///   If the peer already exists, then a union of the existing and new addresses
+        ///   is used.  For all other information the <paramref name="peer"/>'s information
+        ///   is used if not <b>null</b>.
+        ///   </para>
+        ///   <para>
+        ///   If peer does not already exist, then the <see cref="PeerDiscovered"/> event
+        ///   is raised.
+        ///   </para>
         /// </remarks>
         public Peer RegisterPeer(Peer peer)
         {
@@ -300,7 +304,16 @@ namespace PeerTalk
             // TODO: make the tests setup the security protocols.
             if (LocalPeerKey == null)
             {
-                SecurityProtocols = new List<IEncryptionProtocol> { new Plaintext1() };
+                lock (protocols)
+                {
+                    var security = protocols.OfType<IEncryptionProtocol>().ToArray();
+                    foreach (var p in security)
+                    {
+                        protocols.Remove(p);
+                    }
+                    protocols.Add(plaintext1);
+                }
+                log.Warn("Peer key is missing, using unencrypted connections.");
             }
 
             log.Debug("Starting");
@@ -361,6 +374,22 @@ namespace PeerTalk
             return await ConnectAsync(new MultiAddress[] { address }, cancel);
         }
 
+        /// <summary>
+        ///   Connect to a peer.
+        /// </summary>
+        /// <param name="addresses">
+        ///   A sequence <see cref="MultiAddress"/> to the peer.
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation. The task's result
+        ///   is the connected <see cref="Peer"/>.
+        /// </returns>
+        /// <remarks>
+        ///   If already connected to the peer, on any address, then nothing is done.
+        /// </remarks>
         public async Task<Peer> ConnectAsync(IEnumerable<MultiAddress> addresses, CancellationToken cancel = default(CancellationToken))
         {
             var peer = await RegisterPeerAsync(addresses.First(), cancel);
@@ -395,10 +424,21 @@ namespace PeerTalk
                 connections[peer.Id.ToBase58()] = connection;
 
                 MountProtocols(connection);
-                await connection.InitiateAsync(SecurityProtocols, cancel);
+                IEncryptionProtocol[] security = null;
+                lock (protocols)
+                {
+                    security = protocols.OfType<IEncryptionProtocol>().ToArray();
+                }
+                await connection.InitiateAsync(security, cancel);
 
                 await connection.MuxerEstablished.Task;
-                await identity.GetRemotePeer(connection);
+                Identify1 identify = null;
+                lock (protocols)
+                {
+                    identify = protocols.OfType<Identify1>().First();
+                }
+                await identify.GetRemotePeer(connection);
+
                 ConnectionEstablished?.Invoke(this, connection);
             }
             catch (Exception)
@@ -725,7 +765,12 @@ namespace PeerTalk
             var muxer = await connection.MuxerEstablished.Task;
 
             // Need details on the remote peer.
-            connection.RemotePeer = await identity.GetRemotePeer(connection);
+            Identify1 identify = null;
+            lock (protocols)
+            {
+                identify = protocols.OfType<Identify1>().First();
+            }
+            connection.RemotePeer = await identify.GetRemotePeer(connection);
 
             connection.RemotePeer = RegisterPeer(connection.RemotePeer);
             connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");
@@ -735,13 +780,40 @@ namespace PeerTalk
             ConnectionEstablished?.Invoke(this, connection);
         }
 
+        /// <summary>
+        ///   Add a protocol that is supported by the swarm.
+        /// </summary>
+        /// <param name="protocol">
+        ///   The protocol to add.
+        /// </param>
+        public void AddProtocol(IPeerProtocol protocol)
+        {
+            lock (protocols)
+            {
+                protocols.Add(protocol);
+            }
+        }
+
+        /// <summary>
+        ///   Remove a protocol from the swarm.
+        /// </summary>
+        /// <param name="protocol">
+        ///   The protocol to remove.
+        /// </param>
+        public void RemoveProtocol(IPeerProtocol protocol)
+        {
+            lock (protocols)
+            {
+                protocols.Remove(protocol);
+            }
+        }
+
         void MountProtocols(PeerConnection connection)
         {
-            connection.AddProtocol(multistream);
-            connection.AddProtocol(identity);
-            connection.AddProtocols(SecurityProtocols);
-            connection.AddProtocols(MuxerProtocols);
-            connection.AddProtocols(OtherProtocols);
+            lock (protocols)
+            {
+                connection.AddProtocols(protocols);
+            }
         }
 
         /// <summary>

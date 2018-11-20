@@ -57,7 +57,7 @@ namespace PeerTalk.Routing
             log.Debug("Starting");
 
             RoutingTable = new RoutingTable();
-            Swarm.OtherProtocols.Add(this);
+            Swarm.AddProtocol(this);
             Swarm.PeerDiscovered += Swarm_PeerDiscovered;
             foreach (var peer in Swarm.KnownPeers)
             {
@@ -72,7 +72,7 @@ namespace PeerTalk.Routing
         {
             log.Debug("Stopping");
 
-            Swarm.OtherProtocols.Remove(this);
+            Swarm.RemoveProtocol(this);
             Swarm.PeerDiscovered -= Swarm_PeerDiscovered;
 
             return Task.CompletedTask;

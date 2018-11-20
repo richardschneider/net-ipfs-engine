@@ -171,6 +171,7 @@ namespace PeerTalk
                 PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
             };
             var swarmB = new Swarm { LocalPeer = peerB };
+            await swarmB.StartAsync();
             var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
             Assert.IsTrue(peerB.Addresses.Count() > 0);
 
@@ -233,6 +234,7 @@ namespace PeerTalk
                 PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
             };
             var swarmB = new Swarm { LocalPeer = peerB };
+            await swarmB.StartAsync();
             var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
             Assert.IsTrue(peerB.Addresses.Count() > 0);
 
@@ -274,6 +276,7 @@ namespace PeerTalk
             {
                 ++swarmBConnections;
             };
+            await swarmB.StartAsync();
             var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
 
             var swarm = new Swarm { LocalPeer = self };
@@ -762,6 +765,7 @@ namespace PeerTalk
                 PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
             };
             var swarmB = new Swarm { LocalPeer = peerB };
+            await swarmB.StartAsync();
             var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
 
             var swarm = new Swarm { LocalPeer = self };

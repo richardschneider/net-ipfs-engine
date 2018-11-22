@@ -154,16 +154,9 @@ namespace PeerTalk.Routing
         {
             var providers = new List<Peer>();
             var visited = new List<Peer> { Swarm.LocalPeer };
-            var peersToVisit = new ConcurrentQueue<Peer>();
 
             //var key = Encoding.ASCII.GetBytes(id.Encode());
             var key = id.Hash.ToArray();
-
-            // Ask our peers for information of requested peer.
-            foreach (var peer in RoutingTable.NearestPeers(id.Hash).Take(3))
-            {
-                peersToVisit.Enqueue(peer);
-            }
 
             var query = new DhtMessage
             {
@@ -171,14 +164,20 @@ namespace PeerTalk.Routing
                 Key = key
             };
             log.Debug($"Query {query.Type}");
-            while (peersToVisit.TryDequeue(out Peer peer))
+
+            while (!cancel.IsCancellationRequested)
             {
                 if (providers.Count >= limit)
                     break;
-                if (visited.Contains(peer))
-                {
-                    continue;
-                }
+
+                // Get the nearest peer that has not been visited.
+                var peer = RoutingTable
+                    .NearestPeers(id.Hash)
+                    .Where(p => !visited.Contains(p))
+                    .FirstOrDefault();
+                if (peer == null)
+                    break; ;
+
                 log.Debug($"Query peer {peer.Id} for {query.Type}");
                 visited.Add(peer);
 
@@ -186,24 +185,22 @@ namespace PeerTalk.Routing
                 {
                     using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
                     {
+                        // Send the KAD query and get a response.
                         ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
                         await stream.FlushAsync(cancel);
                         var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
+
                         if (response.CloserPeers != null)
                         {
                             foreach (var closer in response.CloserPeers)
                             {
                                 if (closer.TryToPeer(out Peer p))
                                 {
-                                    p = Swarm.RegisterPeer(p);
-                                    if (!visited.Contains(p))
-                                    {
-                                        Console.WriteLine($"Closer peer {p}");
-                                        peersToVisit.Enqueue(p);
-                                    }
+                                    Swarm.RegisterPeer(p);
                                 }
                             }
                         }
+
                         if (response.ProviderPeers != null)
                         {
                             foreach (var provider in response.ProviderPeers)
@@ -220,12 +217,13 @@ namespace PeerTalk.Routing
                 
                 catch (Exception e)
                 {
-                    log.Warn(e); //eat it
+                    log.Warn(e.Message); //eat it
                 }
             }
 
             // All peers queried or the limit has been reached.
             log.Debug($"Found {providers.Count} providers, visited {visited.Count} peers");
+            log.Debug($"{Swarm.KnownPeers.Count()} known peers");
             return providers.Take(limit);
         }
     }

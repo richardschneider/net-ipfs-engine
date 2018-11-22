@@ -34,7 +34,7 @@ namespace PeerTalk.Routing
         /// </summary>
         public Swarm Swarm { get; set; }
 
-        public RoutingTable RoutingTable = new RoutingTable();
+        public RoutingTable RoutingTable;
 
         /// <inheritdoc />
         public override string ToString()
@@ -56,12 +56,12 @@ namespace PeerTalk.Routing
         {
             log.Debug("Starting");
 
-            RoutingTable = new RoutingTable();
+            RoutingTable = new RoutingTable(Swarm.LocalPeer);
             Swarm.AddProtocol(this);
             Swarm.PeerDiscovered += Swarm_PeerDiscovered;
             foreach (var peer in Swarm.KnownPeers)
             {
-                RoutingTable.Peers.Add(peer);
+                RoutingTable.Add(peer);
             }
 
             return Task.CompletedTask;
@@ -83,7 +83,7 @@ namespace PeerTalk.Routing
         /// </summary>
         void Swarm_PeerDiscovered(object sender, Peer e)
         {
-            RoutingTable.Peers.Add(e);
+            RoutingTable.Add(e);
         }
 
         /// <inheritdoc />

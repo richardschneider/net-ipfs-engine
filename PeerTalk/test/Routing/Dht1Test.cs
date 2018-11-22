@@ -27,7 +27,7 @@ namespace PeerTalk.Routing
             await dht.StartAsync();
             try
             {
-                Assert.IsTrue(dht.RoutingTable.Peers.Contains(peer));
+                Assert.IsTrue(dht.RoutingTable.Contains(peer));
             }
             finally
             {
@@ -44,7 +44,7 @@ namespace PeerTalk.Routing
             try
             {
                 var peer = await swarm.RegisterPeerAsync("/ip4/127.0.0.1/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h");
-                Assert.IsTrue(dht.RoutingTable.Peers.Contains(peer));
+                Assert.IsTrue(dht.RoutingTable.Contains(peer));
             }
             finally
             {

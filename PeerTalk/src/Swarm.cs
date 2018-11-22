@@ -411,41 +411,6 @@ namespace PeerTalk
 
             // Establish a stream.
             var connection = await Dial(peer, addresses, cancel);
-            connection.Closed += (s, e) =>
-            {
-                if (e.RemotePeer != null && e.RemotePeer.Id != null)
-                {
-                    log.Debug($"Connection to {e.RemotePeer.Id} closed");
-                    connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
-                }
-            };
-            try
-            {
-                connections[peer.Id.ToBase58()] = connection;
-
-                MountProtocols(connection);
-                IEncryptionProtocol[] security = null;
-                lock (protocols)
-                {
-                    security = protocols.OfType<IEncryptionProtocol>().ToArray();
-                }
-                await connection.InitiateAsync(security, cancel);
-
-                await connection.MuxerEstablished.Task;
-                Identify1 identify = null;
-                lock (protocols)
-                {
-                    identify = protocols.OfType<Identify1>().First();
-                }
-                await identify.GetRemotePeer(connection);
-
-                ConnectionEstablished?.Invoke(this, connection);
-            }
-            catch (Exception)
-            {
-                connection.Dispose();
-                throw;
-            }
 
             return peer;
         }
@@ -536,34 +501,76 @@ namespace PeerTalk
 
         async Task<PeerConnection> DialAsync(Peer remote, MultiAddress addr, CancellationToken cancel)
         {
+            // Establish the transport stream.
+            Stream stream = null;
             foreach (var protocol in addr.Protocols)
             {
                 cancel.ThrowIfCancellationRequested();
                 if (TransportRegistry.Transports.TryGetValue(protocol.Name, out Func<IPeerTransport> transport))
                 {
-                    var stream = await transport().ConnectAsync(addr, cancel);
+                    stream = await transport().ConnectAsync(addr, cancel);
                     if (cancel.IsCancellationRequested)
                     {
                         stream?.Dispose();
                         continue;
                     }
-                    remote.ConnectedAddress = addr;
-                    var connection = new PeerConnection
-                    {
-                        LocalPeer = LocalPeer,
-                        // TODO: LocalAddress
-                        LocalPeerKey = LocalPeerKey,
-                        RemotePeer = remote,
-                        RemoteAddress = addr,
-                        Stream = stream
-                    };
-
-                    return connection;
+                    break;
                 }
-
+            }
+            if (stream == null)
+            {
+                throw new Exception("Missing a known transport protocol name.");
             }
 
-            throw new Exception("Missing a known transport protocol name.");
+            // Build the connection.
+            remote.ConnectedAddress = addr;
+            var connection = new PeerConnection
+            {
+                LocalPeer = LocalPeer,
+                // TODO: LocalAddress
+                LocalPeerKey = LocalPeerKey,
+                RemotePeer = remote,
+                RemoteAddress = addr,
+                Stream = stream
+            };
+
+            // Do the connection handshake.
+            try
+            {
+                MountProtocols(connection);
+                IEncryptionProtocol[] security = null;
+                lock (protocols)
+                {
+                    security = protocols.OfType<IEncryptionProtocol>().ToArray();
+                }
+                await connection.InitiateAsync(security, cancel);
+                await connection.MuxerEstablished.Task;
+                Identify1 identify = null;
+                lock (protocols)
+                {
+                    identify = protocols.OfType<Identify1>().First();
+                }
+                await identify.GetRemotePeer(connection);
+            }
+            catch (Exception)
+            {
+                connection.Dispose();
+                throw;
+            }
+
+            connections[remote.Id.ToBase58()] = connection;
+            connection.Closed += (s, e) =>
+            {
+                if (e.RemotePeer != null && e.RemotePeer.Id != null)
+                {
+                    log.Debug($"Connection to {e.RemotePeer.Id} closed");
+                    connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
+                }
+            };
+
+            ConnectionEstablished?.Invoke(this, connection);
+
+            return connection;
         }
 
         /// <summary>

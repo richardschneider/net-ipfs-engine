@@ -27,5 +27,12 @@ namespace Ipfs.Engine
                 var _ = ipfs.Dns.ResolveAsync("google.com").Result;
             });
         }
+
+        [TestMethod]
+        public async Task Resolve_Recursive()
+        {
+            var path = await ipfs.Dns.ResolveAsync("ipfs.io", true);
+            StringAssert.StartsWith(path, "/ipfs/");
+        }
     }
 }

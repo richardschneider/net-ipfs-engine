@@ -27,16 +27,10 @@ namespace Ipfs.Engine.CoreApi
                 if (visited.Contains(name))
                     throw new Exception($"Circular reference detected for '{name}'.");
 
-                var response = await ipfs.Options.Dns.QueryAsync(name, DnsType.TXT, cancel);
-                var link = response.Answers
-                    .OfType<TXTRecord>()
-                    .SelectMany(txt => txt.Strings)
-                    .Where(s => s.StartsWith("dnslink="))
-                    .Select(s => s.Substring(8))
-                    .FirstOrDefault();
+                // Find the TXT dnslink in either <name> or _dnslink.<name>.
+                // TODO: make parallel
+                var link = await Find(name, cancel);
 
-                if (link == null)
-                    throw new Exception($"{name} is missing a TXT record with a dnslink.");
                 if (!recursive || link.StartsWith("/ipfs/"))
                     return link;
 
@@ -46,6 +40,22 @@ namespace Ipfs.Engine.CoreApi
                 }
                 throw new NotSupportedException($"Cannot resolve '{link}'.");
             }
+        }
+
+        async Task<string> Find(string name, CancellationToken cancel)
+        {
+            var response = await ipfs.Options.Dns.QueryAsync(name, DnsType.TXT, cancel);
+            var link = response.Answers
+                .OfType<TXTRecord>()
+                .SelectMany(txt => txt.Strings)
+                .Where(s => s.StartsWith("dnslink="))
+                .Select(s => s.Substring(8))
+                .FirstOrDefault();
+
+            if (link == null)
+                throw new Exception($"'{name}' is missing a TXT record with a dnslink.");
+
+            return link;
         }
     }
 }

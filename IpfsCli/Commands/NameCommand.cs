@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Ipfs.Cli
 {
     [Command(Description = "Manage IPNS names")]
+    [Subcommand("publish", typeof(NamePublishCommand))]
     [Subcommand("resolve", typeof(NameResolveCommand))]
     class NameCommand : CommandBase
     {
@@ -42,6 +43,35 @@ namespace Ipfs.Cli
             var resolved = await Program.CoreApi.Name.ResolveAsync(Name, Recursive, NoCache);
             app.Out.Write(resolved);
             return 0;
+        }
+    }
+
+    [Command(Description = "Publish a name")]
+    class NamePublishCommand : CommandBase
+    {
+        NameCommand Parent { get; set; }
+
+        [Argument(0, "ipfs-path", "The path to the IPFS data")]
+        [Required]
+        public string IpfsPath { get; set; }
+
+        [Option("-r|--recursive", Description = "Resolve until the result is an IPFS name")]
+        public bool Recursive { get; set; }
+
+        [Option("-k|--key", Description = "The key name, defaults to 'self'.")]
+        public string Key { get; set; }
+
+        // TODO: Lifetime
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            var Program = Parent.Parent;
+
+            var content = await Program.CoreApi.Name.PublishAsync(IpfsPath, true, Key);
+            return Program.Output(app, content, (data, writer) =>
+            {
+                writer.Write($"Published to {data.NamePath}");
+            });
         }
     }
 

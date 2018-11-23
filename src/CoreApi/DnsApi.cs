@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
 using System.Linq;
+using PeerTalk;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -20,26 +21,37 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
         {
-            var visited = new List<string>();
 
-            while (true)
+            // Find the TXT dnslink in either <name> or _dnslink.<name>.
+            // TODO: make parallel
+            string link = null;
+            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancel))
             {
-                if (visited.Contains(name))
-                    throw new Exception($"Circular reference detected for '{name}'.");
-
-                // Find the TXT dnslink in either <name> or _dnslink.<name>.
-                // TODO: make parallel
-                var link = await Find(name, cancel);
-
-                if (!recursive || link.StartsWith("/ipfs/"))
-                    return link;
-
-                if (link.StartsWith("/ipns/"))
+                try
                 {
-                    return await ipfs.Name.ResolveAsync(link, recursive, false, cancel);
+                    var attempts = new Task<string>[]
+                    {
+                        Find(name, cts.Token),
+                        Find("_dnslink." + name, cts.Token)
+                    };
+                    link = await TaskHelper.WhenAnyResult(attempts, cancel);
+                    cts.Cancel();
                 }
-                throw new NotSupportedException($"Cannot resolve '{link}'.");
+                catch (Exception e)
+                {
+                    throw new NotSupportedException($"Cannot resolve '{name}'.", e);
+                }
             }
+
+            if (!recursive || link.StartsWith("/ipfs/"))
+                return link;
+
+            if (link.StartsWith("/ipns/"))
+            {
+                return await ipfs.Name.ResolveAsync(link, recursive, false, cancel);
+            }
+
+            throw new NotSupportedException($"Cannot resolve '{link}'.");
         }
 
         async Task<string> Find(string name, CancellationToken cancel)

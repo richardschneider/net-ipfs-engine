@@ -36,6 +36,7 @@ namespace PeerTalk
             IEnumerable<Task<T>> tasks,
             CancellationToken cancel)
         {
+            var exceptions = new List<Exception>();
             var running = tasks.ToList();
             while (running.Count > 0)
             {
@@ -45,9 +46,20 @@ namespace PeerTalk
                 {
                     return winner.Result;
                 }
+                if (winner.IsFaulted)
+                {
+                    if (winner.Exception is AggregateException ae)
+                    {
+                        exceptions.AddRange(ae.InnerExceptions);
+                    }
+                    else
+                    {
+                        exceptions.Add(winner.Exception);
+                    }
+                }
                 running.Remove(winner);
             }
-            throw new Exception("No tasks returned a result.");
+            throw new AggregateException("No task(s) returned a result.", exceptions);
         }
     }
 }

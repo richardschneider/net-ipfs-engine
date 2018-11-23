@@ -23,6 +23,22 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Resolve_DnsLink_Recursive()
+        {
+            var path = await ipfs.Name.ResolveAsync("/ipns/ipfs.io/media", true);
+            StringAssert.StartsWith(path, "/ipfs/");
+            StringAssert.EndsWith(path, "/media");
+
+            path = await ipfs.Name.ResolveAsync("ipfs.io/media", true);
+            StringAssert.StartsWith(path, "/ipfs/");
+            StringAssert.EndsWith(path, "/media");
+
+            path = await ipfs.Name.ResolveAsync("/ipfs.io/media", true);
+            StringAssert.StartsWith(path, "/ipfs/");
+            StringAssert.EndsWith(path, "/media");
+        }
+
+        [TestMethod]
         public void Resolve_NoDnsLink()
         {
             ExceptionAssert.Throws<Exception>(() =>

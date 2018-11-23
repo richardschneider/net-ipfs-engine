@@ -170,20 +170,21 @@ namespace PeerTalk.Routing
                 if (providers.Count >= limit)
                     break;
 
-                // Get the nearest peer that has not been visited.
-                var peer = RoutingTable
+                // Get the nearest peers that havr not been visited.
+                var peers = RoutingTable
                     .NearestPeers(id.Hash)
                     .Where(p => !visited.Contains(p))
-                    .FirstOrDefault();
-                if (peer == null)
+                    .Take(3)
+                    .ToArray();
+                if (peers.Length == 0)
                     break;
 
-                log.Debug($"Query peer {peer.Id} for {query.Type}");
-                visited.Add(peer);
+                visited.AddRange(peers);
 
                 try
                 {
-                    await FindProvidersAsync(peer, id, query, providers, cancel);
+                    var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, cancel));
+                    await Task.WhenAll(tasks);
                 }
                 catch (Exception e)
                 {
@@ -239,9 +240,9 @@ namespace PeerTalk.Routing
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // eat it. Hopefully other peers will provide an answet.
+                log.Warn(e.Message); // eat it. Hopefully other peers will provide an answet.
             }
         }
     }

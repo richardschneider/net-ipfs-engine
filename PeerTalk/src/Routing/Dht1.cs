@@ -176,45 +176,15 @@ namespace PeerTalk.Routing
                     .Where(p => !visited.Contains(p))
                     .FirstOrDefault();
                 if (peer == null)
-                    break; ;
+                    break;
 
                 log.Debug($"Query peer {peer.Id} for {query.Type}");
                 visited.Add(peer);
 
                 try
                 {
-                    using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
-                    {
-                        // Send the KAD query and get a response.
-                        ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
-                        await stream.FlushAsync(cancel);
-                        var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
-
-                        if (response.CloserPeers != null)
-                        {
-                            foreach (var closer in response.CloserPeers)
-                            {
-                                if (closer.TryToPeer(out Peer p))
-                                {
-                                    Swarm.RegisterPeer(p);
-                                }
-                            }
-                        }
-
-                        if (response.ProviderPeers != null)
-                        {
-                            foreach (var provider in response.ProviderPeers)
-                            {
-                                if (provider.TryToPeer(out Peer p))
-                                {
-                                    Console.WriteLine($"FOUND peer {p}");
-                                    providers.Add(Swarm.RegisterPeer(p));
-                                }
-                            }
-                        }
-                    }
+                    await FindProvidersAsync(peer, id, query, providers, cancel);
                 }
-                
                 catch (Exception e)
                 {
                     log.Warn(e.Message); //eat it
@@ -225,6 +195,54 @@ namespace PeerTalk.Routing
             log.Debug($"Found {providers.Count} providers, visited {visited.Count} peers");
             log.Debug($"{Swarm.KnownPeers.Count()} known peers");
             return providers.Take(limit);
+        }
+
+        async Task FindProvidersAsync(
+            Peer peer,
+            Cid id,
+            DhtMessage query,
+            List<Peer> providers,
+            CancellationToken cancel)
+        {
+            try
+            {
+                // TODO: Is this reasonable to imposes a time limit on connection?
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+                using (var stream = await Swarm.DialAsync(peer, this.ToString(), cts.Token))
+                {
+                    // Send the KAD query and get a response.
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
+                    await stream.FlushAsync(cancel);
+                    var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
+
+                    if (response.CloserPeers != null)
+                    {
+                        foreach (var closer in response.CloserPeers)
+                        {
+                            if (closer.TryToPeer(out Peer p))
+                            {
+                                Swarm.RegisterPeer(p);
+                            }
+                        }
+                    }
+
+                    if (response.ProviderPeers != null)
+                    {
+                        foreach (var provider in response.ProviderPeers)
+                        {
+                            if (provider.TryToPeer(out Peer p))
+                            {
+                                Console.WriteLine($"FOUND peer {p}");
+                                providers.Add(Swarm.RegisterPeer(p));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // eat it. Hopefully other peers will provide an answet.
+            }
         }
     }
 }

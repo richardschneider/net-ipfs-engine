@@ -21,9 +21,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
         {
-
             // Find the TXT dnslink in either <name> or _dnslink.<name>.
-            // TODO: make parallel
             string link = null;
             using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancel))
             {

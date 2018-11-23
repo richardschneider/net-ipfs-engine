@@ -57,19 +57,19 @@ namespace PeerTalk.Transports
                 SocketType.Stream,
                 ProtocolType.Tcp);
 
-            // Handle cancellation of the connect attempt
-            cancel.Register(() =>
-            {
-                socket.Dispose();
-                socket = null;
-            });
-
             TimeSpan latency = MinReadTimeout; // keep compiler happy
             try
             {
                 log.Debug("connecting to " + address);
                 var start = DateTime.Now;
-                await socket.ConnectAsync(ip.Value, port);
+
+                // Handle cancellation of the connect attempt by disposing
+                // of the socket.  This will force ConnectAsync to return.
+                using (var _ = cancel.Register(() => { socket?.Dispose(); socket = null; }))
+                {
+                    await socket.ConnectAsync(ip.Value, port);
+                };
+
                 latency = DateTime.Now - start;
                 log.Debug($"connected to {address} in {latency.TotalMilliseconds} ms");
             }
@@ -86,7 +86,7 @@ namespace PeerTalk.Transports
             {
                 log.Debug("cancel " + address);
                 socket?.Dispose();
-                return null;
+                cancel.ThrowIfCancellationRequested();
             }
 
             var timeout = (int) Math.Max(MinReadTimeout.TotalMilliseconds, latency.TotalMilliseconds * 3);

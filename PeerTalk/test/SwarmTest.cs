@@ -103,7 +103,7 @@ namespace PeerTalk
         }
 
         [TestMethod]
-        public void NewPeerAddress_InvalidAddress()
+        public void NewPeerAddress_InvalidAddress_MissingPeerId()
         {
             var swarm = new Swarm { LocalPeer = self };
             ExceptionAssert.Throws<Exception>(() =>
@@ -122,6 +122,23 @@ namespace PeerTalk
 
             await swarm.RegisterPeerAsync(mars);
             Assert.AreEqual(1, swarm.KnownPeerAddresses.Count());
+        }
+
+        [TestMethod]
+        public void RegisterPeer_AddressesNotToPeer()
+        {
+            var swarm = new Swarm { LocalPeer = self };
+            var venus = new Peer {
+                Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64",
+                Addresses = new MultiAddress[]
+                {
+                    new MultiAddress("/ip4/127.0.0.1/tcp/4001/p2p/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd")
+                }
+            };
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                swarm.RegisterPeer(venus);
+            });
         }
 
         [TestMethod]
@@ -154,6 +171,7 @@ namespace PeerTalk
                 PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
             };
             var swarmB = new Swarm { LocalPeer = peerB };
+            await swarmB.StartAsync();
             var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
             Assert.IsTrue(peerB.Addresses.Count() > 0);
 
@@ -207,6 +225,43 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        public async Task Connect_WithSomeUnreachableAddresses()
+        {
+            var peerB = new Peer
+            {
+                AgentVersion = "peerB",
+                Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+            };
+            var swarmB = new Swarm { LocalPeer = peerB };
+            await swarmB.StartAsync();
+            var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+            Assert.IsTrue(peerB.Addresses.Count() > 0);
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                var bAddresses = new MultiAddress[]
+                {
+                    $"/ip4/127.0.0.2/tcp/2/ipfs/{peerB.Id}",
+                    $"/ip4/127.0.0.3/tcp/3/ipfs/{peerB.Id}",
+                    peerBAddress
+                };
+                var remotePeer = await swarm.ConnectAsync(bAddresses);
+                Assert.IsNotNull(remotePeer.ConnectedAddress);
+                Assert.AreEqual(peerB.PublicKey, remotePeer.PublicKey);
+                Assert.IsTrue(remotePeer.IsValid());
+                Assert.IsTrue(swarm.KnownPeers.Contains(peerB));
+            }
+            finally
+            {
+                await swarm.StopAsync();
+                await swarmB.StopAsync();
+            }
+        }
+
+        [TestMethod]
         public async Task ConnectionEstablished()
         {
             var peerB = new Peer
@@ -221,6 +276,7 @@ namespace PeerTalk
             {
                 ++swarmBConnections;
             };
+            await swarmB.StartAsync();
             var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
 
             var swarm = new Swarm { LocalPeer = self };
@@ -290,15 +346,17 @@ namespace PeerTalk
         }
 
         [TestMethod]
-        public async Task Connect_Cancelled()
+        public void Connect_Cancelled()
         {
             var cs = new CancellationTokenSource();
             cs.Cancel();
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
             var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
             var swarm = new Swarm { LocalPeer = self };
-            var remotePeer = await swarm.ConnectAsync(remoteAddress, cs.Token);
-            Assert.IsNull(remotePeer);
+            ExceptionAssert.Throws<OperationCanceledException>(() =>
+            {
+                var _ = swarm.ConnectAsync(remoteAddress, cs.Token).Result;
+            });
         }
 
         [TestMethod]
@@ -707,6 +765,7 @@ namespace PeerTalk
                 PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
             };
             var swarmB = new Swarm { LocalPeer = peerB };
+            await swarmB.StartAsync();
             var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
 
             var swarm = new Swarm { LocalPeer = self };
@@ -725,6 +784,27 @@ namespace PeerTalk
                 await swarm.StopAsync();
                 await swarmB.StopAsync();
             }
+        }
+
+        [TestMethod]
+        public async Task PeerDiscovered()
+        {
+            var swarm = new Swarm { LocalPeer = self };
+            var peerCount = 0;
+            swarm.PeerDiscovered += (s, e) =>
+            {
+                ++peerCount;
+            };
+            await swarm.RegisterPeerAsync("/ip4/127.0.0.1/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h");
+            await swarm.RegisterPeerAsync("/ip4/127.0.0.2/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h");
+            await swarm.RegisterPeerAsync("/ip4/127.0.0.3/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h");
+            await swarm.RegisterPeerAsync("/ip4/127.0.0.1/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1i");
+            await swarm.RegisterPeerAsync("/ip4/127.0.0.2/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1i");
+            await swarm.RegisterPeerAsync("/ip4/127.0.0.3/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1i");
+            swarm.RegisterPeer(new Peer { Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1j" });
+            swarm.RegisterPeer(new Peer { Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1j" });
+
+            Assert.AreEqual(3, peerCount);
         }
 
     }

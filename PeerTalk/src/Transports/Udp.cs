@@ -60,11 +60,8 @@ namespace PeerTalk.Transports
             if (cancel.IsCancellationRequested)
             {
                 log.Debug("cancel " + address);
-                if (socket != null)
-                {
-                    socket.Dispose();
-                }
-                return null;
+                socket?.Dispose();
+                cancel.ThrowIfCancellationRequested();
             }
             return new DatagramStream(socket, ownsSocket: true);
         }

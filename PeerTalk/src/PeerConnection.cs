@@ -104,7 +104,10 @@ namespace PeerTalk
         {
             foreach (var protocol in protocols)
             {
-                Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+                if (protocol != null)
+                {
+                    Protocols.Add(protocol.ToString(), protocol.ProcessMessageAsync);
+                }
             }
         }
 
@@ -167,6 +170,7 @@ namespace PeerTalk
             await EstablishProtocolAsync("/multistream/", cancel);
 
             // Find the first security protocol that is also supported by the remote.
+            var exceptions = new List<Exception>();
             foreach (var protocol in securityProtocols)
             {
                 try
@@ -175,7 +179,7 @@ namespace PeerTalk
                 }
                 catch (Exception e)
                 {
-                    log.Warn(e); // eat it
+                    exceptions.Add(e);
                     continue;
                 }
 
@@ -183,7 +187,7 @@ namespace PeerTalk
                 break;
             }
             if (!SecurityEstablished.Task.IsCompleted)
-                throw new Exception("Could not establish a secure connection.");
+                throw new AggregateException("Could not establish a secure connection.", exceptions);
 
             await EstablishProtocolAsync("/multistream/", cancel);
             await EstablishProtocolAsync("/mplex/", cancel);

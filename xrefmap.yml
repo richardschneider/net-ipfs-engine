@@ -1052,6 +1052,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Dht
   nameWithType: IpfsEngine.Dht
+- uid: Ipfs.Engine.IpfsEngine.DhtService
+  name: DhtService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_DhtService
+  commentId: P:Ipfs.Engine.IpfsEngine.DhtService
+  fullName: Ipfs.Engine.IpfsEngine.DhtService
+  nameWithType: IpfsEngine.DhtService
+- uid: Ipfs.Engine.IpfsEngine.DhtService*
+  name: DhtService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_DhtService_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.DhtService
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.DhtService
+  nameWithType: IpfsEngine.DhtService
 - uid: Ipfs.Engine.IpfsEngine.Dispose
   name: Dispose()
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dispose

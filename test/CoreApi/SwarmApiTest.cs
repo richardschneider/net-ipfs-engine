@@ -77,5 +77,21 @@ namespace Ipfs.Engine
             Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
         }
 
+        [TestMethod]
+        [Ignore("TODO: Move to interop tests")]
+        public async Task GoIPFS_Connect_v0_4_17()
+        {
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            var remoteId = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd";
+            var remoteAddress = $"/ip4/178.62.158.247/tcp/4001/ipfs/{remoteId}";
+
+            Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
+            await ipfs.Swarm.ConnectAsync(remoteAddress, cts.Token);
+            Assert.AreEqual(1, (await ipfs.Swarm.PeersAsync()).Count());
+
+            await ipfs.Swarm.DisconnectAsync(remoteAddress);
+            Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
+        }
+
     }
 }

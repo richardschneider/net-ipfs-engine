@@ -40,13 +40,15 @@ namespace PeerTalk.Transports
         }
 
         [TestMethod]
-        public async Task Connect_Cancelled()
+        public void Connect_Cancelled()
         {
             var udp = new Udp();
             var cs = new CancellationTokenSource();
             cs.Cancel();
-            var stream = await udp.ConnectAsync("/ip4/127.0.10.10/udp/32700", cs.Token);
-            Assert.IsNull(stream);
+            ExceptionAssert.Throws<OperationCanceledException>(() =>
+            {
+                var stream = udp.ConnectAsync("/ip4/127.0.10.10/udp/32700", cs.Token).Result;
+            });
         }
 
         [TestMethod]

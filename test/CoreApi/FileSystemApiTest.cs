@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ipfs.Engine
@@ -483,6 +484,29 @@ namespace Ipfs.Engine
             finally
             {
                 Directory.Delete(temp, true);
+            }
+        }
+
+        [TestMethod]
+        [Ignore("Waiting for BlockApi to call Dht.FindProvider")] // TODO
+        public async Task ReadFromNetwork()
+        {
+            var ipfs = TestFixture.Ipfs;
+            await ipfs.StartAsync();
+
+            try
+            {
+                var folder = "QmXarR6rgkQ2fDSHjSY5nM2kuCXKYGViky5nohtwgF65Ec";
+                await ipfs.Block.RemoveAsync(folder, true);
+
+
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var text = await ipfs.FileSystem.ReadAllTextAsync($"{folder}/about", cts.Token);
+                StringAssert.Contains(text, "IPFS -- Inter-Planetary File system");
+            }
+            finally
+            {
+                await ipfs.StopAsync();
             }
         }
 

@@ -92,10 +92,22 @@ namespace PeerTalk.Protocols
                 {
                     remote.Id = MultiHash.ComputeHash(info.PublicKey);
                 }
+ 
                 if (info.ListenAddresses != null)
                 {
                     remote.Addresses = info.ListenAddresses
-                        .Select(b => new MultiAddress(b))
+                        .Select(b =>
+                        {
+                            try
+                            {
+                                return new MultiAddress(b);
+                            }
+                            catch
+                            {
+                                return null;
+                            }
+                        })
+                        .Where(a => a != null)
                         .ToList();
                 }
             }

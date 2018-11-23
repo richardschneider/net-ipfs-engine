@@ -59,13 +59,15 @@ namespace PeerTalk.Transports
         }
 
         [TestMethod]
-        public async Task Connect_Cancelled()
+        public void Connect_Cancelled()
         {
             var tcp = new Tcp();
             var cs = new CancellationTokenSource();
             cs.Cancel();
-            var stream = await tcp.ConnectAsync("/ip4/127.0.10.10/tcp/32700", cs.Token);
-            Assert.IsNull(stream);
+            ExceptionAssert.Throws<OperationCanceledException>(() =>
+            {
+                var stream = tcp.ConnectAsync("/ip4/127.0.10.10/tcp/32700", cs.Token).Result;
+            });
         }
 
         [TestMethod]

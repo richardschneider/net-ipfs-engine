@@ -103,9 +103,9 @@ namespace PeerTalk
         ConcurrentDictionary<string, Peer> otherPeers = new ConcurrentDictionary<string, Peer>();
 
         /// <summary>
-        ///   The connections to other peers. Key is the base58 hash of the peer ID.
+        ///   Manages the swarm's peer connections.
         /// </summary>
-        ConcurrentDictionary<string, PeerConnection> connections = new ConcurrentDictionary<string, PeerConnection>();
+        public ConnectionManager Manager = new ConnectionManager();
 
         /// <summary>
         ///   Cancellation tokens for the listeners.
@@ -326,26 +326,16 @@ namespace PeerTalk
         {
             log.Debug("Stopping");
 
-            // Stop the listeners
+            // Stop the listeners.
             while (listeners.Count > 0)
             {
                 await StopListeningAsync(listeners.Keys.First());
             }
 
-            // Disconnect from remote peers
-            foreach (var peer in otherPeers.Values.Where(p => p.ConnectedAddress != null))
-            {
-                await DisconnectAsync(peer.ConnectedAddress);
-            }
-
-            // Just in case.
-            foreach (var connection in connections.Values)
-            {
-                connection.Dispose();
-            }
+            // Disconnect from remote peers.
+            Manager.Clear();
 
             otherPeers.Clear();
-            connections.Clear();
             listeners.Clear();
             BlackList = new BlackList<MultiAddress>();
             WhiteList = new WhiteList<MultiAddress>();
@@ -395,19 +385,10 @@ namespace PeerTalk
             var peer = await RegisterPeerAsync(addresses.First(), cancel);
 
             // If connected and still open, then use the existing connection.
-            if (peer.ConnectedAddress != null)
+            if (Manager.TryGet(peer, out PeerConnection _))
             {
-                if (connections.TryGetValue(peer.Id.ToBase58(), out PeerConnection conn))
-                {
-                    if (conn.Stream != null && conn.Stream.CanRead && conn.Stream.CanWrite)
-                    {
-                        return peer;
-                    }
-                    log.Debug($"Connection was closed");
-                    conn.Dispose();
-                }
+                return peer;
             }
-            peer.ConnectedAddress = null;
 
             // Establish a stream.
             var connection = await Dial(peer, addresses, cancel);
@@ -447,7 +428,7 @@ namespace PeerTalk
 
             // Get a connection and then a muxer to the peer.
             var _ = await ConnectAsync(peer.Addresses, cancel);
-            if (!connections.TryGetValue(peer.Id.ToBase58(), out PeerConnection connection))
+            if (!Manager.TryGet(peer, out PeerConnection connection))
             {
                 throw new Exception($"Cannot establish connection to peer '{peer}'.");
             }
@@ -501,6 +482,14 @@ namespace PeerTalk
 
         async Task<PeerConnection> DialAsync(Peer remote, MultiAddress addr, CancellationToken cancel)
         {
+            // TODO: HACK: Currenty only the ipfs/p2p is supported.
+            // short circuit to make life faster.
+            if (addr.Protocols.Count != 3 
+                || !(addr.Protocols[2].Name == "ipfs" || addr.Protocols[2].Name == "p2p"))
+            {
+                throw new Exception($"Cannnot dial; unknown protocol in '{addr}'.");
+            }
+
             // Establish the transport stream.
             Stream stream = null;
             foreach (var protocol in addr.Protocols)
@@ -558,19 +547,13 @@ namespace PeerTalk
                 throw;
             }
 
-            connections[remote.Id.ToBase58()] = connection;
-            connection.Closed += (s, e) =>
+            var actual = Manager.Add(connection);
+            if (actual == connection)
             {
-                if (e.RemotePeer != null && e.RemotePeer.Id != null)
-                {
-                    log.Debug($"Connection to {e.RemotePeer.Id} closed");
-                    connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
-                }
-            };
+                ConnectionEstablished?.Invoke(this, connection);
+            }
 
-            ConnectionEstablished?.Invoke(this, connection);
-
-            return connection;
+            return actual;
         }
 
         /// <summary>
@@ -591,19 +574,7 @@ namespace PeerTalk
         /// </remarks>
         public Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            var peerId = address.PeerId.ToBase58();
-            if (otherPeers.TryGetValue(peerId, out Peer peer))
-            {
-                if (peer.ConnectedAddress != null)
-                {
-                    log.Debug($"disconnecting {peer.ConnectedAddress}");
-                    if (connections.TryRemove(peerId, out PeerConnection connection))
-                    {
-                        connection.Dispose();
-                    }
-                }
-            }
-
+            Manager.Remove(address.PeerId);
             return Task.CompletedTask;
         }
 
@@ -749,13 +720,6 @@ namespace PeerTalk
                 RemoteAddress = remote,
                 Stream = stream
             };
-            connection.Closed += (s, e) =>
-            {
-                if (e.RemotePeer != null && e.RemotePeer.Id != null)
-                {
-                    connections.TryRemove(e.RemotePeer.Id.ToBase58(), out PeerConnection _);
-                }
-            };
 
             // Mount the protocols.
             MountProtocols(connection);
@@ -782,9 +746,12 @@ namespace PeerTalk
             connection.RemotePeer = RegisterPeer(connection.RemotePeer);
             connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");
             connection.RemotePeer.ConnectedAddress = connection.RemoteAddress;
-            connections[connection.RemotePeer.Id.ToBase58()] = connection;
 
-            ConnectionEstablished?.Invoke(this, connection);
+            var actual = Manager.Add(connection);
+            if (actual == connection)
+            {
+                ConnectionEstablished?.Invoke(this, connection);
+            }
         }
 
         /// <summary>

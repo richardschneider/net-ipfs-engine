@@ -348,6 +348,9 @@ namespace PeerTalk
                     {
                         RemotePeer.ConnectedAddress = null;
                     }
+                    SecurityEstablished.TrySetCanceled();
+                    IdentityEstablished.TrySetCanceled();
+                    IdentityEstablished.TrySetCanceled();
                     Closed?.Invoke(this, this);
                 }
 

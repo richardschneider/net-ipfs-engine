@@ -1,5 +1,6 @@
 ﻿using Ipfs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PeerTalk;
 using System;
 using System.Linq;
 using System.Text;
@@ -13,13 +14,14 @@ namespace Ipfs.Engine.BlockExchange
     {
         Peer self = new Peer
         {
-            Id = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd"
+            Id = "QmXK9VBxaXFuuT29AaPUTgW3jBWZ9JgLVZYdMYTHC6LLAH",
+            PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQCC5r4nQBtnd9qgjnG8fBN5+gnqIeWEIcUFUdCG4su/vrbQ1py8XGKNUBuDjkyTv25Gd3hlrtNJV3eOKZVSL8ePAgMBAAE="
         };
 
         [TestMethod]
         public void WantList()
         {
-            var bitswap = new Bitswap();
+            var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
             Assert.AreEqual(0, bitswap.PeerWants(self.Id).Count());
 
             var cid = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block")).Id;
@@ -34,7 +36,7 @@ namespace Ipfs.Engine.BlockExchange
         [TestMethod]
         public void Want_Cancel()
         {
-            var bitswap = new Bitswap();
+            var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
             var cid = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block")).Id;
             var cancel = new CancellationTokenSource();
             var task = bitswap.Want(cid, self.Id, cancel.Token);
@@ -48,7 +50,7 @@ namespace Ipfs.Engine.BlockExchange
         [TestMethod]
         public void Block_Needed()
         {
-            var bitswap = new Bitswap();
+            var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
             var cid1 = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block y")).Id;
             var cid2 = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block z")).Id;
             var cancel = new CancellationTokenSource();
@@ -75,7 +77,7 @@ namespace Ipfs.Engine.BlockExchange
         [TestMethod]
         public void Want_Unwant()
         {
-            var bitswap = new Bitswap();
+            var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
             var cid = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block")).Id;
             var cancel = new CancellationTokenSource();
             var task = bitswap.Want(cid, self.Id, cancel.Token);
@@ -89,7 +91,7 @@ namespace Ipfs.Engine.BlockExchange
         [TestMethod]
         public void Found()
         {
-            var bitswap = new Bitswap();
+            var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
             Assert.AreEqual(0, bitswap.PeerWants(self.Id).Count());
 
             var a = new DagNode(Encoding.UTF8.GetBytes("BitswapTest found block a"));
@@ -112,7 +114,7 @@ namespace Ipfs.Engine.BlockExchange
         [TestMethod]
         public void Found_Count()
         {
-            var bitswap = new Bitswap();
+            var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
 
             var a = new DagNode(Encoding.UTF8.GetBytes("BitswapTest found block a"));
             Assert.AreEqual(0, bitswap.Found(a));

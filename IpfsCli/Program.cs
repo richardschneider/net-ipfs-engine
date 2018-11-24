@@ -55,17 +55,19 @@ namespace Ipfs.Cli
 
         public static int Main(string[] args)
         {
+            var startTime = DateTime.Now;
+
             // Need to setup common.logging early.
             debugging = args.Any(s => s == "--debug");
             var properties = new Common.Logging.Configuration.NameValueCollection();
             properties["level"] = debugging ? "DEBUG" : "OFF";
             properties["showLogName"] = "true";
-            properties["showDateTime"] = "false";
+            properties["showDateTime"] = "true";
             LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
 
             try
             {
-                return CommandLineApplication.Execute<Program>(args);
+                CommandLineApplication.Execute<Program>(args);
             }
             catch (Exception e)
             {
@@ -80,6 +82,11 @@ namespace Ipfs.Cli
                 }
                 return 1;
             }
+
+            var took = DateTime.Now - startTime;
+            Console.Write($"Took {took.TotalSeconds} seconds.");
+
+            return 0;
         }
 
         [Option("--api <url>",  Description = "Use a specific API instance")]
@@ -93,6 +100,9 @@ namespace Ipfs.Cli
 
         [Option("--debug", Description = "Show debugging info")]
         public bool Debug { get; set; }  // just for documentation, already parsed in Main
+
+        [Option("--time", Description = "Show how long the command took")]
+        public bool ShowTime { get; set; }
 
         protected override Task<int> OnExecute(CommandLineApplication app)
         {

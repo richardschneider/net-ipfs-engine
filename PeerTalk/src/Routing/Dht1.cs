@@ -183,6 +183,7 @@ namespace PeerTalk.Routing
 
                 try
                 {
+                    log.Debug($"Next {peers.Length} queries");
                     var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, cancel));
                     await Task.WhenAll(tasks);
                 }
@@ -216,6 +217,7 @@ namespace PeerTalk.Routing
                     await stream.FlushAsync(cancel);
                     var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
 
+                    log.Debug($"Processing DHT response from {peer}");
                     if (response.CloserPeers != null)
                     {
                         foreach (var closer in response.CloserPeers)
@@ -225,6 +227,7 @@ namespace PeerTalk.Routing
                                 Swarm.RegisterPeer(p);
                             }
                         }
+                        log.Debug($"Found {response.CloserPeers.Count()} closer peers");
                     }
 
                     if (response.ProviderPeers != null)
@@ -237,6 +240,7 @@ namespace PeerTalk.Routing
                                 providers.Add(Swarm.RegisterPeer(p));
                             }
                         }
+                        log.Debug($"Found {response.ProviderPeers.Count()} provider peers");
                     }
                 }
             }

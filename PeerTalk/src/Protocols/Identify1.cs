@@ -114,7 +114,7 @@ namespace PeerTalk.Protocols
 
             // TODO: Verify the Peer ID
 
-            connection.IdentityEstablished.SetResult(remote);
+            connection.IdentityEstablished.TrySetResult(remote);
 
             log.Debug($"Peer id '{remote}' of {connection.RemoteAddress}");
             return remote;

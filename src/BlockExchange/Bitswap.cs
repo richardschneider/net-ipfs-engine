@@ -73,7 +73,12 @@ namespace Ipfs.Engine.BlockExchange
         {
             try
             {
-                await SendWantListAsync(connection.RemotePeer);
+                // There is a race condition between getting the remote identity and
+                // the remote sending the first wantlist.
+                await connection.IdentityEstablished.Task;
+
+                // Fire and forget.
+                var _ = SendWantListAsync(connection.RemotePeer);
             }
             catch (Exception e)
             {
@@ -168,8 +173,12 @@ namespace Ipfs.Engine.BlockExchange
             // If first time, tell other peers.
             if (want.Consumers.Count == 1)
             {
-                var _ = SendWantListToAllAsync(new [] { want }, full: false);
                 BlockNeeded?.Invoke(this, new CidEventArgs { Id = want.Id });
+            }
+            if (peer == Swarm.LocalPeer.Id)
+            {
+                // Fire and forget.
+                var _ = SendWantListToAllAsync(new[] { want }, full: false);
             }
 
             return tsc.Task;
@@ -229,14 +238,19 @@ namespace Ipfs.Engine.BlockExchange
 
         Task SendWantListAsync(Peer peer)
         {
-            if (wants.IsEmpty)
-                return Task.CompletedTask;
+            var myWants = PeerWants(Swarm.LocalPeer.Id);
+            if (myWants.Count() > 0)
+            {
+                return SendWantListAsync(peer, wants.Values, true);
+            }
 
-            return SendWantListAsync(peer, wants.Values, true);
+            return Task.CompletedTask;
+
         }
 
         Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
         {
+            log.Debug("Spamming all know peers");
             if (Swarm == null)
                 return Task.CompletedTask;
 

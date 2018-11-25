@@ -154,5 +154,30 @@ namespace Ipfs.Engine
                 await ipfs.StopAsync();
             }
         }
+
+        [TestMethod]
+        public async Task GetsBlock_Cidv1()
+        {
+            await ipfs.StartAsync();
+            await ipfsOther.StartAsync();
+            try
+            {
+                var data = Guid.NewGuid().ToByteArray();
+                var cid = await ipfsOther.Block.PutAsync(data, "raw", "sha2-512");
+
+                var remote = await ipfsOther.LocalPeer;
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
+
+                var cts = new CancellationTokenSource(3000);
+                var block = await ipfs.Block.GetAsync(cid, cts.Token);
+                Assert.AreEqual(cid, block.Id);
+                CollectionAssert.AreEqual(data, block.DataBytes);
+            }
+            finally
+            {
+                await ipfsOther.StopAsync();
+                await ipfs.StopAsync();
+            }
+        }
     }
 }

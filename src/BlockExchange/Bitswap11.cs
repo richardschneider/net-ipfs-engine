@@ -57,8 +57,7 @@ namespace Ipfs.Engine.BlockExchange
                 log.Debug("got want list");
                 foreach (var entry in request.wantlist.entries)
                 {
-                    var s = Base58.ToBase58(entry.block);
-                    Cid cid = s;
+                    var cid = Cid.Read(entry.block);
                     if (entry.cancel)
                     {
                         // TODO: Unwant specific to remote peer
@@ -80,7 +79,17 @@ namespace Ipfs.Engine.BlockExchange
                 log.Debug("got some blocks");
                 foreach (var sentBlock in request.payload)
                 {
-                    await Bitswap.BlockService.PutAsync(sentBlock.data);
+                    using (var ms = new MemoryStream(sentBlock.prefix))
+                    {
+                        var version = ms.ReadVarint32();
+                        var contentType = ms.ReadMultiCodec().Name;
+                        var multiHash = MultiHash.GetHashAlgorithmName(ms.ReadVarint32());
+                        await Bitswap.BlockService.PutAsync(
+                            data: sentBlock.data,
+                            contentType: contentType,
+                            multiHash: multiHash,
+                            pin: false);
+                    }
                 }
             }
         }
@@ -130,10 +139,12 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     full = full,
                     entries = wants
-                        .Select(w => new Entry
-                        {
-                            block = w.Id.Hash.ToArray()
-                        })
+                        .Select(w => {
+                            return new Entry
+                            {
+                                block = w.Id.ToArray()
+                            };
+                         })
                         .ToArray()
                 },
                 payload = new List<Block>(0)

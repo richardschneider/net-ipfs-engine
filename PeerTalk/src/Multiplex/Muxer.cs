@@ -183,8 +183,8 @@ namespace PeerTalk.Multiplex
                     // Read the packet prefix.
                     var header = await Header.ReadAsync(Channel, cancel);
                     var length = await Varint.ReadVarint32Async(Channel, cancel);
-                    if (log.IsDebugEnabled)
-                        log.DebugFormat("received '{0}', stream={1}, length={2}", header.PacketType, header.StreamId, length);
+                    if (log.IsTraceEnabled)
+                        log.TraceFormat("received '{0}', stream={1}, length={2}", header.PacketType, header.StreamId, length);
 
                     // Read the payload.
                     var payload = new byte[length];

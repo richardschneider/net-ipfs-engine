@@ -79,7 +79,7 @@ namespace PeerTalk.Protocols
         {
             var payload = Encoding.UTF8.GetString(await ReadBytesAsync(stream, cancel));
 
-            log.Debug("received " + payload);
+            log.Trace("received " + payload);
             return payload;
         }
 
@@ -100,7 +100,7 @@ namespace PeerTalk.Protocols
         /// </returns>
         public static async Task WriteAsync(string message, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            log.Debug("sending " + message);
+            log.Trace("sending " + message);
 
             var payload = Encoding.UTF8.GetBytes(message);
             await stream.WriteVarintAsync(message.Length + 1, cancel);

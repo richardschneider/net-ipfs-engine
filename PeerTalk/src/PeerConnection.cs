@@ -242,7 +242,7 @@ namespace PeerTalk
             {
                 throw new Exception($"Protocol '{name}' is not registered.");
             }
-            throw new Exception($"Remote does not support protocol '{name}'.");
+            throw new Exception($"{RemotePeer.Id} does not support protocol '{name}'.");
         }
 
         /// <summary>

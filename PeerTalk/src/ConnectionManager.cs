@@ -1,4 +1,5 @@
 ﻿using Ipfs;
+using Common.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace PeerTalk
     /// </remarks>
     public class ConnectionManager
     {
+        static ILog log = LogManager.GetLogger(typeof(ConnectionManager));
+
         /// <summary>
         ///   The connections to other peers. Key is the base58 hash of the peer ID.
         /// </summary>
@@ -99,6 +102,7 @@ namespace PeerTalk
         {
             if (TryGet(connection.RemotePeer, out PeerConnection existing))
             {
+                log.Debug($"duplicate {connection.RemoteAddress}, keeping {existing.RemoteAddress}");
                 connection.Dispose();
                 return existing;
             }

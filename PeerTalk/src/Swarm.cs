@@ -244,15 +244,6 @@ namespace PeerTalk
                 throw new ArgumentException("Cannot register self.");
             }
 
-            // All addresses must contain the correct peer ID.
-            foreach (var a in peer.Addresses)
-            {
-                if (peer.Id != a.PeerId)
-                {
-                    throw new ArgumentException($"Address '{a}' is not for peer '{peer.Id}'.");
-                }
-            }
-
             var isNew = false;
             var p = otherPeers.AddOrUpdate(peer.Id.ToBase58(),
                 (id) => 
@@ -361,14 +352,15 @@ namespace PeerTalk
         /// </remarks>
         public async Task<Peer> ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            return await ConnectAsync(new MultiAddress[] { address }, cancel);
+            var peer = await RegisterPeerAsync(address, cancel);
+            return await ConnectAsync(peer, cancel);
         }
 
         /// <summary>
         ///   Connect to a peer.
         /// </summary>
-        /// <param name="addresses">
-        ///   A sequence <see cref="MultiAddress"/> to the peer.
+        /// <param name="peer">
+        ///  A peer to connect to.
         /// </param>
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
@@ -378,11 +370,11 @@ namespace PeerTalk
         ///   is the connected <see cref="Peer"/>.
         /// </returns>
         /// <remarks>
-        ///   If already connected to the peer, on any address, then nothing is done.
+        ///   If already connected to the peer, then nothing is done.
         /// </remarks>
-        public async Task<Peer> ConnectAsync(IEnumerable<MultiAddress> addresses, CancellationToken cancel = default(CancellationToken))
+        public async Task<Peer> ConnectAsync(Peer peer, CancellationToken cancel = default(CancellationToken))
         {
-            var peer = await RegisterPeerAsync(addresses.First(), cancel);
+            peer = RegisterPeer(peer);
 
             // If connected and still open, then use the existing connection.
             if (Manager.TryGet(peer, out PeerConnection _))
@@ -391,7 +383,7 @@ namespace PeerTalk
             }
 
             // Establish a stream.
-            var connection = await Dial(peer, addresses, cancel);
+            var connection = await Dial(peer, peer.Addresses, cancel);
 
             return peer;
         }
@@ -427,7 +419,7 @@ namespace PeerTalk
             }
 
             // Get a connection and then a muxer to the peer.
-            var _ = await ConnectAsync(peer.Addresses, cancel);
+            var _ = await ConnectAsync(peer, cancel);
             if (!Manager.TryGet(peer, out PeerConnection connection))
             {
                 throw new Exception($"Cannot establish connection to peer '{peer}'.");

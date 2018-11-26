@@ -125,23 +125,6 @@ namespace PeerTalk
         }
 
         [TestMethod]
-        public void RegisterPeer_AddressesNotToPeer()
-        {
-            var swarm = new Swarm { LocalPeer = self };
-            var venus = new Peer {
-                Id = "QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64",
-                Addresses = new MultiAddress[]
-                {
-                    new MultiAddress("/ip4/127.0.0.1/tcp/4001/p2p/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd")
-                }
-            };
-            ExceptionAssert.Throws<ArgumentException>(() =>
-            {
-                swarm.RegisterPeer(venus);
-            });
-        }
-
-        [TestMethod]
         public async Task KnownPeers()
         {
             var swarm = new Swarm { LocalPeer = self };
@@ -227,11 +210,17 @@ namespace PeerTalk
         [TestMethod]
         public async Task Connect_WithSomeUnreachableAddresses()
         {
+            var bid = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h";
             var peerB = new Peer
             {
                 AgentVersion = "peerB",
-                Id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h",
-                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE="
+                Id = bid,
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE=",
+                Addresses = new MultiAddress[]
+                {
+                    $"/ip4/127.0.0.2/tcp/2/ipfs/{bid}",
+                    $"/ip4/127.0.0.3/tcp/3/ipfs/{bid}"
+                }
             };
             var swarmB = new Swarm { LocalPeer = peerB };
             await swarmB.StartAsync();
@@ -242,13 +231,7 @@ namespace PeerTalk
             await swarm.StartAsync();
             try
             {
-                var bAddresses = new MultiAddress[]
-                {
-                    $"/ip4/127.0.0.2/tcp/2/ipfs/{peerB.Id}",
-                    $"/ip4/127.0.0.3/tcp/3/ipfs/{peerB.Id}",
-                    peerBAddress
-                };
-                var remotePeer = await swarm.ConnectAsync(bAddresses);
+                var remotePeer = await swarm.ConnectAsync(peerB);
                 Assert.IsNotNull(remotePeer.ConnectedAddress);
                 Assert.AreEqual(peerB.PublicKey, remotePeer.PublicKey);
                 Assert.IsTrue(remotePeer.IsValid());
@@ -313,7 +296,7 @@ namespace PeerTalk
         public void Connect_No_Transport()
         {
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
-            var remoteAddress = $"/ip4/127.0.0.1/ipfs/{remoteId}";
+            MultiAddress remoteAddress = $"/ip4/127.0.0.1/ipfs/{remoteId}";
             var swarm = new Swarm { LocalPeer = self };
             ExceptionAssert.Throws<Exception>(() =>
             {
@@ -325,7 +308,7 @@ namespace PeerTalk
         public void Connect_Refused()
         {
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
-            var remoteAddress = $"/ip4/127.0.0.1/tcp/4040/ipfs/{remoteId}";
+            MultiAddress remoteAddress = $"/ip4/127.0.0.1/tcp/4040/ipfs/{remoteId}";
             var swarm = new Swarm { LocalPeer = self };
             ExceptionAssert.Throws<Exception>(() =>
             {
@@ -337,7 +320,7 @@ namespace PeerTalk
         public void Connect_Not_Peer()
         {
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
-            var remoteAddress = $"/dns/npmjs.com/tcp/80/ipfs/{remoteId}";
+            MultiAddress remoteAddress = $"/dns/npmjs.com/tcp/80/ipfs/{remoteId}";
             var swarm = new Swarm { LocalPeer = self };
             ExceptionAssert.Throws<Exception>(() =>
             {
@@ -351,7 +334,7 @@ namespace PeerTalk
             var cs = new CancellationTokenSource();
             cs.Cancel();
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
-            var remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
+            MultiAddress remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
             var swarm = new Swarm { LocalPeer = self };
             ExceptionAssert.Throws<OperationCanceledException>(() =>
             {

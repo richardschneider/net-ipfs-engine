@@ -153,8 +153,14 @@ namespace PeerTalk.Routing
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, CancellationToken cancel = default(CancellationToken))
+        public async Task<IEnumerable<Peer>> FindProvidersAsync(
+            Cid id, 
+            int limit = 20, 
+            Action<Peer> action = null,
+            CancellationToken cancel = default(CancellationToken))
         {
+            log.Debug($"Find providers for {id}");
+
             var providers = new List<Peer>();
             var visited = new List<Peer> { Swarm.LocalPeer };
 
@@ -191,13 +197,13 @@ namespace PeerTalk.Routing
                     using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
                     using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel))
                     {
-                        var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, cts.Token));
+                        var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, action, cts.Token));
                         await Task.WhenAll(tasks);
                     }
                 }
                 catch (Exception e)
                 {
-                    log.Warn("dquery failed", e); //eat it
+                    log.Warn("dquery failed " + e.Message); //eat it
                 }
             }
 
@@ -212,6 +218,7 @@ namespace PeerTalk.Routing
             Cid id,
             DhtMessage query,
             List<Peer> providers,
+            Action<Peer> action,
             CancellationToken cancel)
         {
             try
@@ -244,9 +251,14 @@ namespace PeerTalk.Routing
                         {
                             if (provider.TryToPeer(out Peer p))
                             {
-                                Console.WriteLine($"FOUND peer {p}");
-                                // TODO:Only unique answers
-                                providers.Add(Swarm.RegisterPeer(p));
+                                p = Swarm.RegisterPeer(p);
+                                // Only unique answers
+                                if (!providers.Contains(p))
+                                {
+                                    Console.WriteLine($"FOUND peer {p}");
+                                    providers.Add(p);
+                                    action?.Invoke(p);
+                                }
                                 // TODO: Stop the distributed query if the limit is reached.
                             }
                         }
@@ -258,7 +270,7 @@ namespace PeerTalk.Routing
             }
             catch (Exception e)
             {
-                log.Warn("query failed", e); // eat it. Hopefully other peers will provide an answet.
+                log.Warn("query failed " + e.Message); // eat it. Hopefully other peers will provide an answet.
             }
         }
     }

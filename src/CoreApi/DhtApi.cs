@@ -25,7 +25,7 @@ namespace Ipfs.Engine.CoreApi
         public async Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, CancellationToken cancel = default(CancellationToken))
         {
             var dht = await ipfs.DhtService;
-            return await dht.FindProvidersAsync(id, limit, cancel);
+            return await dht.FindProvidersAsync(id, limit, null, cancel);
         }
     }
 }

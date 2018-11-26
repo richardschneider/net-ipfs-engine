@@ -43,6 +43,9 @@ namespace PeerTalk.Routing
         /// <param name="limit">
         ///   The maximum number of peers to return.  Defaults to 20.
         /// </param>
+        /// <param name="providerFound">
+        ///   An action to perform when a provider is found.
+        /// </param>
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
@@ -50,7 +53,11 @@ namespace PeerTalk.Routing
         ///   A task that represents the asynchronous operation that returns
         ///   a sequence of IPFS <see cref="Peer"/>.
         /// </returns>
-        Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, CancellationToken cancel = default(CancellationToken));
+        Task<IEnumerable<Peer>> FindProvidersAsync(
+            Cid id, 
+            int limit = 20, 
+            Action<Peer> providerFound = null,
+            CancellationToken cancel = default(CancellationToken));
     }
 }
 

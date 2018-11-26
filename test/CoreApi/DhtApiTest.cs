@@ -51,7 +51,7 @@ namespace Ipfs.Engine
         //[Ignore("TODO: way too slow")]
         public async Task FindProvider()
         {
-            var folder = "QmS4fTD7Rh8NouNhp9uZbawUdBpgHaUTeL3EnxX8Tiiu7H";
+            var folder = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv";
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
             try

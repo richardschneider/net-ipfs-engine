@@ -93,16 +93,23 @@ namespace PeerTalk.Transports
             socket.LingerState = new LingerOption(false, 0);
             socket.ReceiveTimeout = timeout;
             socket.SendTimeout = timeout;
-            var stream =  new NetworkStream(socket, ownsSocket: true);
+            Stream stream =  new NetworkStream(socket, ownsSocket: true);
             stream.ReadTimeout = timeout;
             stream.WriteTimeout = timeout;
 
 #if !NETSTANDARD14
             // BufferedStream not available in .Net Standard 1.4
-            return new DuplexBufferedStream(stream);
-#else
-            return stream;
+            stream = new DuplexBufferedStream(stream);
 #endif
+
+            if (cancel.IsCancellationRequested)
+            {
+                log.Debug("cancel " + address);
+                stream.Dispose();
+                cancel.ThrowIfCancellationRequested();
+            }
+
+            return stream;
         }
 
         /// <inheritdoc />

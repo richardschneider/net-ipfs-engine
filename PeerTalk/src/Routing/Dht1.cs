@@ -34,6 +34,9 @@ namespace PeerTalk.Routing
         /// </summary>
         public Swarm Swarm { get; set; }
 
+        /// <summary>
+        ///  Routing information on peers.
+        /// </summary>
         public RoutingTable RoutingTable;
 
         /// <inheritdoc />
@@ -184,12 +187,17 @@ namespace PeerTalk.Routing
                 try
                 {
                     log.Debug($"Next {peers.Length} queries");
-                    var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, cancel));
-                    await Task.WhenAll(tasks);
+                    // Only allow 10 seconds per pass.
+                    using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                    using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel))
+                    {
+                        var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, cts.Token));
+                        await Task.WhenAll(tasks);
+                    }
                 }
                 catch (Exception e)
                 {
-                    log.Warn(e.Message); //eat it
+                    log.Warn("dquery failed", e); //eat it
                 }
             }
 
@@ -237,16 +245,20 @@ namespace PeerTalk.Routing
                             if (provider.TryToPeer(out Peer p))
                             {
                                 Console.WriteLine($"FOUND peer {p}");
+                                // TODO:Only unique answers
                                 providers.Add(Swarm.RegisterPeer(p));
+                                // TODO: Stop the distributed query if the limit is reached.
                             }
                         }
                         log.Debug($"Found {response.ProviderPeers.Count()} provider peers");
                     }
+
+                    log.Debug($"Done with DHT response from {peer}");
                 }
             }
             catch (Exception e)
             {
-                log.Warn(e.Message); // eat it. Hopefully other peers will provide an answet.
+                log.Warn("query failed", e); // eat it. Hopefully other peers will provide an answet.
             }
         }
     }

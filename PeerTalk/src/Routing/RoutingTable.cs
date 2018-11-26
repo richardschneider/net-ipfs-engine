@@ -36,6 +36,26 @@ namespace PeerTalk.Routing
         public RoutingTable(Peer localPeer)
         {
             Peers.LocalContactId = Key(localPeer.Id);
+            Peers.ContactsToPing = 1;
+            Peers.Ping += Peers_Ping;
+        }
+
+        /// <summary>
+        ///   A k-bucket is full!
+        /// </summary>
+        /// <remarks>
+        ///  Currently this just removes the oldest contact from the list, 
+        ///  without acutally pinging the individual peers.
+        /// 
+        ///  This is the same as go does, but should probably
+        ///  be upgraded to actually ping the individual peers.
+        /// </remarks>
+        void Peers_Ping(object sender, PingEventArgs<RoutingPeer> e)
+        {
+            if (Peers.Remove(e.Oldest.First()))
+            {
+                Peers.Add(e.Newest);
+            }
         }
 
         /// <summary>

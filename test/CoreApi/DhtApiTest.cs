@@ -27,7 +27,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("TODO not ready for prime time")]
+        //[Ignore("TODO not ready for prime time")]
         public async Task Mars_Info()
         {
             var marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
@@ -48,15 +48,15 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("TODO: way too slow")]
+        //[Ignore("TODO: way too slow")]
         public async Task FindProvider()
         {
-            var folder = "QmXarR6rgkQ2fDSHjSY5nM2kuCXKYGViky5nohtwgF65Ec";
+            var folder = "QmS4fTD7Rh8NouNhp9uZbawUdBpgHaUTeL3EnxX8Tiiu7H";
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
             try
             {
-                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+                var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
                 var providers = await ipfs.Dht.FindProvidersAsync(folder, 1, cts.Token);
                 Assert.AreEqual(1, providers.Count());
             }

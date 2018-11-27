@@ -37,7 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ipfs.Core" Version="0.35.0" />
+    <PackageReference Include="Ipfs.Core" Version="0.35.1" />
     <PackageReference Include="Makaretu.Dns.Multicast" Version="0.14.1" />
     <PackageReference Include="Makaretu.KBucket" Version="0.4.1" />
     <PackageReference Include="Nito.AsyncEx" Version="5.0.0-pre-05" />

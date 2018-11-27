@@ -194,7 +194,7 @@ namespace PeerTalk.Routing
                 {
                     log.Debug($"Next {peers.Length} queries");
                     // Only allow 10 seconds per pass.
-                    using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                    using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30)))
                     using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel))
                     {
                         var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, action, cts.Token));
@@ -224,7 +224,7 @@ namespace PeerTalk.Routing
             try
             {
                 // TODO: Is this reasonable to imposes a time limit on connection?
-                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15)))
                 using (var stream = await Swarm.DialAsync(peer, this.ToString(), cts.Token))
                 {
                     // Send the KAD query and get a response.

@@ -49,12 +49,10 @@ namespace Ipfs.Engine.BlockExchange
             // the remote sending the first wantlist.
             await connection.IdentityEstablished.Task;
 
-            log.Debug($"got message from {connection.RemotePeer}");
-
             // Process want list
             if (request.wantlist != null && request.wantlist.entries != null)
             {
-                log.Debug("got want list");
+                log.Debug($"got want list from {connection.RemotePeer}");
                 foreach (var entry in request.wantlist.entries)
                 {
                     var cid = Cid.Read(entry.block);
@@ -76,7 +74,7 @@ namespace Ipfs.Engine.BlockExchange
             // any tasks (GetBlockAsync) waiting for the block.
             if (request.payload != null)
             {
-                log.Debug("got some blocks");
+                log.Debug($"got block(s) from {connection.RemotePeer}");
                 foreach (var sentBlock in request.payload)
                 {
                     using (var ms = new MemoryStream(sentBlock.prefix))
@@ -131,8 +129,6 @@ namespace Ipfs.Engine.BlockExchange
             CancellationToken cancel = default(CancellationToken)
             )
         {
-            log.Debug("Sending want list");
-
             var message = new Message
             {
                 wantlist = new Wantlist
@@ -152,7 +148,6 @@ namespace Ipfs.Engine.BlockExchange
 
             ProtoBuf.Serializer.SerializeWithLengthPrefix<Message>(stream, message, PrefixStyle.Base128);
             await stream.FlushAsync(cancel);
-            log.Debug("Sent want list");
         }
 
         internal async Task SendAsync(

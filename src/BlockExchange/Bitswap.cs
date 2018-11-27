@@ -249,11 +249,11 @@ namespace Ipfs.Engine.BlockExchange
         }
 
         /// <summary>
-        ///   Send our want list to all connected peers.
+        ///   Send our want list to the connected peers.
         /// </summary>
         Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
         {
-            log.Debug("Spamming all know peers");
+            log.Debug("Spamming all connected peers");
             if (Swarm == null)
                 return Task.CompletedTask;
 
@@ -265,7 +265,7 @@ namespace Ipfs.Engine.BlockExchange
 
         async Task SendWantListAsync(Peer peer, IEnumerable<WantedBlock> wants, bool full)
         {
-            log.Debug($"Sending want list to {peer}");
+            log.Debug($"sending want list to {peer}");
 
             // Send the want list to the peer on any bitswap protocol
             // that it supports.

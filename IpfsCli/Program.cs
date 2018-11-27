@@ -63,6 +63,7 @@ namespace Ipfs.Cli
             properties["level"] = debugging ? "DEBUG" : "OFF";
             properties["showLogName"] = "true";
             properties["showDateTime"] = "true";
+            properties["dateTimeFormat"] = "HH:mm:ss.fff";
             LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
 
             try

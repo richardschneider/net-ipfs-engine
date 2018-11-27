@@ -197,7 +197,7 @@ namespace PeerTalk.Routing
                     using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30)))
                     using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel))
                     {
-                        var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, action, cts.Token));
+                        var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, action, limit, cts));
                         await Task.WhenAll(tasks);
                     }
                 }
@@ -219,13 +219,16 @@ namespace PeerTalk.Routing
             DhtMessage query,
             List<Peer> providers,
             Action<Peer> action,
-            CancellationToken cancel)
+            int limit,
+            CancellationTokenSource cts)
         {
             try
             {
+                var cancel = cts.Token;
+
                 // TODO: Is this reasonable to imposes a time limit on connection?
-                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15)))
-                using (var stream = await Swarm.DialAsync(peer, this.ToString(), cts.Token))
+                using (var cts1 = new CancellationTokenSource(TimeSpan.FromSeconds(15)))
+                using (var stream = await Swarm.DialAsync(peer, this.ToString(), cts1.Token))
                 {
                     // Send the KAD query and get a response.
                     ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
@@ -259,13 +262,19 @@ namespace PeerTalk.Routing
                                     providers.Add(p);
                                     action?.Invoke(p);
                                 }
-                                // TODO: Stop the distributed query if the limit is reached.
                             }
                         }
                         log.Debug($"Found {response.ProviderPeers.Count()} provider peers");
                     }
 
                     log.Debug($"Done with DHT response from {peer}");
+
+                    // If enough answers, then cancel the query.
+                    if (limit >= providers.Count && !cts.IsCancellationRequested)
+                    {
+                        log.Debug("Required answers reached");
+                        cts.Cancel(false);
+                    }
                 }
             }
             catch (Exception e)

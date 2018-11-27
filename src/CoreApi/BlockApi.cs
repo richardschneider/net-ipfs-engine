@@ -147,7 +147,7 @@ namespace Ipfs.Engine.CoreApi
             }
             catch (Exception e)
             {
-                log.Warn($"Connection to {peer.Id} failed", e);
+                log.Warn($"Connection to provider {peer.Id} failed, {e.Message}");
             }
         }
 

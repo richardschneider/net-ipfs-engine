@@ -460,16 +460,50 @@ namespace PeerTalk
             var possibleAddresses = (await Task.WhenAll(addrs.Select(a => a.ResolveAsync(cancel))))
                 .SelectMany(a => a);
 
-            // Try the various addresses in parallel.  The first one
-            // to complete wins.
-            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancel))
+            // Try the various addresses in parallel.  The first one to complete wins.
+            // Timeout on connection is 1 seconds.  TODO: not very interplanetary!
+            PeerConnection connection = null;
+            using (var timeout = new CancellationTokenSource(3000))
+            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel))
             {
                 var attempts = possibleAddresses
                     .Select(a => DialAsync(remote, a, cts.Token));
-                var winner = await TaskHelper.WhenAnyResult(attempts, cancel);
-                cts.Cancel();
-                return winner;
+                connection = await TaskHelper.WhenAnyResult(attempts, cts.Token);
+                cts.Cancel(); // stop other dialing tasks.
             }
+
+            // Do the connection handshake.
+            try
+            {
+                MountProtocols(connection);
+                IEncryptionProtocol[] security = null;
+                lock (protocols)
+                {
+                    security = protocols.OfType<IEncryptionProtocol>().ToArray();
+                }
+                await connection.InitiateAsync(security, cancel);
+                await connection.MuxerEstablished.Task;
+                Identify1 identify = null;
+                lock (protocols)
+                {
+                    identify = protocols.OfType<Identify1>().First();
+                }
+                await identify.GetRemotePeer(connection);
+            }
+            catch (Exception)
+            {
+                connection.Dispose();
+                throw;
+            }
+
+            var actual = Manager.Add(connection);
+            if (actual == connection)
+            {
+                ConnectionEstablished?.Invoke(this, connection);
+            }
+
+            return actual;
+
         }
 
         async Task<PeerConnection> DialAsync(Peer remote, MultiAddress addr, CancellationToken cancel)
@@ -515,37 +549,7 @@ namespace PeerTalk
                 Stream = stream
             };
 
-            // Do the connection handshake.
-            try
-            {
-                MountProtocols(connection);
-                IEncryptionProtocol[] security = null;
-                lock (protocols)
-                {
-                    security = protocols.OfType<IEncryptionProtocol>().ToArray();
-                }
-                await connection.InitiateAsync(security, cancel);
-                await connection.MuxerEstablished.Task;
-                Identify1 identify = null;
-                lock (protocols)
-                {
-                    identify = protocols.OfType<Identify1>().First();
-                }
-                await identify.GetRemotePeer(connection);
-            }
-            catch (Exception)
-            {
-                connection.Dispose();
-                throw;
-            }
-
-            var actual = Manager.Add(connection);
-            if (actual == connection)
-            {
-                ConnectionEstablished?.Invoke(this, connection);
-            }
-
-            return actual;
+            return connection;
         }
 
         /// <summary>

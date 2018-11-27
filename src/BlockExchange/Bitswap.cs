@@ -82,7 +82,7 @@ namespace Ipfs.Engine.BlockExchange
             }
             catch (Exception e)
             {
-                log.Warn("Mounting bitswap", e);
+                log.Warn("Sending want list", e);
             }
         }
 
@@ -248,6 +248,9 @@ namespace Ipfs.Engine.BlockExchange
 
         }
 
+        /// <summary>
+        ///   Send our want list to all connected peers.
+        /// </summary>
         Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
         {
             log.Debug("Spamming all know peers");
@@ -262,6 +265,8 @@ namespace Ipfs.Engine.BlockExchange
 
         async Task SendWantListAsync(Peer peer, IEnumerable<WantedBlock> wants, bool full)
         {
+            log.Debug($"Sending want list to {peer}");
+
             // Send the want list to the peer on any bitswap protocol
             // that it supports.
             foreach (var protocol in protocols)

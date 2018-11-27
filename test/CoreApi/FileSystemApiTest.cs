@@ -488,7 +488,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        [Ignore("Waiting for BlockApi to call Dht.FindProvider")] // TODO
+        [Ignore("Still not working")] // TODO
         public async Task ReadFromNetwork()
         {
             var ipfs = TestFixture.Ipfs;
@@ -496,11 +496,11 @@ namespace Ipfs.Engine
 
             try
             {
-                var folder = "QmXarR6rgkQ2fDSHjSY5nM2kuCXKYGViky5nohtwgF65Ec";
+                var folder = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv";
                 await ipfs.Block.RemoveAsync(folder, true);
 
 
-                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60)); // TODO
                 var text = await ipfs.FileSystem.ReadAllTextAsync($"{folder}/about", cts.Token);
                 StringAssert.Contains(text, "IPFS -- Inter-Planetary File system");
             }

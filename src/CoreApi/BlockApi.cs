@@ -115,8 +115,40 @@ namespace Ipfs.Engine.CoreApi
                 return block;
             }
 
-            // Let bitswap find it.
-            return await ipfs.Bitswap.GetAsync(id, cancel);
+            // Query the network, via DHT, for peers that can provide the
+            // content.  As a provider peer is found, it is connected to and
+            // the bitswap want lists are exchanged.  Hopefully the provider will
+            // then send the block to us via bitswap and the get task will finish.
+            using (var queryCancel = CancellationTokenSource.CreateLinkedTokenSource(cancel))
+            {
+                var bitswapGet = ipfs.Bitswap.GetAsync(id, cancel);
+                var dht = await ipfs.DhtService;
+                var _ = dht.FindProvidersAsync(
+                    id: id,
+                    limit: 20, // TODO: remove this
+                    cancel: queryCancel.Token,
+                    action: ProviderFound
+                );
+
+                var got = await bitswapGet;
+
+                queryCancel.Cancel(); // stop the network query.
+                return got;
+            }
+        }
+
+        async void ProviderFound(Peer peer)
+        {
+            log.Debug($"Connecting to provider {peer.Id}");
+            var swarm = await ipfs.SwarmService;
+            try
+            {
+                await swarm.ConnectAsync(peer);
+            }
+            catch (Exception e)
+            {
+                log.Warn($"Connection to {peer.Id} failed", e);
+            }
         }
 
         public async Task<Cid> PutAsync(
@@ -124,7 +156,7 @@ namespace Ipfs.Engine.CoreApi
             string contentType = Cid.DefaultContentType,
             string multiHash = MultiHash.DefaultAlgorithmName,
             string encoding = MultiBase.DefaultAlgorithmName,
-            bool pin = false, 
+            bool pin = false,
             CancellationToken cancel = default(CancellationToken))
         {
             // Small enough for an inline CID?
@@ -161,7 +193,7 @@ namespace Ipfs.Engine.CoreApi
 
             // Inform the Bitswap service.
             (await ipfs.BitswapService).Found(block);
-            
+
             // To pin or not.
             if (pin)
             {

@@ -179,5 +179,19 @@ namespace Ipfs.Engine
                 await ipfs.StopAsync();
             }
         }
+        [TestMethod]
+        public async Task GetBlock_Timeout()
+        {
+            var block = new DagNode(Encoding.UTF8.GetBytes("BitswapApiTest unknown block"));
+
+            var cts = new CancellationTokenSource(300);
+            ExceptionAssert.Throws<TaskCanceledException>(() =>
+            {
+                var _ = ipfs.Bitswap.GetAsync(block.Id, cts.Token).Result;
+            });
+
+            Assert.AreEqual(0, (await ipfs.Bitswap.WantsAsync()).Count());
+        }
+
     }
 }

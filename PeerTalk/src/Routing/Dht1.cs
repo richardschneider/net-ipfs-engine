@@ -226,9 +226,7 @@ namespace PeerTalk.Routing
             {
                 var cancel = cts.Token;
 
-                // TODO: Is this reasonable to imposes a time limit on connection?
-                using (var cts1 = new CancellationTokenSource(TimeSpan.FromSeconds(15)))
-                using (var stream = await Swarm.DialAsync(peer, this.ToString(), cts1.Token))
+                using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
                 {
                     // Send the KAD query and get a response.
                     ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
@@ -236,22 +234,13 @@ namespace PeerTalk.Routing
                     var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
 
                     log.Debug($"Processing DHT response from {peer}");
-                    if (response.CloserPeers != null)
-                    {
-                        foreach (var closer in response.CloserPeers)
-                        {
-                            if (closer.TryToPeer(out Peer p))
-                            {
-                                Swarm.RegisterPeer(p);
-                            }
-                        }
-                        log.Debug($"Found {response.CloserPeers.Count()} closer peers");
-                    }
 
                     if (response.ProviderPeers != null)
                     {
                         foreach (var provider in response.ProviderPeers)
                         {
+                            if (cancel.IsCancellationRequested)
+                                break;
                             if (provider.TryToPeer(out Peer p))
                             {
                                 p = Swarm.RegisterPeer(p);
@@ -266,15 +255,31 @@ namespace PeerTalk.Routing
                         }
                         log.Debug($"Found {response.ProviderPeers.Count()} provider peers");
                     }
+                    // If enough answers, then cancel the query.
+                    if (providers.Count >= limit && !cts.IsCancellationRequested)
+                    {
+                        log.Debug($"Required answers ({limit}) reached");
+                        cts.Cancel(false);
+                    }
+
+                    // Process the closer peers.
+                    if (response.CloserPeers != null)
+                    {
+                        foreach (var closer in response.CloserPeers)
+                        {
+                            if (cancel.IsCancellationRequested)
+                                break;
+                            if (closer.TryToPeer(out Peer p))
+                            {
+                                Swarm.RegisterPeer(p);
+                            }
+                        }
+                        log.Debug($"Found {response.CloserPeers.Count()} closer peers");
+                    }
+
 
                     log.Debug($"Done with DHT response from {peer}");
 
-                    // If enough answers, then cancel the query.
-                    if (limit >= providers.Count && !cts.IsCancellationRequested)
-                    {
-                        log.Debug("Required answers reached");
-                        cts.Cancel(false);
-                    }
                 }
             }
             catch (Exception e)

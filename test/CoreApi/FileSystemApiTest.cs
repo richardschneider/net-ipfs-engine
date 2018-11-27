@@ -498,7 +498,7 @@ namespace Ipfs.Engine
                 var folder = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv";
                 await ipfs.Block.RemoveAsync(folder, true);
 
-                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+                var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
                 var text = await ipfs.FileSystem.ReadAllTextAsync($"{folder}/about", cts.Token);
                 StringAssert.Contains(text, "IPFS -- Inter-Planetary File system");
             }

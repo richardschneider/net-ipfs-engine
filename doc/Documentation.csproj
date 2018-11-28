@@ -67,7 +67,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="articles\repo\private-key.png" />
+    <Content Include="images\private-key.png" />
     <Content Include="articles\toc.yml" />
     <Content Include="images\docs-latest-green.svg" />
     <Content Include="images\ipfs-logo.svg" />
@@ -99,6 +99,7 @@
     <Content Include="articles\core-api.md" />
     <Content Include="articles\filesystem.md" />
     <Content Include="articles\repo\key.md" />
+    <Content Include="articles\questions.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

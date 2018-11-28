@@ -98,7 +98,7 @@ namespace PeerTalk.Routing
 
             // Maybe the swarm knows about it.
             var found = Swarm.KnownPeers.FirstOrDefault(p => p.Id == id);
-            if (found != null)
+            if (found != null && found.Addresses.Count() > 0)
                 return found;
 
             // Ask our peers for information of requested peer.
@@ -108,14 +108,9 @@ namespace PeerTalk.Routing
                 Type = MessageType.FindNode,
                 Key = id.ToArray()
             };
-            log.Debug($"Query {query.Type}");
+            log.Debug($"Query {query.Type} {id}");
             foreach (var peer in nearest)
             {
-                if (found != null)
-                {
-                    return found;
-                }
-
                 log.Debug($"Query peer {peer.Id} for {query.Type}");
 
                 using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
@@ -134,8 +129,8 @@ namespace PeerTalk.Routing
                             p = Swarm.RegisterPeer(p);
                             if (id == p.Id)
                             {
-                                log.Debug("Found answer");
-                                found = p;
+                                log.Debug($"Found answer for {id}");
+                                return p;
                             }
                         }
                     }
@@ -163,8 +158,6 @@ namespace PeerTalk.Routing
 
             var providers = new List<Peer>();
             var visited = new List<Peer> { Swarm.LocalPeer };
-
-            //var key = Encoding.ASCII.GetBytes(id.Encode());
             var key = id.Hash.ToArray();
 
             var query = new DhtMessage
@@ -172,14 +165,13 @@ namespace PeerTalk.Routing
                 Type = MessageType.GetProviders,
                 Key = key
             };
-            log.Debug($"Query {query.Type}");
 
             while (!cancel.IsCancellationRequested)
             {
                 if (providers.Count >= limit)
                     break;
 
-                // Get the nearest peers that havr not been visited.
+                // Get the nearest peers that have not been visited.
                 var peers = RoutingTable
                     .NearestPeers(id.Hash)
                     .Where(p => !visited.Contains(p))
@@ -208,11 +200,13 @@ namespace PeerTalk.Routing
             }
 
             // All peers queried or the limit has been reached.
-            log.Debug($"Found {providers.Count} providers, visited {visited.Count} peers");
-            log.Debug($"{Swarm.KnownPeers.Count()} known peers");
+            log.Debug($"Found {providers.Count} providers for {id}, visited {visited.Count} peers");
             return providers.Take(limit);
         }
 
+        /// <summary>
+        ///   Ask a peer for provider peers.
+        /// </summary>
         async Task FindProvidersAsync(
             Peer peer,
             Cid id,
@@ -233,8 +227,6 @@ namespace PeerTalk.Routing
                     await stream.FlushAsync(cancel);
                     var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
 
-                    log.Debug($"Processing DHT response from {peer}");
-
                     if (response.ProviderPeers != null)
                     {
                         foreach (var provider in response.ProviderPeers)
@@ -247,13 +239,11 @@ namespace PeerTalk.Routing
                                 // Only unique answers
                                 if (!providers.Contains(p))
                                 {
-                                    Console.WriteLine($"FOUND peer {p}");
                                     providers.Add(p);
                                     action?.Invoke(p);
                                 }
                             }
                         }
-                        log.Debug($"Found {response.ProviderPeers.Count()} provider peers");
                     }
                     // If enough answers, then cancel the query.
                     if (providers.Count >= limit && !cts.IsCancellationRequested)
@@ -274,12 +264,7 @@ namespace PeerTalk.Routing
                                 Swarm.RegisterPeer(p);
                             }
                         }
-                        log.Debug($"Found {response.CloserPeers.Count()} closer peers");
                     }
-
-
-                    log.Debug($"Done with DHT response from {peer}");
-
                 }
             }
             catch (Exception e)

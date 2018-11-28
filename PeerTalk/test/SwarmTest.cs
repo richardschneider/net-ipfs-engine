@@ -336,7 +336,7 @@ namespace PeerTalk
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
             MultiAddress remoteAddress = $"/ip4/127.0.0.1/tcp/4002/ipfs/{remoteId}";
             var swarm = new Swarm { LocalPeer = self };
-            ExceptionAssert.Throws<OperationCanceledException>(() =>
+            ExceptionAssert.Throws<Exception>(() =>
             {
                 var _ = swarm.ConnectAsync(remoteAddress, cs.Token).Result;
             });

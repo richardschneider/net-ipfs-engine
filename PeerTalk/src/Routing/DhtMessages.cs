@@ -75,15 +75,18 @@ namespace PeerTalk.Routing
             peer = null;
 
             // Sanity checks.
-            if (Id == null || Id.Length == 0 || Addresses == null || Addresses.Length == 0)
+            if (Id == null || Id.Length == 0)
                 return false;
 
             var id = new MultiHash(Id);
-            var x = new MultiAddress($"/ipfs/{id}");
             peer = new Peer
             {
-                Id = id,
-                Addresses = Addresses
+                Id = id
+            };
+            if (Addresses != null)
+            {
+                var x = new MultiAddress($"/ipfs/{id}");
+                peer.Addresses = Addresses
                     .Select(bytes =>
                     {
                         try
@@ -98,10 +101,10 @@ namespace PeerTalk.Routing
                         }
                     })
                     .Where(a => a != null)
-                    .ToArray()
-            };
+                    .ToArray();
+            }
 
-            return peer.Addresses.Count() > 0;
+            return true;
         }
     }
 

@@ -102,6 +102,7 @@ namespace Ipfs.Engine
                 {
                     Swarm = await SwarmService
                 };
+                dht.Swarm.Router = dht;
                 log.Debug("Built DHT service");
                 return dht;
             });

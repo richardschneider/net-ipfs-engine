@@ -114,6 +114,10 @@ namespace Ipfs.Engine.BlockExchange
                 }
 
             }
+            catch (TaskCanceledException)
+            {
+                // eat it
+            }
             catch (Exception e)
             {
                 log.Warn("getting block for remote failed", e);

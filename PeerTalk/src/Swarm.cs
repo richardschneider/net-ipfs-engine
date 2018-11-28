@@ -15,6 +15,7 @@ using System.Reflection;
 using PeerTalk.Protocols;
 using PeerTalk.Cryptography;
 using PeerTalk.Discovery;
+using PeerTalk.Routing;
 
 namespace PeerTalk
 {
@@ -106,6 +107,11 @@ namespace PeerTalk
         ///   Manages the swarm's peer connections.
         /// </summary>
         public ConnectionManager Manager = new ConnectionManager();
+
+        /// <summary>
+        ///   Use to find addresses of a peer.
+        /// </summary>
+        public IPeerRouting Router { get; set; }
 
         /// <summary>
         ///   Cancellation tokens for the listeners.
@@ -457,19 +463,41 @@ namespace PeerTalk
         /// <returns></returns>
         async Task<PeerConnection> Dial(Peer remote, IEnumerable<MultiAddress> addrs, CancellationToken cancel)
         {
+            // If no addresses, then ask peer routing.
+            if (Router != null && addrs.Count() == 0)
+            {
+                var found = await Router.FindPeerAsync(remote.Id, cancel);
+                addrs = found.Addresses;
+                remote.Addresses = addrs;
+            }
+
+            // Get the addresses we can use to dial the remote.
             var possibleAddresses = (await Task.WhenAll(addrs.Select(a => a.ResolveAsync(cancel))))
-                .SelectMany(a => a);
+                .SelectMany(a => a)
+                .ToArray();
+            // TODO: filter out self addresses and others.
+            if (possibleAddresses.Length == 0)
+            {
+                throw new Exception($"{remote} has no known addresses.");
+            }
 
             // Try the various addresses in parallel.  The first one to complete wins.
             // Timeout on connection is 1 seconds.  TODO: not very interplanetary!
             PeerConnection connection = null;
-            using (var timeout = new CancellationTokenSource(3000))
-            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel))
+            try
             {
-                var attempts = possibleAddresses
-                    .Select(a => DialAsync(remote, a, cts.Token));
-                connection = await TaskHelper.WhenAnyResult(attempts, cts.Token);
-                cts.Cancel(); // stop other dialing tasks.
+                using (var timeout = new CancellationTokenSource(3000))
+                using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel))
+                {
+                    var attempts = possibleAddresses
+                        .Select(a => DialAsync(remote, a, cts.Token));
+                    connection = await TaskHelper.WhenAnyResult(attempts, cts.Token);
+                    cts.Cancel(); // stop other dialing tasks.
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Cannot dial {remote}.", e);
             }
 
             // Do the connection handshake.

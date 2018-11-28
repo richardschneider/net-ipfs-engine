@@ -13,5 +13,5 @@ or the [Repository Options](xref:Ipfs.Engine.RepositoryOptions).
 | ----------- | ----- | ----------- |
 | config      | [Config API](xref:Ipfs.Engine.IpfsEngine.Config)| The configuration information |
 | blocks      | [Block API](xref:Ipfs.Engine.IpfsEngine.Block) | A [Block](repo/block.md) of data |
-| keys        | [Key API](xref:Ipfs.Engine.IpfsEngine.Key) | Crytographic keys |
+| keys        | [Key API](xref:Ipfs.Engine.IpfsEngine.Key) | Cryptographic [keys](repo/key.md) |
 | pins        | [Pin API](xref:Ipfs.Engine.IpfsEngine.Pin) | A [Block](repo/block.md) that is pinned to the local repository |

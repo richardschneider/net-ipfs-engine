@@ -1,5 +1,24 @@
 - name: Introduction
   href: intro.md
+  items:
+    - name: Getting Started
+      href: intro-start.md
+    - name: Accessing IPFS
+      href: intro-ipfs.md
+    - name: Questions
+      href: questions.md
+- name: Core API
+  href: core-api.md
+- name: File System
+  href: filesystem.md
+- name: Repository
+  href: repository.md
+  items:
+    - name: Blocks
+      href: repo/block.md
+    - name: Keys
+      href: repo/key.md
+    - name: Pins
 - name: Asynchronous I/O
   href: async.md
   items:
@@ -7,10 +26,5 @@
       href: cancellation.md
 - name: Environment variables
   href: envvars.md
-- name: Repository
-  href: repository.md
-  items:
-    - name: Block
-      href: repo/block.md
 - name: Class Reference
   href: ../api/Ipfs.Engine.yml

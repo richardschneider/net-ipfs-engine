@@ -32,7 +32,6 @@ Published releases are available on [NuGet](https://www.nuget.org/packages/Ipfs.
 
     PM> Install-Package Ipfs.Engine
     
-For the latest build or older non-released builds see [Continuous Integration](https://github.com/richardschneider/net-ipfs-engine/wiki/Continuous-Integration).
 
 ## Usage
 
@@ -41,7 +40,7 @@ using Ipfs.Engine;
 
 var ipfs = new IpfsEngine();
 
-const string filename = "QmXarR6rgkQ2fDSHjSY5nM2kuCXKYGViky5nohtwgF65Ec/about";
+const string filename = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv/about";
 string text = await ipfs.FileSystem.ReadAllTextAsync(filename);
 ```
 

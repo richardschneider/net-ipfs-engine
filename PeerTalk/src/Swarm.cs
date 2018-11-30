@@ -178,7 +178,7 @@ namespace PeerTalk
             var peerId = address.PeerId;
             if (peerId == LocalPeer.Id)
             {
-               throw new Exception("Cannot register to self.");
+                throw new Exception("Cannot register to self.");
             }
 
             if (!await IsAllowedAsync(address, cancel))
@@ -252,7 +252,7 @@ namespace PeerTalk
 
             var isNew = false;
             var p = otherPeers.AddOrUpdate(peer.Id.ToBase58(),
-                (id) => 
+                (id) =>
                 {
                     isNew = true;
                     return peer;
@@ -281,12 +281,12 @@ namespace PeerTalk
         /// <summary>
         ///   The addresses that cannot be used.
         /// </summary>
-        public BlackList<MultiAddress> BlackList { get; set;  } = new BlackList<MultiAddress>();
+        public BlackList<MultiAddress> BlackList { get; set; } = new BlackList<MultiAddress>();
 
         /// <summary>
         ///   The addresses that can be used.
         /// </summary>
-        public WhiteList<MultiAddress> WhiteList { get; set;  } = new WhiteList<MultiAddress>();
+        public WhiteList<MultiAddress> WhiteList { get; set; } = new WhiteList<MultiAddress>();
 
         /// <inheritdoc />
         public Task StartAsync()
@@ -543,7 +543,7 @@ namespace PeerTalk
         {
             // TODO: HACK: Currenty only the ipfs/p2p is supported.
             // short circuit to make life faster.
-            if (addr.Protocols.Count != 3 
+            if (addr.Protocols.Count != 3
                 || !(addr.Protocols[2].Name == "ipfs" || addr.Protocols[2].Name == "p2p"))
             {
                 throw new Exception($"Cannnot dial; unknown protocol in '{addr}'.");
@@ -666,7 +666,7 @@ namespace PeerTalk
             IEnumerable<MultiAddress> addresses = new List<MultiAddress>();
             var ips = NetworkInterface.GetAllNetworkInterfaces()
                 // It appears that the loopback adapter is not UP on Ubuntu 14.04.5 LTS
-                .Where(nic => nic.OperationalStatus == OperationalStatus.Up 
+                .Where(nic => nic.OperationalStatus == OperationalStatus.Up
                     || nic.NetworkInterfaceType == NetworkInterfaceType.Loopback)
                 .SelectMany(nic => nic.GetIPProperties().UnicastAddresses);
             if (result.ToString().StartsWith("/ip4/0.0.0.0/"))
@@ -835,29 +835,29 @@ namespace PeerTalk
         /// </remarks>
         public async Task StopListeningAsync(MultiAddress address)
         {
-            var others = new MultiAddress[0];
-
-            if (listeners.TryRemove(address, out CancellationTokenSource listener))
+            if (!listeners.TryRemove(address, out CancellationTokenSource listener))
             {
-                log.Debug($"Got cts for {address}");
-                if (!listener.IsCancellationRequested)
-                {
-                    listener.Cancel(false);
-
-                    log.Debug("Cancelled");
-
-                    // Give some time away, so that cancel can run.
-                    // TODO: Would be nice to make this deterministic.
-                    await Task.Delay(TimeSpan.FromMilliseconds(100));
-                    log.Debug("Gave timeaway");
-
-                    // Remove any local peer address that depend on the cancellation token.
-                    others = listeners
-                        .Where(l => l.Value == listener)
-                        .Select(l => l.Key)
-                        .ToArray();
-                }
+                return;
             }
+
+            log.Debug($"Got cts for {address}");
+            if (!listener.IsCancellationRequested)
+            {
+                listener.Cancel(false);
+
+                log.Debug("Cancelled");
+
+                // Give some time away, so that cancel can run.
+                // TODO: Would be nice to make this deterministic.
+                await Task.Delay(TimeSpan.FromMilliseconds(100));
+                log.Debug("Gave timeaway");
+            }
+
+            // Remove any local peer address that depend on the cancellation token.
+            var others = listeners
+                .Where(l => l.Value == listener)
+                .Select(l => l.Key)
+                .ToArray();
 
             log.Debug($"others count {others.Length}");
             foreach (var other in others)

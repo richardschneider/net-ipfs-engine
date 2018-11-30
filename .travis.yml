@@ -3,6 +3,9 @@ mono: none
 dotnet: 2.1.400
 dist: trusty
 sudo: required
+os:
+  - linux
+  - osx
 
 install:
   - dotnet restore
@@ -16,6 +19,6 @@ before_script:
 
 script:
   - dotnet build -c Release --no-restore --framework netstandard2 ./PeerTalk/src
-  - dotnet test  -c Release --no-restore --framework netcoreapp2.1 ./PeerTalk/test/PeerTalkTests.csproj
+  - dotnet test  -v n -c Release --no-restore --framework netcoreapp2.1 ./PeerTalk/test/PeerTalkTests.csproj --filter TestCategory!=IPv6
   - dotnet build -c Release --no-restore --framework netstandard2 ./src
-  - dotnet test  -c Release --no-restore --framework netcoreapp2.1 ./test
+  - dotnet test  -c Release --no-restore --framework netcoreapp2.1 ./test --filter TestCategory!=IPv6

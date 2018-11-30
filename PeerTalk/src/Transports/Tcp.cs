@@ -171,9 +171,12 @@ namespace PeerTalk.Transports
             // Handle cancellation of the listener
             cancel.Register(() => 
             {
+                log.Debug("Got cancel on " + address);
+
                 // .Net Standard on Unix neeeds this to cancel the Accept
 #if !NET461
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+                    RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
                     socket.Shutdown(SocketShutdown.Both);
                 }

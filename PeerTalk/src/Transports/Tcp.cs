@@ -177,13 +177,22 @@ namespace PeerTalk.Transports
                 {
                     // .Net Standard on Unix neeeds this to cancel the Accept
 #if !NET461
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-                        RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                     {
                         socket.Shutdown(SocketShutdown.Both);
+                        socket.Dispose();
                     }
-#endif
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        socket.Shutdown(SocketShutdown.Receive);
+                    }
+                    else // must be windows
+                    {
+                        socket.Dispose();
+                    }
+#else
                     socket.Dispose();
+#endif
                 }
                 catch (Exception e)
                 {

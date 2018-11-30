@@ -175,8 +175,7 @@ namespace PeerTalk.Transports
 
                 // .Net Standard on Unix neeeds this to cancel the Accept
 #if !NET461
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-                    RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
                     socket.Shutdown(SocketShutdown.Both);
                 }

@@ -3,7 +3,6 @@ general:
   branches:
     ignore:
       - gh-pages
-
 jobs:
   build:
     working_directory: /temp
@@ -24,29 +23,3 @@ jobs:
 
 # Circle CI does not completely support IPv6
 # see https://discuss.circleci.com/t/ipv6-support/13571
-
-  macosx:
-    macos:
-      xcode: "10.0."
-    working_directory: /temp
-    docker:
-      - image: microsoft/dotnet:2.1-sdk
-    environment:
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-      DOTNET_CLI_TELEMETRY_OPTOUT: 1
-    steps:
-      - checkout
-      - run: dotnet restore
-      - run: dotnet build -c Release --no-restore --framework netstandard2 ./PeerTalk/src
-      - run: dotnet test  -c Release --no-restore --framework netcoreapp2.1 ./PeerTalk/test/PeerTalkTests.csproj --filter TestCategory!=IPv6
-      - run: dotnet build -c Release --no-restore --framework netstandard2 ./src
-      - run: dotnet test  -c Release --no-restore --framework netcoreapp2.1 ./test --filter TestCategory!=IPv6
-      - run: dotnet build -c Release --no-restore --framework netcoreapp2.1 ./IpfsServer
-      - run: dotnet build -c Release --no-restore --framework netcoreapp2.1 ./IpfsCli
-
-workflows:
-  version: 2
-  build-all:
-    jobs:
-      - macosx
-      - build

@@ -842,11 +842,14 @@ namespace PeerTalk
                 log.Debug($"Got cts for {address}");
                 if (!listener.IsCancellationRequested)
                 {
-                    listener.Cancel();
+                    listener.Cancel(false);
+
+                    log.Debug("Cancelled");
 
                     // Give some time away, so that cancel can run.
                     // TODO: Would be nice to make this deterministic.
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    log.Debug("Gave timeaway");
 
                     // Remove any local peer address that depend on the cancellation token.
                     others = listeners

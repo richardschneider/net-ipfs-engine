@@ -839,6 +839,7 @@ namespace PeerTalk
 
             if (listeners.TryRemove(address, out CancellationTokenSource listener))
             {
+                log.Debug($"Got cts for {address}");
                 if (!listener.IsCancellationRequested)
                 {
                     listener.Cancel();
@@ -855,6 +856,10 @@ namespace PeerTalk
                 }
             }
 
+            log.Debug($"others count {others.Length}");
+            foreach (var other in others)
+                log.Debug($"  other {other}");
+
             LocalPeer.Addresses = LocalPeer.Addresses
                 .Where(a => a != address)
                 .Where(a => !others.Contains(a))
@@ -864,6 +869,8 @@ namespace PeerTalk
             {
                 listeners.TryRemove(other, out CancellationTokenSource _);
             }
+
+            log.Debug("stop listen done");
         }
 
         /// <inheritdoc />

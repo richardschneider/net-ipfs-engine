@@ -840,39 +840,46 @@ namespace PeerTalk
                 return;
             }
 
-            log.Debug($"Got cts for {address}");
-            if (!listener.IsCancellationRequested)
+            try
             {
-                listener.Cancel(false);
+                log.Debug($"Got cts for {address}");
+                if (!listener.IsCancellationRequested)
+                {
+                    log.Debug("Cancelling");
+                    listener.Cancel(false);
 
-                log.Debug("Cancelled");
+                    log.Debug("Cancelled");
 
-                // Give some time away, so that cancel can run.
-                // TODO: Would be nice to make this deterministic.
-                await Task.Delay(TimeSpan.FromMilliseconds(100));
-                log.Debug("Gave timeaway");
+                    // Give some time away, so that cancel can run.
+                    // TODO: Would be nice to make this deterministic.
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    log.Debug("Gave timeaway");
+                }
+
+                // Remove any local peer address that depend on the cancellation token.
+                var others = listeners
+                    .Where(l => l.Value == listener)
+                    .Select(l => l.Key)
+                    .ToArray();
+
+                log.Debug($"others count {others.Length}");
+                foreach (var other in others)
+                    log.Debug($"  other {other}");
+
+                LocalPeer.Addresses = LocalPeer.Addresses
+                    .Where(a => a != address)
+                    .Where(a => !others.Contains(a))
+                    .ToArray();
+
+                foreach (var other in others)
+                {
+                    listeners.TryRemove(other, out CancellationTokenSource _);
+                }
             }
-
-            // Remove any local peer address that depend on the cancellation token.
-            var others = listeners
-                .Where(l => l.Value == listener)
-                .Select(l => l.Key)
-                .ToArray();
-
-            log.Debug($"others count {others.Length}");
-            foreach (var other in others)
-                log.Debug($"  other {other}");
-
-            LocalPeer.Addresses = LocalPeer.Addresses
-                .Where(a => a != address)
-                .Where(a => !others.Contains(a))
-                .ToArray();
-
-            foreach (var other in others)
+            catch (Exception e)
             {
-                listeners.TryRemove(other, out CancellationTokenSource _);
+                log.Error("stop listening failed", e);
             }
-
             log.Debug("stop listen done");
         }
 

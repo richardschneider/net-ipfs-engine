@@ -4,7 +4,7 @@ dotnet: 2.1.400
 dist: trusty
 sudo: required
 os:
-  - linux
+#  - linux
   - osx
 
 install:
@@ -18,6 +18,7 @@ before_script:
     fi
 
 script:
+  - dotnet run --project PeerTalkSpike
   - dotnet build -c Release --no-restore --framework netstandard2 ./PeerTalk/src
   - dotnet test  -v n -c Release --no-restore --framework netcoreapp2.1 ./PeerTalk/test/PeerTalkTests.csproj --filter TestCategory!=IPv6
   - dotnet build -c Release --no-restore --framework netstandard2 ./src

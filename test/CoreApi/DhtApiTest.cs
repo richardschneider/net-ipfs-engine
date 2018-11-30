@@ -27,7 +27,6 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        //[Ignore("TODO not ready for prime time")]
         public async Task Mars_Info()
         {
             var marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";

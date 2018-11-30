@@ -474,6 +474,7 @@ namespace PeerTalk
             // Get the addresses we can use to dial the remote.
             var possibleAddresses = (await Task.WhenAll(addrs.Select(a => a.ResolveAsync(cancel))))
                 .SelectMany(a => a)
+                .Select(a => a.WithPeerId(remote.Id))
                 .ToArray();
             // TODO: filter out self addresses and others.
             if (possibleAddresses.Length == 0)
@@ -482,7 +483,7 @@ namespace PeerTalk
             }
 
             // Try the various addresses in parallel.  The first one to complete wins.
-            // Timeout on connection is 1 seconds.  TODO: not very interplanetary!
+            // Timeout on connection is 3 seconds.  TODO: not very interplanetary!
             PeerConnection connection = null;
             try
             {

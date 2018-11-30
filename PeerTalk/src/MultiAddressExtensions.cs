@@ -45,6 +45,60 @@ namespace PeerTalk
         }
 
         /// <summary>
+        ///   Gets a multiaddress that ends with the peer ID.
+        /// </summary>
+        /// <param name="multiaddress">
+        ///   The mutiaddress.
+        /// </param>
+        /// <param name="peerId">
+        ///   The peer ID to end the multiaddress with.
+        /// </param>
+        /// <returns>
+        ///   Either the <paramref name="multiaddress"/> when it contains the
+        ///   <paramref name="peerId"/> or a new <see cref="MultiAddress"/>
+        ///   ending the <paramref name="peerId"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        ///   When the <paramref name="multiaddress"/> has the wrong peer ID.
+        /// </exception>
+        public static MultiAddress WithPeerId(this MultiAddress multiaddress, MultiHash peerId)
+        {
+            if (multiaddress.HasPeerId)
+            {
+                var id = multiaddress.PeerId;
+                if (id != peerId)
+                {
+                    throw new Exception($"Expected a multiaddress with peer ID of '{peerId}', not '{id}'.");
+                }
+                return multiaddress;
+            }
+
+            return new MultiAddress(multiaddress.ToString() + $"/p2p/{peerId}");
+        }
+
+        /// <summary>
+        ///   Gets a multiaddress without the peer ID.
+        /// </summary>
+        /// <param name="multiaddress">
+        ///   The mutiaddress.
+        /// </param>
+        /// <returns>
+        ///   Either the <paramref name="multiaddress"/> when it does not contain
+        ///   a peer ID; or a new <see cref="MultiAddress"/> without the peer ID.
+        /// </returns>
+        public static MultiAddress WithoutPeerId(this MultiAddress multiaddress)
+        {
+            if (!multiaddress.HasPeerId)
+            {
+                return multiaddress;
+            }
+            var clone = multiaddress.Clone();
+            clone.Protocols
+                .RemoveAll(p => p.Name == "p2p" || p.Name == "ipfs");
+            return clone;
+        }
+
+        /// <summary>
         ///   Get all the addresses for the specified <see cref="MultiAddress"/>.
         /// </summary>
         /// <param name="multiaddress">
@@ -99,6 +153,9 @@ namespace PeerTalk
 
             var protocolName = multiaddress.Protocols[i].Name;
             var host = multiaddress.Protocols[i].Value;
+            // TODO: Don't use DNS, but use the IPFS Engine DNS resolver.
+            // This will not then expose the domain name in plain text.
+            // We also, then get to specify if A and/or AAAA records are needed.
             var addresses = (await Dns.GetHostAddressesAsync(host))
                 .Where(a => supportedDnsAddressFamilies.ContainsKey(a.AddressFamily))
                 .Where(a =>

@@ -19,7 +19,7 @@ Each IPFS feature has it's own interface.
 | [Block](xref:Ipfs.CoreApi.IBlockApi) | Manages the blocks |
 | [Bootstrap](xref:Ipfs.CoreApi.IBootstrapApi) | Trusted peers |
 | [Config](xref:Ipfs.CoreApi.IConfigApi) | Manages the configuration of the local peer |
-| [Dag](xref:Ipfs.CoreApi.IDagApi) | Manages the IPLD (linked data) Directed Acrylic Graph [|
+| [Dag](xref:Ipfs.CoreApi.IDagApi) | Manages the IPLD (linked data) Directed Acrylic Graph |
 | [Dht](xref:Ipfs.CoreApi.IDhtApi) | Manages the Distributed Hash Table |
 | [Dns](xref:Ipfs.CoreApi.IDnsApi) | DNS mapping to IPFS |
 | [Misc](xref:Ipfs.CoreApi.IGenericApi) | Some miscellaneous methods |

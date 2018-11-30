@@ -47,7 +47,7 @@ string text = await ipfs.FileSystem.ReadAllTextAsync(filename);
 ## Related projects
 
 - [IPFS Core](https://github.com/richardschneider/net-ipfs-core)
-- [IPFS API](https://github.com/richardschneider/net-ipfs-api)
+- [IPFS HTTP Client](https://github.com/richardschneider/net-ipfs-http-client)
 
 # License
 Copyright © 2018 Richard Schneider (makaretu@gmail.com)

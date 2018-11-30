@@ -1,8 +1,8 @@
 ﻿# IPFS file system
 
 The official name is [UnixFS](https://docs.ipfs.io/guides/concepts/unixfs/).  It allows files and directories of any size 
-to be added and retrieved from IPFS via the [FileSystem](xref:Ipfs.CoreApi.IFileSystemApi) 
-and [Object](xref:Ipfs.CoreApi.IObjectApi) API.  
+to be added and retrieved from IPFS via the [FileSystem API](xref:Ipfs.CoreApi.IFileSystemApi) 
+and [Object API](xref:Ipfs.CoreApi.IObjectApi).  
 
 ## Files
 

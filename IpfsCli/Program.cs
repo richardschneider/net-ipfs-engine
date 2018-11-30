@@ -1,7 +1,7 @@
 ﻿using Common.Logging;
 using Common.Logging.Simple;
 using Ipfs;
-using Ipfs.Api;
+using Ipfs.Http;
 using Ipfs.CoreApi;
 using Ipfs.Engine;
 using McMaster.Extensions.CommandLineUtils;

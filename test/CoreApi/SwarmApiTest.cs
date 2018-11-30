@@ -32,7 +32,7 @@ namespace Ipfs.Engine
         [TestMethod]
         public async Task Connect_Disconnect_Mars()
         {
-            var mars = "/dns/mars.i.ipfs.io/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";
+            var mars = "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";
             await ipfs.Swarm.ConnectAsync(mars);
             try
             {

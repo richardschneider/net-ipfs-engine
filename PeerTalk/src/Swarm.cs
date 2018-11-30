@@ -321,21 +321,25 @@ namespace PeerTalk
         /// <inheritdoc />
         public async Task StopAsync()
         {
-            log.Debug("Stopping");
+            log.Debug($"Stopping {LocalPeer}");
 
             // Stop the listeners.
             while (listeners.Count > 0)
             {
+                log.Debug($"stop listener on {listeners.Keys.First()}");
                 await StopListeningAsync(listeners.Keys.First());
             }
 
             // Disconnect from remote peers.
+            log.Debug("Clear connection manager");
             Manager.Clear();
 
             otherPeers.Clear();
             listeners.Clear();
             BlackList = new BlackList<MultiAddress>();
             WhiteList = new WhiteList<MultiAddress>();
+
+            log.Debug($"Stopped {LocalPeer}");
         }
 
 

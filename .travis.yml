@@ -4,7 +4,7 @@ dotnet: 2.1.400
 dist: trusty
 sudo: required
 os:
-#  - linux
+#  - linux CircleCI does linux tests
   - osx
 
 install:

@@ -321,17 +321,15 @@ namespace PeerTalk
         /// <inheritdoc />
         public async Task StopAsync()
         {
-            log.Debug($"Stopping {LocalPeer}");
+            log.Debug($"Stoping {LocalPeer}");
 
             // Stop the listeners.
             while (listeners.Count > 0)
             {
-                log.Debug($"stop listener on {listeners.Keys.First()}");
                 await StopListeningAsync(listeners.Keys.First());
             }
 
             // Disconnect from remote peers.
-            log.Debug("Clear connection manager");
             Manager.Clear();
 
             otherPeers.Clear();
@@ -339,7 +337,7 @@ namespace PeerTalk
             BlackList = new BlackList<MultiAddress>();
             WhiteList = new WhiteList<MultiAddress>();
 
-            log.Debug($"Stopped {LocalPeer}");
+            log.Debug($"Stoped {LocalPeer}");
         }
 
 
@@ -842,18 +840,13 @@ namespace PeerTalk
 
             try
             {
-                log.Debug($"Got cts for {address}");
                 if (!listener.IsCancellationRequested)
                 {
-                    log.Debug("Cancelling");
                     listener.Cancel(false);
-
-                    log.Debug("Cancelled");
 
                     // Give some time away, so that cancel can run.
                     // TODO: Would be nice to make this deterministic.
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
-                    log.Debug("Gave timeaway");
                 }
 
                 // Remove any local peer address that depend on the cancellation token.
@@ -861,10 +854,6 @@ namespace PeerTalk
                     .Where(l => l.Value == listener)
                     .Select(l => l.Key)
                     .ToArray();
-
-                log.Debug($"others count {others.Length}");
-                foreach (var other in others)
-                    log.Debug($"  other {other}");
 
                 LocalPeer.Addresses = LocalPeer.Addresses
                     .Where(a => a != address)
@@ -880,7 +869,6 @@ namespace PeerTalk
             {
                 log.Error("stop listening failed", e);
             }
-            log.Debug("stop listen done");
         }
 
         /// <inheritdoc />

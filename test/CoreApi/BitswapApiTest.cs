@@ -76,7 +76,7 @@ namespace Ipfs.Engine
                 var _ = ipfs.Block.GetAsync(cid);
                 await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
 
-                var endTime = DateTime.Now.AddSeconds(3);
+                var endTime = DateTime.Now.AddSeconds(10);
                 while (DateTime.Now < endTime)
                 {
                     var wants = await ipfsOther.Bitswap.WantsAsync(local.Id);
@@ -104,22 +104,16 @@ namespace Ipfs.Engine
                 var data = Guid.NewGuid().ToByteArray();
                 var cid = await ipfsOther.Block.PutAsync(data);
 
-                var getTask = ipfs.Block.GetAsync(cid);
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var getTask = ipfs.Block.GetAsync(cid, cts.Token);
 
                 var remote = await ipfsOther.LocalPeer;
                 await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
+                var block = await getTask;
 
-                var endTime = DateTime.Now.AddSeconds(3);
-                while (DateTime.Now < endTime)
-                {
-                    if (getTask.IsCompleted)
-                        break;
-                    await Task.Delay(200);
-                }
-                Assert.IsFalse(getTask.IsCanceled);
-                Assert.IsFalse(getTask.IsFaulted);
-                Assert.IsTrue(getTask.IsCompleted);
-                var block = getTask.Result;
+                Assert.IsFalse(getTask.IsCanceled, "task cancelled");
+                Assert.IsFalse(getTask.IsFaulted, "task faulted");
+                Assert.IsTrue(getTask.IsCompleted, "task not completed");
                 Assert.AreEqual(cid, block.Id);
                 CollectionAssert.AreEqual(data, block.DataBytes);
             }
@@ -143,7 +137,7 @@ namespace Ipfs.Engine
                 var remote = await ipfsOther.LocalPeer;
                 await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
 
-                var cts = new CancellationTokenSource(3000);
+                var cts = new CancellationTokenSource(10000);
                 var block = await ipfs.Block.GetAsync(cid, cts.Token);
                 Assert.AreEqual(cid, block.Id);
                 CollectionAssert.AreEqual(data, block.DataBytes);

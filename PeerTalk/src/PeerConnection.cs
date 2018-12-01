@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -262,8 +261,9 @@ namespace PeerTalk
                     await protocol.ProcessMessageAsync(this, Stream, cancel);
                 }
             }
-            catch (EndOfStreamException)
+            catch (IOException e)
             {
+                log.Error("reading message failed " + e.Message);
                 // eat it.
             }
             catch (Exception e)

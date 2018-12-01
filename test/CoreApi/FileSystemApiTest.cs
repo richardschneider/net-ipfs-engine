@@ -191,7 +191,6 @@ namespace Ipfs.Engine
             Console.WriteLine("Readfile file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
         }
 
-
         [TestMethod]
         public async Task AddFile_Wrap()
         {

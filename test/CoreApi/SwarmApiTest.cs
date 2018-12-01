@@ -33,15 +33,17 @@ namespace Ipfs.Engine
         public async Task Connect_Disconnect_Mars()
         {
             var mars = "/dns/mars.i.ipfs.io/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";
-            await ipfs.Swarm.ConnectAsync(mars);
+            await ipfs.StartAsync();
             try
             {
+                await ipfs.Swarm.ConnectAsync(mars);
                 var peers = await ipfs.Swarm.PeersAsync();
                 Assert.IsTrue(peers.Any(p => p.Id == "QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"));
+                await ipfs.Swarm.DisconnectAsync(mars);
             }
             finally
             {
-                await ipfs.Swarm.DisconnectAsync(mars);
+                await ipfs.StopAsync();
             }
         }
 

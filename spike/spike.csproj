@@ -10,9 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PeerTalk\src\PeerTalk.csproj" />
-    <ProjectReference Include="..\PeerTalk\test\PeerTalkTests.csproj" />
     <ProjectReference Include="..\src\IpfsEngine.csproj" />
+    <ProjectReference Include="..\test\IpfsEngineTests.csproj" />
   </ItemGroup>
 
 </Project>

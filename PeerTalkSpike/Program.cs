@@ -45,7 +45,6 @@ namespace PeerTalkSpike
 
             var test = new PeerTalk.SwarmTest();
             test.Connect_Disconnect().Wait();
-            Console.ReadKey();
         }
 
         static void ServerListen()

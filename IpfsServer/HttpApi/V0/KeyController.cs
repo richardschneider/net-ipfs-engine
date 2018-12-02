@@ -41,6 +41,32 @@ namespace Ipfs.Server.HttpApi.V0
     }
 
     /// <summary>
+    ///   A cryptographic key.
+    /// </summary>
+    public class CryptoKeyRenameDto
+    {
+        /// <summary>
+        ///   The key's local name.
+        /// </summary>
+        public string Was;
+
+        /// <summary>
+        ///   The key's global unique ID.
+        /// </summary>
+        public string Now;
+
+        /// <summary>
+        ///   The key's global unique ID.
+        /// </summary>
+        public string Id;
+
+        /// <summary>
+        ///   Indicates that a existing key was overwritten.
+        /// </summary>
+        public bool Overwrite;
+    }
+
+    /// <summary>
     ///   Manages the cryptographic keys.
     /// </summary>
     public class KeyController : IpfsController
@@ -131,22 +157,19 @@ namespace Ipfs.Server.HttpApi.V0
         ///   The old and new key name.
         /// </param>
         [HttpGet, HttpPost, Route("key/rename")]
-        public async Task<CryptoKeysDto> Rename(string[] arg)
+        public async Task<CryptoKeyRenameDto> Rename(string[] arg)
         {
             if (arg.Length != 2)
                 throw new ArgumentException("Missing the old and/or new key name.");
 
             var key = await IpfsCore.Key.RenameAsync(arg[0], arg[1], Cancel);
-            var dto = new CryptoKeysDto();
-            if (key != null)
+            var dto = new CryptoKeyRenameDto
             {
-                dto.Keys = new[] { new CryptoKeyDto
-                {
-                    Name = key.Name,
-                    Id = key.Id.ToString()
-                }};
-            }
-
+                Was = arg[0],
+                Now = arg[1],
+                Id = key.Id.ToString()
+                // TODO: Overwrite
+            };
             return dto;
         }
 

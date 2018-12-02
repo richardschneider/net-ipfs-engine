@@ -28,7 +28,7 @@ namespace Ipfs.Engine
 
         KeyChain keyChain;
         char[] passphrase;
-        ConcurrentBag<Task> stopTasks = new ConcurrentBag<Task>();
+        ConcurrentBag<Func<Task>> stopTasks = new ConcurrentBag<Func<Task>>();
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
@@ -249,24 +249,29 @@ namespace Ipfs.Engine
             log.Debug("starting " + localPeer.Id);
 
             // Everybody needs the swarm.
-            var swarm = await StartSwarmAsync();
+            var swarm = await SwarmService;
+            stopTasks.Add(async () => await swarm.StopAsync());
+            await swarm.StartAsync();
 
             var multicast = new MulticastService();
-            stopTasks.Add(new Task(() => { multicast.Dispose(); }));
+#pragma warning disable CS1998 
+            stopTasks.Add(async () => multicast.Dispose());
+#pragma warning restore CS1998 
+            multicast.Start();
 
-            var tasks = new List<Task>
+            var tasks = new List<Func<Task>>
             {
-                new Task(async () =>
+                async () =>
                 {
                     var bootstrap = new PeerTalk.Discovery.Bootstrap
                     {
                         Addresses = await this.Bootstrap.ListAsync()
                     };
                     bootstrap.PeerDiscovered += OnPeerDiscovered;
-                    stopTasks.Add(new Task(() => { bootstrap.StopAsync().Wait(); }));
+                    stopTasks.Add(async () => await bootstrap.StopAsync());
                     await bootstrap.StartAsync();
-                }),
-                new Task(async () =>
+                },
+                async () =>
                 {
                     var mdns = new PeerTalk.Discovery.MdnsNext
                     {
@@ -274,10 +279,10 @@ namespace Ipfs.Engine
                         MulticastService = multicast
                     };
                     mdns.PeerDiscovered += OnPeerDiscovered;
-                    stopTasks.Add(new Task(() => { mdns.StopAsync().Wait(); }));
+                    stopTasks.Add(async () => await mdns.StopAsync());
                     await mdns.StartAsync();
-                }),
-                new Task(async () =>
+                },
+                async () =>
                 {
                     var mdns = new PeerTalk.Discovery.MdnsJs
                     {
@@ -285,10 +290,10 @@ namespace Ipfs.Engine
                         MulticastService = multicast
                     };
                     mdns.PeerDiscovered += OnPeerDiscovered;
-                    stopTasks.Add(new Task(() => { mdns.StopAsync().Wait(); }));
+                    stopTasks.Add(async () => await mdns.StopAsync());
                     await mdns.StartAsync();
-                }),
-                new Task(async () =>
+                },
+                async () =>
                 {
                     var mdns = new PeerTalk.Discovery.MdnsGo
                     {
@@ -296,33 +301,29 @@ namespace Ipfs.Engine
                         MulticastService = multicast
                     };
                     mdns.PeerDiscovered += OnPeerDiscovered;
-                    stopTasks.Add(new Task(() => { mdns.StopAsync().Wait(); }));
+                    stopTasks.Add(async () => await mdns.StopAsync());
                     await mdns.StartAsync();
-                }),
-                new Task(async () =>
+                },
+                async () =>
                 {
                     var bitswap = await BitswapService;
-                    stopTasks.Add(new Task(() => { bitswap.StopAsync().Wait(); }));
+                    stopTasks.Add(async () => await bitswap.StopAsync());
                     await bitswap.StartAsync();
-                }),
-                new Task(async () =>
+                },
+                async () =>
                 {
                     var dht = await DhtService;
-                    stopTasks.Add(new Task(() => { dht.StopAsync().Wait(); }));
+                    stopTasks.Add(async () => await dht.StopAsync());
                     await dht.StartAsync();
-                }),
+                },
             };
 
-            foreach(var task in tasks)
-            {
-                task.Start();
-            }
-
             log.Debug("waiting for services to start");
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks.Select(t => t()));
+
             // TODO: Would be nice to make this deterministic.
-            await Task.Delay(TimeSpan.FromMilliseconds(100));
-            log.Debug("all service started");
+            //await Task.Delay(TimeSpan.FromMilliseconds(100));
+            //log.Debug("all service started");
 
             // Starting listening to the swarm.
             var json = await Config.GetAsync("Addresses.Swarm");
@@ -344,21 +345,8 @@ namespace Ipfs.Engine
             {
                 log.Error("No listeners were created.");
             }
-            else
-            {
-                multicast.Start();
-            }
 
             log.Debug("started");
-        }
-
-        async Task<Swarm> StartSwarmAsync()
-        {
-            var swarm = await SwarmService;
-            stopTasks.Add(new Task(() => { swarm.StopAsync().Wait(); }));
-            await swarm.StartAsync();
-
-            return swarm;
         }
 
         /// <summary>
@@ -376,12 +364,8 @@ namespace Ipfs.Engine
             try
             {
                 var tasks = stopTasks.ToArray();
-                stopTasks = new ConcurrentBag<Task>();
-                foreach (var task in tasks)
-                {
-                    task.Start();
-                }
-                await Task.WhenAll(tasks);
+                stopTasks = new ConcurrentBag<Func<Task>>();
+                await Task.WhenAll(tasks.Select(t => t()));
             }
             catch (Exception e)
             {

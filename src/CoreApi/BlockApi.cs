@@ -127,23 +127,23 @@ namespace Ipfs.Engine.CoreApi
                     id: id,
                     limit: 20, // TODO: remove this
                     cancel: queryCancel.Token,
-                    action: ProviderFound
+                    action: (peer) => { var __ = ProviderFound(peer, queryCancel.Token); }
                 );
 
                 var got = await bitswapGet;
 
-                queryCancel.Cancel(); // stop the network query.
+                queryCancel.Cancel(false); // stop the network query.
                 return got;
             }
         }
 
-        async void ProviderFound(Peer peer)
+        async Task ProviderFound(Peer peer, CancellationToken cancel)
         {
             log.Debug($"Connecting to provider {peer.Id}");
             var swarm = await ipfs.SwarmService;
             try
             {
-                await swarm.ConnectAsync(peer);
+                await swarm.ConnectAsync(peer, cancel);
             }
             catch (Exception e)
             {

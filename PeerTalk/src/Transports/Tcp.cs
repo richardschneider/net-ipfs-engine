@@ -60,7 +60,7 @@ namespace PeerTalk.Transports
             TimeSpan latency = MinReadTimeout; // keep compiler happy
             try
             {
-                log.Debug("connecting to " + address);
+                log.Trace("connecting to " + address);
                 var start = DateTime.Now;
 
                 // Handle cancellation of the connect attempt by disposing
@@ -71,7 +71,7 @@ namespace PeerTalk.Transports
                 };
 
                 latency = DateTime.Now - start;
-                log.Debug($"connected to {address} in {latency.TotalMilliseconds} ms");
+                log.Trace($"connected to {address} in {latency.TotalMilliseconds} ms");
             }
             catch (Exception) when (cancel.IsCancellationRequested)
             {
@@ -84,7 +84,7 @@ namespace PeerTalk.Transports
             }
             if (cancel.IsCancellationRequested)
             {
-                log.Debug("cancel " + address);
+                log.Trace("cancel " + address);
                 socket?.Dispose();
                 cancel.ThrowIfCancellationRequested();
             }
@@ -104,7 +104,7 @@ namespace PeerTalk.Transports
 
             if (cancel.IsCancellationRequested)
             {
-                log.Debug("cancel " + address);
+                log.Trace("cancel " + address);
                 stream.Dispose();
                 cancel.ThrowIfCancellationRequested();
             }

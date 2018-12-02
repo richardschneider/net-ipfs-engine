@@ -101,44 +101,20 @@ namespace PeerTalk.Routing
             if (found != null && found.Addresses.Count() > 0)
                 return found;
 
-            // Ask our peers for information of requested peer.
-            var nearest = RoutingTable.NearestPeers(id);
-            var query = new DhtMessage
+            // Ask our peers for information on the requested peer.
+            var dquery = new DistributedQuery<Peer>
             {
-                Type = MessageType.FindNode,
-                Key = id.ToArray()
+                QueryType = MessageType.FindNode,
+                QueryKey = id,
+                Dht = this,
+                AnswersNeeded = 1
             };
-            log.Debug($"Query {query.Type} {id}");
-            foreach (var peer in nearest)
+            await dquery.Run(cancel);
+            if (dquery.Answers.Count == 0)
             {
-                log.Debug($"Query peer {peer.Id} for {query.Type}");
-
-                using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
-                {
-                    ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
-                    await stream.FlushAsync(cancel);
-                    var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
-                    if (response.CloserPeers == null)
-                    {
-                        continue;
-                    }
-                    foreach (var closer in response.CloserPeers)
-                    {
-                        if (closer.TryToPeer(out Peer p))
-                        {
-                            p = Swarm.RegisterPeer(p);
-                            if (id == p.Id)
-                            {
-                                log.Debug($"Found answer for {id}");
-                                return p;
-                            }
-                        }
-                    }
-                }
+                throw new KeyNotFoundException($"Cannot locate peer '{id}'.");
             }
-
-            // Unknown peer ID.
-            throw new KeyNotFoundException($"Cannot locate peer '{id}'.");
+            return dquery.Answers.First();
         }
 
         /// <inheritdoc />
@@ -154,123 +130,20 @@ namespace PeerTalk.Routing
             Action<Peer> action = null,
             CancellationToken cancel = default(CancellationToken))
         {
-            log.Debug($"Find providers for {id}");
-
-            var providers = new List<Peer>();
-            var visited = new List<Peer> { Swarm.LocalPeer };
-            var key = id.Hash.ToArray();
-
-            var query = new DhtMessage
+            var dquery = new DistributedQuery<Peer>
             {
-                Type = MessageType.GetProviders,
-                Key = key
+                QueryType = MessageType.GetProviders,
+                QueryKey = id.Hash,
+                Dht = this,
+                AnswersNeeded = limit,
             };
-
-            while (!cancel.IsCancellationRequested)
+            if (action != null)
             {
-                if (providers.Count >= limit)
-                    break;
-
-                // Get the nearest peers that have not been visited.
-                var peers = RoutingTable
-                    .NearestPeers(id.Hash)
-                    .Where(p => !visited.Contains(p))
-                    .Take(3)
-                    .ToArray();
-                if (peers.Length == 0)
-                    break;
-
-                visited.AddRange(peers);
-
-                try
-                {
-                    log.Debug($"Next {peers.Length} queries");
-                    // Only allow 10 seconds per pass.
-                    using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30)))
-                    using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel))
-                    {
-                        var tasks = peers.Select(p => FindProvidersAsync(p, id, query, providers, action, limit, cts));
-                        await Task.WhenAll(tasks);
-                    }
-                }
-                catch (Exception e)
-                {
-                    log.Warn("dquery failed " + e.Message); //eat it
-                }
+                dquery.AnswerObtained += (s, e) => action.Invoke(e);
             }
-
-            // All peers queried or the limit has been reached.
-            log.Debug($"Found {providers.Count} providers for {id}, visited {visited.Count} peers");
-            return providers.Take(limit);
+            await dquery.Run(cancel);
+            return dquery.Answers.Take(limit);
         }
 
-        /// <summary>
-        ///   Ask a peer for provider peers.
-        /// </summary>
-        async Task FindProvidersAsync(
-            Peer peer,
-            Cid id,
-            DhtMessage query,
-            List<Peer> providers,
-            Action<Peer> action,
-            int limit,
-            CancellationTokenSource cts)
-        {
-            try
-            {
-                var cancel = cts.Token;
-
-                using (var stream = await Swarm.DialAsync(peer, this.ToString(), cancel))
-                {
-                    // Send the KAD query and get a response.
-                    ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, query, PrefixStyle.Base128);
-                    await stream.FlushAsync(cancel);
-                    var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
-
-                    if (response.ProviderPeers != null)
-                    {
-                        foreach (var provider in response.ProviderPeers)
-                        {
-                            if (cancel.IsCancellationRequested)
-                                break;
-                            if (provider.TryToPeer(out Peer p))
-                            {
-                                p = Swarm.RegisterPeer(p);
-                                // Only unique answers
-                                if (!providers.Contains(p))
-                                {
-                                    providers.Add(p);
-                                    action?.Invoke(p);
-                                }
-                            }
-                        }
-                    }
-                    // If enough answers, then cancel the query.
-                    if (providers.Count >= limit && !cts.IsCancellationRequested)
-                    {
-                        log.Debug($"Required answers ({limit}) reached");
-                        cts.Cancel(false);
-                    }
-
-                    // Process the closer peers.
-                    if (response.CloserPeers != null)
-                    {
-                        foreach (var closer in response.CloserPeers)
-                        {
-                            if (cancel.IsCancellationRequested)
-                                break;
-                            if (closer.TryToPeer(out Peer p))
-                            {
-                                Swarm.RegisterPeer(p);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                log.Warn("query failed " + e.Message); // eat it. Hopefully other peers will provide an answet.
-            }
-        }
     }
 }

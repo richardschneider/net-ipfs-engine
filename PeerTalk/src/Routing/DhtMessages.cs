@@ -29,13 +29,39 @@ namespace PeerTalk.Routing
         public string TimeReceived { get; set; }
     }
 
-    enum MessageType
+    /// <summary>
+    ///   The type of DHT/KAD message.
+    /// </summary>
+    public enum MessageType
     {
+        /// <summary>
+        ///   Put a value.
+        /// </summary>
         PutValue = 0,
+
+        /// <summary>
+        ///   Get a value.
+        /// </summary>
         GetValue = 1,
+
+        /// <summary>
+        ///   Indicate that a peer can provide something.
+        /// </summary>
         AddProvider = 2,
+
+        /// <summary>
+        ///   Get the providers for something.
+        /// </summary>
         GetProviders = 3,
+
+        /// <summary>
+        ///   Find a peer.
+        /// </summary>
         FindNode = 4,
+
+        /// <summary>
+        ///   NYI
+        /// </summary>
         Ping = 5
     }
 

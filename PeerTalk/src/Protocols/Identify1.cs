@@ -63,18 +63,19 @@ namespace PeerTalk.Protocols
         /// <param name="connection">
         ///   The currenty connection to the remote peer.
         /// </param>
+        /// <param name="cancel"></param>
         /// <returns></returns>
-        public async Task<Peer> GetRemotePeer(PeerConnection connection)
+        public async Task<Peer> GetRemotePeer(PeerConnection connection, CancellationToken cancel)
         {
             var muxer = await connection.MuxerEstablished.Task;
             log.Debug("Get remote identity");
             Peer remote = connection.RemotePeer;
-            using (var stream = await muxer.CreateStreamAsync("id"))
+            using (var stream = await muxer.CreateStreamAsync("id", cancel))
             {
-                await connection.EstablishProtocolAsync("/multistream/", stream);
-                await connection.EstablishProtocolAsync("/ipfs/id/", stream);
+                await connection.EstablishProtocolAsync("/multistream/", stream, cancel);
+                await connection.EstablishProtocolAsync("/ipfs/id/", stream, cancel);
 
-                var info = await ProtoBufHelper.ReadMessageAsync<Identify>(stream);
+                var info = await ProtoBufHelper.ReadMessageAsync<Identify>(stream, cancel);
                 if (remote == null)
                 {
                     remote = new Peer();

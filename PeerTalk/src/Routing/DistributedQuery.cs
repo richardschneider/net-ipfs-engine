@@ -52,7 +52,7 @@ namespace PeerTalk.Routing
         /// <summary>
         ///   The maximum number of concurrent queries to perform.
         /// </summary>
-        public int ConcurrencyLevel { get; set; } = 3;
+        public int ConcurrencyLevel { get; set; } = 1;
 
         /// <summary>
         ///   The distributed hash table.
@@ -135,7 +135,7 @@ namespace PeerTalk.Routing
                 }
                 catch (Exception e)
                 {
-                    log.Warn($"Q{Id}.{taskId}.{pass} ask failed '{e.Message}'");
+                    log.Warn($"Q{Id}.{taskId}.{pass} ask failed {e.Message}");
                     // eat it
                 }
             }

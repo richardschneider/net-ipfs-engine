@@ -51,6 +51,7 @@ namespace PeerTalk.Protocols
             await stream.ReadAsync(eol, 0, 1, cancel);
             if (eol[0] != newline[0])
             {
+                log.Error($"length: {length}, bytes: {buffer.ToHexString()}");
                 throw new InvalidDataException("Missing terminating newline");
             }
             return buffer;

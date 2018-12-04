@@ -304,6 +304,14 @@ namespace PeerTalk.Multiplex
                 Connection.Dispose();
             else if (Channel != null)
                 Channel.Dispose();
+
+            // Dispose of all the substreams.
+            var streams = Substreams.Values.ToArray();
+            Substreams.Clear();
+            foreach (var stream in streams)
+            {
+                stream.Dispose();
+            }
         }
 
         /// <summary>

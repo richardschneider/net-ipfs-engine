@@ -72,10 +72,10 @@ namespace PeerTalk.Multiplex
 
             channel.Position = 0;
             var muxer2 = new Muxer { Channel = channel };
+            int n = 0;
+            muxer2.SubstreamCreated += (s, e) => ++n;
             await muxer2.ProcessRequestsAsync();
-            Assert.AreEqual(2, muxer2.Substreams.Count);
-            Assert.AreEqual("foo", muxer2.Substreams[foo.Id].Name);
-            Assert.AreEqual("bar", muxer2.Substreams[bar.Id].Name);
+            Assert.AreEqual(2, n);
         }
 
         [TestMethod]

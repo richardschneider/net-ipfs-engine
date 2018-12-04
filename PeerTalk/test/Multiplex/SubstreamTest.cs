@@ -132,6 +132,15 @@ namespace PeerTalk.Multiplex
         }
 
         [TestMethod]
+        public async Task Reading_ClosedStream()
+        {
+            var m1 = new byte[10];
+            var stream = new Substream();
+            stream.NoMoreData();
+            Assert.AreEqual(0, await stream.ReadAsync(m1, 0, 10));
+        }
+
+        [TestMethod]
         public async Task Writing()
         {
             var ms = new MemoryStream();

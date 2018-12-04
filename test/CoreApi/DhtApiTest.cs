@@ -64,23 +64,6 @@ namespace Ipfs.Engine
             }
         }
 
-        [TestMethod]
-        public async Task FindProvider2()
-        {
-            var video = "zdj7Wc9BBA2kar84oo8S6VotYc9PySAnmc8ji6kzKAFjqMxHS";
-            var ipfs = TestFixture.Ipfs;
-            await ipfs.StartAsync();
-            try
-            {
-                var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
-                var providers = await ipfs.Dht.FindProvidersAsync(video, 1, cts.Token);
-                Assert.AreEqual(1, providers.Count());
-            }
-            finally
-            {
-                await ipfs.StopAsync();
-            }
-        }
     }
 }
 

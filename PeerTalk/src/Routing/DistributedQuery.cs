@@ -52,7 +52,7 @@ namespace PeerTalk.Routing
         /// <summary>
         ///   The maximum number of concurrent queries to perform.
         /// </summary>
-        public int ConcurrencyLevel { get; set; } = 1;
+        public int ConcurrencyLevel { get; set; } = 3;
 
         /// <summary>
         ///   The distributed hash table.

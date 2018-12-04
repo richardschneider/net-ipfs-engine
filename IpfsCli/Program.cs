@@ -52,6 +52,7 @@ namespace Ipfs.Cli
     class Program : CommandBase
     {
         static bool debugging;
+        static bool tracing;
 
         public static int Main(string[] args)
         {
@@ -59,8 +60,9 @@ namespace Ipfs.Cli
 
             // Need to setup common.logging early.
             debugging = args.Any(s => s == "--debug");
+            tracing = args.Any(s => s == "--trace");
             var properties = new Common.Logging.Configuration.NameValueCollection();
-            properties["level"] = debugging ? "DEBUG" : "OFF";
+            properties["level"] = tracing ? "TRACE" : (debugging ? "DEBUG" : "OFF");
             properties["showLogName"] = "true";
             properties["showDateTime"] = "true";
             properties["dateTimeFormat"] = "HH:mm:ss.fff";
@@ -75,7 +77,7 @@ namespace Ipfs.Cli
                 for (; e != null; e = e.InnerException)
                 {
                     Console.Error.WriteLine(e.Message);
-                    if (debugging)
+                    if (debugging || tracing)
                     {
                         Console.WriteLine();
                         Console.WriteLine(e.StackTrace);
@@ -101,6 +103,9 @@ namespace Ipfs.Cli
 
         [Option("--debug", Description = "Show debugging info")]
         public bool Debug { get; set; }  // just for documentation, already parsed in Main
+
+        [Option("--trace", Description = "Show tracing info")]
+        public bool Trace { get; set; }  // just for documentation, already parsed in Main
 
         [Option("--time", Description = "Show how long the command took")]
         public bool ShowTime { get; set; }

@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpfsServer", "IpfsServer\Ip
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "spike", "spike\spike.csproj", "{9E0AA5E6-E4F3-4310-8B45-5244BD8AE64D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerTalkBenchmarks", "PeerTalkBenchmarks\PeerTalkBenchmarks.csproj", "{50C8D13A-9CA1-4716-8541-91C1C8FAA8F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{9E0AA5E6-E4F3-4310-8B45-5244BD8AE64D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E0AA5E6-E4F3-4310-8B45-5244BD8AE64D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E0AA5E6-E4F3-4310-8B45-5244BD8AE64D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50C8D13A-9CA1-4716-8541-91C1C8FAA8F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50C8D13A-9CA1-4716-8541-91C1C8FAA8F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50C8D13A-9CA1-4716-8541-91C1C8FAA8F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50C8D13A-9CA1-4716-8541-91C1C8FAA8F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

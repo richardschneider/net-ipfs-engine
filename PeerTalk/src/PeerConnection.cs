@@ -299,7 +299,7 @@ namespace PeerTalk
             {
                 if (!cancel.IsCancellationRequested && stream != null)
                 {
-                    log.Error("reading message failed", e);
+                    log.Error($"reading message failed {RemoteAddress} {RemotePeer}", e);
                 }
             }
         }

@@ -135,7 +135,7 @@ namespace PeerTalk.Routing
                 }
                 catch (Exception e)
                 {
-                    log.Warn($"Q{Id}.{taskId}.{pass} ask failed '{e.Message}'");
+                    log.Warn($"Q{Id}.{taskId}.{pass} ask failed {e.Message}");
                     // eat it
                 }
             }

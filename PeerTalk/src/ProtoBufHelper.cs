@@ -35,7 +35,7 @@ namespace PeerTalk
             var length = await stream.ReadVarint32Async(cancel);
             var bytes = new byte[length];
             for (int offset = 0; offset < length;) {
-                offset += await stream.ReadAsync(bytes, offset, length - offset);
+                offset += await stream.ReadAsync(bytes, offset, length - offset, cancel);
             }
 
             using (var ms = new MemoryStream(bytes, false))

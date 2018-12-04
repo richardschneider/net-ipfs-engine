@@ -259,14 +259,17 @@ namespace PeerTalk
                 },
                 (id, existing) =>
                 {
-                    existing.AgentVersion = peer.AgentVersion ?? existing.AgentVersion;
-                    existing.ProtocolVersion = peer.ProtocolVersion ?? existing.ProtocolVersion;
-                    existing.PublicKey = peer.PublicKey ?? existing.PublicKey;
-                    existing.Latency = peer.Latency ?? existing.Latency;
-                    existing.Addresses = existing
-                        .Addresses
-                        .Union(peer.Addresses)
-                        .ToList();
+                    if (!Object.ReferenceEquals(existing, peer))
+                    {
+                        existing.AgentVersion = peer.AgentVersion ?? existing.AgentVersion;
+                        existing.ProtocolVersion = peer.ProtocolVersion ?? existing.ProtocolVersion;
+                        existing.PublicKey = peer.PublicKey ?? existing.PublicKey;
+                        existing.Latency = peer.Latency ?? existing.Latency;
+                        existing.Addresses = existing
+                            .Addresses
+                            .Union(peer.Addresses)
+                            .ToList();
+                    }
                     return existing;
                 });
 
@@ -519,7 +522,7 @@ namespace PeerTalk
                 {
                     identify = protocols.OfType<Identify1>().First();
                 }
-                await identify.GetRemotePeer(connection);
+                await identify.GetRemotePeer(connection, cancel);
             }
             catch (Exception)
             {
@@ -768,7 +771,7 @@ namespace PeerTalk
             {
                 identify = protocols.OfType<Identify1>().First();
             }
-            connection.RemotePeer = await identify.GetRemotePeer(connection);
+            connection.RemotePeer = await identify.GetRemotePeer(connection, default(CancellationToken));
 
             connection.RemotePeer = RegisterPeer(connection.RemotePeer);
             connection.RemoteAddress = new MultiAddress($"{remote}/ipfs/{connection.RemotePeer.Id}");

@@ -51,7 +51,7 @@ namespace Ipfs.Cli
     {
         DhtCommand Parent { get; set; }
 
-        [Argument(0, "key", "The multihash key")]
+        [Argument(0, "key", "The multihash key or a CID")]
         [Required]
         public string Key { get; set; }
 
@@ -62,7 +62,7 @@ namespace Ipfs.Cli
         {
             var Program = Parent.Parent;
 
-            var peers = await Program.CoreApi.Dht.FindProvidersAsync(new MultiHash(Key), Limit);
+            var peers = await Program.CoreApi.Dht.FindProvidersAsync(Cid.Decode(Key), Limit);
             return Program.Output(app, peers, (data, writer) =>
             {
                 foreach (var peer in peers)

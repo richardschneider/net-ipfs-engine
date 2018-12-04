@@ -424,10 +424,6 @@ namespace PeerTalk
         public async Task<Stream> DialAsync(Peer peer, string protocol, CancellationToken cancel = default(CancellationToken))
         {
             peer = RegisterPeer(peer);
-            if (peer.Addresses.Count() == 0)
-            {
-                throw new Exception($"Peer '{peer}' has no known addresses.");
-            }
 
             // Get a connection and then a muxer to the peer.
             var _ = await ConnectAsync(peer, cancel);

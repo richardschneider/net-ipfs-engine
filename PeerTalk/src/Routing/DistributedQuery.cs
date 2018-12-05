@@ -29,7 +29,7 @@ namespace PeerTalk.Routing
         /// <summary>
         ///   The maximum time spent on waiting for an answer from a peer.
         /// </summary>
-        static TimeSpan askTime = TimeSpan.FromSeconds(5);
+        static TimeSpan askTime = TimeSpan.FromSeconds(20);
 
         CancellationTokenSource runningQuery;
         List<Peer> visited = new List<Peer>();

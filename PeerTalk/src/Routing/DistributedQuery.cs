@@ -213,7 +213,7 @@ namespace PeerTalk.Routing
 
         void AddAnswer(T answer)
         {
-            if (answer == null)
+            if (answer == null || runningQuery.IsCancellationRequested)
                 return;
 
             Answers.Add(answer);

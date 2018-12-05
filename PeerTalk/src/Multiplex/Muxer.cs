@@ -151,7 +151,7 @@ namespace PeerTalk.Multiplex
                     var header = new Header
                     {
                         StreamId = stream.Id,
-                        PacketType = PacketType.ResetInitiator
+                        PacketType = PacketType.CloseInitiator
                     };
                     await header.WriteAsync(Channel, cancel);
                     Channel.WriteByte(0); // length

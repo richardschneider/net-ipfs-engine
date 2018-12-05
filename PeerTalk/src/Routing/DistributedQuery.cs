@@ -174,6 +174,9 @@ namespace PeerTalk.Routing
             {
                 if (provider.TryToPeer(out Peer p))
                 {
+                    if (p == Dht.Swarm.LocalPeer)
+                        continue;
+
                     p = Dht.Swarm.RegisterPeer(p);
                     if (QueryType == MessageType.GetProviders)
                     {
@@ -196,6 +199,9 @@ namespace PeerTalk.Routing
             {
                 if (closer.TryToPeer(out Peer p))
                 {
+                    if (p == Dht.Swarm.LocalPeer)
+                        continue;
+
                     p = Dht.Swarm.RegisterPeer(p);
                     if (QueryType == MessageType.FindNode && QueryKey == p.Id)
                     {

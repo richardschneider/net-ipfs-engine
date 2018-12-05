@@ -131,6 +131,7 @@ namespace Ipfs.Engine.CoreApi
                 );
 
                 var got = await bitswapGet;
+                log.Debug("bitswap got the block");
 
                 queryCancel.Cancel(false); // stop the network query.
                 return got;
@@ -139,6 +140,9 @@ namespace Ipfs.Engine.CoreApi
 
         async Task ProviderFound(Peer peer, CancellationToken cancel)
         {
+            if (cancel.IsCancellationRequested)
+                return;
+
             log.Debug($"Connecting to provider {peer.Id}");
             var swarm = await ipfs.SwarmService;
             try

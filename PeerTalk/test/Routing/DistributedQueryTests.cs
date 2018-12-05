@@ -12,15 +12,13 @@ namespace PeerTalk.Routing
     public class DistributedQueryTest
     {
         [TestMethod]
-        public void Cancelling()
+        public async Task Cancelling()
         {
             var dquery = new DistributedQuery<Peer>();
             var cts = new CancellationTokenSource();
             cts.Cancel();
-            ExceptionAssert.Throws<TaskCanceledException>(() =>
-            {
-                dquery.Run(cts.Token).Wait();
-            });
+            await dquery.RunAsync(cts.Token);
+            Assert.AreEqual(0, dquery.Answers.Count);
         }
 
         [TestMethod]

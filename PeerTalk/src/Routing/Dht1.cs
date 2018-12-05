@@ -109,7 +109,7 @@ namespace PeerTalk.Routing
                 Dht = this,
                 AnswersNeeded = 1
             };
-            await dquery.Run(cancel);
+            await dquery.RunAsync(cancel);
             if (dquery.Answers.Count == 0)
             {
                 throw new KeyNotFoundException($"Cannot locate peer '{id}'.");
@@ -141,7 +141,7 @@ namespace PeerTalk.Routing
             {
                 dquery.AnswerObtained += (s, e) => action.Invoke(e);
             }
-            await dquery.Run(cancel);
+            await dquery.RunAsync(cancel);
             return dquery.Answers.Take(limit);
         }
 

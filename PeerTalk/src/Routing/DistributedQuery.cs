@@ -55,7 +55,7 @@ namespace PeerTalk.Routing
         /// </summary>
         /// <remarks>
         ///   When the numbers <see cref="Answers"/> recaches this limit
-        ///   the <see cref="Run">running query</see> will stop.
+        ///   the <see cref="RunAsync">running query</see> will stop.
         /// </remarks>
         public int AnswersNeeded { get; set; } = 1;
 
@@ -94,7 +94,7 @@ namespace PeerTalk.Routing
         /// <returns>
         ///   A task that represents the asynchronous operation.
         /// </returns>
-        public async Task Run(CancellationToken cancel)
+        public async Task RunAsync(CancellationToken cancel)
         {
             log.Debug($"Q{Id} run {QueryType} {QueryKey}");
 
@@ -107,17 +107,22 @@ namespace PeerTalk.Routing
 
             var tasks = Enumerable
                 .Range(1, ConcurrencyLevel)
-                .Select(i => { var id = i; return Ask(id); });
-            await Task.WhenAll(tasks);
+                .Select(i => { var id = i; return AskAsync(id); });
+            try
+            {
+                await Task.WhenAll(tasks);
+            }
+            catch (Exception)
+            {
+                // eat it
+            }
             log.Debug($"Q{Id} found {Answers.Count} answers, visited {visited.Count} peers");
-
-            cancel.ThrowIfCancellationRequested();
         }
 
         /// <summary>
         ///   Ask the next peer the question.
         /// </summary>
-        async Task Ask(int taskId)
+        async Task AskAsync(int taskId)
         {
             int pass = 0;
             while (!runningQuery.IsCancellationRequested)

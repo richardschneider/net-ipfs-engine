@@ -464,6 +464,11 @@ namespace PeerTalk
         /// <returns></returns>
         async Task<PeerConnection> Dial(Peer remote, IEnumerable<MultiAddress> addrs, CancellationToken cancel)
         {
+            if (remote == LocalPeer)
+            {
+                throw new Exception("Cannot dial self.");
+            }
+
             // If no addresses, then ask peer routing.
             if (Router != null && addrs.Count() == 0)
             {

@@ -21,6 +21,16 @@ namespace PeerTalk.Routing
         static ILog log = LogManager.GetLogger("PeerTalk.Routing.DistributedQuery");
         static int nextQueryId = 1;
 
+        /// <summary>
+        ///   The maximum number of peers that can be queried.
+        /// </summary>
+        static SemaphoreSlim askCount = new SemaphoreSlim(10);
+
+        /// <summary>
+        ///   The maximum time spent on waiting for an answer from a peer.
+        /// </summary>
+        static TimeSpan askTime = TimeSpan.FromSeconds(5);
+
         CancellationTokenSource runningQuery;
         List<Peer> visited = new List<Peer>();
         DhtMessage queryMessage;
@@ -50,8 +60,14 @@ namespace PeerTalk.Routing
         public int AnswersNeeded { get; set; } = 1;
 
         /// <summary>
-        ///   The maximum number of concurrent queries to perform.
+        ///   The maximum number of concurrent peer queries to perform.
         /// </summary>
+        /// <value>
+        ///   The default is 3.
+        /// </value>
+        /// <remarks>
+        ///   The number of peers that are asked for the answer.
+        /// </remarks>
         public int ConcurrencyLevel { get; set; } = 3;
 
         /// <summary>
@@ -118,15 +134,19 @@ namespace PeerTalk.Routing
                 visited.Add(peer);
 
                 // Ask the nearest peer.
-                log.Debug($"Q{Id}.{taskId}.{pass} ask {peer}");
                 try
                 {
-                    using (var stream = await Dht.Swarm.DialAsync(peer, Dht.ToString(), runningQuery.Token))
+                    await askCount.WaitAsync(runningQuery.Token);
+
+                    log.Debug($"Q{Id}.{taskId}.{pass} ask {peer}");
+                    using (var timeout = new CancellationTokenSource(askTime))
+                    using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, runningQuery.Token))
+                    using (var stream = await Dht.Swarm.DialAsync(peer, Dht.ToString(), cts.Token))
                     {
                         // Send the KAD query and get a response.
                         ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, queryMessage, PrefixStyle.Base128);
-                        await stream.FlushAsync(runningQuery.Token);
-                        var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, runningQuery.Token);
+                        await stream.FlushAsync(cts.Token);
+                        var response = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cts.Token);
 
                         // Process answer
                         ProcessProviders(response.ProviderPeers);
@@ -137,6 +157,10 @@ namespace PeerTalk.Routing
                 {
                     log.Warn($"Q{Id}.{taskId}.{pass} ask failed {e.Message}");
                     // eat it
+                }
+                finally
+                {
+                    askCount.Release();
                 }
             }
         }

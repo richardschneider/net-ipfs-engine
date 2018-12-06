@@ -73,6 +73,9 @@
 <a href="https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail">PEM format</a>. It is protected by a key generated from the 
 key chain&#39;s <em>passPhrase</em> using <a href="https://en.wikipedia.org/wiki/PBKDF2">PBKDF2</a>.  It is managed with 
 the <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IKeyApi.html">KeyApi</a>.</p>
+<p>A key file is found in the repository&#39;s <code>keys</code> folder.  To support case insensitive file 
+systems the file name is the <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.Base32.html">base-32</a> encoding of the 
+<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html#Ipfs_IKey_Name">key&#39;s name</a> as a UTF-8 string.</p>
 <p><img src="../../images/private-key.png" alt="key storage"></p>
 <h2 id="example">Example</h2>
 <p>A <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html">key</a> is stored as JSON.</p>

@@ -137,5 +137,28 @@ namespace Ipfs.Engine
             var names = Store.Names.Where(n => n == 11 || n == 13).ToArray();
             Assert.AreEqual(2, names.Length);
         }
+
+        [TestMethod]
+        public async Task Atomic()
+        {
+            var store = Store;
+            int nTasks = 100;
+            var tasks = Enumerable
+                .Range(1, nTasks)
+                .Select(i => Task.Run(() => AtomicTask(store)))
+                .ToArray();
+            await Task.WhenAll(tasks);
+        }
+
+        async Task AtomicTask(FileStore<int, Entity> store)
+        {
+
+            await store.PutAsync(1, a);
+            await store.TryGetAsync(1);
+            await store.RemoveAsync(1);
+            var names = store.Names;
+            var values = store.Values;
+        }
+
     }
 }

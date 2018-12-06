@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Ipfs.Engine
 {
     /// <summary>
-    ///   A repository for name value pairs.
+    ///   A file based repository for name value pairs.
     /// </summary>
     /// <typeparam name="TName">
     ///   The type used for a unique name.
@@ -18,9 +19,14 @@ namespace Ipfs.Engine
     /// <typeparam name="TValue">
     ///   The type used for the value.
     /// </typeparam>
+    /// <remarks>
+    ///   All operations are atomic, a reader/writer lock is used.
+    /// </remarks>
     public class FileStore<TName, TValue>
         where TValue : class
     {
+        private AsyncReaderWriterLock storeLock = new AsyncReaderWriterLock();
+
         /// <summary>
         ///   A function to write the JSON encoded entity to the stream.
         /// </summary>
@@ -114,14 +120,17 @@ namespace Ipfs.Engine
         public async Task<TValue> TryGetAsync(TName name, CancellationToken cancel = default(CancellationToken))
         {
             var path = GetPath(name);
-            if (!File.Exists(path))
+            using (await storeLock.ReaderLockAsync())
             {
-                return null;
-            }
+                if (!File.Exists(path))
+                {
+                    return null;
+                }
 
-            using (var content = File.OpenRead(path))
-            {
-                return await Deserialize(content, name, cancel);
+                using (var content = File.OpenRead(path))
+                {
+                    return await Deserialize(content, name, cancel);
+                }
             }
         }
 
@@ -168,10 +177,11 @@ namespace Ipfs.Engine
         /// <remarks>
         ///   If <paramref name="name"/> already exists, it's value is overwriten.
         /// </remarks>
-        public async Task PutAsync (TName name, TValue value, CancellationToken cancel = default(CancellationToken))
+        public async Task PutAsync(TName name, TValue value, CancellationToken cancel = default(CancellationToken))
         {
             var path = GetPath(name);
 
+            using (await storeLock.WriterLockAsync(cancel))
             using (var stream = File.Create(path))
             {
                 await Serialize(stream, name, value, cancel);
@@ -193,11 +203,13 @@ namespace Ipfs.Engine
         /// <remarks>
         ///   A non-existent <paramref name="name"/> does nothing.
         /// </remarks>
-        public Task RemoveAsync(TName name, CancellationToken cancel = default(CancellationToken))
+        public async Task RemoveAsync(TName name, CancellationToken cancel = default(CancellationToken))
         {
             var path = GetPath(name);
-            File.Delete(path);
-            return Task.CompletedTask;
+            using (await storeLock.WriterLockAsync(cancel))
+            {
+                File.Delete(path);
+            }
         }
 
         /// <summary>
@@ -216,14 +228,18 @@ namespace Ipfs.Engine
         /// <remarks>
         ///   Return a null when the <paramref name="name"/> does not exist.
         /// </remarks>
-        public Task<long?> LengthAsync(TName name, CancellationToken cancel = default(CancellationToken))
+        public async Task<long?> LengthAsync(TName name, CancellationToken cancel = default(CancellationToken))
         {
             var path = GetPath(name);
-            var fi = new FileInfo(path);
-            long? length = null;
-            if (fi.Exists)
-                length = fi.Length;
-            return Task.FromResult(length);
+
+            using (await storeLock.ReaderLockAsync())
+            {
+                var fi = new FileInfo(path);
+                long? length = null;
+                if (fi.Exists)
+                    length = fi.Length;
+                return length;
+            }
         }
 
         /// <summary>
@@ -239,10 +255,13 @@ namespace Ipfs.Engine
         ///   A task that represents the asynchronous operation. The task's result is
         ///   <b>true</b> if the <paramref name="name"/> exists.
         /// </returns>
-        public Task<bool> ExistsAsync(TName name, CancellationToken cancel = default(CancellationToken))
+        public async Task<bool> ExistsAsync(TName name, CancellationToken cancel = default(CancellationToken))
         {
             var path = GetPath(name);
-            return Task.FromResult(File.Exists(path));
+            using (await storeLock.ReaderLockAsync())
+            {
+                return File.Exists(path);
+            }
         }
 
         /// <summary>
@@ -291,7 +310,6 @@ namespace Ipfs.Engine
         {
             return Path.Combine(Folder, NameToKey(name));
         }
-
 
     }
 }

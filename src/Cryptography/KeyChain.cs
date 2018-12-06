@@ -54,8 +54,8 @@ namespace Ipfs.Engine.Cryptography
                     store = new FileStore<string, EncryptedKey>
                     {
                         Folder = folder,
-                        NameToKey = (name) => name,
-                        KeyToName = (key) => key
+                        NameToKey = (name) => Encoding.UTF8.GetBytes(name).ToBase32(),
+                        KeyToName = (key) => Encoding.UTF8.GetString(Base32.Decode(key))
                     };
                 }
                 return store;

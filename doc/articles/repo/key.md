@@ -5,6 +5,10 @@ A private key is stored as an [encrypted PKCS #8 structure](https://tools.ietf.o
 key chain's *passPhrase* using [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2).  It is managed with 
 the [KeyApi](xref:Ipfs.CoreApi.IKeyApi).
 
+A key file is found in the repository's `keys` folder.  To support case insensitive file 
+systems the file name is the [base-32](xref:Ipfs.Base32) encoding of the 
+[key's name](xref:Ipfs.IKey.Name) as a UTF-8 string.
+
 ![key storage](../../images/private-key.png)
 
 ## Example

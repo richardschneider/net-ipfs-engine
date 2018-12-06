@@ -61,13 +61,13 @@ namespace PeerTalk.Multiplex
         public Muxer Muxer { get; set; }
 
         /// <inheritdoc />
-        public override bool CanRead => !eos;
+        public override bool CanRead => !eos && Muxer.Channel != null && Muxer.Channel.CanRead;
 
         /// <inheritdoc />
         public override bool CanSeek => false;
 
         /// <inheritdoc />
-        public override bool CanWrite => outStream != null;
+        public override bool CanWrite => outStream != null && Muxer.Channel != null && Muxer.Channel.CanWrite;
 
         /// <inheritdoc />
         public override bool CanTimeout => false;

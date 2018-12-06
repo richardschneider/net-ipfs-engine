@@ -43,50 +43,52 @@ namespace Ipfs.Engine.BlockExchange
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel);
-
             // There is a race condition between getting the remote identity and
             // the remote sending the first wantlist.
             await connection.IdentityEstablished.Task;
 
-            // Process want list
-            if (request.wantlist != null && request.wantlist.entries != null)
+            while (true)
             {
-                log.Debug($"got want list from {connection.RemotePeer}");
-                foreach (var entry in request.wantlist.entries)
+                var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel);
+
+                // Process want list
+                if (request.wantlist != null && request.wantlist.entries != null)
                 {
-                    var cid = Cid.Read(entry.block);
-                    if (entry.cancel)
+                    foreach (var entry in request.wantlist.entries)
                     {
-                        // TODO: Unwant specific to remote peer
-                        Bitswap.Unwant(cid);
-                    }
-                    else
-                    {
-                        // TODO: Should we have a timeout?
-                        var _ = GetBlockAsync(cid, connection.RemotePeer, CancellationToken.None);
+                        var cid = Cid.Read(entry.block);
+                        if (entry.cancel)
+                        {
+                            // TODO: Unwant specific to remote peer
+                            Bitswap.Unwant(cid);
+                        }
+                        else
+                        {
+                            // TODO: Should we have a timeout?
+                            var _ = GetBlockAsync(cid, connection.RemotePeer, CancellationToken.None);
+                        }
                     }
                 }
-            }
 
-            // Forward sent blocks to the block service.  Eventually
-            // bitswap will here about and them and then continue
-            // any tasks (GetBlockAsync) waiting for the block.
-            if (request.payload != null)
-            {
-                log.Debug($"got block(s) from {connection.RemotePeer}");
-                foreach (var sentBlock in request.payload)
+                // Forward sent blocks to the block service.  Eventually
+                // bitswap will here about and them and then continue
+                // any tasks (GetBlockAsync) waiting for the block.
+                if (request.payload != null)
                 {
-                    using (var ms = new MemoryStream(sentBlock.prefix))
+                    log.Debug($"got block(s) from {connection.RemotePeer}");
+                    foreach (var sentBlock in request.payload)
                     {
-                        var version = ms.ReadVarint32();
-                        var contentType = ms.ReadMultiCodec().Name;
-                        var multiHash = MultiHash.GetHashAlgorithmName(ms.ReadVarint32());
-                        await Bitswap.BlockService.PutAsync(
-                            data: sentBlock.data,
-                            contentType: contentType,
-                            multiHash: multiHash,
-                            pin: false);
+                        using (var ms = new MemoryStream(sentBlock.prefix))
+                        {
+                            var version = ms.ReadVarint32();
+                            var contentType = ms.ReadMultiCodec().Name;
+                            var multiHash = MultiHash.GetHashAlgorithmName(ms.ReadVarint32());
+                            await Bitswap.BlockService.PutAsync(
+                                data: sentBlock.data,
+                                contentType: contentType,
+                                multiHash: multiHash,
+                                pin: false);
+                        }
                     }
                 }
             }

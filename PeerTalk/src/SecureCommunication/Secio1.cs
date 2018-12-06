@@ -187,7 +187,7 @@ namespace PeerTalk.SecureCommunication
                 throw new Exception($"SECIO verification message failure.");
             }
 
-            log.Debug("Secure session established");
+            log.Debug($"Secure session with {remotePeer}");
 
             // Fill in the remote peer
             remotePeer.PublicKey = Convert.ToBase64String(remoteProposal.PublicKey);

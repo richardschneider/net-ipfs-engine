@@ -148,7 +148,7 @@ namespace Ipfs.Engine.BlockExchange
         /// </remarks>
         public Task<IDataBlock> Want(Cid id, MultiHash peer, CancellationToken cancel)
         {
-            log.Debug($"{peer} wants {id}");
+            log.Trace($"{peer} wants {id}");
 
             var tsc = new TaskCompletionSource<IDataBlock>();
             var want = wants.AddOrUpdate(

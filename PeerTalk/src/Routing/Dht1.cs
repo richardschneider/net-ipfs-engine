@@ -48,10 +48,17 @@ namespace PeerTalk.Routing
         /// <inheritdoc />
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
-            var request = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
+            while (true)
+            {
+                var request = await ProtoBufHelper.ReadMessageAsync<DhtMessage>(stream, cancel);
 
-            log.Debug($"got message from {connection.RemotePeer}");
-            // TODO: process the request
+                log.Debug($"got message from {connection.RemotePeer}");
+                var response = new DhtMessage();
+                // TODO: process the request
+
+                ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, response, PrefixStyle.Base128);
+                await stream.FlushAsync(cancel);
+            }
         }
 
         /// <inheritdoc />

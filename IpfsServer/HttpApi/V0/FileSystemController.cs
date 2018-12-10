@@ -128,13 +128,34 @@ namespace Ipfs.Server.HttpApi.V0
         /// </param>
         [HttpGet, HttpPost, Route("cat")]
         [Produces("application/octet-stream")]
-        public async Task<IActionResult> Get(
+        public async Task<IActionResult> Cat(
             string arg,
             long offset = 0,
             long length = 0)
         {
             var stream = await IpfsCore.FileSystem.ReadFileAsync(arg, offset, length, Cancel);
             return File(stream, "application/octet-stream", arg);
+        }
+
+        /// <summary>
+        ///   Get the object as a TAR file.
+        /// </summary>
+        /// <param name="arg">
+        ///   A path to an existing file or directory.
+        /// </param>
+        /// <param name="compress">
+        ///   If <b>true</b>, generate gzipped TAR.
+        /// </param>
+        [HttpGet, HttpPost, Route("get")]
+        [Produces("application/tar")]
+        public async Task Get(string arg, bool compress = false)
+        {
+            var tar = await IpfsCore.FileSystem.GetAsync(arg, compress, Cancel);
+            Response.ContentType = "application/tar";
+            Response.StatusCode = 200;
+
+            await tar.CopyToAsync(Response.Body);
+            await Response.Body.FlushAsync();
         }
 
         /// <summary>

@@ -544,6 +544,26 @@ namespace Ipfs.Engine
                 Directory.Delete(temp, true);
             }
         }
+
+        [TestMethod]
+        public async Task GetTar_EmptyDirectory()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(temp);
+            try
+            {
+                var dir = ipfs.FileSystem.AddDirectoryAsync(temp, true).Result;
+                var dirid = dir.Id.Encode();
+
+                var tar = await ipfs.FileSystem.GetAsync(dir.Id);
+                Assert.AreEqual(3 * 512, tar.Length);
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
 #endif
 
         public static string MakeTemp()

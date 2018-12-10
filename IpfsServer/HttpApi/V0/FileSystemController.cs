@@ -152,6 +152,8 @@ namespace Ipfs.Server.HttpApi.V0
         {
             var tar = await IpfsCore.FileSystem.GetAsync(arg, compress, Cancel);
             Response.ContentType = "application/tar";
+            Response.Headers.Add("X-Stream-Output", "1");
+            Response.Headers.Add("X-Content-Length", "4");
             Response.StatusCode = 200;
 
             await tar.CopyToAsync(Response.Body);

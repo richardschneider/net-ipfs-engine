@@ -20,5 +20,13 @@ namespace Ipfs.Engine
             Assert.IsNotNull(ipfs.Stats);
         }
 
+        [TestMethod]
+        public async Task SmokeTest()
+        {
+            var bandwidth = await ipfs.Stats.BandwidthAsync();
+            var bitswap = await ipfs.Stats.BitswapAsync();
+            var repository = await ipfs.Stats.RepositoryAsync();
+        }
+
     }
 }

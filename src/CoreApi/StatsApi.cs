@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
@@ -22,6 +22,7 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<BandwidthData> BandwidthAsync(CancellationToken cancel = default(CancellationToken))
         {
+            //return Task.FromResult(StatsStream.AllBandwidth);
             return Task.FromResult(new BandwidthData()); // TODO
         }
 
@@ -32,7 +33,32 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<RepositoryData> RepositoryAsync(CancellationToken cancel = default(CancellationToken))
         {
-            return Task.FromResult(new RepositoryData()); // TODO
+            var data = new RepositoryData
+            {
+                RepoPath = Path.GetFullPath(ipfs.Options.Repository.Folder),
+                Version = "1",
+                StorageMax = 0 // TODO: there is no storage max
+            };
+
+            GetDirStats(data.RepoPath, data, cancel);
+
+            return Task.FromResult(data);
+        }
+
+        void GetDirStats(string path, RepositoryData data, CancellationToken cancel)
+        {
+            foreach (var file in Directory.EnumerateFiles(path))
+            {
+                cancel.ThrowIfCancellationRequested();
+                ++data.NumObjects;
+                data.RepoSize += (ulong)(new FileInfo(file).Length);
+            }
+
+            foreach (var dir in Directory.EnumerateDirectories(path))
+            {
+                cancel.ThrowIfCancellationRequested();
+                GetDirStats(dir, data, cancel);
+            }
         }
     }
 }

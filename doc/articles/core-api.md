@@ -30,4 +30,5 @@ Each IPFS feature has it's own interface.
 | [Pin](xref:Ipfs.CoreApi.IPinApi) | Manage objects that are locally stored and permanent |
 | [PubSub](xref:Ipfs.CoreApi.IPubSubApi) | Publish and subscribe topic messages |
 | [Swarm](xref:Ipfs.CoreApi.ISwarmApi) | Manages the swarm of peers |
+| [Stats](xref:Ipfs.CoreApi.IStatsApi) | Statistics on IPFS components |
 

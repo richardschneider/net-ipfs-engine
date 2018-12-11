@@ -52,6 +52,7 @@ namespace Ipfs.Engine
             Object = new ObjectApi(this);
             Pin = new PinApi(this);
             PubSub = new PubSubApi(this);
+            Stats = new StatsApi(this);
             Swarm = new SwarmApi(this);
 
             // Async properties
@@ -157,6 +158,9 @@ namespace Ipfs.Engine
 
         /// <inheritdoc />
         public ISwarmApi Swarm { get; private set; }
+
+        /// <inheritdoc />
+        public IStatsApi Stats { get; private set; }
 
         /// <summary>
         ///   Provides access to the <see cref="KeyChain"/>.

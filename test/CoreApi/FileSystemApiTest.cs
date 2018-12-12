@@ -1,6 +1,10 @@
-﻿using Ipfs.CoreApi;
+﻿#if !NETCOREAPP1_1 // TODO
+using ICSharpCode.SharpZipLib.Tar;
+#endif
+using Ipfs.CoreApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -506,6 +510,61 @@ namespace Ipfs.Engine
                 await ipfs.StopAsync();
             }
         }
+
+#if !NETCOREAPP1_1 // TODO
+        [TestMethod]
+        public async Task GetTar()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var temp = MakeTemp();
+            try
+            {
+                var dir = ipfs.FileSystem.AddDirectoryAsync(temp, true).Result;
+                var dirid = dir.Id.Encode();
+
+                var tar = await ipfs.FileSystem.GetAsync(dir.Id);
+                var archive = TarArchive.CreateInputTarArchive(tar);
+                var files = new List<string>();
+                archive.ProgressMessageEvent += (a, e, m) =>
+                {
+                    files.Add(e.Name);
+                };
+                archive.ListContents();
+
+                Assert.AreEqual($"{dirid}", files[0]);
+                Assert.AreEqual($"{dirid}/alpha.txt", files[1]);
+                Assert.AreEqual($"{dirid}/beta.txt", files[2]);
+                Assert.AreEqual($"{dirid}/x", files[3]);
+                Assert.AreEqual($"{dirid}/x/x.txt", files[4]);
+                Assert.AreEqual($"{dirid}/x/y", files[5]);
+                Assert.AreEqual($"{dirid}/x/y/y.txt", files[6]);
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [TestMethod]
+        public async Task GetTar_EmptyDirectory()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(temp);
+            try
+            {
+                var dir = ipfs.FileSystem.AddDirectoryAsync(temp, true).Result;
+                var dirid = dir.Id.Encode();
+
+                var tar = await ipfs.FileSystem.GetAsync(dir.Id);
+                Assert.AreEqual(3 * 512, tar.Length);
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+#endif
 
         public static string MakeTemp()
         {

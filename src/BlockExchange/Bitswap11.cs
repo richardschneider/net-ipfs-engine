@@ -78,6 +78,8 @@ namespace Ipfs.Engine.BlockExchange
                     log.Debug($"got block(s) from {connection.RemotePeer}");
                     foreach (var sentBlock in request.payload)
                     {
+                        ++Bitswap.BlocksReceived;
+                        Bitswap.DataReceived += (ulong)sentBlock.data.Length;
                         using (var ms = new MemoryStream(sentBlock.prefix))
                         {
                             var version = ms.ReadVarint32();
@@ -88,6 +90,7 @@ namespace Ipfs.Engine.BlockExchange
                                 contentType: contentType,
                                 multiHash: multiHash,
                                 pin: false);
+                            // TODO: Detect if duplicate and update stats
                         }
                     }
                 }
@@ -163,7 +166,8 @@ namespace Ipfs.Engine.BlockExchange
             )
         {
             log.Debug($"Sending block {block.Id}");
-
+            ++Bitswap.BlocksSent;
+            Bitswap.DataSent += (ulong)block.Size;
             var message = new Message
             {
                 payload = new List<Block>

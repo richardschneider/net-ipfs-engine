@@ -13,15 +13,40 @@ namespace Ipfs.Server.HttpApi.V0
     /// </summary>
     public class DhtPeerDto
     {
+        /// <summary>
+        ///   The ID of the peer that provided the response.
+        /// </summary>
         public string ID;
+
+        /// <summary>
+        ///   Unknown.
+        /// </summary>
         public int Type; // TODO: what is the type?
+
+        /// <summary>
+        ///   The peer that has the information.
+        /// </summary>
         public IEnumerable<DhtPeerResponseDto> Responses;
+
+        /// <summary>
+        ///   Unknown.
+        /// </summary>
         public string Extra = string.Empty;
     }
 
+    /// <summary>
+    ///   Information on a peer that has the information.
+    /// </summary>
     public class DhtPeerResponseDto
     {
+        /// <summary>
+        ///   The peer ID.
+        /// </summary>
         public string ID;
+
+        /// <summary>
+        ///   The listening addresses of the peer.
+        /// </summary>
         public IEnumerable<String> Addrs;
     }
 

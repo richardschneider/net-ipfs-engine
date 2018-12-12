@@ -1,4 +1,7 @@
-﻿using Common.Logging;
+﻿#if !NETSTANDARD14 // TODO
+using ICSharpCode.SharpZipLib.Tar;
+#endif
+using Common.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -225,6 +228,76 @@ namespace Ipfs.Engine.CoreApi
             var stream = await ReadFileAsync(path, cancel);
             return new SlicedStream(stream, offset, count);
         }
+
+        public async Task<Stream> GetAsync(string path, bool compress = false, CancellationToken cancel = default(CancellationToken))
+        {
+#if NETSTANDARD14 // TODO
+#pragma warning disable CS1998 
+            throw new NotImplementedException("FileSystem.Api.GetAsync is not implemented on NETSTANDARD 1.4");
+#pragma warning restore CS1998 
+#else
+            var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
+            var ms = new MemoryStream();
+            using (var tarStream = new TarOutputStream(ms, 1))
+            using (var archive = TarArchive.CreateOutputTarArchive(tarStream))
+            {
+                archive.IsStreamOwner = false;
+                await AddTarNodeAsync(cid, cid.Encode(), tarStream, cancel);
+            }
+            ms.Position = 0;
+            return ms;
+#endif
+        }
+
+#if !NETSTANDARD14 // TODO
+        async Task AddTarNodeAsync(Cid cid, string name, TarOutputStream tar, CancellationToken cancel)
+        {
+            var block = await ipfs.Block.GetAsync(cid, cancel);
+            var dag = new DagNode(block.DataStream);
+            var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
+
+            var entry = new TarEntry(new TarHeader());
+            var header = entry.TarHeader;
+            header.Mode = 0x1ff; // 777 in octal
+            header.LinkName = String.Empty;
+            header.UserName = String.Empty;
+            header.GroupName = String.Empty;
+            header.Version = "00";
+            header.Name = name;
+            header.DevMajor = 0;
+            header.DevMinor = 0;
+            header.UserId = 0;
+            header.GroupId = 0;
+            header.ModTime = DateTime.Now;
+
+            if (dm.Type == DataType.Directory)
+            {
+                header.TypeFlag = TarHeader.LF_DIR;
+                header.Size = 0;
+                tar.PutNextEntry(entry);
+                tar.CloseEntry();
+            }
+            else // Must be a file
+            {
+                var content = await ReadFileAsync(cid, cancel);
+                header.TypeFlag = TarHeader.LF_NORMAL;
+                header.Size = content.Length;
+                tar.PutNextEntry(entry);
+                content.CopyTo(tar);
+                tar.CloseEntry();
+            }
+
+            // TODO: recurse over files and subdirectories
+            if (dm.Type == DataType.Directory)
+            {
+                foreach (var link in dag.Links)
+                {
+                    await AddTarNodeAsync(link.Id, $"{name}/{link.Name}", tar, cancel);
+                }
+            }
+        }
+
+#endif
 
         IBlockApi GetBlockService(AddFileOptions options)
         {

@@ -21,43 +21,6 @@ namespace PeerTalk
         }
 
         [TestMethod]
-        public void WithPeerId()
-        {
-            var id = "QmQusTXc1Z9C1mzxsqC9ZTFXCgSkpBRGgW4Jk2QYHxKE22";
-            var id3 = "QmQusTXc1Z9C1mzxsqC9ZTFXCgSkpBRGgW4Jk2QYHxKE33";
-
-            var ma1 = new MultiAddress("/ip4/127.0.0.1/tcp/4001");
-            Assert.AreEqual($"{ma1}/p2p/{id}", ma1.WithPeerId(id));
-
-            ma1 = new MultiAddress($"/ip4/127.0.0.1/tcp/4001/ipfs/{id}");
-            Assert.AreSame(ma1, ma1.WithPeerId(id));
-
-            ma1 = new MultiAddress($"/ip4/127.0.0.1/tcp/4001/p2p/{id}");
-            Assert.AreSame(ma1, ma1.WithPeerId(id));
-
-            ExceptionAssert.Throws<Exception>(() =>
-            {
-                ma1 = new MultiAddress($"/ip4/127.0.0.1/tcp/4001/ipfs/{id3}");
-                Assert.AreSame(ma1, ma1.WithPeerId(id));
-            });
-        }
-
-        [TestMethod]
-        public void WithoutPeerId()
-        {
-            var id = "QmQusTXc1Z9C1mzxsqC9ZTFXCgSkpBRGgW4Jk2QYHxKE22";
-
-            var ma1 = new MultiAddress("/ip4/127.0.0.1/tcp/4001");
-            Assert.AreSame(ma1, ma1.WithoutPeerId());
-
-            ma1 = new MultiAddress($"/ip4/127.0.0.1/tcp/4001/ipfs/{id}");
-            Assert.AreEqual("/ip4/127.0.0.1/tcp/4001", ma1.WithoutPeerId());
-
-            ma1 = new MultiAddress($"/ip4/127.0.0.1/tcp/4001/p2p/{id}");
-            Assert.AreEqual("/ip4/127.0.0.1/tcp/4001", ma1.WithoutPeerId());
-        }
-
-        [TestMethod]
         public async Task Resolving()
         {
             var local = new MultiAddress("/ip4/127.0.0.1/tcp/5001");

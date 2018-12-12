@@ -49,6 +49,7 @@ namespace Ipfs.Cli
     [Subcommand("shutdown", typeof(ShutdownCommand))]
     [Subcommand("update", typeof(UpdateCommand))]
     [Subcommand("bitswap", typeof(BitswapCommand))]
+    [Subcommand("stats", typeof(StatsCommand))]
     class Program : CommandBase
     {
         static bool debugging;
@@ -144,6 +145,11 @@ namespace Ipfs.Cli
         public int Output<T>(CommandLineApplication app, T data, Action<T, TextWriter> text)
             where T: class
         {
+            if (text == null)
+            {
+                OutputEncoding = "json";
+            }
+
             switch (OutputEncoding.ToLowerInvariant())
             {
                 case "text":

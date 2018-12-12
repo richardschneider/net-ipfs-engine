@@ -23,6 +23,44 @@ namespace Ipfs.Engine.BlockExchange
         IBitswapProtocol[] protocols;
 
         /// <summary>
+        ///   The number of blocks sent by other peers.
+        /// </summary>
+        public ulong BlocksReceived;
+
+        /// <summary>
+        ///   The number of bytes sent by other peers.
+        /// </summary>
+        public ulong DataReceived;
+
+        /// <summary>
+        ///   The number of blocks sent to other peers.
+        /// </summary>
+        public ulong BlocksSent;
+
+        /// <summary>
+        ///   The number of bytes sent to other peers.
+        /// </summary>
+        public ulong DataSent;
+
+        /// <summary>
+        ///   The number of duplicate blocks sent by other peers.
+        /// </summary>
+        /// <remarks>
+        ///   A duplicate block is a block that is already stored in the
+        ///   local repository.
+        /// </remarks>
+        public ulong DupBlksReceived;
+
+        /// <summary>
+        ///   The number of duplicate bytes sent by other peers.
+        /// </summary>
+        /// <remarks>
+        ///   A duplicate block is a block that is already stored in the
+        ///   local repository.
+        /// </remarks>
+        public ulong DupDataReceived;
+
+        /// <summary>
         ///   Creates a new instance of the <see cref="Bitswap"/> class.
         /// </summary>
         public Bitswap()
@@ -44,7 +82,29 @@ namespace Ipfs.Engine.BlockExchange
         /// </summary>
         public IBlockApi BlockService { get; set; }
 
-
+        /// <summary>
+        ///   Statistics on the bitswap component.
+        /// </summary>
+        /// <seealso cref="CoreApi.StatsApi"/>
+        public BitswapData Statistics
+        {
+            get
+            {
+                return new BitswapData
+                {
+                    BlocksReceived = BlocksReceived,
+                    BlocksSent = BlocksSent,
+                    DataReceived = DataReceived,
+                    DataSent = DataSent,
+                    DupBlksReceived = DupBlksReceived,
+                    DupDataReceived = DupDataReceived,
+                    ProvideBufLen = 0, // TODO: Unknown meaning
+                    Peers = Swarm.KnownPeers.Select(p => p.Id),
+                    Wantlist = wants.Keys
+                };
+            }
+        }
+        
         /// <summary>
         ///   Raised when a blocked is needed.
         /// </summary>

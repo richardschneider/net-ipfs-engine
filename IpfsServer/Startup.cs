@@ -31,7 +31,7 @@ namespace Ipfs.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ICoreApi>(Program.IpfsEngine);
-
+            services.AddCors();
             services.AddMvc()
                 .AddJsonOptions(jo =>
                 {
@@ -67,7 +67,12 @@ namespace Ipfs.Server
             {
                 app.UseExceptionHandler("/Error");
             }
-
+            app.UseCors(c => c
+                .AllowAnyOrigin() // TODO: This is NOT SAFE
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithExposedHeaders("X-Stream-Output", "X-Chunked-Output", "X-Content-Length")
+            );
             app.UseStaticFiles();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

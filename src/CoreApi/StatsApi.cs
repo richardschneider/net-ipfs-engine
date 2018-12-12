@@ -26,9 +26,10 @@ namespace Ipfs.Engine.CoreApi
             return Task.FromResult(new BandwidthData()); // TODO
         }
 
-        public Task<BitswapData> BitswapAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task<BitswapData> BitswapAsync(CancellationToken cancel = default(CancellationToken))
         {
-            return Task.FromResult(new BitswapData()); // TODO
+            var bitswap = await ipfs.BitswapService;
+            return bitswap.Statistics;
         }
 
         public Task<RepositoryData> RepositoryAsync(CancellationToken cancel = default(CancellationToken))

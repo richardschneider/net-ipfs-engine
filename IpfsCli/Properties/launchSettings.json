@@ -2,7 +2,7 @@
   "profiles": {
     "IpfsCli": {
       "commandName": "Project",
-      "commandLineArgs": "--debug daemon"
+      "commandLineArgs": "stats bitswap"
     }
   }
 }

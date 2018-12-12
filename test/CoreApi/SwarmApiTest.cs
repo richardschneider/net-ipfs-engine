@@ -38,6 +38,10 @@ namespace Ipfs.Engine
             {
                 await ipfs.Swarm.ConnectAsync(mars);
                 var peers = await ipfs.Swarm.PeersAsync();
+                Console.WriteLine($"{peers.Count()} peers");
+                foreach (var p in peers)
+                    Console.WriteLine($"  {p}");
+
                 Assert.IsTrue(peers.Any(p => p.Id == "QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"));
                 await ipfs.Swarm.DisconnectAsync(mars);
             }

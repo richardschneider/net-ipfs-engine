@@ -481,6 +481,7 @@ namespace PeerTalk
             var possibleAddresses = (await Task.WhenAll(addrs.Select(a => a.ResolveAsync(cancel))))
                 .SelectMany(a => a)
                 .Select(a => a.WithPeerId(remote.Id))
+                .Distinct()
                 .ToArray();
             // TODO: filter out self addresses and others.
             if (possibleAddresses.Length == 0)

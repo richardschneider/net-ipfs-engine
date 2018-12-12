@@ -51,6 +51,42 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap.BlockService
   nameWithType: Bitswap.BlockService
+- uid: Ipfs.Engine.BlockExchange.Bitswap.BlocksReceived
+  name: BlocksReceived
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_BlocksReceived
+  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.BlocksReceived
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.BlocksReceived
+  nameWithType: Bitswap.BlocksReceived
+- uid: Ipfs.Engine.BlockExchange.Bitswap.BlocksSent
+  name: BlocksSent
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_BlocksSent
+  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.BlocksSent
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.BlocksSent
+  nameWithType: Bitswap.BlocksSent
+- uid: Ipfs.Engine.BlockExchange.Bitswap.DataReceived
+  name: DataReceived
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_DataReceived
+  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DataReceived
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.DataReceived
+  nameWithType: Bitswap.DataReceived
+- uid: Ipfs.Engine.BlockExchange.Bitswap.DataSent
+  name: DataSent
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_DataSent
+  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DataSent
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.DataSent
+  nameWithType: Bitswap.DataSent
+- uid: Ipfs.Engine.BlockExchange.Bitswap.DupBlksReceived
+  name: DupBlksReceived
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_DupBlksReceived
+  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DupBlksReceived
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.DupBlksReceived
+  nameWithType: Bitswap.DupBlksReceived
+- uid: Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived
+  name: DupDataReceived
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_DupDataReceived
+  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived
+  nameWithType: Bitswap.DupDataReceived
 - uid: Ipfs.Engine.BlockExchange.Bitswap.Found(IDataBlock)
   name: Found(IDataBlock)
   href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Found_IDataBlock_
@@ -90,6 +126,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap.StartAsync
   nameWithType: Bitswap.StartAsync
+- uid: Ipfs.Engine.BlockExchange.Bitswap.Statistics
+  name: Statistics
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Statistics
+  commentId: P:Ipfs.Engine.BlockExchange.Bitswap.Statistics
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.Statistics
+  nameWithType: Bitswap.Statistics
+- uid: Ipfs.Engine.BlockExchange.Bitswap.Statistics*
+  name: Statistics
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Statistics_
+  commentId: Overload:Ipfs.Engine.BlockExchange.Bitswap.Statistics
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.Statistics
+  nameWithType: Bitswap.Statistics
 - uid: Ipfs.Engine.BlockExchange.Bitswap.StopAsync
   name: StopAsync()
   href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_StopAsync
@@ -1247,6 +1296,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.StartAsync
   nameWithType: IpfsEngine.StartAsync
+- uid: Ipfs.Engine.IpfsEngine.Stats
+  name: Stats
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Stats
+  commentId: P:Ipfs.Engine.IpfsEngine.Stats
+  fullName: Ipfs.Engine.IpfsEngine.Stats
+  nameWithType: IpfsEngine.Stats
+- uid: Ipfs.Engine.IpfsEngine.Stats*
+  name: Stats
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Stats_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.Stats
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.Stats
+  nameWithType: IpfsEngine.Stats
 - uid: Ipfs.Engine.IpfsEngine.StopAsync
   name: StopAsync()
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StopAsync

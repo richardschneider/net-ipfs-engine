@@ -22,8 +22,7 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<BandwidthData> BandwidthAsync(CancellationToken cancel = default(CancellationToken))
         {
-            //return Task.FromResult(StatsStream.AllBandwidth);
-            return Task.FromResult(new BandwidthData()); // TODO
+            return Task.FromResult(StatsStream.AllBandwidth);
         }
 
         public async Task<BitswapData> BitswapAsync(CancellationToken cancel = default(CancellationToken))

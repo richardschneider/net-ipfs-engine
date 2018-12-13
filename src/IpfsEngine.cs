@@ -261,7 +261,6 @@ namespace Ipfs.Engine
 #pragma warning disable CS1998 
             stopTasks.Add(async () => multicast.Dispose());
 #pragma warning restore CS1998 
-            multicast.Start();
 
             var tasks = new List<Func<Task>>
             {
@@ -349,6 +348,10 @@ namespace Ipfs.Engine
             {
                 log.Error("No listeners were created.");
             }
+
+            // Now that the listener addresses are established, the mdns discovery can begin.
+            // TODO: Maybe all discovery services should be start here.
+            multicast.Start();
 
             log.Debug("started");
         }

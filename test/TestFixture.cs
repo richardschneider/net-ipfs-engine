@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using Common.Logging;
+using Common.Logging.XSimple;
 
 namespace Ipfs.Engine
 {
@@ -38,6 +40,21 @@ namespace Ipfs.Engine
         {
             Assert.IsNotNull(Ipfs);
             Assert.IsNotNull(IpfsOther);
+        }
+
+        [AssemblyInitialize]
+        public static void AssemblyInitialize(TestContext context)
+        {
+            // set logger factory
+            var properties = new Common.Logging.Configuration.NameValueCollection
+            {
+                ["level"] = "TRACE",
+                ["showLogName"] = "true",
+                ["showDateTime"] = "true",
+                ["dateTimeFormat"] = "HH:mm:ss.fff"
+
+            };
+            LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(properties);
         }
 
         [AssemblyCleanup]

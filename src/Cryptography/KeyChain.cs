@@ -420,6 +420,12 @@ namespace Ipfs.Engine.Cryptography
                 var pub = new RsaKeyParameters(false, rsa.Modulus, rsa.PublicExponent);
                 keyPair = new AsymmetricCipherKeyPair(pub, privateKey);
             }
+            else if (privateKey is ECPrivateKeyParameters ec)
+            {
+                var q = ec.Parameters.G.Multiply(ec.D);
+                var pub = new ECPublicKeyParameters(q, ec.Parameters);
+                keyPair = new AsymmetricCipherKeyPair(pub, ec);
+            }
             if (keyPair == null)
                 throw new NotSupportedException($"The key type {privateKey.GetType().Name} is not supported.");
 

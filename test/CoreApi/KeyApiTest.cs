@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Crypto.Parameters;
 using System;
 using System.IO;
 using System.Linq;
@@ -185,11 +186,50 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
                 var clone = keys.Single(k => k.Name == name);
                 Assert.AreEqual(key.Name, clone.Name);
                 Assert.AreEqual(key.Id, clone.Id);
+
+                var keychain = await ipfs.KeyChain();
+                var priv = await keychain.GetPrivateKeyAsync(name);
+                Assert.IsNotNull(priv);
+                var pub = await keychain.GetPublicKeyAsync(name);
+                Assert.IsNotNull(pub);
+
+                // Verify key can be used as peer ID.
+                var peer = new Peer
+                {
+                    Id = key.Id,
+                    PublicKey = pub
+                };
+                Assert.IsTrue(peer.IsValid());
+
             }
             finally
             {
                 await ipfs.Key.RemoveAsync(name);
             }
+        }
+
+        [TestMethod]
+        public async Task Import_OpenSSL_Bitcoin()
+        {
+            // Created with:
+            //   openssl ecparam -name secp256k1 -genkey -noout -out secp256k1-key.pem
+            //   openssl pkcs8 -nocrypt -in secp256k1 - key.pem - topk8 -out secp256k1.nocrypt.pem
+            string pem = @"-----BEGIN PRIVATE KEY-----
+MIGEAgEAMBAGByqGSM49AgEGBSuBBAAKBG0wawIBAQQgdLWY3WZqWESiYl+yrDuc
+9BNvU7mCy3MSY/Vic2V+lrehRANCAASrGaDVlpf8X+PkgBUjHDIqFVP+tGbD5qBp
+IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
+-----END PRIVATE KEY-----
+";
+            var ipfs = TestFixture.Ipfs;
+
+            await ipfs.Key.RemoveAsync("ob1");
+            var key = await ipfs.Key.ImportAsync("ob1", pem);
+            Assert.AreEqual("ob1", key.Name);
+            Assert.AreEqual("QmdLk1BNDtW61fsyKyNkqjqzvW979TuC4urcP5Hb3P6qvq", key.Id);
+
+            var keychain = await ipfs.KeyChain();
+            var privateKey = await keychain.GetPrivateKeyAsync("ob1");
+            Assert.IsInstanceOfType(privateKey, typeof(ECPrivateKeyParameters));
         }
 
         [TestMethod]

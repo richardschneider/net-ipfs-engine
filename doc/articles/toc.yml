@@ -19,6 +19,8 @@
     - name: Keys
       href: repo/key.md
     - name: Pins
+- name: Asymmetric key 
+  href: key.md
 - name: Asynchronous I/O
   href: async.md
   items:

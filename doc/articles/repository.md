@@ -7,7 +7,13 @@ will create it with the factory defaults.
 To change its name and/or location use the [environment variables](envvars.md) 
 or the [Repository Options](xref:Ipfs.Engine.RepositoryOptions).
 
-# Contents
+## Creating
+
+The repository will be automatically created if it does not already exist.  At creation time 
+a cryptograhic key named `self` is created and is used to uniquely identify this node 
+in IPFS network.
+
+## Contents
 
 | File/Folder | Usage | Description |
 | ----------- | ----- | ----------- |
@@ -15,3 +21,5 @@ or the [Repository Options](xref:Ipfs.Engine.RepositoryOptions).
 | blocks      | [Block API](xref:Ipfs.Engine.IpfsEngine.Block) | A [Block](repo/block.md) of data |
 | keys        | [Key API](xref:Ipfs.Engine.IpfsEngine.Key) | Cryptographic [keys](repo/key.md) |
 | pins        | [Pin API](xref:Ipfs.Engine.IpfsEngine.Pin) | A [Block](repo/block.md) that is pinned to the local repository |
+
+

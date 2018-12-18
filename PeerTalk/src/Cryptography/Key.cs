@@ -17,10 +17,17 @@ namespace PeerTalk.Cryptography
     /// </summary>
     public class Key
     {
-        string signingAlgorithmName = "SHA-256withRSA";
+        const string RsaSigningAlgorithmName = "SHA-256withRSA";
+        const string EcSigningAlgorithmName = "SHA-256withECDSA";
 
         AsymmetricKeyParameter publicKey;
         AsymmetricKeyParameter privateKey;
+        string signingAlgorithmName;
+
+        private Key()
+        {
+
+        }
 
         /// <summary>
         ///   Verify that signature matches the data.
@@ -76,10 +83,19 @@ namespace PeerTalk.Cryptography
             var ms = new MemoryStream(bytes, false);
             var ipfsKey = ProtoBuf.Serializer.Deserialize<PublicKeyMessage>(ms);
 
-            // For RSA the data is the SPKI
-            if (ipfsKey.Type != KeyType.RSA)
-                throw new InvalidDataException($"Expected RSA type, not {ipfsKey.Type}.");
-            key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
+            switch (ipfsKey.Type)
+            {
+                case KeyType.RSA:
+                    key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
+                    key.signingAlgorithmName = RsaSigningAlgorithmName;
+                    break;
+                case KeyType.Secp256k1:
+                    key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
+                    key.signingAlgorithmName = EcSigningAlgorithmName;
+                    break;
+                default:
+                    throw new InvalidDataException($"Unknown key type of {ipfsKey.Type}.");
+            }
             
             return key;
         }
@@ -88,7 +104,7 @@ namespace PeerTalk.Cryptography
         ///   Create the key from the Bouncy Castle private key.
         /// </summary>
         /// <param name="privateKey">
-        ///   The Bouncy Castle private key.  Only RSA keys are currently supported.
+        ///   The Bouncy Castle private key.
         /// </param>
         public static Key CreatePrivateKey(AsymmetricKeyParameter privateKey)
         {
@@ -99,6 +115,13 @@ namespace PeerTalk.Cryptography
             if (privateKey is RsaPrivateCrtKeyParameters rsa)
             {
                 key.publicKey = new RsaKeyParameters(false, rsa.Modulus, rsa.PublicExponent);
+                key.signingAlgorithmName = RsaSigningAlgorithmName;
+            }
+            else if (privateKey is ECPrivateKeyParameters ec)
+            {
+                var q = ec.Parameters.G.Multiply(ec.D);
+                key.publicKey = new ECPublicKeyParameters(q, ec.Parameters);
+                key.signingAlgorithmName = EcSigningAlgorithmName;
             }
             if (key.publicKey == null)
                 throw new NotSupportedException($"The key type {privateKey.GetType().Name} is not supported.");

@@ -108,7 +108,7 @@ namespace Ipfs.Engine
                 var getTask = ipfs.Block.GetAsync(cid, cts.Token);
 
                 var remote = await ipfsOther.LocalPeer;
-                await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First(), cts.Token);
                 var block = await getTask;
 
                 Assert.IsFalse(getTask.IsCanceled, "task cancelled");

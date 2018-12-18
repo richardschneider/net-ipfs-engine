@@ -142,8 +142,13 @@ namespace PeerTalk.SecureCommunication
             ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, localExchange, PrefixStyle.Fixed32BigEndian);
             await stream.FlushAsync(cancel);
 
-            // Receive their Exchange packet
+            // Receive their Exchange packet.  If nothing, then most likely the
+            // remote has closed the connection because it does not like us.
             var remoteExchange = ProtoBuf.Serializer.DeserializeWithLengthPrefix<Secio1Exchange>(stream, PrefixStyle.Fixed32BigEndian);
+            if (remoteExchange == null)
+            {
+                throw new Exception("Remote refuses the SECIO exchange.");
+            }
 
             // =============================================================================
             // step 2.1. Verify -- verify their exchange packet is good.

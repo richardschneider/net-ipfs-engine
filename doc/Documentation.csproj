@@ -100,6 +100,7 @@
     <Content Include="articles\filesystem.md" />
     <Content Include="articles\repo\key.md" />
     <Content Include="articles\questions.md" />
+    <Content Include="articles\key.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

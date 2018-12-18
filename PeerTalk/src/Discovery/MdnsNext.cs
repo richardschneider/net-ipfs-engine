@@ -35,6 +35,7 @@ namespace PeerTalk.Discovery
             // The TXT records contain the multi addresses.
             foreach (var address in LocalPeer.Addresses)
             {
+                profile.Resources.RemoveAll(r => r is TXTRecord);
                 profile.Resources.Add(new TXTRecord
                 {
                     Name = profile.FullyQualifiedName,

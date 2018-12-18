@@ -8,7 +8,7 @@
     <title>Repository | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Repository | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.40.4.0">
+    <meta name="generator" content="docfx 2.40.5.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -74,7 +74,11 @@ at <code>$HOME/.csipfs</code>.  If not present, the <a class="xref" href="../api
 will create it with the factory defaults.</p>
 <p>To change its name and/or location use the <a href="envvars.html">environment variables</a> 
 or the <a class="xref" href="../api/Ipfs.Engine.RepositoryOptions.html">Repository Options</a>.</p>
-<h1 id="contents">Contents</h1>
+<h2 id="creating">Creating</h2>
+<p>The repository will be automatically created if it does not already exist.  At creation time 
+a cryptograhic key named <code>self</code> is created and is used to uniquely identify this node 
+in IPFS network.</p>
+<h2 id="contents">Contents</h2>
 <table>
 <thead>
 <tr>

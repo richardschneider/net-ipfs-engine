@@ -323,5 +323,66 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
                 await ipfs.Key.RemoveAsync(name);
             }
         }
+
+        [TestMethod]
+        public async Task Create_Ed25519_Key()
+        {
+            var name = "test-ed25519";
+            var ipfs = TestFixture.Ipfs;
+            var key = await ipfs.Key.CreateAsync(name, "ed25519", 0);
+            try
+            {
+                Assert.IsNotNull(key);
+                Assert.IsNotNull(key.Id);
+                Assert.AreEqual(name, key.Name);
+
+                var keys = await ipfs.Key.ListAsync();
+                var clone = keys.Single(k => k.Name == name);
+                Assert.AreEqual(key.Name, clone.Name);
+                Assert.AreEqual(key.Id, clone.Id);
+
+                var keychain = await ipfs.KeyChain();
+                var priv = await keychain.GetPrivateKeyAsync(name);
+                Assert.IsNotNull(priv);
+                var pub = await keychain.GetPublicKeyAsync(name);
+                Assert.IsNotNull(pub);
+
+                // Verify key can be used as peer ID.
+                var peer = new Peer
+                {
+                    Id = key.Id,
+                    PublicKey = pub
+                };
+                Assert.IsTrue(peer.IsValid());
+
+            }
+            finally
+            {
+                await ipfs.Key.RemoveAsync(name);
+            }
+        }
+
+        [TestMethod]
+        public async Task Import_OpenSSL_Ed25519()
+        {
+            // Created with:
+            //   openssl genpkey -algorithm ED25519 -out k4.pem
+            //   openssl  pkcs8 -nocrypt -in k4.pem -topk8 -out k4.nocrypt.pem
+            string pem = @"-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIGJnyy3U4ksTQoRBz3mf1dxeFDPXZBrwh7gD7SqMg+/i
+-----END PRIVATE KEY-----
+";
+            var ipfs = TestFixture.Ipfs;
+
+            await ipfs.Key.RemoveAsync("oed1");
+            var key = await ipfs.Key.ImportAsync("oed1", pem);
+            Assert.AreEqual("oed1", key.Name);
+            Assert.AreEqual("QmcYtMEm7n8cA8ZRtANgA7jGv8GSA4SS6ZEefZF9npLKZp", key.Id);
+
+            var keychain = await ipfs.KeyChain();
+            var privateKey = await keychain.GetPrivateKeyAsync("oed1");
+            Assert.IsInstanceOfType(privateKey, typeof(Ed25519PrivateKeyParameters));
+        }
+
     }
 }

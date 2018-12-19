@@ -19,6 +19,7 @@ namespace PeerTalk.Cryptography
     {
         const string RsaSigningAlgorithmName = "SHA-256withRSA";
         const string EcSigningAlgorithmName = "SHA-256withECDSA";
+        const string Ed25519SigningAlgorithmName = "Ed25519";
 
         AsymmetricKeyParameter publicKey;
         AsymmetricKeyParameter privateKey;
@@ -89,6 +90,10 @@ namespace PeerTalk.Cryptography
                     key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
                     key.signingAlgorithmName = RsaSigningAlgorithmName;
                     break;
+                case KeyType.Ed25519:
+                    key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
+                    key.signingAlgorithmName = Ed25519SigningAlgorithmName;
+                    break;
                 case KeyType.Secp256k1:
                     key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
                     key.signingAlgorithmName = EcSigningAlgorithmName;
@@ -116,6 +121,11 @@ namespace PeerTalk.Cryptography
             {
                 key.publicKey = new RsaKeyParameters(false, rsa.Modulus, rsa.PublicExponent);
                 key.signingAlgorithmName = RsaSigningAlgorithmName;
+            }
+            else if (privateKey is Ed25519PrivateKeyParameters ed)
+            {
+                key.publicKey = ed.GeneratePublicKey();
+                key.signingAlgorithmName = Ed25519SigningAlgorithmName;
             }
             else if (privateKey is ECPrivateKeyParameters ec)
             {

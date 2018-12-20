@@ -84,6 +84,30 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        public void Add_Duplicate_PeerConnectedAddress()
+        {
+            var address = "/ip6/::1/tcp/4007";
+
+            var manager = new ConnectionManager();
+            var peer = new Peer { Id = aId, ConnectedAddress = address };
+            var a = new PeerConnection { RemotePeer = peer, RemoteAddress = address, Stream = Stream.Null };
+            var b = new PeerConnection { RemotePeer = peer, RemoteAddress = address, Stream = Stream.Null };
+
+            Assert.AreSame(a, manager.Add(a));
+            Assert.IsTrue(manager.IsConnected(peer));
+            Assert.AreEqual(1, manager.Connections.Count());
+            Assert.IsNotNull(a.Stream);
+            Assert.AreEqual(address, peer.ConnectedAddress);
+
+            Assert.AreSame(a, manager.Add(b));
+            Assert.IsTrue(manager.IsConnected(peer));
+            Assert.AreEqual(1, manager.Connections.Count());
+            Assert.IsNotNull(a.Stream);
+            Assert.IsNull(b.Stream);
+            Assert.AreEqual(address, peer.ConnectedAddress);
+        }
+
+        [TestMethod]
         public void Add_NotActive()
         {
             var manager = new ConnectionManager();

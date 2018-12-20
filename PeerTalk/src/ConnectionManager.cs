@@ -104,8 +104,10 @@ namespace PeerTalk
             {
                 if (connection != existing)
                 {
+                    var address = existing.RemotePeer.ConnectedAddress;
                     log.Debug($"duplicate {connection.RemoteAddress}, keeping {existing.RemoteAddress}");
                     connection.Dispose();
+                    existing.RemotePeer.ConnectedAddress = address;
                 }
                 return existing;
             }

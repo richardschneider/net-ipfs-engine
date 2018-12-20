@@ -48,7 +48,7 @@ namespace Ipfs.Engine
             // set logger factory
             var properties = new Common.Logging.Configuration.NameValueCollection
             {
-                ["level"] = "TRACE",
+                ["level"] = "DEBUG",
                 ["showLogName"] = "true",
                 ["showDateTime"] = "true",
                 ["dateTimeFormat"] = "HH:mm:ss.fff"

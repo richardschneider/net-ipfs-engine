@@ -8,7 +8,7 @@
     <title>Key | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Key | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.40.5.0">
+    <meta name="generator" content="docfx 2.40.6.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -77,8 +77,9 @@ of its public key. The public key is a protobuf encoding containing a type and
 the DER encoding of the PKCS SubjectPublicKeyInfo.</p>
 <h2 id="types">Types</h2>
 <ul>
+<li><code>ed25519</code>, <a href="https://en.wikipedia.org/wiki/EdDSA#Ed25519">Edwards-curve Digital Signature Algorithm</a></li>
 <li><code>rsa</code>, Rivest–Shamir–Adleman <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">crypto system</a></li>
-<li><code>secp256k1</code>, Bitcoin&#39;s <a href="https://en.bitcoin.it/wiki/Secp256k1">elliptic cuve</a></li>
+<li><code>secp256k1</code>, Bitcoin&#39;s <a href="https://en.bitcoin.it/wiki/Secp256k1">elliptic curve</a></li>
 </ul>
 <h2 id="self">Self</h2>
 <p>The key named <code>self</code> is special in that it uniquely identifies the 

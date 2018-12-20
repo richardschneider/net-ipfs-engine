@@ -100,7 +100,7 @@ namespace PeerTalk
         /// </remarks>
         public PeerConnection Add(PeerConnection connection)
         {
-            if (TryGet(connection.RemotePeer, out PeerConnection existing))
+            if (TryGet(Key(connection.RemotePeer), out PeerConnection existing))
             {
                 log.Debug($"duplicate {connection.RemoteAddress}, keeping {existing.RemoteAddress}");
                 connection.Dispose();

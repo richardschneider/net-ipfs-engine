@@ -10,8 +10,9 @@ the DER encoding of the PKCS SubjectPublicKeyInfo.
 
 ## Types
 
+- `ed25519`, [Edwards-curve Digital Signature Algorithm](https://en.wikipedia.org/wiki/EdDSA#Ed25519)
 - `rsa`, Rivest–Shamir–Adleman [crypto system](https://en.wikipedia.org/wiki/RSA_(cryptosystem))
-- `secp256k1`, Bitcoin's [elliptic cuve](https://en.bitcoin.it/wiki/Secp256k1)
+- `secp256k1`, Bitcoin's [elliptic curve](https://en.bitcoin.it/wiki/Secp256k1)
 
 ## Self
 

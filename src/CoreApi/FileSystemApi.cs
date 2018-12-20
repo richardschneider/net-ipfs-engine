@@ -229,13 +229,14 @@ namespace Ipfs.Engine.CoreApi
             return new SlicedStream(stream, offset, count);
         }
 
+#if NETSTANDARD14 // TODO
+        public Task<Stream> GetAsync(string path, bool compress = false, CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException("FileSystem.Api.GetAsync is not implemented on NETSTANDARD 1.4");
+        }
+#else
         public async Task<Stream> GetAsync(string path, bool compress = false, CancellationToken cancel = default(CancellationToken))
         {
-#if NETSTANDARD14 // TODO
-#pragma warning disable CS1998 
-            throw new NotImplementedException("FileSystem.Api.GetAsync is not implemented on NETSTANDARD 1.4");
-#pragma warning restore CS1998 
-#else
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
             var ms = new MemoryStream();
             using (var tarStream = new TarOutputStream(ms, 1))
@@ -246,8 +247,8 @@ namespace Ipfs.Engine.CoreApi
             }
             ms.Position = 0;
             return ms;
-#endif
         }
+#endif
 
 #if !NETSTANDARD14 // TODO
         async Task AddTarNodeAsync(Cid cid, string name, TarOutputStream tar, CancellationToken cancel)

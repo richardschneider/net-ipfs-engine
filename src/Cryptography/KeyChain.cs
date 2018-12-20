@@ -174,6 +174,8 @@ namespace Ipfs.Engine.Cryptography
                     };
                     if (kp.Public is RsaKeyParameters)
                         publicKey.Type = Proto.KeyType.RSA;
+                    else if (kp.Public is Ed25519PublicKeyParameters)
+                        publicKey.Type = Proto.KeyType.Ed25519;
                     else if (kp.Public is ECPublicKeyParameters)
                         publicKey.Type = Proto.KeyType.Secp256k1;
                     else
@@ -209,11 +211,15 @@ namespace Ipfs.Engine.Cryptography
                     g.Init(new RsaKeyGenerationParameters(
                         BigInteger.ValueOf(0x10001), new SecureRandom(), size, 25));
                     break;
+                case "ed25519":
+                    g = GeneratorUtilities.GetKeyPairGenerator("Ed25519");
+                    g.Init(new Ed25519KeyGenerationParameters(new SecureRandom()));
+                    break;
                 case "secp256k1":
                     X9ECParameters ecP = ECNamedCurveTable.GetByName(keyType);
                     if (ecP == null)
                         throw new Exception("unknown curve name: " + keyType);
-                    var domain= new ECDomainParameters(ecP.Curve, ecP.G, ecP.N, ecP.H, ecP.GetSeed());
+                    var domain = new ECDomainParameters(ecP.Curve, ecP.G, ecP.N, ecP.H, ecP.GetSeed());
                     g = GeneratorUtilities.GetKeyPairGenerator("EC");
                     g.Init(new ECKeyGenerationParameters(domain, new SecureRandom()));
                     break;
@@ -323,7 +329,7 @@ namespace Ipfs.Engine.Cryptography
         {
             var key = await Store.TryGetAsync(name, cancel);
             if (key == null)
-                throw new KeyNotFoundException($"The key 'name' does not exist.");
+                throw new KeyNotFoundException($"The key '{name}' does not exist.");
             AsymmetricKeyParameter kp = null;
             UseEncryptedKey(key, pkey =>
             {
@@ -400,6 +406,8 @@ namespace Ipfs.Engine.Cryptography
                 publicKey.Type = Proto.KeyType.RSA;
             else if (key is ECPublicKeyParameters)
                 publicKey.Type = Proto.KeyType.Secp256k1;
+            else if (key is Ed25519PublicKeyParameters)
+                publicKey.Type = Proto.KeyType.Ed25519;
             else
                 throw new NotSupportedException($"The key type {key.GetType().Name} is not supported.");
 
@@ -409,7 +417,6 @@ namespace Ipfs.Engine.Cryptography
                 ms.Position = 0;
                 return MultiHash.ComputeHash(ms, "sha2-256");
             }
-
         }
 
         AsymmetricCipherKeyPair GetKeyPairFromPrivateKey(AsymmetricKeyParameter privateKey)
@@ -418,6 +425,11 @@ namespace Ipfs.Engine.Cryptography
             if (privateKey is RsaPrivateCrtKeyParameters rsa)
             {
                 var pub = new RsaKeyParameters(false, rsa.Modulus, rsa.PublicExponent);
+                keyPair = new AsymmetricCipherKeyPair(pub, privateKey);
+            }
+            else if (privateKey is Ed25519PrivateKeyParameters ed)
+            {
+                var pub = ed.GeneratePublicKey();
                 keyPair = new AsymmetricCipherKeyPair(pub, privateKey);
             }
             else if (privateKey is ECPrivateKeyParameters ec)

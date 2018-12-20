@@ -102,8 +102,11 @@ namespace PeerTalk
         {
             if (TryGet(Key(connection.RemotePeer), out PeerConnection existing))
             {
-                log.Debug($"duplicate {connection.RemoteAddress}, keeping {existing.RemoteAddress}");
-                connection.Dispose();
+                if (connection != existing)
+                {
+                    log.Debug($"duplicate {connection.RemoteAddress}, keeping {existing.RemoteAddress}");
+                    connection.Dispose();
+                }
                 return existing;
             }
 

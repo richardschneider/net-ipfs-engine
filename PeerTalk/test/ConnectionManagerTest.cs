@@ -66,6 +66,24 @@ namespace PeerTalk
         }
 
         [TestMethod]
+        public void Add_Duplicate_SameConnection()
+        {
+            var manager = new ConnectionManager();
+            var peer = new Peer { Id = aId };
+            var a = new PeerConnection { RemotePeer = peer, Stream = Stream.Null };
+
+            Assert.AreSame(a, manager.Add(a));
+            Assert.IsTrue(manager.IsConnected(peer));
+            Assert.AreEqual(1, manager.Connections.Count());
+            Assert.IsNotNull(a.Stream);
+
+            Assert.AreSame(a, manager.Add(a));
+            Assert.IsTrue(manager.IsConnected(peer));
+            Assert.AreEqual(1, manager.Connections.Count());
+            Assert.IsNotNull(a.Stream);
+        }
+
+        [TestMethod]
         public void Add_NotActive()
         {
             var manager = new ConnectionManager();

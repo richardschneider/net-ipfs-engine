@@ -22,7 +22,9 @@ init:
   - git config --global user.name "Appveyor CI"
 
 cache:
- # - packages -> **\packages.config      # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+  - packages -> **\packages.config      # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+  - '%APPDATA%\npm-cache'               # npm cache
+  - '%USERPROFILE%\.nuget\packages'     # nuget cache
 
 environment:
   COVERALLS_REPO_TOKEN:

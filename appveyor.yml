@@ -22,7 +22,7 @@ init:
   - git config --global user.name "Appveyor CI"
 
 cache:
-  - packages -> **\packages.config      # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+ # - packages -> **\packages.config      # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
 
 environment:
   COVERALLS_REPO_TOKEN:
@@ -61,7 +61,7 @@ after_test:
     - packages\OpenCover.4.6.519\tools\OpenCover.Console.exe 
         -register:user -filter:"+[Ipfs.Engine*]* -[*Tests]*" 
         -target:"c:\Program Files\dotnet\dotnet.exe" 
-        -targetargs:"test -c Release --no-build --no-restore --framework netcoreapp2.1 test" 
+        -targetargs:"test -c Debug --no-build --no-restore --framework netcoreapp2.1 test" 
         -output:coverage.xml  
         -mergeoutput 
         -hideskipped:File 

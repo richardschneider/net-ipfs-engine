@@ -63,7 +63,6 @@ after_test:
         -target:"c:\Program Files\dotnet\dotnet.exe" 
         -targetargs:"test -c Debug --no-build --no-restore --framework netcoreapp2.1 test" 
         -output:coverage.xml  
-        -mergeoutput 
         -hideskipped:File 
         -oldStyle 
     - if defined COVERALLS_REPO_TOKEN 

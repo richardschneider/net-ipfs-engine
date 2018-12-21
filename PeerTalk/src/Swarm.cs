@@ -577,6 +577,7 @@ namespace PeerTalk
             remote.ConnectedAddress = addr;
             var connection = new PeerConnection
             {
+                IsIncoming = false,
                 LocalPeer = LocalPeer,
                 // TODO: LocalAddress
                 LocalPeerKey = LocalPeerKey,
@@ -746,6 +747,7 @@ namespace PeerTalk
 
             var connection = new PeerConnection
             {
+                IsIncoming = true,
                 LocalPeer = LocalPeer,
                 LocalAddress = local,
                 LocalPeerKey = LocalPeerKey,

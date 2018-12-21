@@ -54,6 +54,15 @@ namespace PeerTalk
         public Key LocalPeerKey { get; set; }
 
         /// <summary>
+        ///   Determine which peer (local or remote) initiated the connection.
+        /// </summary>
+        /// <value>
+        ///   <b>true</b> if the <see cref="RemotePeer"/> initiated the connection;
+        ///   otherwise, <b>false</b>.
+        /// </value>
+        public bool IsIncoming { get; set; }
+
+        /// <summary>
         ///   The duplex stream between the two peers.
         /// </summary>
         public Stream Stream

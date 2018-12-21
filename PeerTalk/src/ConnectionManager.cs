@@ -100,16 +100,30 @@ namespace PeerTalk
         /// </remarks>
         public PeerConnection Add(PeerConnection connection)
         {
-            if (TryGet(Key(connection.RemotePeer), out PeerConnection existing))
+            if (connections.TryGetValue(Key(connection.RemotePeer), out PeerConnection existing))
             {
-                if (connection != existing)
+                // If the same connection.
+                if (connection == existing)
+                {
+                    return connection;
+                }
+
+                // If existing is dead, then use current connection.
+                if (existing.Stream == null || !existing.Stream.CanRead || !existing.Stream.CanWrite)
+                {
+                    var address = connection.RemotePeer.ConnectedAddress;
+                    Remove(existing);
+                    connection.RemotePeer.ConnectedAddress = address;
+                    // fall thru to add logic
+                }
+                else
                 {
                     var address = existing.RemotePeer.ConnectedAddress;
                     log.Debug($"duplicate {connection.RemoteAddress}, keeping {existing.RemoteAddress}");
                     connection.Dispose();
                     existing.RemotePeer.ConnectedAddress = address;
+                    return existing;
                 }
-                return existing;
             }
 
             if (!connections.TryAdd(Key(connection.RemotePeer), connection))

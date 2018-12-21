@@ -71,6 +71,9 @@ namespace Ipfs.Engine
             {
                 var local = await ipfs.LocalPeer;
                 var remote = await ipfsOther.LocalPeer;
+                Console.WriteLine($"this at {local.Addresses.First()}");
+                Console.WriteLine($"othr at {remote.Addresses.First()}");
+
                 var data = Guid.NewGuid().ToByteArray();
                 var cid = new Cid { Hash = MultiHash.ComputeHash(data) };
                 var _ = ipfs.Block.GetAsync(cid);
@@ -178,13 +181,21 @@ namespace Ipfs.Engine
         {
             var block = new DagNode(Encoding.UTF8.GetBytes("BitswapApiTest unknown block"));
 
-            var cts = new CancellationTokenSource(300);
-            ExceptionAssert.Throws<TaskCanceledException>(() =>
+            await ipfs.StartAsync();
+            try
             {
-                var _ = ipfs.Bitswap.GetAsync(block.Id, cts.Token).Result;
-            });
+                var cts = new CancellationTokenSource(300);
+                ExceptionAssert.Throws<TaskCanceledException>(() =>
+                {
+                    var _ = ipfs.Bitswap.GetAsync(block.Id, cts.Token).Result;
+                });
 
-            Assert.AreEqual(0, (await ipfs.Bitswap.WantsAsync()).Count());
+                Assert.AreEqual(0, (await ipfs.Bitswap.WantsAsync()).Count());
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
         }
 
     }

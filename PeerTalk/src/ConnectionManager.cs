@@ -100,6 +100,13 @@ namespace PeerTalk
         /// </remarks>
         public PeerConnection Add(PeerConnection connection)
         {
+            if (connection == null)
+                throw new ArgumentNullException("connection");
+            if (connection.RemotePeer == null)
+                throw new ArgumentNullException("connection.RemotePeer");
+            if (connection.RemotePeer.Id == null)
+                throw new ArgumentNullException("connection.RemotePeer.Id");
+
             connections.AddOrUpdate(
                 Key(connection.RemotePeer),
                 (key) => new List<PeerConnection> { connection },
@@ -137,23 +144,25 @@ namespace PeerTalk
                 return false;
             }
 
+            if (!connections.TryGetValue(Key(connection.RemotePeer), out List<PeerConnection> originalConns))
+            {
+                connection.Dispose();
+                return false;
+            }
+            if (!originalConns.Contains(connection))
+            {
+                connection.Dispose();
+                return false;
+            }
 
-            if (!connections.TryGetValue(Key(connection.RemotePeer), out List<PeerConnection> conns))
-            {
-                connection.Dispose();
-                return false;
-            }
-            if (!conns.Contains(connection))
-            {
-                connection.Dispose();
-                return false;
-            }
+            var newConns = new List<PeerConnection>();
+            newConns.AddRange(originalConns.Where(c => c != connection));
+            connections.TryUpdate(Key(connection.RemotePeer), newConns, originalConns);
 
             connection.Dispose();
-            conns.Remove(connection);
-            if (conns.Count > 0)
+            if (newConns.Count > 0)
             {
-                var last = conns.Last();
+                var last = newConns.Last();
                 last.RemotePeer.ConnectedAddress = last.RemoteAddress;
             }
             return true;

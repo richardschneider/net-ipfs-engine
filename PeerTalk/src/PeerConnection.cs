@@ -327,47 +327,47 @@ namespace PeerTalk
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (disposedValue)
+                return;
+            disposedValue = true;
+
+            if (disposing)
             {
-                if (disposing)
+                log.Debug($"Closing connection to {RemoteAddress}");
+                if (Stream != null)
                 {
-                    log.Debug($"Closing connection to {RemoteAddress}");
-                    if (Stream != null)
+                    try
                     {
-                        try
-                        {
-                            Stream.Dispose();
-                        }
-                        catch (ObjectDisposedException)
-                        {
-                            // ignore stream already closed.
-                        }
-                        catch (Exception e)
-                        {
-                            log.Warn($"Failed to close connection to {RemoteAddress}", e);
-                            // eat it.
-                        }
-                        finally
-                        {
-                            Stream = null;
-                            statsStream = null;
-                        }
+                        Stream.Dispose();
                     }
-                    if (RemotePeer != null && RemotePeer.ConnectedAddress == RemoteAddress)
+                    catch (ObjectDisposedException)
                     {
-                        RemotePeer.ConnectedAddress = null;
+                        // ignore stream already closed.
                     }
-                    SecurityEstablished.TrySetCanceled();
-                    IdentityEstablished.TrySetCanceled();
-                    IdentityEstablished.TrySetCanceled();
-                    Closed?.Invoke(this, this);
+                    catch (Exception e)
+                    {
+                        log.Warn($"Failed to close connection to {RemoteAddress}", e);
+                        // eat it.
+                    }
+                    finally
+                    {
+                        Stream = null;
+                        statsStream = null;
+                    }
                 }
-
-                // free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // set large fields to null.
-
-                disposedValue = true;
+                if (RemotePeer != null && RemotePeer.ConnectedAddress == RemoteAddress)
+                {
+                    RemotePeer.ConnectedAddress = null;
+                }
+                SecurityEstablished.TrySetCanceled();
+                IdentityEstablished.TrySetCanceled();
+                IdentityEstablished.TrySetCanceled();
+                Closed?.Invoke(this, this);
             }
+
+            // free unmanaged resources (unmanaged objects) and override a finalizer below.
+            // set large fields to null.
+
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.

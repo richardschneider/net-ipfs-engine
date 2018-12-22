@@ -26,14 +26,17 @@ namespace PeerTalk
         /// <summary>
         ///   The connections to other peers. Key is the base58 hash of the peer ID.
         /// </summary>
-        ConcurrentDictionary<string, PeerConnection> connections = new ConcurrentDictionary<string, PeerConnection>();
+        ConcurrentDictionary<string, List<PeerConnection>> connections = new ConcurrentDictionary<string, List<PeerConnection>>();
 
         string Key(Peer peer) => peer.Id.ToBase58();
+        string Key(MultiHash id) => id.ToBase58();
 
         /// <summary>
         ///   Gets the current connections.
         /// </summary>
-        public IEnumerable<PeerConnection> Connections => connections.Values;
+        public IEnumerable<PeerConnection> Connections => connections.Values
+            .SelectMany(c => c)
+            .Where(c => c.Stream != null && c.Stream.CanRead && c.Stream.CanWrite);
 
         /// <summary>
         ///   Determines if a connection exists to the specified peer.
@@ -68,20 +71,17 @@ namespace PeerTalk
         /// </remarks>
         public bool TryGet(Peer peer, out PeerConnection connection)
         {
-            if (!connections.TryGetValue(Key(peer), out connection))
+            connection = null;
+            if (!connections.TryGetValue(Key(peer), out List<PeerConnection> conns))
             {
                 return false;
             }
 
-            // Is nolonger active.
-            if (connection.Stream == null || !connection.Stream.CanRead || !connection.Stream.CanWrite)
-            {
-                Remove(connection);
-                connection = null;
-                return false;
-            }
+            connection = conns
+                .Where(c => c.Stream != null && c.Stream.CanRead && c.Stream.CanWrite)
+                .FirstOrDefault();
 
-            return true;
+            return connection != null;
         }
 
         /// <summary>
@@ -100,39 +100,20 @@ namespace PeerTalk
         /// </remarks>
         public PeerConnection Add(PeerConnection connection)
         {
-            if (connections.TryGetValue(Key(connection.RemotePeer), out PeerConnection existing))
-            {
-                // If the same connection.
-                if (connection == existing)
+            connections.AddOrUpdate(
+                Key(connection.RemotePeer),
+                (key) => new List<PeerConnection> { connection },
+                (key, conns) =>
                 {
-                    return connection;
+                    if (!conns.Contains(connection))
+                    {
+                        conns.Add(connection);
+                    }
+                    return conns;
                 }
+            );
 
-                // If existing is dead, then use current connection.
-                if (existing.Stream == null || !existing.Stream.CanRead || !existing.Stream.CanWrite)
-                {
-                    var address = connection.RemotePeer.ConnectedAddress;
-                    Remove(existing);
-                    connection.RemotePeer.ConnectedAddress = address;
-                    // fall thru to add logic
-                }
-                else
-                {
-                    var address = existing.RemotePeer.ConnectedAddress;
-                    log.Debug($"duplicate {connection.RemoteAddress}, keeping {existing.RemoteAddress}");
-                    connection.Dispose();
-                    existing.RemotePeer.ConnectedAddress = address;
-                    return existing;
-                }
-            }
-
-            if (!connections.TryAdd(Key(connection.RemotePeer), connection))
-            {
-                // This case should not happen.
-                connection.Dispose();
-                return connections[Key(connection.RemotePeer)];
-            }
-
+            connection.Closed += (s, e) => Remove(e);
             return connection;
         }
 
@@ -156,29 +137,30 @@ namespace PeerTalk
                 return false;
             }
 
-            var q = connections.TryRemove(Key(connection.RemotePeer), out PeerConnection _);
+
+            if (!connections.TryGetValue(Key(connection.RemotePeer), out List<PeerConnection> conns))
+            {
+                connection.Dispose();
+                return false;
+            }
+            if (!conns.Contains(connection))
+            {
+                connection.Dispose();
+                return false;
+            }
+
             connection.Dispose();
-
-            return q;
+            conns.Remove(connection);
+            if (conns.Count > 0)
+            {
+                var last = conns.Last();
+                last.RemotePeer.ConnectedAddress = last.RemoteAddress;
+            }
+            return true;
         }
 
         /// <summary>
-        ///   Remove the connection to the peer.
-        /// </summary>
-        /// <param name="peer">
-        ///   The peer to remove.
-        /// </param>
-        /// <returns>
-        ///   <b>true</b> if a connection was removed; otherwise, <b>false</b>.
-        /// </returns>
-        public bool Remove(Peer peer)
-        {
-            var connection = connections.Values.FirstOrDefault(c => c.RemotePeer.Id == peer.Id);
-            return Remove(connection);
-        }
-
-        /// <summary>
-        ///   Remove the connection to the peer ID.
+        ///   Remove and close all connection tos the peer ID.
         /// </summary>
         /// <param name="id">
         ///   The ID of a <see cref="Peer"/> to remove.
@@ -188,8 +170,15 @@ namespace PeerTalk
         /// </returns>
         public bool Remove(MultiHash id)
         {
-            var connection = connections.Values.FirstOrDefault(c => c.RemotePeer.Id == id);
-            return Remove(connection);
+            if (!connections.TryRemove(Key(id), out List<PeerConnection> conns))
+            {
+                return false;
+            }
+            foreach (var conn in conns)
+            {
+                conn.Dispose();
+            }
+            return true;
         }
 
         /// <summary>
@@ -197,12 +186,10 @@ namespace PeerTalk
         /// </summary>
         public void Clear()
         {
-
-            for (var connection = connections.Values.LastOrDefault(); 
-                connection != null; 
-                connection = connections.Values.LastOrDefault())
+            var conns = connections.Values.SelectMany(c => c).ToArray();
+            foreach (var conn in conns)
             {
-                Remove(connection);
+                Remove(conn);
             }
         }
     }

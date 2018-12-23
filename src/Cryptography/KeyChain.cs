@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ namespace Ipfs.Engine.Cryptography
     /// <summary>
     ///   A secure key chain.
     /// </summary>
-    public class KeyChain : Ipfs.CoreApi.IKeyApi
+    public partial class KeyChain : Ipfs.CoreApi.IKeyApi
     {
         static ILog log = LogManager.GetLogger(typeof(KeyChain));
 

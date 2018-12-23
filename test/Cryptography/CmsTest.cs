@@ -35,9 +35,12 @@ cn4oisOvxCprs4aM9UVjtZTCjfyNpX8UWwT1W3rySV+KQNhxuMy3RzmL
 -----END ENCRYPTED PRIVATE KEY-----
 ";
             var key = await keychain.ImportAsync("alice", alice, "mypassword".ToArray());
-            Assert.AreEqual(aliceKid, key.Id);
+            try
+            {
 
-            var cipher = Convert.FromBase64String(@"
+                Assert.AreEqual(aliceKid, key.Id);
+
+                var cipher = Convert.FromBase64String(@"
 MIIBcwYJKoZIhvcNAQcDoIIBZDCCAWACAQAxgfowgfcCAQAwYDBbMQ0wCwYDVQQK
 EwRpcGZzMREwDwYDVQQLEwhrZXlzdG9yZTE3MDUGA1UEAxMuUW1OekJxUHdwNDJI
 WkpjY3NMdGM0b2s2TGpaQXNwY2tnczJkdTV0VG1qUGZGQQIBATANBgkqhkiG9w0B
@@ -47,9 +50,14 @@ knU1yykWGkdlbclCuu0NaAfmb8o0OX50CbEKZB7xmsv8tnqn0H0jMF4GCSqGSIb3
 DQEHATAdBglghkgBZQMEASoEEP/PW1JWehQx6/dsLkp/Mf+gMgQwFM9liLTqC56B
 nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
 ");
-            var plain = await keychain.ReadProtectedData(cipher);
-            var plainText = Encoding.UTF8.GetString(plain);
-            Assert.AreEqual("This is a message from Alice to Bob", plainText);
+                var plain = await keychain.ReadProtectedData(cipher);
+                var plainText = Encoding.UTF8.GetString(plain);
+                Assert.AreEqual("This is a message from Alice to Bob", plainText);
+            }
+            finally
+            {
+                await ipfs.Key.RemoveAsync("alice");
+            }
         }
 
         [TestMethod]

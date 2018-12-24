@@ -34,12 +34,19 @@ namespace Ipfs.Engine.Cryptography
         ///   is used to digitally sign, digest, authenticate, and/or encrypt
         ///   arbitrary message content.
         /// </remarks>
-        public Task<byte[]> CreateProtectedData(
+        public async Task<byte[]> CreateProtectedData(
             string keyName, 
             byte[] plainText, 
             CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var edGen = new CmsEnvelopedDataGenerator();
+            var cert = await CreateBCCertificateAsync(keyName, cancel);
+            edGen.AddKeyTransRecipient(cert);
+
+            var ed = edGen.Generate(
+                new CmsProcessableByteArray(plainText),
+                CmsEnvelopedDataGenerator.Aes256Cbc);
+            return ed.GetEncoded();
         }
 
         /// <summary>

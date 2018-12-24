@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,5 +81,66 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
                 var plain = keychain.ReadProtectedData(cipher).Result;
             });
         }
+
+        [TestMethod]
+        public async Task CreateCms_Rsa()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var keychain = await ipfs.KeyChain();
+            var key = await ipfs.Key.CreateAsync("alice", "rsa", 512);
+            try
+            {
+                var data = new byte[] { 1, 2, 3, 4 };
+                var cipher = await keychain.CreateProtectedData("alice", data);
+                var plain = await keychain.ReadProtectedData(cipher);
+                CollectionAssert.AreEqual(data, plain);
+            }
+            finally
+            {
+                await ipfs.Key.RemoveAsync("alice");
+            }
+        }
+
+        [TestMethod]
+        [Ignore("NYI")]
+        public async Task CreateCms_Secp256k1()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var keychain = await ipfs.KeyChain();
+            var key = await ipfs.Key.CreateAsync("alice", "secp256k1", 0);
+            try
+            {
+                var data = new byte[] { 1, 2, 3, 4 };
+                var cipher = await keychain.CreateProtectedData("alice", data);
+                File.WriteAllBytes(@"\tmp\secp256k1.cms", cipher);
+                var plain = await keychain.ReadProtectedData(cipher);
+                CollectionAssert.AreEqual(data, plain);
+            }
+            finally
+            {
+                await ipfs.Key.RemoveAsync("alice");
+            }
+        }
+
+        [TestMethod]
+        [Ignore("NYI")]
+        public async Task CreateCms_Ed25519()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var keychain = await ipfs.KeyChain();
+            var key = await ipfs.Key.CreateAsync("alice", "ed25519", 0);
+            try
+            {
+                var data = new byte[] { 1, 2, 3, 4 };
+                var cipher = await keychain.CreateProtectedData("alice", data);
+                var plain = await keychain.ReadProtectedData(cipher);
+                CollectionAssert.AreEqual(data, plain);
+            }
+            finally
+            {
+                await ipfs.Key.RemoveAsync("alice");
+            }
+        }
+
     }
 }

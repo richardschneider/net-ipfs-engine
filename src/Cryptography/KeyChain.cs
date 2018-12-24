@@ -156,6 +156,7 @@ namespace Ipfs.Engine.Cryptography
         /// <seealso href="https://tools.ietf.org/html/rfc5280#section-4.1.2.7"/>
         public async Task<string> GetPublicKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
+            // TODO: Rename to GetIpfsPublicKeyAsync
             string result = null;
             var ekey = await Store.TryGetAsync(name, cancel);
             if (ekey != null)

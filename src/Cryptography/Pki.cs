@@ -55,7 +55,9 @@ namespace Ipfs.Engine.Cryptography
             });
 
             // A signer for the key.
-            var ku = new KeyUsage(KeyUsage.DigitalSignature | KeyUsage.DataEncipherment);
+            var ku = new KeyUsage(KeyUsage.DigitalSignature 
+                | KeyUsage.DataEncipherment
+                | KeyUsage.KeyEncipherment);
             ISignatureFactory signatureFactory = null;
             if (kp.Private is ECPrivateKeyParameters)
             {
@@ -99,22 +101,8 @@ namespace Ipfs.Engine.Cryptography
             certGenerator.AddExtension(X509Extensions.BasicConstraints.Id, true, bc);
             certGenerator.AddExtension(X509Extensions.KeyUsage.Id, false, ku);
 
-            var cert =  certGenerator.Generate(signatureFactory);
-            ValidateSelfSignedCert(cert, kp.Public);
-            return cert;
+            return certGenerator.Generate(signatureFactory);
         }
 
-        static void ValidateSelfSignedCert(X509Certificate cert, ICipherParameters pubKey)
-        {
-            cert.CheckValidity(DateTime.UtcNow);
-            var tbsCert = cert.GetTbsCertificate();
-            var sig = cert.GetSignature();
-
-            var signer = SignerUtilities.GetSigner(cert.SigAlgName);
-            signer.Init(false, pubKey);
-            signer.BlockUpdate(tbsCert, 0, tbsCert.Length);
-            if (!signer.VerifySignature(sig))
-                throw new Exception("Invalid signature");
-        }
     }
 }

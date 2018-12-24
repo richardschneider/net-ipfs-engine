@@ -20,7 +20,6 @@ namespace Ipfs.Engine.Cryptography
             try
             {
                 var cert = await keychain.CreateCertificateAsync("alice");
-                File.WriteAllBytes(@"\tmp\alice-rsa.cer", cert);
             }
             finally
             {
@@ -37,7 +36,6 @@ namespace Ipfs.Engine.Cryptography
             try
             {
                 var cert = await keychain.CreateCertificateAsync("alice");
-                File.WriteAllBytes(@"\tmp\alice-secp256k1.cer", cert);
             }
             finally
             {
@@ -54,7 +52,6 @@ namespace Ipfs.Engine.Cryptography
             try
             {
                 var cert = await keychain.CreateCertificateAsync("alice");
-                File.WriteAllBytes(@"\tmp\alice-ed25519.cer", cert);
             }
             finally
             {

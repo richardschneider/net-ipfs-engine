@@ -225,7 +225,7 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
             await ipfs.Key.RemoveAsync("ob1");
             var key = await ipfs.Key.ImportAsync("ob1", pem);
             Assert.AreEqual("ob1", key.Name);
-            Assert.AreEqual("QmdLk1BNDtW61fsyKyNkqjqzvW979TuC4urcP5Hb3P6qvq", key.Id);
+            Assert.AreEqual("QmUUYGCaT2eYDH8RT7dJSM9zMexZGEnf6fMUy6nD9C31xZ", key.Id);
 
             var keychain = await ipfs.KeyChain();
             var privateKey = await keychain.GetPrivateKeyAsync("ob1");

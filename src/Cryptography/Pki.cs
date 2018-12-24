@@ -60,7 +60,7 @@ namespace Ipfs.Engine.Cryptography
             if (kp.Private is ECPrivateKeyParameters)
             {
                 signatureFactory = new Asn1SignatureFactory(
-                    X9ObjectIdentifiers.ECDsaWithSha512.ToString(),
+                    X9ObjectIdentifiers.ECDsaWithSha256.ToString(),
                     kp.Private);
             }
             else if (kp.Private is RsaPrivateCrtKeyParameters)

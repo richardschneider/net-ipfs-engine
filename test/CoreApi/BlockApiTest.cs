@@ -27,6 +27,16 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public void Put_Bytes_TooBig()
+        {
+            var data = new byte[ipfs.Options.Block.MaxBlockSize + 1];
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                var cid = ipfs.Block.PutAsync(data).Result;
+            });
+        }
+
+        [TestMethod]
         public void Put_Bytes_ContentType()
         {
             var cid = ipfs.Block.PutAsync(blob, contentType: "raw").Result;

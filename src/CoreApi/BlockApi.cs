@@ -163,6 +163,11 @@ namespace Ipfs.Engine.CoreApi
             bool pin = false,
             CancellationToken cancel = default(CancellationToken))
         {
+            if (data.Length > ipfs.Options.Block.MaxBlockSize)
+            {
+                throw new ArgumentOutOfRangeException("data.Length", $"Block length can not exceed { ipfs.Options.Block.MaxBlockSize}.");
+            }
+
             // Small enough for an inline CID?
             if (ipfs.Options.Block.AllowInlineCid && data.Length <= ipfs.Options.Block.InlineCidLimit)
             {

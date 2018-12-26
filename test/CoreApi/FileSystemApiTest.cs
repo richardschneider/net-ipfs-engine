@@ -453,6 +453,31 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Read_ProtectedMissingKey()
+        {
+            var text = "hello world";
+            var ipfs = TestFixture.Ipfs;
+            var key = await ipfs.Key.CreateAsync("alice", "rsa", 512);
+            try
+            {
+                var options = new AddFileOptions { ProtectionKey = key.Name };
+                var node = await ipfs.FileSystem.AddTextAsync(text, options);
+                Assert.AreEqual(text, await ipfs.FileSystem.ReadAllTextAsync(node.Id));
+
+                await ipfs.Key.RemoveAsync(key.Name);
+                ExceptionAssert.Throws<KeyNotFoundException>(() =>
+                {
+                    var _ = ipfs.FileSystem.ReadAllTextAsync(node.Id).Result;
+                });
+            }
+            finally  
+            {
+                await ipfs.Key.RemoveAsync(key.Name);
+            }
+
+        }
+
+        [TestMethod]
         public void AddDirectory()
         {
             var ipfs = TestFixture.Ipfs;

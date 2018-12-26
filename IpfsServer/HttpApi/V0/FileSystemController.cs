@@ -209,7 +209,8 @@ namespace Ipfs.Server.HttpApi.V0
             bool pin = false,
             [ModelBinder(Name = "raw-leaves")] bool rawLeaves = false,
             bool trickle = false,
-            [ModelBinder(Name = "wrap-with-directory")] bool wrap = false
+            [ModelBinder(Name = "wrap-with-directory")] bool wrap = false,
+            string protect = null
             )
         {
             if (file == null)
@@ -223,7 +224,8 @@ namespace Ipfs.Server.HttpApi.V0
                 Pin = pin,
                 RawLeaves = rawLeaves,
                 Trickle = trickle,
-                Wrap = wrap
+                Wrap = wrap,
+                ProtectionKey = protect
             };
             if (chunker != null)
             {

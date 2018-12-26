@@ -263,6 +263,40 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Add_Protected()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ProtectionKey = "self"
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            Assert.AreEqual("cms", node.Id.ContentType);
+            Assert.AreEqual(0, node.Links.Count());
+            Assert.AreEqual(false, node.IsDirectory);
+
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            Assert.AreEqual("hello world", text);
+        }
+
+        [TestMethod]
+        public async Task Add_Protected_Chunked()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ProtectionKey = "self",
+                ChunkSize = 3
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            Assert.AreEqual(4, node.Links.Count());
+            Assert.AreEqual(false, node.IsDirectory);
+
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            Assert.AreEqual("hello world", text);
+        }
+
+        [TestMethod]
         public async Task Add_OnlyHash()
         {
             var ipfs = TestFixture.Ipfs;
@@ -363,6 +397,57 @@ namespace Ipfs.Engine
                 {
                     var s = reader.ReadToEnd();
                     Assert.AreEqual(text.Substring(0, Math.Min(11, length)), s, $"l={length}");
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task Read_ProtectedWithLength()
+        {
+            var text = "hello world";
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ProtectionKey = "self"
+            };
+            var node = await ipfs.FileSystem.AddTextAsync(text, options);
+
+            for (var offset = 0; offset < text.Length; ++offset)
+            {
+                for (var length = text.Length + 1; 0 < length; --length)
+                {
+                    using (var data = await ipfs.FileSystem.ReadFileAsync(node.Id, offset, length))
+                    using (var reader = new StreamReader(data))
+                    {
+                        var s = reader.ReadToEnd();
+                        Assert.AreEqual(text.Substring(offset, Math.Min(11 - offset, length)), s, $"o={offset} l={length}");
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task Read_ProtectedChunkedWithLength()
+        {
+            var text = "hello world";
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ChunkSize = 3,
+                ProtectionKey = "self"
+            };
+            var node = await ipfs.FileSystem.AddTextAsync(text, options);
+
+            for (var offset = 0; offset < text.Length; ++offset)
+            {
+                for (var length = text.Length + 1; 0 < length; --length)
+                {
+                    using (var data = await ipfs.FileSystem.ReadFileAsync(node.Id, offset, length))
+                    using (var reader = new StreamReader(data))
+                    {
+                        var s = reader.ReadToEnd();
+                        Assert.AreEqual(text.Substring(offset, Math.Min(11 - offset, length)), s, $"o={offset} l={length}");
+                    }
                 }
             }
         }

@@ -25,6 +25,7 @@ namespace Ipfs.Engine.Cryptography
         /// <param name="keyName">
         ///   The key name.
         /// </param>
+        /// <param name="cancel"></param>
         /// <returns></returns>
         public async Task<byte[]> CreateCertificateAsync(
             string keyName, 
@@ -42,7 +43,9 @@ namespace Ipfs.Engine.Cryptography
         /// </param>
         /// <param name="cancel"></param>
         /// <returns></returns>
-        async Task<X509Certificate> CreateBCCertificateAsync(string keyName, CancellationToken cancel)
+        public async Task<X509Certificate> CreateBCCertificateAsync(
+            string keyName,
+            CancellationToken cancel = default(CancellationToken))
         {
             // Get the BC key pair for the named key.
             var ekey = await Store.TryGetAsync(keyName, cancel);
@@ -85,7 +88,7 @@ namespace Ipfs.Engine.Cryptography
 
             // Build the certificate.
             var dn = new X509Name($"CN={ekey.Id}, OU=keystore, O=ipfs");
-            var ski = new SubjectKeyIdentifier(SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(kp.Public));
+            var ski = new SubjectKeyIdentifier(Base58.Decode(ekey.Id));
             // Not a certificate authority.
             // TODO: perhaps the "self" key is a CA and all other keys issued by it.
             var bc = new BasicConstraints(false);
@@ -97,9 +100,9 @@ namespace Ipfs.Engine.Cryptography
             certGenerator.SetNotAfter(DateTime.UtcNow.AddYears(10));
             certGenerator.SetNotBefore(DateTime.UtcNow);
             certGenerator.SetPublicKey(kp.Public);
-            certGenerator.AddExtension(X509Extensions.SubjectKeyIdentifier.Id, false, ski);
-            certGenerator.AddExtension(X509Extensions.BasicConstraints.Id, true, bc);
-            certGenerator.AddExtension(X509Extensions.KeyUsage.Id, false, ku);
+            certGenerator.AddExtension(X509Extensions.SubjectKeyIdentifier, false, ski);
+            certGenerator.AddExtension(X509Extensions.BasicConstraints, true, bc);
+            certGenerator.AddExtension(X509Extensions.KeyUsage, false, ku);
 
             return certGenerator.Generate(signatureFactory);
         }

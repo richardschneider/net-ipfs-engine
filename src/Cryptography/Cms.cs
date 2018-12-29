@@ -1,7 +1,10 @@
-﻿using Org.BouncyCastle.Asn1.X509;
+﻿using Org.BouncyCastle.Asn1.Cms;
+using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Cms;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -39,10 +42,22 @@ namespace Ipfs.Engine.Cryptography
             byte[] plainText, 
             CancellationToken cancel = default(CancellationToken))
         {
-            var edGen = new CmsEnvelopedDataGenerator();
-            var cert = await CreateBCCertificateAsync(keyName, cancel);
-            edGen.AddKeyTransRecipient(cert);
+            // Identify the recipient by the Subject Key ID.
 
+            // TODO: Need a method to just the get BC public key
+            // Get the BC key pair for the named key.
+            var ekey = await Store.TryGetAsync(keyName, cancel);
+            if (ekey == null)
+                throw new KeyNotFoundException($"The key '{keyName}' does not exist.");
+            AsymmetricCipherKeyPair kp = null;
+            UseEncryptedKey(ekey, key =>
+            {
+                kp = this.GetKeyPairFromPrivateKey(key);
+            });
+
+            // Generate the protected data.
+            var edGen = new CmsEnvelopedDataGenerator();
+            edGen.AddKeyTransRecipient(kp.Public, Base58.Decode(ekey.Id));
             var ed = edGen.Generate(
                 new CmsProcessableByteArray(plainText),
                 CmsEnvelopedDataGenerator.Aes256Cbc);
@@ -84,14 +99,12 @@ namespace Ipfs.Engine.Cryptography
             var recipient = cms
                 .GetRecipientInfos()
                 .GetRecipients()
-                .OfType<KeyTransRecipientInformation>()
-                .Where(r => r.RecipientID.Issuer.GetValueList(X509Name.OU).Contains("keystore"))
-                .Where(r => r.RecipientID.Issuer.GetValueList(X509Name.O).Contains("ipfs"))
-                .Select(r =>
+                .OfType<RecipientInformation>()
+                .Select(ri =>
                 {
-                    var keyId = r.RecipientID.Issuer.GetValueList(X509Name.CN)[0] as string;
-                    var key = knownKeys.FirstOrDefault(k => k.Id == keyId);
-                    return new { recipient = r, key = key };
+                    var kid = GetKeyId(ri);
+                    var key = knownKeys.FirstOrDefault(k => k.Id == kid);
+                    return new { recipient = ri, key = key };
                 })
                 .FirstOrDefault(r => r.key != null);
             if (recipient == null)
@@ -100,6 +113,52 @@ namespace Ipfs.Engine.Cryptography
             // Decrypt the contents.
             var decryptionKey = await GetPrivateKeyAsync(recipient.key.Name);
             return recipient.recipient.GetContent(decryptionKey);
+        }
+
+        /// <summary>
+        ///   Get the key ID for a recipient.
+        /// </summary>
+        /// <param name="ri">
+        ///   A recepient of the message.
+        /// </param>
+        /// <returns>
+        ///   The key ID of the recepient or <b>null</b> if the recepient info
+        ///   is not understood or does not contain an IPFS key id.
+        /// </returns>
+        /// <remarks>
+        ///   The receipient inforomation has many formats; currently only
+        ///   the key transport (ktri) form is supported.  The key ID
+        ///   is either the Subject Key Identifier (preferred) or the
+        ///   issuer's distinguished name with the form "CN=&lt;kid>,OU=keystore,O=ipfs".
+        /// </remarks>
+        MultiHash GetKeyId(RecipientInformation ri)
+        {
+            // Any errors are simply ignored.
+            try
+            {
+                if (ri is KeyTransRecipientInformation ktri)
+                {
+                    // Subject Key Identifier is the key ID.
+                    if (ktri.RecipientID.SubjectKeyIdentifier is byte[] ski)
+                        return new MultiHash(ski);
+
+                    // Issuer is CN=<kid>,OU=keystore,O=ipfs
+                    var issuer = ktri.RecipientID.Issuer;
+                    if (issuer != null
+                        && issuer.GetValueList(X509Name.OU).Contains("keystore")
+                        && issuer.GetValueList(X509Name.O).Contains("ipfs"))
+                    {
+                        var cn = issuer.GetValueList(X509Name.CN)[0] as string;
+                        return new MultiHash(cn);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                log.Warn("Failed reading CMS recipient info.", e);
+            }
+
+            return null;
         }
 
     }

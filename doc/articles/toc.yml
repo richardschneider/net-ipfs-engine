@@ -11,6 +11,17 @@
   href: core-api.md
 - name: File System
   href: filesystem.md
+  items:
+    - name: CID only
+      href: fs/cid-only.md
+    - name: Encryption
+      href: fs/encryption.md
+    - name: Raw Leaves
+      href: fs/raw.md
+    - name: Wrapping
+      href: fs/wrap.md
+    - name: Format
+      href: fs/format.md
 - name: Repository
   href: repository.md
   items:

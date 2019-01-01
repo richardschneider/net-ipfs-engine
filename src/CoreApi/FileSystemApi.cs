@@ -57,10 +57,12 @@ namespace Ipfs.Engine.CoreApi
 
             // TODO: various options
             if (options.Trickle) throw new NotImplementedException("Trickle");
+
             var blockService = GetBlockService(options);
+            var keyChain = await ipfs.KeyChain(cancel);
 
             var chunker = new SizeChunker();
-            var nodes = await chunker.ChunkAsync(stream, options, blockService, cancel);
+            var nodes = await chunker.ChunkAsync(stream, options, blockService, keyChain, cancel);
 
             // Multiple nodes for the file?
             FileSystemNode node = null;
@@ -220,7 +222,8 @@ namespace Ipfs.Engine.CoreApi
         public async Task<Stream> ReadFileAsync(string path, CancellationToken cancel = default(CancellationToken))
         {
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
-            return await FileSystem.CreateReadStream(cid, ipfs.Block, cancel);
+            var keyChain = await ipfs.KeyChain(cancel);
+            return await FileSystem.CreateReadStream(cid, ipfs.Block, keyChain, cancel);
         }
 
         public async Task<Stream> ReadFileAsync(string path, long offset, long count = 0, CancellationToken cancel = default(CancellationToken))

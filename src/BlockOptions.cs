@@ -33,5 +33,13 @@ namespace Ipfs.Engine
         ///   Defaults to 64.
         /// </value>
         public int InlineCidLimit { get; set; } = 64;
+
+        /// <summary>
+        ///   The maximun length of data block.
+        /// </summary>
+        /// <value>
+        /// </value>
+        ///   1MB (1024 * 1024)
+        public int MaxBlockSize { get; } = 1024 * 1024;
     }
 }

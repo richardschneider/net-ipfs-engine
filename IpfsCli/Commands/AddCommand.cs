@@ -44,6 +44,9 @@ namespace Ipfs.Cli
         [Option("-r|--recursive", Description = "Add directory paths recursively")]
         public bool Recursive { get; set; }
 
+        [Option("--protect", Description = "protect the data with the key")]
+        public string ProtectionKey { get; set; }
+
         Program Parent { get; set; }
 
         protected override async Task<int> OnExecute(CommandLineApplication app)
@@ -57,7 +60,8 @@ namespace Ipfs.Cli
                 Pin = Pin,
                 RawLeaves = RawLeaves,
                 Trickle = Trickle,
-                Wrap = Wrap
+                Wrap = Wrap,
+                ProtectionKey = ProtectionKey
             };
             IFileSystemNode node;
             if (Directory.Exists(FilePath))

@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ namespace Ipfs.Engine.Cryptography
     /// <summary>
     ///   A secure key chain.
     /// </summary>
-    public class KeyChain : Ipfs.CoreApi.IKeyApi
+    public partial class KeyChain : Ipfs.CoreApi.IKeyApi
     {
         static ILog log = LogManager.GetLogger(typeof(KeyChain));
 
@@ -157,6 +156,7 @@ namespace Ipfs.Engine.Cryptography
         /// <seealso href="https://tools.ietf.org/html/rfc5280#section-4.1.2.7"/>
         public async Task<string> GetPublicKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
+            // TODO: Rename to GetIpfsPublicKeyAsync
             string result = null;
             var ekey = await Store.TryGetAsync(name, cancel);
             if (ekey != null)
@@ -216,12 +216,8 @@ namespace Ipfs.Engine.Cryptography
                     g.Init(new Ed25519KeyGenerationParameters(new SecureRandom()));
                     break;
                 case "secp256k1":
-                    X9ECParameters ecP = ECNamedCurveTable.GetByName(keyType);
-                    if (ecP == null)
-                        throw new Exception("unknown curve name: " + keyType);
-                    var domain = new ECDomainParameters(ecP.Curve, ecP.G, ecP.N, ecP.H, ecP.GetSeed());
                     g = GeneratorUtilities.GetKeyPairGenerator("EC");
-                    g.Init(new ECKeyGenerationParameters(domain, new SecureRandom()));
+                    g.Init(new ECKeyGenerationParameters(SecObjectIdentifiers.SecP256k1, new SecureRandom()));
                     break;
                 default:
                     throw new Exception($"Invalid key type '{keyType}'.");
@@ -435,7 +431,7 @@ namespace Ipfs.Engine.Cryptography
             else if (privateKey is ECPrivateKeyParameters ec)
             {
                 var q = ec.Parameters.G.Multiply(ec.D);
-                var pub = new ECPublicKeyParameters(q, ec.Parameters);
+                var pub = new ECPublicKeyParameters(ec.AlgorithmName, q, ec.PublicKeyParamSet);
                 keyPair = new AsymmetricCipherKeyPair(pub, ec);
             }
             if (keyPair == null)

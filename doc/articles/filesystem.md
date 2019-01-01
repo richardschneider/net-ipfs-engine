@@ -9,15 +9,9 @@ and [Object API](xref:Ipfs.CoreApi.IObjectApi).
 A file has a unique [content id (CID)](xref:Ipfs.Cid) which is the cryptographic hash of the content; see
 [CID concept](https://docs.ipfs.io/guides/concepts/cid/) for background information.  The file's content is not just the file's 
 data but is encapsulated with a [protocol buffer](https://en.wikipedia.org/wiki/Protocol_Buffers) encoding of the 
-[PBNode](https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/merkledag/pb/merkledag.proto#L31-L39) 
+[Merkle DAG](https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/merkledag/pb/merkledag.proto#L31-L39) 
 and [UnixFS Data](https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/unixfs/pb/unixfs.proto#L3-L20).
 
-Where
-- `PBNode.Data` contains unixfs message Data
-- unixfs `Data.Data` contans file's data
-
-When the file's data exceeds the [chunking size](xref:Ipfs.CoreApi.AddFileOptions.ChunkSize), multiple [blocks](xref:Ipfs.CoreApi.IBlockApi) 
-are generated.  The returned CID points to a block that has `PBNode.Links` and no `PBNode.Data`.
 
 ### Adding a file
 
@@ -47,17 +41,3 @@ using (var stream = await ipfs.FileSystem.ReadFileAsyc(path))
 	// Do something with the data
 }
 ```
-
-### Getting a CID
-
-Normally, you get the CID by [adding](xref:Ipfs.CoreApi.IFileSystemApi.AddAsync*) the file to IPFS.  You can avoid adding it 
-to IPFS by using the [OnlyHash option](xref:Ipfs.CoreApi.AddFileOptions.OnlyHash).
-
-```csharp
-var options = new AddFileOptions { OnlyHash = true };
-var fsn = await ipfs.FileSystem.AddTextAsync("hello world", options);
-Console.WriteLine((string)fsn.Id)
-
-// Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD
-```
-

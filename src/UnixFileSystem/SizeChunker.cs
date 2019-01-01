@@ -1,4 +1,5 @@
 ﻿using Ipfs.CoreApi;
+using Ipfs.Engine.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,9 @@ namespace Ipfs.Engine.UnixFileSystem
         /// <param name="blockService">
         ///   The destination for the chunked data block(s).
         /// </param>
+        /// <param name="keyChain">
+        ///   Used to protect the chunked data blocks(s).
+        /// </param>
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
@@ -36,11 +40,13 @@ namespace Ipfs.Engine.UnixFileSystem
         public async Task<IEnumerable<FileSystemNode>> ChunkAsync(
             Stream stream, 
             AddFileOptions options, 
-            IBlockApi blockService, 
+            IBlockApi blockService,
+            KeyChain keyChain,
             CancellationToken cancel)
         {
+            var protecting = !string.IsNullOrWhiteSpace(options.ProtectionKey);
             var nodes = new List<FileSystemNode> ();
-            var chunkSize = options.ChunkSize; // TODO: Upper limit for DOS attacks.
+            var chunkSize = options.ChunkSize;
             var chunk = new byte[chunkSize];
             var chunking = true;
 
@@ -66,7 +72,29 @@ namespace Ipfs.Engine.UnixFileSystem
                     break;
                 }
 
-                if (options.RawLeaves)
+                // if protected data, then get CMS structure.
+                if (protecting)
+                {
+                    // TODO: Inefficent to copy chunk, use ArraySegment in DataMessage.Data
+                    var plain = new byte[length];
+                    Array.Copy(chunk, plain, length);
+                    var cipher = await keyChain.CreateProtectedData(options.ProtectionKey, plain, cancel);
+                    var cid = await blockService.PutAsync(
+                        data: cipher,
+                        contentType: "cms",
+                        multiHash: options.Hash,
+                        encoding: options.Encoding,
+                        pin: options.Pin,
+                        cancel: cancel);
+                    nodes.Add(new FileSystemNode
+                    {
+                        Id = cid,
+                        Size = length,
+                        DagSize = cipher.Length,
+                        Links = FileSystemLink.None
+                    });
+                }
+                else if (options.RawLeaves)
                 {
                     // TODO: Inefficent to copy chunk, use ArraySegment in DataMessage.Data
                     var data = new byte[length];

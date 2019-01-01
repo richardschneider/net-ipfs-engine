@@ -15,7 +15,7 @@ package is published on [NuGet](https://www.nuget.org/packages/Ipfs.Engine).
 ## Related projects
 
 - [IPFS Core](https://github.com/richardschneider/net-ipfs-core)
-- [IPFS API](https://github.com/richardschneider/net-ipfs-api)
+- [IPFS HTTP Client](https://github.com/richardschneider/net-ipfs-http-client)
 
 ## Other implementations
 

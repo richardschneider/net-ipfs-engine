@@ -1,4 +1,5 @@
 ﻿using Ipfs.CoreApi;
+using Ipfs.Engine.Cryptography;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
@@ -32,10 +33,12 @@ namespace Ipfs.Engine.UnixFileSystem
         ///   the specified <see cref="IBlockApi"/> and <see cref="DagNode"/>.
         /// </summary>
         /// <param name="blockService"></param>
+        /// <param name="keyChain"></param>
         /// <param name="dag"></param>
-        public ChunkedStream (IBlockApi blockService, DagNode dag)
+        public ChunkedStream (IBlockApi blockService, KeyChain keyChain, DagNode dag)
         {
             BlockService = blockService;
+            KeyChain = keyChain;
             var links = dag.Links.ToArray();
             var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
             fileSize = (long)dm.FileSize;
@@ -52,6 +55,7 @@ namespace Ipfs.Engine.UnixFileSystem
         }
 
         IBlockApi BlockService { get; set; }
+        KeyChain KeyChain { get; set; }
 
         /// <inheritdoc />
         public override long Length => fileSize;
@@ -125,7 +129,7 @@ namespace Ipfs.Engine.UnixFileSystem
             var need = blocks.Last(b => b.Position <= position);
             if (need != currentBlock)
             {
-                var stream = await FileSystem.CreateReadStream(need.Id, BlockService, cancel);
+                var stream = await FileSystem.CreateReadStream(need.Id, BlockService, KeyChain, cancel);
                 currentBlock = need;
                 currentData = new byte[stream.Length];
                 for (int i = 0, n; i < stream.Length; i += n)

@@ -1,4 +1,5 @@
 ﻿using Ipfs.CoreApi;
+using Ipfs.Engine.Cryptography;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,10 @@ namespace Ipfs.Engine.UnixFileSystem
         ///   The identifier of some content.
         /// </param>
         /// <param name="blockService">
-        ///   The source of cid's data.
+        ///   The source of the cid's data.
+        /// </param>
+        /// <param name="keyChain">
+        ///   Used to decypt the protected data blocks.
         /// </param>
         /// <param name="cancel">
         ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
@@ -37,16 +41,19 @@ namespace Ipfs.Engine.UnixFileSystem
         ///  The id's <see cref="Cid.ContentType"/> is used to determine how to read
         ///  the conent.
         /// </remarks>
-        public static async Task<Stream> CreateReadStream(
+        public static Task<Stream> CreateReadStream(
             Cid id,
             IBlockApi blockService,
+            KeyChain keyChain,
             CancellationToken cancel)
         {
             // TODO: A content-type registry should be used.
             if (id.ContentType == "dag-pb")
-                return await CreateDagProtoBufStreamAsync(id, blockService, cancel);
+                return CreateDagProtoBufStreamAsync(id, blockService, keyChain, cancel);
             else if (id.ContentType == "raw")
-                return await CreateRawStreamAsync(id, blockService, cancel);
+                return CreateRawStreamAsync(id, blockService, keyChain, cancel);
+            else if (id.ContentType == "cms")
+                return CreateCmsStreamAsync(id, blockService, keyChain, cancel);
             else
                 throw new NotSupportedException($"Cannot read content type '{id.ContentType}'.");
         }
@@ -54,6 +61,7 @@ namespace Ipfs.Engine.UnixFileSystem
         static async Task<Stream> CreateRawStreamAsync(
             Cid id,
             IBlockApi blockService,
+            KeyChain keyChain,
             CancellationToken cancel)
         {
             var block = await blockService.GetAsync(id, cancel);
@@ -63,6 +71,7 @@ namespace Ipfs.Engine.UnixFileSystem
         static async Task<Stream> CreateDagProtoBufStreamAsync(
             Cid id,
             IBlockApi blockService,
+            KeyChain keyChain,
             CancellationToken cancel)
         {
             var block = await blockService.GetAsync(id, cancel);
@@ -82,10 +91,21 @@ namespace Ipfs.Engine.UnixFileSystem
 
             if (dm.BlockSizes != null)
             {
-                return new ChunkedStream(blockService, dag);
+                return new ChunkedStream(blockService, keyChain, dag);
             }
 
             throw new Exception($"Cannot determine the file format of '{id}'.");
+        }
+
+        static async Task<Stream> CreateCmsStreamAsync(
+            Cid id,
+            IBlockApi blockService,
+            KeyChain keyChain,
+            CancellationToken cancel)
+        {
+            var block = await blockService.GetAsync(id, cancel);
+            var plain = await keyChain.ReadProtectedData(block.DataBytes, cancel);
+            return new MemoryStream(plain, false);
         }
     }
 }

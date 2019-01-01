@@ -5,17 +5,17 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>IPFS Engine | IPFS Engine documentation </title>
+    <title>Wrapping | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="IPFS Engine | IPFS Engine documentation ">
+    <meta name="title" content="Wrapping | IPFS Engine documentation ">
     <meta name="generator" content="docfx 2.40.6.0">
     
-    <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
+    <link rel="shortcut icon" href="../../images/ipfs-favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
     
     
     
@@ -34,8 +34,8 @@
                 <span class="icon-bar"></span>
               </button>
               
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../images/ipfs-logo.svg" alt="">
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/ipfs-logo.svg" alt="">
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -67,27 +67,33 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="ipfs-engine">IPFS Engine</h1>
+<h1 id="wrapping">Wrapping</h1>
 
-<p>An <a href="https://ipfs.io">IPFS</a> engine implemented in C#.  It implements the 
-<a href="core-api.html">Core API</a> which
-makes it possible to create a decentralised and distributed application without relying on an 
-&quot;IPFS daemon&quot;.</p>
-<p>IPFS is a global, versioned, peer-to-peer filesystem. It combines good ideas from Git, BitTorrent, Kademlia, SFS, and the Web. It is like a single bittorrent swarm, exchanging git objects. IPFS provides an interface as simple as the HTTP web, but with permanence built in. </p>
-<p>The source code is on <a href="https://github.com/richardschneider/net-ipfs-engine">GitHub</a> and the 
-package is published on <a href="https://www.nuget.org/packages/Ipfs.Engine">NuGet</a>.</p>
-<p><a href="https://github.com/ipfs/interface-ipfs-core"><img src="https://github.com/ipfs/interface-ipfs-core/raw/master/img/badge.png" alt="IPFS Core Engine"></a></p>
-<h2 id="related-projects">Related projects</h2>
-<ul>
-<li><a href="https://github.com/richardschneider/net-ipfs-core">IPFS Core</a></li>
-<li><a href="https://github.com/richardschneider/net-ipfs-http-client">IPFS HTTP Client</a></li>
-</ul>
-<h2 id="other-implementations">Other implementations</h2>
-<ul>
-<li><a href="https://github.com/ipfs/js-ipfs">Javascript</a></li>
-<li><a href="https://github.com/ipfs/go-ipfs">Go</a></li>
-</ul>
-</article>
+<p>The <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.AddFileOptions.html#Ipfs_CoreApi_AddFileOptions_Wrap">wrap option</a> specifies that 
+the a directory is created for the file.</p>
+<pre><code class="lang-csharp">var path = &quot;hello.txt&quot;;
+File.WriteAllText(&quot;hello.txt&quot;, &quot;hello world&quot;);
+var options = new AddFileOptions
+{
+    Wrap = true
+};
+var node = await ipfs.FileSystem.AddFileAsync(path, options);
+
+// QmNxvA5bwvPGgMXbmtyhxA1cKFdvQXnsGnZLCGor3AzYxJ
+</code></pre><h2 id="format">Format</h2>
+<p>Two blocks are created, a directory object and a file object.  The file object 
+is described in <a href="format.html">standard format</a>.  The directory object looks 
+like this.</p>
+<pre><code class="lang-json">{
+  &quot;Links&quot;: [
+    {&quot;Name&quot;: &quot;hello.txt&quot;, &quot;Hash&quot;: &quot;Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD&quot;, &quot;Size&quot;:19}
+  ],
+  &quot;Data&quot;: &quot;\u0008\u0001&quot;
+}
+{
+  &quot;Type&quot;: 1,
+}
+</code></pre></article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
@@ -95,7 +101,7 @@ package is published on <a href="https://www.nuget.org/packages/Ipfs.Engine">NuG
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/intro.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/fs/wrap.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
@@ -121,8 +127,8 @@ package is published on <a href="https://www.nuget.org/packages/Ipfs.Engine">NuG
       </footer>
     </div>
     
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
   </body>
 </html>

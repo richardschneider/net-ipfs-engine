@@ -94,20 +94,20 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_IBlockApi_DagNode_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.%23ctor(IBlockApi%2CDagNode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_DagNode_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.%23ctor(IBlockApi%2CIpfs.Engine.Cryptography.KeyChain%2CDagNode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L36">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L38">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor*"></a>
-  <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_IBlockApi_DagNode_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,DagNode)">ChunkedStream(IBlockApi, DagNode)</h4>
+  <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_DagNode_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,Ipfs.Engine.Cryptography.KeyChain,DagNode)">ChunkedStream(IBlockApi, KeyChain, DagNode)</h4>
   <div class="markdown level1 summary"><p>Creates a new instance of the <a class="xref" href="Ipfs.Engine.UnixFileSystem.ChunkedStream.html">ChunkedStream</a> class with
 the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ChunkedStream(IBlockApi blockService, DagNode dag)</code></pre>
+    <pre><code class="lang-csharp hljs">public ChunkedStream(IBlockApi blockService, KeyChain keyChain, DagNode dag)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -125,6 +125,11 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
         <td></td>
       </tr>
       <tr>
+        <td><a class="xref" href="Ipfs.Engine.Cryptography.KeyChain.html">KeyChain</a></td>
+        <td><span class="parametername">keyChain</span></td>
+        <td></td>
+      </tr>
+      <tr>
         <td><span class="xref">DagNode</span></td>
         <td><span class="parametername">dag</span></td>
         <td></td>
@@ -138,7 +143,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_CanRead.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L66">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L70">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_CanRead_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_CanRead" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.CanRead">CanRead</h4>
@@ -168,7 +173,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_CanSeek.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L69">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L73">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_CanSeek_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_CanSeek" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.CanSeek">CanSeek</h4>
@@ -198,7 +203,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_CanWrite.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L72">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L76">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_CanWrite_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_CanWrite" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.CanWrite">CanWrite</h4>
@@ -228,7 +233,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_Length.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.Length%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L57">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L61">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Length_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Length*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Length" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Length">Length</h4>
@@ -258,7 +263,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_Position.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.Position%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L78">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L82">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Position_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Position*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Position" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Position">Position</h4>
@@ -290,7 +295,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_Flush.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L75">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L79">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Flush_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Flush" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Flush">Flush()</h4>
@@ -305,7 +310,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_Read_System_Byte___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.Read(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L99">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L103">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Read_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Read*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Read_System_Byte___System_Int32_System_Int32_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Read(System.Byte[],System.Int32,System.Int32)">Read(Byte[], Int32, Int32)</h4>
@@ -362,7 +367,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_System_Byte___System_Int32_System_Int32_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L105">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L109">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_System_Byte___System_Int32_System_Int32_CancellationToken_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,CancellationToken)">ReadAsync(Byte[], Int32, Int32, CancellationToken)</h4>
@@ -424,7 +429,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_System_Int64_SeekOrigin_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64%2CSeekOrigin)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L81">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L85">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_System_Int64_SeekOrigin_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,SeekOrigin)">Seek(Int64, SeekOrigin)</h4>
@@ -476,7 +481,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_SetLength_System_Int64_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L60">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L64">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_SetLength_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_SetLength_System_Int64_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.SetLength(System.Int64)">SetLength(Int64)</h4>
@@ -508,7 +513,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream_Write_System_Byte___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream.Write(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L93">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L97">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Write_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Write*"></a>
   <h4 id="Ipfs_Engine_UnixFileSystem_ChunkedStream_Write_System_Byte___System_Int32_System_Int32_" data-uid="Ipfs.Engine.UnixFileSystem.ChunkedStream.Write(System.Byte[],System.Int32,System.Int32)">Write(Byte[], Int32, Int32)</h4>
@@ -556,7 +561,7 @@ the specified <see cref="!:IBlockApi"></see> and <see cref="!:DagNode"></see>.</
                     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_ChunkedStream.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.ChunkedStream%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L19" class="contribution-link">View Source</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/ChunkedStream.cs/#L20" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

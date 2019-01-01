@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Standard Format | IPFS Engine documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Standard Format | IPFS Engine documentation ">
+    <meta name="generator" content="docfx 2.40.6.0">
+    
+    <link rel="shortcut icon" href="../../images/ipfs-favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/ipfs-logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h3 id="standard-format">Standard Format</h3>
+
+<p>Here is the <a href="https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/merkledag/pb/merkledag.proto#L31-L39">Merkle DAG</a> 
+and <a href="https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/unixfs/pb/unixfs.proto#L3-L20">UnixFS Data</a> 
+of a file containing the &quot;hello world&quot; string.</p>
+<pre><code class="lang-json">{
+  &quot;Links&quot;: [],
+  &quot;Data&quot;: &quot;\u0008\u0002\u0012\u000bhello world\u0018\u000b&quot;
+}
+</code></pre><p><code>Data</code> is the protobuf encoding of the UnixFS Data.</p>
+<pre><code class="lang-json">{
+  &quot;Type&quot;: 2,
+  &quot;Data&quot;: &quot;aGVsbG8gd29ybGQ=&quot;,
+  &quot;FileSize&quot;: 11,
+  &quot;BlockSizes&quot;: null,
+  &quot;HashType&quot;: null,
+  &quot;Fanout&quot;: null
+}
+</code></pre><h3 id="chunked-format">Chunked Format</h3>
+<p>When the file&#39;s data exceeds the <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.AddFileOptions.html#Ipfs_CoreApi_AddFileOptions_ChunkSize">chunking size</a>, multiple <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IBlockApi.html">blocks</a> 
+are generated.  The returned CID points to a block that has <code>Merkle.Links</code>. Each link 
+contains a chunk of the file.</p>
+<p>The following uses a chunking size of 6.  A primary and two secondary blocks are created for &quot;hello world&quot;.</p>
+<h4 id="primary-block">Primary Block</h4>
+<pre><code class="lang-json">{
+  &quot;Links&quot;: [
+    {&quot;Name&quot;: &quot;&quot;, &quot;Hash&quot;: &quot;QmPhmNbdBMtSQczNc4hnsMxRf5L4vfkU8jRTXDSHj8trSV&quot;, &quot;Size&quot;: 14},
+    {&quot;Name&quot;: &quot;&quot;, &quot;Hash&quot;: &quot;QmNyJpQkU1cEkBwMDhDNFstr42q55mqG5GE5Mgwug4xyGk&quot;, &quot;Size&quot;: 13}
+    ],
+  &quot;Data&quot;:&quot;\u0008\u0002\u0018\u000b \u0006 \u0005&quot;
+}
+{
+  &quot;Type&quot;: 2, 
+  &quot;Data&quot;: null,
+  &quot;FileSize&quot;: 11,
+  &quot;BlockSizes&quot;: [6,5],
+  &quot;HashType&quot;:null,
+  &quot;Fanout&quot;:null
+}
+</code></pre><h4 id="first-link">First Link</h4>
+<pre><code class="lang-json">{
+  &quot;Links&quot;: [],
+  &quot;Data&quot;: &quot;\u0008\u0002\u0012\u0006hello \u0018\u0006&quot;
+}
+</code></pre><h4 id="second-link">Second Link</h4>
+<pre><code class="lang-json">{
+  &quot;Links&quot;: [],
+  &quot;Data&quot;: &quot;\u0008\u0002\u0012\u0005world\u0018\u0005&quot;
+}
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/fs/format.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Generated by DocFX
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

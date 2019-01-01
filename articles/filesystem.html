@@ -76,15 +76,8 @@ and <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/I
 <p>A file has a unique <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.Cid.html">content id (CID)</a> which is the cryptographic hash of the content; see
 <a href="https://docs.ipfs.io/guides/concepts/cid/">CID concept</a> for background information.  The file&#39;s content is not just the file&#39;s 
 data but is encapsulated with a <a href="https://en.wikipedia.org/wiki/Protocol_Buffers">protocol buffer</a> encoding of the 
-<a href="https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/merkledag/pb/merkledag.proto#L31-L39">PBNode</a> 
+<a href="https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/merkledag/pb/merkledag.proto#L31-L39">Merkle DAG</a> 
 and <a href="https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/unixfs/pb/unixfs.proto#L3-L20">UnixFS Data</a>.</p>
-<p>Where</p>
-<ul>
-<li><code>PBNode.Data</code> contains unixfs message Data</li>
-<li>unixfs <code>Data.Data</code> contans file&#39;s data</li>
-</ul>
-<p>When the file&#39;s data exceeds the <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.AddFileOptions.html#Ipfs_CoreApi_AddFileOptions_ChunkSize">chunking size</a>, multiple <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IBlockApi.html">blocks</a> 
-are generated.  The returned CID points to a block that has <code>PBNode.Links</code> and no <code>PBNode.Data</code>.</p>
 <h3 id="adding-a-file">Adding a file</h3>
 <p><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IFileSystemApi.html#Ipfs_CoreApi_IFileSystemApi_AddAsync_">AddAsync</a> is used to add a stream of data to IPFS.  It returns a 
 <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IFileSystemNode.html">FileSystemNode</a> which 
@@ -103,14 +96,6 @@ using (var stream = await ipfs.FileSystem.ReadFileAsyc(path))
 {
     // Do something with the data
 }
-</code></pre><h3 id="getting-a-cid">Getting a CID</h3>
-<p>Normally, you get the CID by <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IFileSystemApi.html#Ipfs_CoreApi_IFileSystemApi_AddAsync_">adding</a> the file to IPFS.  You can avoid adding it 
-to IPFS by using the <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.AddFileOptions.html#Ipfs_CoreApi_AddFileOptions_OnlyHash">OnlyHash option</a>.</p>
-<pre><code class="lang-csharp">var options = new AddFileOptions { OnlyHash = true };
-var fsn = await ipfs.FileSystem.AddTextAsync(&quot;hello world&quot;, options);
-Console.WriteLine((string)fsn.Id)
-
-// Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD
 </code></pre></article>
           </div>
           

@@ -462,6 +462,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockOptions.InlineCidLimit
   nameWithType: BlockOptions.InlineCidLimit
+- uid: Ipfs.Engine.BlockOptions.MaxBlockSize
+  name: MaxBlockSize
+  href: api/Ipfs.Engine.BlockOptions.html#Ipfs_Engine_BlockOptions_MaxBlockSize
+  commentId: P:Ipfs.Engine.BlockOptions.MaxBlockSize
+  fullName: Ipfs.Engine.BlockOptions.MaxBlockSize
+  nameWithType: BlockOptions.MaxBlockSize
+- uid: Ipfs.Engine.BlockOptions.MaxBlockSize*
+  name: MaxBlockSize
+  href: api/Ipfs.Engine.BlockOptions.html#Ipfs_Engine_BlockOptions_MaxBlockSize_
+  commentId: Overload:Ipfs.Engine.BlockOptions.MaxBlockSize
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockOptions.MaxBlockSize
+  nameWithType: BlockOptions.MaxBlockSize
 - uid: Ipfs.Engine.Cryptography
   name: Ipfs.Engine.Cryptography
   href: api/Ipfs.Engine.Cryptography.html
@@ -500,6 +513,48 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync
   nameWithType: KeyChain.CreateAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String,CancellationToken)
+  name: CreateBCCertificateAsync(String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String, CancellationToken)
+  nameWithType: KeyChain.CreateBCCertificateAsync(String, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync*
+  name: CreateBCCertificateAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync
+  nameWithType: KeyChain.CreateBCCertificateAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String,CancellationToken)
+  name: CreateCertificateAsync(String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_System_String_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String, CancellationToken)
+  nameWithType: KeyChain.CreateCertificateAsync(String, CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync*
+  name: CreateCertificateAsync
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync
+  nameWithType: KeyChain.CreateCertificateAsync
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String,System.Byte[],CancellationToken)
+  name: CreateProtectedData(String, Byte[], CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String,System.Byte[],CancellationToken)
+  name.vb: CreateProtectedData(String, Byte(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String, System.Byte[], CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String, System.Byte(), CancellationToken)
+  nameWithType: KeyChain.CreateProtectedData(String, Byte[], CancellationToken)
+  nameWithType.vb: KeyChain.CreateProtectedData(String, Byte(), CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData*
+  name: CreateProtectedData
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData
+  isSpec: "True"
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData
+  nameWithType: KeyChain.CreateProtectedData
 - uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
   name: ExportAsync(String, Char[], CancellationToken)
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___CancellationToken_
@@ -597,6 +652,22 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.Options
   nameWithType: KeyChain.Options
+- uid: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[],CancellationToken)
+  name: ReadProtectedData(Byte[], CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[],CancellationToken)
+  name.vb: ReadProtectedData(Byte(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[], CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte(), CancellationToken)
+  nameWithType: KeyChain.ReadProtectedData(Byte[], CancellationToken)
+  nameWithType.vb: KeyChain.ReadProtectedData(Byte(), CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData*
+  name: ReadProtectedData
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_
+  commentId: Overload:Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData
+  isSpec: "True"
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData
+  nameWithType: KeyChain.ReadProtectedData
 - uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
   name: RemoveAsync(String, CancellationToken)
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_
@@ -1650,12 +1721,12 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.ChunkedStream
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream
   nameWithType: ChunkedStream
-- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,DagNode)
-  name: ChunkedStream(IBlockApi, DagNode)
-  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_IBlockApi_DagNode_
-  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,DagNode)
-  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream(IBlockApi, DagNode)
-  nameWithType: ChunkedStream.ChunkedStream(IBlockApi, DagNode)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,Ipfs.Engine.Cryptography.KeyChain,DagNode)
+  name: ChunkedStream(IBlockApi, KeyChain, DagNode)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_DagNode_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,Ipfs.Engine.Cryptography.KeyChain,DagNode)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream(IBlockApi, Ipfs.Engine.Cryptography.KeyChain, DagNode)
+  nameWithType: ChunkedStream.ChunkedStream(IBlockApi, KeyChain, DagNode)
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor*
   name: ChunkedStream
   href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_
@@ -1821,12 +1892,12 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.FileSystem
   fullName: Ipfs.Engine.UnixFileSystem.FileSystem
   nameWithType: FileSystem
-- uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,CancellationToken)
-  name: CreateReadStream(Cid, IBlockApi, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid, IBlockApi, CancellationToken)
-  nameWithType: FileSystem.CreateReadStream(Cid, IBlockApi, CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
+  name: CreateReadStream(Cid, IBlockApi, KeyChain, CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid, IBlockApi, Ipfs.Engine.Cryptography.KeyChain, CancellationToken)
+  nameWithType: FileSystem.CreateReadStream(Cid, IBlockApi, KeyChain, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream*
   name: CreateReadStream
   href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_
@@ -2027,12 +2098,12 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.SizeChunker
   fullName: Ipfs.Engine.UnixFileSystem.SizeChunker
   nameWithType: SizeChunker
-- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,CancellationToken)
-  name: ChunkAsync(Stream, AddFileOptions, IBlockApi, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_AddFileOptions_IBlockApi_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, CancellationToken)
-  nameWithType: SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
+  name: ChunkAsync(Stream, AddFileOptions, IBlockApi, KeyChain, CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_AddFileOptions_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, Ipfs.Engine.Cryptography.KeyChain, CancellationToken)
+  nameWithType: SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, KeyChain, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync*
   name: ChunkAsync
   href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_

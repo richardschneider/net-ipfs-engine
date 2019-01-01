@@ -91,19 +91,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid%2CIBlockApi%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid%2CIBlockApi%2CIpfs.Engine.Cryptography.KeyChain%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/FileSystem.cs/#L40">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/FileSystem.cs/#L44">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_" data-uid="Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream*"></a>
-  <h4 id="Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_CancellationToken_" data-uid="Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,CancellationToken)">CreateReadStream(Cid, IBlockApi, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_" data-uid="Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)">CreateReadStream(Cid, IBlockApi, KeyChain, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Creates a stream that can read the supplied <see cref="!:Cid"></see>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Stream&gt; CreateReadStream(Cid id, IBlockApi blockService, CancellationToken cancel)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Task&lt;Stream&gt; CreateReadStream(Cid id, IBlockApi blockService, KeyChain keyChain, CancellationToken cancel)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -124,7 +124,13 @@
       <tr>
         <td><span class="xref">IBlockApi</span></td>
         <td><span class="parametername">blockService</span></td>
-        <td><p>The source of cid&apos;s data.</p>
+        <td><p>The source of the cid&apos;s data.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Ipfs.Engine.Cryptography.KeyChain.html">KeyChain</a></td>
+        <td><span class="parametername">keyChain</span></td>
+        <td><p>Used to decypt the protected data blocks.</p>
 </td>
       </tr>
       <tr>
@@ -152,7 +158,7 @@ a <see cref="!:Stream"></see> that produces the content of the <code data-dev-co
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_CancellationToken__remarks">Remarks</h5>
+  <h5 id="Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>The id&apos;s <see cref="!:Cid.ContentType"></see> is used to determine how to read
 the conent.</p>
 </div>
@@ -167,7 +173,7 @@ the conent.</p>
                     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_FileSystem.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.FileSystem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/FileSystem.cs/#L16" class="contribution-link">View Source</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/FileSystem.cs/#L17" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

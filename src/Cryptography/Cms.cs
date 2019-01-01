@@ -2,6 +2,7 @@
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Cms;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -55,9 +56,29 @@ namespace Ipfs.Engine.Cryptography
                 kp = this.GetKeyPairFromPrivateKey(key);
             });
 
-            // Generate the protected data.
+            // Add recipient type based on key type.
             var edGen = new CmsEnvelopedDataGenerator();
-            edGen.AddKeyTransRecipient(kp.Public, Base58.Decode(ekey.Id));
+            if (kp.Private is RsaPrivateCrtKeyParameters)
+            {
+                edGen.AddKeyTransRecipient(kp.Public, Base58.Decode(ekey.Id));
+            }
+            else if (kp.Private is ECPrivateKeyParameters)
+            {
+                var cert = await CreateBCCertificateAsync(keyName, cancel);
+                edGen.AddKeyAgreementRecipient(
+                    agreementAlgorithm: CmsEnvelopedDataGenerator.ECDHSha1Kdf,
+                    senderPrivateKey: kp.Private,
+                    senderPublicKey: kp.Public,
+                    recipientCert: cert,
+                    cekWrapAlgorithm: CmsEnvelopedDataGenerator.Aes256Wrap
+                    );
+            }
+            else
+            {
+                throw new NotSupportedException($"The key type {kp.Private.GetType().Name} is not supported.");
+            }
+
+            // Generate the protected data.
             var ed = edGen.Generate(
                 new CmsProcessableByteArray(plainText),
                 CmsEnvelopedDataGenerator.Aes256Cbc);
@@ -126,9 +147,7 @@ namespace Ipfs.Engine.Cryptography
         ///   is not understood or does not contain an IPFS key id.
         /// </returns>
         /// <remarks>
-        ///   The receipient inforomation has many formats; currently only
-        ///   the key transport (ktri) form is supported.  The key ID
-        ///   is either the Subject Key Identifier (preferred) or the
+        ///   The key ID is either the Subject Key Identifier (preferred) or the
         ///   issuer's distinguished name with the form "CN=&lt;kid>,OU=keystore,O=ipfs".
         /// </remarks>
         MultiHash GetKeyId(RecipientInformation ri)
@@ -136,21 +155,18 @@ namespace Ipfs.Engine.Cryptography
             // Any errors are simply ignored.
             try
             {
-                if (ri is KeyTransRecipientInformation ktri)
-                {
-                    // Subject Key Identifier is the key ID.
-                    if (ktri.RecipientID.SubjectKeyIdentifier is byte[] ski)
-                        return new MultiHash(ski);
+                // Subject Key Identifier is the key ID.
+                if (ri.RecipientID.SubjectKeyIdentifier is byte[] ski)
+                    return new MultiHash(ski);
 
-                    // Issuer is CN=<kid>,OU=keystore,O=ipfs
-                    var issuer = ktri.RecipientID.Issuer;
-                    if (issuer != null
-                        && issuer.GetValueList(X509Name.OU).Contains("keystore")
-                        && issuer.GetValueList(X509Name.O).Contains("ipfs"))
-                    {
-                        var cn = issuer.GetValueList(X509Name.CN)[0] as string;
-                        return new MultiHash(cn);
-                    }
+                // Issuer is CN=<kid>,OU=keystore,O=ipfs
+                var issuer = ri.RecipientID.Issuer;
+                if (issuer != null
+                    && issuer.GetValueList(X509Name.OU).Contains("keystore")
+                    && issuer.GetValueList(X509Name.O).Contains("ipfs"))
+                {
+                    var cn = issuer.GetValueList(X509Name.CN)[0] as string;
+                    return new MultiHash(cn);
                 }
             }
             catch (Exception e)

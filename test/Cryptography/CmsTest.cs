@@ -102,7 +102,6 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
         }
 
         [TestMethod]
-        [Ignore("NYI")]
         public async Task CreateCms_Secp256k1()
         {
             var ipfs = TestFixture.Ipfs;
@@ -112,7 +111,6 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
             {
                 var data = new byte[] { 1, 2, 3, 4 };
                 var cipher = await keychain.CreateProtectedData("alice", data);
-                File.WriteAllBytes(@"\tmp\secp256k1.cms", cipher);
                 var plain = await keychain.ReadProtectedData(cipher);
                 CollectionAssert.AreEqual(data, plain);
             }

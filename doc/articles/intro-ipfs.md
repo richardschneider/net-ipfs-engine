@@ -9,13 +9,19 @@ The engine should be used as a shared object in your program.  It is thread safe
 ```csharp
 public class Program
 {
-  static readonly IpfsClient ipfs = new IpfsClient();
+  const string passphrase = "this is not a secure pass phrase";
+  static readonly IpfsClient ipfs = new IpfsClient(new IpfsEngine(passphrase.ToCharArray()));
 
   public async Task Main(string[] args) 
   {
+    // Set the repository
+	var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); 
+    ipfs.Options.Repository.Folder = Path.Combine(path, "myapp-ipfs");
+	
+	// Start the engine.
     await ipfs.StartAsync();
 
-	// Get the our peer details.
+	// Get our peer details.
 	var peer = await ipfs.IdAsync();
   }
 }

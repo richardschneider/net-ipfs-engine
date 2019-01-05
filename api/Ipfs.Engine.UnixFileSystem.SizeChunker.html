@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class SizeChunker
    | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.40.6.0">
+    <meta name="generator" content="docfx 2.40.7.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -91,19 +91,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_AddFileOptions_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream%2CAddFileOptions%2CIBlockApi%2CIpfs.Engine.Cryptography.KeyChain%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_System_String_AddFileOptions_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream%2CSystem.String%2CAddFileOptions%2CIBlockApi%2CIpfs.Engine.Cryptography.KeyChain%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/SizeChunker.cs/#L40">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/SizeChunker.cs/#L43">View Source</a>
   </span>
   <a id="Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_" data-uid="Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync*"></a>
-  <h4 id="Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_AddFileOptions_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_" data-uid="Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)">ChunkAsync(Stream, AddFileOptions, IBlockApi, KeyChain, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_System_String_AddFileOptions_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_" data-uid="Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,System.String,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)">ChunkAsync(Stream, String, AddFileOptions, IBlockApi, KeyChain, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Performs the chunking.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IEnumerable&lt;FileSystemNode&gt;&gt; ChunkAsync(Stream stream, AddFileOptions options, IBlockApi blockService, KeyChain keyChain, CancellationToken cancel)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;IEnumerable&lt;FileSystemNode&gt;&gt; ChunkAsync(Stream stream, string name, AddFileOptions options, IBlockApi blockService, KeyChain keyChain, CancellationToken cancel)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -119,6 +119,12 @@
         <td><span class="xref">Stream</span></td>
         <td><span class="parametername">stream</span></td>
         <td><p>The data source.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>A name for the data.</p>
 </td>
       </tr>
       <tr>

@@ -2098,12 +2098,12 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.SizeChunker
   fullName: Ipfs.Engine.UnixFileSystem.SizeChunker
   nameWithType: SizeChunker
-- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
-  name: ChunkAsync(Stream, AddFileOptions, IBlockApi, KeyChain, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_AddFileOptions_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, Ipfs.Engine.Cryptography.KeyChain, CancellationToken)
-  nameWithType: SizeChunker.ChunkAsync(Stream, AddFileOptions, IBlockApi, KeyChain, CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,System.String,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
+  name: ChunkAsync(Stream, String, AddFileOptions, IBlockApi, KeyChain, CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_System_String_AddFileOptions_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,System.String,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream, System.String, AddFileOptions, IBlockApi, Ipfs.Engine.Cryptography.KeyChain, CancellationToken)
+  nameWithType: SizeChunker.ChunkAsync(Stream, String, AddFileOptions, IBlockApi, KeyChain, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync*
   name: ChunkAsync
   href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_

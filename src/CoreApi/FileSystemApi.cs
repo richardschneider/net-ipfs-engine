@@ -62,7 +62,7 @@ namespace Ipfs.Engine.CoreApi
             var keyChain = await ipfs.KeyChain(cancel);
 
             var chunker = new SizeChunker();
-            var nodes = await chunker.ChunkAsync(stream, options, blockService, keyChain, cancel);
+            var nodes = await chunker.ChunkAsync(stream, name, options, blockService, keyChain, cancel);
 
             // Multiple nodes for the file?
             FileSystemNode node = null;

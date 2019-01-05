@@ -9,6 +9,8 @@ using System.Threading;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Ipfs.Server.HttpApi.V0
 {
@@ -72,6 +74,32 @@ namespace Ipfs.Server.HttpApi.V0
         protected EntityTagHeaderValue ETag(Cid id)
         {
             return new EntityTagHeaderValue(new StringSegment("\"" + id + "\""), isWeak: false);
+        }
+
+        /// <summary>
+        ///   Immediately send the JSON.
+        /// </summary>
+        /// <param name="o">
+        ///   The object to send to the requestor.
+        /// </param>
+        /// <remarks>
+        ///   Immediately sends the Line Delimited JSON (LDJSON) representation
+        ///   of <paramref name="o"/> to the  requestor.
+        /// </remarks>
+        protected async Task StreamJsonAsync(object o)
+        {
+            if (!Response.HasStarted)
+            {
+                Response.StatusCode = 200;
+                Response.ContentType = "application/json";
+            }
+            using (var sw = new StringWriter())
+            {
+                JsonSerializer.Create().Serialize(sw, o);
+                sw.Write('\n');
+                await Response.WriteAsync(sw.ToString(), Cancel);
+                await Response.Body.FlushAsync(Cancel);
+            }
         }
     }
 }

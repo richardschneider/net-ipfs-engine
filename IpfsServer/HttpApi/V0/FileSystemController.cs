@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace Ipfs.Server.HttpApi.V0
 {
@@ -200,7 +201,7 @@ namespace Ipfs.Server.HttpApi.V0
         ///   Add a file.
         /// </summary>
         [HttpGet, HttpPost, Route("add")]
-        public async Task<FileSystemNodeDto> Add(
+        public async Task Add(
             IFormFile file,
             string hash = MultiHash.DefaultAlgorithmName,
             [ModelBinder(Name = "cid-base")] string cidBase = MultiBase.DefaultAlgorithmName,
@@ -210,7 +211,8 @@ namespace Ipfs.Server.HttpApi.V0
             [ModelBinder(Name = "raw-leaves")] bool rawLeaves = false,
             bool trickle = false,
             [ModelBinder(Name = "wrap-with-directory")] bool wrap = false,
-            string protect = null
+            string protect = null,
+            bool progress = true
             )
         {
             if (file == null)
@@ -225,7 +227,7 @@ namespace Ipfs.Server.HttpApi.V0
                 RawLeaves = rawLeaves,
                 Trickle = trickle,
                 Wrap = wrap,
-                ProtectionKey = protect
+                ProtectionKey = protect,
             };
             if (chunker != null)
             {
@@ -239,17 +241,22 @@ namespace Ipfs.Server.HttpApi.V0
                 }
             }
 
+            if (progress)
+            {
+                options.Progress = new Progress<TransferProgress>(async t => await StreamJsonAsync(t));
+            }
+
             // TODO: Accept multiple files.
             using (var stream = file.OpenReadStream())
             {
                 // TODO: AddAsync returns a list of nodes containing every node added not just the top level.
                 var node = await IpfsCore.FileSystem.AddAsync(stream, file.FileName, options, Cancel);
-                return new FileSystemNodeDto
+                await StreamJsonAsync(new FileSystemNodeDto
                 {
                     Name = node.Id,
                     Hash = node.Id,
                     Size = node.Size.ToString(CultureInfo.InvariantCulture)
-                };
+                });
             }
         }
     }

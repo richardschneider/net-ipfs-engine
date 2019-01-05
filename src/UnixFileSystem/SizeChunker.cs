@@ -21,6 +21,9 @@ namespace Ipfs.Engine.UnixFileSystem
         /// <param name="stream">
         ///   The data source.
         /// </param>
+        /// <param name="name">
+        ///   A name for the data.
+        /// </param>
         /// <param name="options">
         ///   The options when adding data to the IPFS file system.
         /// </param>
@@ -39,6 +42,7 @@ namespace Ipfs.Engine.UnixFileSystem
         /// </returns>
         public async Task<IEnumerable<FileSystemNode>> ChunkAsync(
             Stream stream, 
+            string name,
             AddFileOptions options, 
             IBlockApi blockService,
             KeyChain keyChain,
@@ -49,6 +53,7 @@ namespace Ipfs.Engine.UnixFileSystem
             var chunkSize = options.ChunkSize;
             var chunk = new byte[chunkSize];
             var chunking = true;
+            var totalBytes = 0UL;
 
             while (chunking)
             {
@@ -63,6 +68,7 @@ namespace Ipfs.Engine.UnixFileSystem
                         break;
                     }
                     length += n;
+                    totalBytes += (uint)n;
                 }
 
                 //  Only generate empty block, when the stream is empty.
@@ -72,6 +78,14 @@ namespace Ipfs.Engine.UnixFileSystem
                     break;
                 }
 
+                if (options.Progress != null)
+                {
+                    options.Progress.Report(new TransferProgress
+                    {
+                        Name = name,
+                        Bytes = totalBytes
+                    });
+                }
                 // if protected data, then get CMS structure.
                 if (protecting)
                 {

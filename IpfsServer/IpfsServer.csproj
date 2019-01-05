@@ -13,7 +13,7 @@
 
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Ipfs.Core" Version="0.39.0" />
+    <PackageReference Include="Ipfs.Core" Version="0.40.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>

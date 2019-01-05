@@ -478,6 +478,40 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task AddFile_WithProgress()
+        {
+            var path = Path.GetTempFileName();
+            File.WriteAllText(path, "hello world");
+            try
+            {
+                var ipfs = TestFixture.Ipfs;
+                TransferProgress lastProgress = null;
+                var options = new AddFileOptions
+                {
+                    ChunkSize = 3,
+                    Progress = new Progress<TransferProgress>(t =>
+                    {
+                        lastProgress = t;
+                    })
+                };
+                var result = await ipfs.FileSystem.AddFileAsync(path, options);
+
+                // Progress reports get posted on another synchronisation context.
+                var stop = DateTime.Now.AddSeconds(3);
+                while (DateTime.Now < stop && lastProgress == null)
+                {
+                    await Task.Delay(10);
+                }
+                Assert.AreEqual(11UL, lastProgress.Bytes);
+                Assert.AreEqual(Path.GetFileName(path), lastProgress.Name);
+            }
+            finally
+            {
+                File.Delete(path);
+            }
+        }
+
+        [TestMethod]
         public void AddDirectory()
         {
             var ipfs = TestFixture.Ipfs;

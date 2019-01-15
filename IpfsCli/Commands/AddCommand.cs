@@ -29,6 +29,9 @@ namespace Ipfs.Cli
         [Option("-n|--only-hash", Description = "Only chunk and hash - do not write to disk")]
         public bool OnlyHash { get; set; } = DefaultOptions.OnlyHash;
 
+        [Option("-p|--progress", Description = "")]
+        public bool Progress { get; set; } = false;
+
         [Option("--pin", Description = "Pin when adding")]
         public bool Pin { get; set; } = DefaultOptions.Pin;
 
@@ -63,6 +66,13 @@ namespace Ipfs.Cli
                 Wrap = Wrap,
                 ProtectionKey = ProtectionKey
             };
+            if (Progress)
+            {
+                options.Progress = new Progress<TransferProgress>(t =>
+                {
+                    Console.WriteLine($"{t.Name} {t.Bytes}");
+                });
+            }
             IFileSystemNode node;
             if (Directory.Exists(FilePath))
             {

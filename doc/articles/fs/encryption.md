@@ -23,7 +23,7 @@ var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
 
 ## Reading
 
-The standard [read file methods](../filesystem.md#reading-a-file) are used to decrypt to file. 
-If the private key is not held by the local peer, then a `KeyNotFoundException` is thrown.
+The standard [read file methods](../filesystem.md#reading-a-file) are used to decrypt a file. 
+If the protection key is not held by the local peer, then a `KeyNotFoundException` is thrown.
 
 

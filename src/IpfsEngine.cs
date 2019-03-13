@@ -20,8 +20,13 @@ using System.Collections.Concurrent;
 namespace Ipfs.Engine
 {
     /// <summary>
-    ///   TODO
+    ///    Implements the <see cref="ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
+    ///    application without relying on an "IPFS daemon".
     /// </summary>
+    /// <remarks>
+    ///   The engine should be used as a shared object in your program. It is thread safe (re-entrant) and conserves 
+    ///   resources when only one instance is used.
+    /// </remarks>
     public partial class IpfsEngine : ICoreApi, IService, IDisposable
     {
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));

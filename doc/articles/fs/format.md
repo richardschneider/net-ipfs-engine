@@ -1,7 +1,6 @@
 ﻿### Standard Format
 
 Here is the [Merkle DAG](https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/merkledag/pb/merkledag.proto#L31-L39) 
-and [UnixFS Data](https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/unixfs/pb/unixfs.proto#L3-L20) 
 of a file containing the "hello world" string.
 
 ```json
@@ -11,7 +10,7 @@ of a file containing the "hello world" string.
 }
 ```
 
-`Data` is the protobuf encoding of the UnixFS Data.
+`Data` is the protobuf encoding of the [UnixFS Data](https://github.com/ipfs/go-ipfs/blob/0cb22ccf359e05fb5b55a9bf2f9c515bf7d4dba7/unixfs/pb/unixfs.proto#L3-L20).
 
 ```json
 {

@@ -17,7 +17,7 @@ in IPFS network.
 
 | File/Folder | Usage | Description |
 | ----------- | ----- | ----------- |
-| config      | [Config API](xref:Ipfs.Engine.IpfsEngine.Config)| The configuration information |
+| config      | [Config API](xref:Ipfs.Engine.IpfsEngine.Config)| The [configuration](repo/config.md) information |
 | blocks      | [Block API](xref:Ipfs.Engine.IpfsEngine.Block) | A [Block](repo/block.md) of data |
 | keys        | [Key API](xref:Ipfs.Engine.IpfsEngine.Key) | Cryptographic [keys](repo/key.md) |
 | pins        | [Pin API](xref:Ipfs.Engine.IpfsEngine.Pin) | A [Block](repo/block.md) that is pinned to the local repository |

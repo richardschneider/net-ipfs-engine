@@ -8,7 +8,7 @@
     <title>Encryption | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Encryption | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.40.7.0">
+    <meta name="generator" content="docfx 2.41.0.0">
     
     <link rel="shortcut icon" href="../../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../../styles/docfx.vendor.css">
@@ -86,8 +86,8 @@ and has the following features:</p>
 };
 var node = await ipfs.FileSystem.AddTextAsync(&quot;hello world&quot;, options);
 </code></pre><h2 id="reading">Reading</h2>
-<p>The standard <a href="../filesystem.html#reading-a-file">read file methods</a> are used to decrypt to file. 
-If the private key is not held by the local peer, then a <code>KeyNotFoundException</code> is thrown.</p>
+<p>The standard <a href="../filesystem.html#reading-a-file">read file methods</a> are used to decrypt a file. 
+If the protection key is not held by the local peer, then a <code>KeyNotFoundException</code> is thrown.</p>
 </article>
           </div>
           

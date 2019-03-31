@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class IpfsEngine
    | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.40.7.0">
+    <meta name="generator" content="docfx 2.41.0.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -73,7 +73,8 @@
   
   <h1 id="Ipfs_Engine_IpfsEngine" data-uid="Ipfs.Engine.IpfsEngine" class="text-break">Class IpfsEngine
   </h1>
-  <div class="markdown level0 summary"><p>TODO</p>
+  <div class="markdown level0 summary"><p>Implements the <see cref="!:ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
+application without relying on an &quot;IPFS daemon&quot;.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -92,6 +93,10 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class IpfsEngine : ICoreApi, IService, IDisposable</code></pre>
   </div>
+  <h5 id="Ipfs_Engine_IpfsEngine_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>The engine should be used as a shared object in your program. It is thread safe (re-entrant) and conserves 
+resources when only one instance is used.</p>
+</div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
@@ -99,7 +104,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine__ctor_System_Char___.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.%23ctor(System.Char%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L36">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L41">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine__ctor_" data-uid="Ipfs.Engine.IpfsEngine.#ctor*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine__ctor_System_Char___" data-uid="Ipfs.Engine.IpfsEngine.#ctor(System.Char[])">IpfsEngine(Char[])</h4>
@@ -134,7 +139,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Bitswap.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Bitswap%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L118">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L123">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Bitswap_" data-uid="Ipfs.Engine.IpfsEngine.Bitswap*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Bitswap" data-uid="Ipfs.Engine.IpfsEngine.Bitswap">Bitswap</h4>
@@ -164,7 +169,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_BitswapService.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.BitswapService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L409">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L414">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_BitswapService_" data-uid="Ipfs.Engine.IpfsEngine.BitswapService*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_BitswapService" data-uid="Ipfs.Engine.IpfsEngine.BitswapService">BitswapService</h4>
@@ -195,7 +200,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Block.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Block%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L121">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L126">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Block_" data-uid="Ipfs.Engine.IpfsEngine.Block*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Block" data-uid="Ipfs.Engine.IpfsEngine.Block">Block</h4>
@@ -225,7 +230,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Bootstrap.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Bootstrap%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L124">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L129">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Bootstrap_" data-uid="Ipfs.Engine.IpfsEngine.Bootstrap*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Bootstrap" data-uid="Ipfs.Engine.IpfsEngine.Bootstrap">Bootstrap</h4>
@@ -255,7 +260,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Config.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Config%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L127">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L132">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Config_" data-uid="Ipfs.Engine.IpfsEngine.Config*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Config" data-uid="Ipfs.Engine.IpfsEngine.Config">Config</h4>
@@ -285,7 +290,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Dag.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Dag%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L130">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L135">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Dag_" data-uid="Ipfs.Engine.IpfsEngine.Dag*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Dag" data-uid="Ipfs.Engine.IpfsEngine.Dag">Dag</h4>
@@ -315,7 +320,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Dht.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Dht%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L133">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L138">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Dht_" data-uid="Ipfs.Engine.IpfsEngine.Dht*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Dht" data-uid="Ipfs.Engine.IpfsEngine.Dht">Dht</h4>
@@ -345,7 +350,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_DhtService.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.DhtService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L414">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L419">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_DhtService_" data-uid="Ipfs.Engine.IpfsEngine.DhtService*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_DhtService" data-uid="Ipfs.Engine.IpfsEngine.DhtService">DhtService</h4>
@@ -376,7 +381,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Dns.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Dns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L136">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L141">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Dns_" data-uid="Ipfs.Engine.IpfsEngine.Dns*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Dns" data-uid="Ipfs.Engine.IpfsEngine.Dns">Dns</h4>
@@ -406,7 +411,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_FileSystem.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.FileSystem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L139">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L144">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_FileSystem_" data-uid="Ipfs.Engine.IpfsEngine.FileSystem*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_FileSystem" data-uid="Ipfs.Engine.IpfsEngine.FileSystem">FileSystem</h4>
@@ -436,7 +441,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Generic.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Generic%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L142">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L147">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Generic_" data-uid="Ipfs.Engine.IpfsEngine.Generic*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Generic" data-uid="Ipfs.Engine.IpfsEngine.Generic">Generic</h4>
@@ -466,7 +471,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Key.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Key%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L145">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L150">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Key_" data-uid="Ipfs.Engine.IpfsEngine.Key*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Key" data-uid="Ipfs.Engine.IpfsEngine.Key">Key</h4>
@@ -496,7 +501,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_LocalPeer.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.LocalPeer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L209">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L214">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_LocalPeer_" data-uid="Ipfs.Engine.IpfsEngine.LocalPeer*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_LocalPeer" data-uid="Ipfs.Engine.IpfsEngine.LocalPeer">LocalPeer</h4>
@@ -529,7 +534,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Name.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L148">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L153">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Name_" data-uid="Ipfs.Engine.IpfsEngine.Name*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Name" data-uid="Ipfs.Engine.IpfsEngine.Name">Name</h4>
@@ -559,7 +564,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Object.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Object%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L151">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L156">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Object_" data-uid="Ipfs.Engine.IpfsEngine.Object*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Object" data-uid="Ipfs.Engine.IpfsEngine.Object">Object</h4>
@@ -589,7 +594,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Options.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Options%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L115">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L120">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Options_" data-uid="Ipfs.Engine.IpfsEngine.Options*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Options" data-uid="Ipfs.Engine.IpfsEngine.Options">Options</h4>
@@ -620,7 +625,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Pin.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Pin%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L154">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L159">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Pin_" data-uid="Ipfs.Engine.IpfsEngine.Pin*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Pin" data-uid="Ipfs.Engine.IpfsEngine.Pin">Pin</h4>
@@ -650,7 +655,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_PubSub.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.PubSub%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L157">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L162">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_PubSub_" data-uid="Ipfs.Engine.IpfsEngine.PubSub*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_PubSub" data-uid="Ipfs.Engine.IpfsEngine.PubSub">PubSub</h4>
@@ -680,7 +685,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Stats.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Stats%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L163">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L168">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Stats_" data-uid="Ipfs.Engine.IpfsEngine.Stats*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Stats" data-uid="Ipfs.Engine.IpfsEngine.Stats">Stats</h4>
@@ -710,7 +715,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Swarm.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Swarm%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L160">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L165">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Swarm_" data-uid="Ipfs.Engine.IpfsEngine.Swarm*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Swarm" data-uid="Ipfs.Engine.IpfsEngine.Swarm">Swarm</h4>
@@ -740,7 +745,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_SwarmService.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.SwarmService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L404">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L409">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_SwarmService_" data-uid="Ipfs.Engine.IpfsEngine.SwarmService*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_SwarmService" data-uid="Ipfs.Engine.IpfsEngine.SwarmService">SwarmService</h4>
@@ -773,7 +778,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_Dispose.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L396">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L401">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_Dispose_" data-uid="Ipfs.Engine.IpfsEngine.Dispose*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_Dispose" data-uid="Ipfs.Engine.IpfsEngine.Dispose">Dispose()</h4>
@@ -792,7 +797,7 @@ a <see cref="!:Peer"></see>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_KeyChain_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L175">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L180">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_KeyChain_" data-uid="Ipfs.Engine.IpfsEngine.KeyChain*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_KeyChain_CancellationToken_" data-uid="Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)">KeyChain(CancellationToken)</h4>
@@ -843,7 +848,7 @@ the <span class="xref">Ipfs.Engine.IpfsEngine.keyChain</span>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L226">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L231">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_" data-uid="Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,CancellationToken)">ResolveIpfsPathToCidAsync(String, CancellationToken)</h4>
@@ -899,7 +904,7 @@ the <span class="xref">Ipfs.Engine.IpfsEngine.keyChain</span>.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_StartAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.StartAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L245">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L250">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_StartAsync_" data-uid="Ipfs.Engine.IpfsEngine.StartAsync*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_StartAsync" data-uid="Ipfs.Engine.IpfsEngine.StartAsync">StartAsync()</h4>
@@ -935,7 +940,7 @@ be called after any configuration changes.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine_StopAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine.StopAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L368">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L373">View Source</a>
   </span>
   <a id="Ipfs_Engine_IpfsEngine_StopAsync_" data-uid="Ipfs.Engine.IpfsEngine.StopAsync*"></a>
   <h4 id="Ipfs_Engine_IpfsEngine_StopAsync" data-uid="Ipfs.Engine.IpfsEngine.StopAsync">StopAsync()</h4>
@@ -983,7 +988,7 @@ be called after any configuration changes.</p>
                     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_IpfsEngine.md&amp;value=---%0Auid%3A%20Ipfs.Engine.IpfsEngine%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L25" class="contribution-link">View Source</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/IpfsEngine.cs/#L30" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

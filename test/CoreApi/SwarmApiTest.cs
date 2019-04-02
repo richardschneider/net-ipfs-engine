@@ -30,6 +30,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74")]
         public async Task Connect_Disconnect_Mars()
         {
             var mars = "/dns/mars.i.ipfs.io/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";

@@ -9,9 +9,12 @@ or the [Repository Options](xref:Ipfs.Engine.RepositoryOptions).
 
 ## Creating
 
-The repository will be automatically created if it does not already exist.  At creation time 
-a cryptograhic key named `self` is created and is used to uniquely identify this node 
-in IPFS network.
+The repository will be automatically created if it does not already exist.  
+
+At creation time 
+a [cryptograhic key](key.md) named `self` is created and is used to uniquely identify this node 
+in the IPFS network.  The [keychain options](xref:Ipfs.Engine.Cryptography.KeyChainOptions) are used to control the type of key that 
+is generated; by default it is RSA with 2048 bits.
 
 ## Contents
 

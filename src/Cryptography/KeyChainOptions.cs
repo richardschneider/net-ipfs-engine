@@ -16,7 +16,7 @@ namespace Ipfs.Engine.Cryptography
         ///   The default key type, when generating a key.
         /// </summary>
         /// <value>
-        ///   Defaults to "rsa".
+        ///   "rsa", "ed25519" or "secp256k1". Defaults to "rsa".
         /// </value>
         public string DefaultKeyType { get; set; } = "rsa";
 

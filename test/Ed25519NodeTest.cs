@@ -68,7 +68,7 @@ namespace Ipfs.Engine
             ipfs.Options.KeyChain.DefaultKeyType = "ed25519";
             await ipfs.Config.SetAsync(
                 "Addresses.Swarm",
-                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/4009" })
+                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/0" })
             );
             return ipfs;
         }

@@ -111,6 +111,22 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Add_HashAlgorithm()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                Hash = "blake2b-256",
+                RawLeaves = true
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            Assert.AreEqual("zCT5htkdzN4Q7EX2HUVByjuB7bgYszUosExP2iTMSLoSCsZDNHfm", (string)node.Id);
+
+            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+            Assert.AreEqual("hello world", text);
+        }
+
+        [TestMethod]
         public void AddFile()
         {
             var path = Path.GetTempFileName();

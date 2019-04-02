@@ -635,6 +635,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74")]
         public async Task ReadTextFromNetwork()
         {
             var ipfs = TestFixture.Ipfs;

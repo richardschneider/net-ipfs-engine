@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +18,21 @@ namespace Ipfs.Engine
         {
             var ipfs = new IpfsEngine("this is not a secure pass phrase".ToCharArray());
             Assert.IsNotNull(ipfs);
+        }
+
+        [TestMethod]
+        public async Task SecureString_Passphrase()
+        { 
+            var secret = "this is not a secure pass phrase";
+            var ipfs = new IpfsEngine(secret.ToCharArray());
+            ipfs.Options = TestFixture.Ipfs.Options;
+            await ipfs.KeyChain();
+
+            var passphrase = new SecureString();
+            foreach (var c in secret) passphrase.AppendChar(c);
+            ipfs = new IpfsEngine(passphrase);
+            ipfs.Options = TestFixture.Ipfs.Options;
+            await ipfs.KeyChain();
         }
 
         [TestMethod]

@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -86,17 +88,20 @@ namespace Ipfs.Engine.Cryptography
         ///   Neither the <paramref name="passphrase"/> nor the DEK are stored.
         ///   </para>
         /// </remarks>
-        public async Task SetPassphraseAsync (char[] passphrase, CancellationToken cancel = default(CancellationToken))
+        public async Task SetPassphraseAsync (SecureString passphrase, CancellationToken cancel = default(CancellationToken))
         {
             // TODO: Verify DEK options.
             // TODO: get digest based on Options.Hash
-            var pdb = new Pkcs5S2ParametersGenerator(new Sha256Digest());
-            pdb.Init(
-                Encoding.UTF8.GetBytes(passphrase),
-                Encoding.UTF8.GetBytes(Options.Dek.Salt),
-                Options.Dek.IterationCount);
-            var key = (KeyParameter)pdb.GenerateDerivedMacParameters(Options.Dek.KeyLength * 8);
-            dek = key.GetKey().ToBase64NoPad().ToCharArray();
+            passphrase.UseSecretBytes(plain =>
+            {
+                var pdb = new Pkcs5S2ParametersGenerator(new Sha256Digest());
+                pdb.Init(
+                    plain,
+                    Encoding.UTF8.GetBytes(Options.Dek.Salt),
+                    Options.Dek.IterationCount);
+                var key = (KeyParameter)pdb.GenerateDerivedMacParameters(Options.Dek.KeyLength * 8);
+                dek = key.GetKey().ToBase64NoPad().ToCharArray();
+            });
 
             // Verify that that pass phrase is okay, by reading a key.
             var akey = await Store.TryGetAsync("self", cancel);

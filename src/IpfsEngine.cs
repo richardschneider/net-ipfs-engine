@@ -16,12 +16,13 @@ using PeerTalk.Discovery;
 using Nito.AsyncEx;
 using Makaretu.Dns;
 using System.Collections.Concurrent;
+using System.Security;
 
 namespace Ipfs.Engine
 {
     /// <summary>
-    ///    Implements the <see cref="ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
-    ///    application without relying on an "IPFS daemon".
+    ///   Implements the <see cref="ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
+    ///   application without relying on an "IPFS daemon".
     /// </summary>
     /// <remarks>
     ///   The engine should be used as a shared object in your program. It is thread safe (re-entrant) and conserves 
@@ -32,16 +33,45 @@ namespace Ipfs.Engine
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));
 
         KeyChain keyChain;
-        char[] passphrase;
+        SecureString passphrase;
         ConcurrentBag<Func<Task>> stopTasks = new ConcurrentBag<Func<Task>>();
 
         /// <summary>
-        ///   Creates a new instance of the <see cref="IpfsEngine"/> class.
+        ///   Creates a new instance of the <see cref="IpfsEngine"/> class
+        ///   with the specified passphrase.
         /// </summary>
+        /// <param name="passphrase">
+        ///   The password used to access the keychain.
+        /// </param>
+        /// <remarks>
+        ///   A <b>SecureString</b> copy of the passphrase is made so that the array can be 
+        ///   zeroed out after the call.
+        /// </remarks>
         public IpfsEngine(char[] passphrase)
         {
-            this.passphrase = passphrase;
+            this.passphrase = new SecureString();
+            foreach (var c in passphrase)
+            {
+                this.passphrase.AppendChar(c);
+            }
+            Init();
+        }
 
+        /// <summary>
+        ///   Creates a new instance of the <see cref="IpfsEngine"/> class
+        ///   with the specified passphrase.
+        /// </summary>
+        /// <param name="passphrase">
+        ///   The password used to access the keychain.
+        /// </param>
+        public IpfsEngine(SecureString passphrase)
+        {
+            this.passphrase = passphrase;
+            Init();
+        }
+
+        void Init()
+        { 
             // Init the core api inteface.
             Bitswap = new BitswapApi(this);
             Block = new BlockApi(this);
@@ -263,9 +293,9 @@ namespace Ipfs.Engine
             await swarm.StartAsync();
 
             var multicast = new MulticastService();
-#pragma warning disable CS1998 
+#pragma warning disable CS1998
             stopTasks.Add(async () => multicast.Dispose());
-#pragma warning restore CS1998 
+#pragma warning restore CS1998
 
             var tasks = new List<Func<Task>>
             {

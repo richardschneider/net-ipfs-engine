@@ -813,6 +813,18 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainOptions.Dek
   nameWithType: KeyChainOptions.Dek
+- uid: Ipfs.Engine.DiscoveryOptions
+  name: DiscoveryOptions
+  href: api/Ipfs.Engine.DiscoveryOptions.html
+  commentId: T:Ipfs.Engine.DiscoveryOptions
+  fullName: Ipfs.Engine.DiscoveryOptions
+  nameWithType: DiscoveryOptions
+- uid: Ipfs.Engine.DiscoveryOptions.BootstrapPeers
+  name: BootstrapPeers
+  href: api/Ipfs.Engine.DiscoveryOptions.html#Ipfs_Engine_DiscoveryOptions_BootstrapPeers
+  commentId: F:Ipfs.Engine.DiscoveryOptions.BootstrapPeers
+  fullName: Ipfs.Engine.DiscoveryOptions.BootstrapPeers
+  nameWithType: DiscoveryOptions.BootstrapPeers
 - uid: Ipfs.Engine.FileStore`2
   name: FileStore<TName, TValue>
   href: api/Ipfs.Engine.FileStore-2.html
@@ -1438,6 +1450,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngineOptions.Block
   nameWithType: IpfsEngineOptions.Block
+- uid: Ipfs.Engine.IpfsEngineOptions.Discovery
+  name: Discovery
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Discovery
+  commentId: P:Ipfs.Engine.IpfsEngineOptions.Discovery
+  fullName: Ipfs.Engine.IpfsEngineOptions.Discovery
+  nameWithType: IpfsEngineOptions.Discovery
+- uid: Ipfs.Engine.IpfsEngineOptions.Discovery*
+  name: Discovery
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Discovery_
+  commentId: Overload:Ipfs.Engine.IpfsEngineOptions.Discovery
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngineOptions.Discovery
+  nameWithType: IpfsEngineOptions.Discovery
 - uid: Ipfs.Engine.IpfsEngineOptions.Dns
   name: Dns
   href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Dns

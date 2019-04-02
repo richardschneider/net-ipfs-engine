@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace Ipfs.Engine
-   | IPFS Engine documentation </title>
+    <title>Bootstrap Peers | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace Ipfs.Engine
-   | IPFS Engine documentation ">
+    <meta name="title" content="Bootstrap Peers | IPFS Engine documentation ">
     <meta name="generator" content="docfx 2.41.0.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
@@ -68,41 +66,37 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Ipfs.Engine">
-  
-  <h1 id="Ipfs_Engine" data-uid="Ipfs.Engine" class="text-break">Namespace Ipfs.Engine
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="Ipfs.Engine.BlockOptions.html">BlockOptions</a></h4>
-      <section><p>Configuration options for a <see cref="!:IBlockApi">block service</see>.</p>
-</section>
-      <h4><a class="xref" href="Ipfs.Engine.DiscoveryOptions.html">DiscoveryOptions</a></h4>
-      <section><p>Configuration options for discovering other peers.</p>
-</section>
-      <h4><a class="xref" href="Ipfs.Engine.FileStore-2.html">FileStore&lt;TName, TValue&gt;</a></h4>
-      <section><p>A file based repository for name value pairs.</p>
-</section>
-      <h4><a class="xref" href="Ipfs.Engine.IpfsEngine.html">IpfsEngine</a></h4>
-      <section><p>Implements the <see cref="!:ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
-application without relying on an &quot;IPFS daemon&quot;.</p>
-</section>
-      <h4><a class="xref" href="Ipfs.Engine.IpfsEngineOptions.html">IpfsEngineOptions</a></h4>
-      <section><p>Configuration options for the <a class="xref" href="Ipfs.Engine.IpfsEngine.html">IpfsEngine</a>.</p>
-</section>
-      <h4><a class="xref" href="Ipfs.Engine.RepositoryOptions.html">RepositoryOptions</a></h4>
-      <section><p>Configuration options for the repository.</p>
-</section>
-</article>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="bootstrap-peers">Bootstrap Peers</h1>
+
+<p>The bootstrap peers, aka seed nodes, are the 
+<a href="https://richardschneider.github.io/net-ipfs-core/articles/multiaddress.html">multiaddress(es)</a> 
+of well known and trusted peers that have high availability and is used to 
+find other peers on the IPFS network.</p>
+<p>These peers are listed in the <a href="repo/config.html">configuration file</a> and are managed with the 
+<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IBootstrapApi.html">Bootstrap API</a>.</p>
+<p>The <a class="xref" href="../api/Ipfs.Engine.DiscoveryOptions.html">Discovery options</a> can be used to override the default bootstrap peers.</p>
+<h2 id="factorty-default">Factorty Default</h2>
+<p>The default bootstrap peers are:</p>
+<pre><code>/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
+/ip4/104.236.179.241/tcp/4001/ipfs/QmSoLPppuBtQSGwKDZT2M73ULpjvfd3aZ6ha4oFGL1KrGM
+/ip4/128.199.219.111/tcp/4001/ipfs/QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu
+/ip4/104.236.76.40/tcp/4001/ipfs/QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64
+/ip4/178.62.158.247/tcp/4001/ipfs/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd
+/ip6/2604:a880:1:20::203:d001/tcp/4001/ipfs/QmSoLPppuBtQSGwKDZT2M73ULpjvfd3aZ6ha4oFGL1KrGM
+/ip6/2400:6180:0:d0::151:6001/tcp/4001/ipfs/QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu
+/ip6/2604:a880:800:10::4a:5001/tcp/4001/ipfs/QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64
+/ip6/2a03:b0c0:0:1010::23:1001/tcp/4001/ipfs/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd
+</code></pre></article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/bootstrap.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

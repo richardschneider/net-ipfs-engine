@@ -27,9 +27,18 @@
   items:
     - name: Blocks
       href: repo/block.md
+    - name: Configuration
+      href: repo/config.md
     - name: Keys
       href: repo/key.md
     - name: Pins
+- name: Peer
+  href: peer.md
+  items:
+    - name: Bootstrap
+      href: bootstrap.md
+    - name: Local
+      href: local-peer.md
 - name: Asymmetric key 
   href: key.md
 - name: Asynchronous I/O

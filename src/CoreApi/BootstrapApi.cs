@@ -59,6 +59,11 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IEnumerable<MultiAddress>> ListAsync(CancellationToken cancel = default(CancellationToken))
         {
+            if (ipfs.Options.Discovery.BootstrapPeers != null)
+            {
+                return ipfs.Options.Discovery.BootstrapPeers;
+            }
+
             try
             {
                 var json = await ipfs.Config.GetAsync("Bootstrap", cancel);

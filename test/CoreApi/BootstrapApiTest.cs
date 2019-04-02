@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -69,5 +70,28 @@ namespace Ipfs.Engine
                 }
             }
         }
+
+        [TestMethod]
+        public async Task Override_FactoryDefaults()
+        {
+            var original = ipfs.Options.Discovery.BootstrapPeers;
+            try
+            {
+                ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+                var addrs = await ipfs.Bootstrap.ListAsync();
+                Assert.AreEqual(0, addrs.Count());
+
+                ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[1]
+                    { somewhere };
+                addrs = await ipfs.Bootstrap.ListAsync();
+                Assert.AreEqual(1, addrs.Count());
+                Assert.AreEqual(somewhere, addrs.First());
+            }
+            finally
+            {
+                ipfs.Options.Discovery.BootstrapPeers = original;
+            }
+        }
+
     }
 }

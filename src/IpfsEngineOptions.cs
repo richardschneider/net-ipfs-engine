@@ -36,5 +36,10 @@ namespace Ipfs.Engine
         ///   Block options.
         /// </summary>
         public BlockOptions Block { get; set; } = new BlockOptions();
+
+        /// <summary>
+        ///    Discovery options.
+        /// </summary>
+        public DiscoveryOptions Discovery { get; set; } = new DiscoveryOptions();
     }
 }

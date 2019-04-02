@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Cryptography.KeyChain.html",
-          "hash": "TmVkgfEMQRaFZInwKSKDSg=="
+          "hash": "Kw7kPZWzEfJd6pT8a/sJbA=="
         }
       },
       "is_incremental": false,
@@ -137,11 +137,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.SecureStringExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.SecureStringExtensions.html",
+          "hash": "EwPIVbiVylyQ5SbR8LegRA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Ipfs.Engine.Cryptography.yml",
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.Cryptography.html",
-          "hash": "7mrrZn2vKFzHS9QzLXqzSw=="
+          "hash": "Y+NRaV0PElrn82DaaXT3pQ=="
         }
       },
       "is_incremental": false,
@@ -177,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.IpfsEngine.html",
-          "hash": "24MkDX/gNzpFpbcTViIEaA=="
+          "hash": "22sFkQj/gTZX4FFQ8ef3DA=="
         }
       },
       "is_incremental": false,
@@ -369,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "HdatMItQtIEBkUb7wklkcg=="
+          "hash": "VnFIXUk8pL3tKX1YuZAVCw=="
         }
       },
       "is_incremental": false,
@@ -731,11 +743,10 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "TocDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 0,
+          "total_file_count": 31,
           "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
@@ -744,10 +755,11 @@
           "total_file_count": 23,
           "skipped_file_count": 0
         },
-        "ManagedReferenceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 30,
+          "total_file_count": 0,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {

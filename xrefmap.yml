@@ -694,15 +694,12 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync
   nameWithType: KeyChain.RenameAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)
-  name: SetPassphraseAsync(Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Char___CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[],CancellationToken)
-  name.vb: SetPassphraseAsync(Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char[], CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Char(), CancellationToken)
-  nameWithType: KeyChain.SetPassphraseAsync(Char[], CancellationToken)
-  nameWithType.vb: KeyChain.SetPassphraseAsync(Char(), CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(SecureString,CancellationToken)
+  name: SetPassphraseAsync(SecureString, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_SecureString_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(SecureString,CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(SecureString, CancellationToken)
+  nameWithType: KeyChain.SetPassphraseAsync(SecureString, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync*
   name: SetPassphraseAsync
   href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_
@@ -813,6 +810,28 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChainOptions.Dek
   nameWithType: KeyChainOptions.Dek
+- uid: Ipfs.Engine.Cryptography.SecureStringExtensions
+  name: SecureStringExtensions
+  href: api/Ipfs.Engine.Cryptography.SecureStringExtensions.html
+  commentId: T:Ipfs.Engine.Cryptography.SecureStringExtensions
+  fullName: Ipfs.Engine.Cryptography.SecureStringExtensions
+  nameWithType: SecureStringExtensions
+- uid: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(SecureString,Action{System.Byte[]})
+  name: UseSecretBytes(SecureString, Action<Byte[]>)
+  href: api/Ipfs.Engine.Cryptography.SecureStringExtensions.html#Ipfs_Engine_Cryptography_SecureStringExtensions_UseSecretBytes_SecureString_Action_System_Byte____
+  commentId: M:Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(SecureString,Action{System.Byte[]})
+  name.vb: UseSecretBytes(SecureString, Action(Of Byte()))
+  fullName: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(SecureString, Action<System.Byte[]>)
+  fullName.vb: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(SecureString, Action(Of System.Byte()))
+  nameWithType: SecureStringExtensions.UseSecretBytes(SecureString, Action<Byte[]>)
+  nameWithType.vb: SecureStringExtensions.UseSecretBytes(SecureString, Action(Of Byte()))
+- uid: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes*
+  name: UseSecretBytes
+  href: api/Ipfs.Engine.Cryptography.SecureStringExtensions.html#Ipfs_Engine_Cryptography_SecureStringExtensions_UseSecretBytes_
+  commentId: Overload:Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes
+  isSpec: "True"
+  fullName: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes
+  nameWithType: SecureStringExtensions.UseSecretBytes
 - uid: Ipfs.Engine.DiscoveryOptions
   name: DiscoveryOptions
   href: api/Ipfs.Engine.DiscoveryOptions.html
@@ -1077,6 +1096,12 @@ references:
   commentId: T:Ipfs.Engine.IpfsEngine
   fullName: Ipfs.Engine.IpfsEngine
   nameWithType: IpfsEngine
+- uid: Ipfs.Engine.IpfsEngine.#ctor(SecureString)
+  name: IpfsEngine(SecureString)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_SecureString_
+  commentId: M:Ipfs.Engine.IpfsEngine.#ctor(SecureString)
+  fullName: Ipfs.Engine.IpfsEngine.IpfsEngine(SecureString)
+  nameWithType: IpfsEngine.IpfsEngine(SecureString)
 - uid: Ipfs.Engine.IpfsEngine.#ctor(System.Char[])
   name: IpfsEngine(Char[])
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_System_Char___

@@ -49,6 +49,11 @@ string text = await ipfs.FileSystem.ReadAllTextAsync(filename);
 - [IPFS Core](https://github.com/richardschneider/net-ipfs-core)
 - [IPFS HTTP Client](https://github.com/richardschneider/net-ipfs-http-client)
 
+## Sponsors
+<img src="doc/images/atlascity.io-logo.png" width="200" alt="https://atlascity.io" />
+
+##### [AtlasCity.io](https://github.com/atlascity) - Developing blockchain business solutions
+
 # License
 Copyright © 2018 Richard Schneider (makaretu@gmail.com)
 

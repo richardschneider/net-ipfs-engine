@@ -66,7 +66,7 @@ namespace Ipfs.Engine
         /// </param>
         public IpfsEngine(SecureString passphrase)
         {
-            this.passphrase = passphrase;
+            this.passphrase = passphrase.Copy();
             Init();
         }
 
@@ -430,6 +430,7 @@ namespace Ipfs.Engine
         /// </remarks>
         public void Dispose()
         {
+            passphrase?.Dispose();
             StopAsync().Wait();
         }
 

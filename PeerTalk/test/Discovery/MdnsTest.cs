@@ -16,8 +16,6 @@ namespace PeerTalk.Discovery
         [TestMethod]
         public async Task DiscoveryNext()
         {
-            var multicastService = new MulticastService();
-
             var serviceName = $"_{Guid.NewGuid()}._udp";
             var peer1 = new Peer
             {
@@ -32,13 +30,13 @@ namespace PeerTalk.Discovery
             var done = new ManualResetEvent(false);
             var mdns1 = new MdnsNext
             {
-                MulticastService = multicastService,
+                MulticastService = new MulticastService(),
                 ServiceName = serviceName,
                 LocalPeer = peer1
             };
             var mdns2 = new MdnsNext
             {
-                MulticastService = multicastService,
+                MulticastService = new MulticastService(),
                 ServiceName = serviceName,
                 LocalPeer = peer2
             };
@@ -48,8 +46,9 @@ namespace PeerTalk.Discovery
                     done.Set();
             };
             await mdns1.StartAsync();
+            mdns1.MulticastService.Start();
             await mdns2.StartAsync();
-            multicastService.Start();
+            mdns2.MulticastService.Start();
             try
             {
                 Assert.IsTrue(done.WaitOne(TimeSpan.FromSeconds(2)), "timeout");
@@ -58,15 +57,14 @@ namespace PeerTalk.Discovery
             {
                 await mdns1.StopAsync();
                 await mdns2.StopAsync();
-                multicastService.Stop();
+                mdns1.MulticastService.Stop();
+                mdns2.MulticastService.Stop();
             }
         }
 
         [TestMethod]
         public async Task DiscoveryJs()
         {
-            var multicastService = new MulticastService();
-
             var serviceName = $"_{Guid.NewGuid()}._udp";
             serviceName = "_foo._udp";
             var peer1 = new Peer
@@ -82,13 +80,13 @@ namespace PeerTalk.Discovery
             var done = new ManualResetEvent(false);
             var mdns1 = new MdnsJs
             {
-                MulticastService = multicastService,
+                MulticastService = new MulticastService(),
                 ServiceName = serviceName,
                 LocalPeer = peer1
             };
             var mdns2 = new MdnsJs
             {
-                MulticastService = multicastService,
+                MulticastService = new MulticastService(),
                 ServiceName = serviceName,
                 LocalPeer = peer2
             };
@@ -98,8 +96,9 @@ namespace PeerTalk.Discovery
                     done.Set();
             };
             await mdns1.StartAsync();
+            mdns1.MulticastService.Start();
             await mdns2.StartAsync();
-            multicastService.Start();
+            mdns2.MulticastService.Start();
             try
             {
                 Assert.IsTrue(done.WaitOne(TimeSpan.FromSeconds(2)), "timeout");
@@ -108,7 +107,8 @@ namespace PeerTalk.Discovery
             {
                 await mdns1.StopAsync();
                 await mdns2.StopAsync();
-                multicastService.Stop();
+                mdns1.MulticastService.Stop();
+                mdns2.MulticastService.Stop();
             }
         }
 

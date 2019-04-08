@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using Ipfs.CoreApi;
@@ -28,7 +25,7 @@ namespace Ipfs.Engine
     ///   The engine should be used as a shared object in your program. It is thread safe (re-entrant) and conserves 
     ///   resources when only one instance is used.
     /// </remarks>
-    public partial class IpfsEngine : ICoreApi, IService, IDisposable
+    public partial class IpfsEngine : IIpfsEngine
     {
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));
 
@@ -197,16 +194,7 @@ namespace Ipfs.Engine
         /// <inheritdoc />
         public IStatsApi Stats { get; private set; }
 
-        /// <summary>
-        ///   Provides access to the <see cref="KeyChain"/>.
-        /// </summary>
-        /// <param name="cancel">
-        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
-        /// </param>
-        /// <returns>
-        ///   A task that represents the asynchronous operation. The task's result is
-        ///   the <see cref="keyChain"/>.
-        /// </returns>
+        /// <inheritdoc />
         public async Task<KeyChain> KeyChain(CancellationToken cancel = default(CancellationToken))
         {
             if (keyChain == null)
@@ -234,49 +222,17 @@ namespace Ipfs.Engine
             return keyChain;
         }
 
-        /// <summary>
-        ///   Provides access to the local peer.
-        /// </summary>
-        /// <returns>
-        ///   A task that represents the asynchronous operation. The task's result is
-        ///   a <see cref="Peer"/>.
-        /// </returns>
+        /// <inheritdoc />
         public AsyncLazy<Peer> LocalPeer { get; private set; }
 
-        /// <summary>
-        ///   Resolve an "IPFS path" to a content ID.
-        /// </summary>
-        /// <param name="path">
-        ///   A IPFS path, such as "Qm...", "Qm.../a/b/c" or "/ipfs/QM..."
-        /// </param>
-        /// <param name="cancel">
-        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
-        /// </param>
-        /// <returns>
-        ///   The content ID of <paramref name="path"/>.
-        /// </returns>
-        /// <exception cref="ArgumentException">
-        ///   The <paramref name="path"/> cannot be resolved.
-        /// </exception>
+        /// <inheritdoc />
         public async Task<Cid> ResolveIpfsPathToCidAsync (string path, CancellationToken cancel = default(CancellationToken))
         {
             var r = await Generic.ResolveAsync(path, true, cancel);
             return Cid.Decode(r.Remove(0, 6));  // strip '/ipfs/'.
         }
 
-        /// <summary>
-        ///   Starts the network services.
-        /// </summary>
-        /// <returns>
-        ///   A task that represents the asynchronous operation.
-        /// </returns>
-        /// <remarks>
-        ///   Starts the various IPFS and PeerTalk network services.  This should
-        ///   be called after any configuration changes.
-        /// </remarks>
-        /// <exception cref="Exception">
-        ///   When the engine is already started.
-        /// </exception>
+        /// <inheritdoc cref="IIpfsEngine"/>
         public async Task StartAsync()
         {
             if (stopTasks.Count > 0)
@@ -391,15 +347,7 @@ namespace Ipfs.Engine
             log.Debug("started");
         }
 
-        /// <summary>
-        ///   Stops the running services.
-        /// </summary>
-        /// <returns>
-        ///   A task that represents the asynchronous operation.
-        /// </returns>
-        /// <remarks>
-        ///   Multiple calls are okay.
-        /// </remarks>
+        /// <inheritdoc cref="IIpfsEngine"/>
         public async Task StopAsync()
         {
             log.Debug("stopping");
@@ -422,30 +370,19 @@ namespace Ipfs.Engine
             log.Debug("stopped");
         }
 
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <remarks>
-        ///   Waits for <see cref="StopAsync"/> to complete.
-        /// </remarks>
+        /// <inheritdoc cref="IIpfsEngine"/>
         public void Dispose()
         {
             StopAsync().Wait();
         }
 
-        /// <summary>
-        ///   Manages communication with other peers.
-        /// </summary>
+        /// <inheritdoc />
         public AsyncLazy<Swarm> SwarmService { get; private set; }
 
-        /// <summary>
-        ///   Exchange blocks with other peers.
-        /// </summary>
+        /// <inheritdoc />
         public AsyncLazy<BlockExchange.Bitswap> BitswapService { get; private set; }
 
-        /// <summary>
-        ///   Finds information with a distributed hash table.
-        /// </summary>
+        /// <inheritdoc />
         public AsyncLazy<PeerTalk.Routing.Dht1> DhtService { get; private set; }
 
         /// <summary>

@@ -38,6 +38,27 @@ namespace Ipfs.Engine
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class
+        ///   with the IPFS_PASS environment variable.
+        /// </summary>
+        /// <remarks>
+        ///   Th passphrase must be in the IPFS_PASS environment variable.
+        /// </remarks>
+        public IpfsEngine()
+        {
+            var s = Environment.GetEnvironmentVariable("IPFS_PASS");
+            if (s == null)
+                throw new Exception("The IPFS_PASS environement variable is missing.");
+
+            passphrase = new SecureString();
+            foreach (var c in s)
+            {
+                this.passphrase.AppendChar(c);
+            }
+            Init();
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the <see cref="IpfsEngine"/> class
         ///   with the specified passphrase.
         /// </summary>
         /// <param name="passphrase">
@@ -64,6 +85,9 @@ namespace Ipfs.Engine
         /// <param name="passphrase">
         ///   The password used to access the keychain.
         /// </param>
+        /// <remarks>
+        ///  A copy of the <paramref name="passphrase"/> is made.
+        /// </remarks>
         public IpfsEngine(SecureString passphrase)
         {
             this.passphrase = passphrase.Copy();

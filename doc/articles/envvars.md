@@ -8,3 +8,4 @@ are used to control the behaviour of the library
 | HOME | The user's home directory |
 | HOMEPATH | same as `HOME` |
 | IPFS_PATH | The folder of the IPFS [repository](repository.md) |
+| IPFS_PASS | Contains the passphrase for the [key chain](key.md) |

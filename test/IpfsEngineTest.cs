@@ -36,6 +36,27 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task IpfsPass_Passphrase()
+        {
+            var secret = "this is not a secure pass phrase";
+            var ipfs = new IpfsEngine(secret.ToCharArray());
+            ipfs.Options = TestFixture.Ipfs.Options;
+            await ipfs.KeyChain();
+
+            Environment.SetEnvironmentVariable("IPFS_PASS", secret);
+            try
+            {
+                ipfs = new IpfsEngine();
+                ipfs.Options = TestFixture.Ipfs.Options;
+                await ipfs.KeyChain();
+            }
+            finally
+            {
+                Environment.SetEnvironmentVariable("IPFS_PASS", null);
+            }
+        }
+
+        [TestMethod]
         public async Task Wrong_Passphrase()
         {
             var ipfs1 = TestFixture.Ipfs;
@@ -49,6 +70,13 @@ namespace Ipfs.Engine
             {
                 var _ = ipfs2.KeyChain().Result;
             });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void IpfsPass_Missing()
+        {
+            var _ = new IpfsEngine();
         }
 
         [TestMethod]

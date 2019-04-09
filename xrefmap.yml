@@ -1096,6 +1096,12 @@ references:
   commentId: T:Ipfs.Engine.IpfsEngine
   fullName: Ipfs.Engine.IpfsEngine
   nameWithType: IpfsEngine
+- uid: Ipfs.Engine.IpfsEngine.#ctor
+  name: IpfsEngine()
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor
+  commentId: M:Ipfs.Engine.IpfsEngine.#ctor
+  fullName: Ipfs.Engine.IpfsEngine.IpfsEngine()
+  nameWithType: IpfsEngine.IpfsEngine()
 - uid: Ipfs.Engine.IpfsEngine.#ctor(SecureString)
   name: IpfsEngine(SecureString)
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_SecureString_

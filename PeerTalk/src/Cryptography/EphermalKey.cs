@@ -2,6 +2,7 @@
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Utilities;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
@@ -42,15 +43,21 @@ namespace PeerTalk.Cryptography
         /// <summary>
         ///   Create a shared secret between this key and another.
         /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+        /// <param name="other">
+        ///   Another ephermal key.
+        /// </param>
+        /// <returns>
+        ///   The shared secret as a byte array.
+        /// </returns>
+        /// <remarks>
+        ///   Uses the ECDH agreement algorithm to generate the shared secet.
+        /// </remarks>
         public byte[] GenerateSharedSecret(EphermalKey other)
         {
             var agreement = AgreementUtilities.GetBasicAgreement("ECDH");
             agreement.Init(privateKey);
-            return agreement
-                .CalculateAgreement(other.publicKey)
-                .ToByteArrayUnsigned();
+            var secret = agreement.CalculateAgreement(other.publicKey);
+            return BigIntegers.AsUnsignedByteArray(agreement.GetFieldSize(), secret);
         }
 
         /// <summary>

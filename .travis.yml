@@ -18,7 +18,5 @@ before_script:
     fi
 
 script:
-  - dotnet build -c Release --no-restore --framework netstandard2 ./PeerTalk/src
-  - dotnet test --logger "console;verbosity=normal" -c Release --no-restore --framework netcoreapp2.1 ./PeerTalk/test/PeerTalkTests.csproj --filter TestCategory!=IPv6
   - dotnet build -c Release --no-restore --framework netstandard2 ./src
   - dotnet test --logger "console;verbosity=normal" -c Release --no-restore --framework netcoreapp2.1 ./test --filter TestCategory!=IPv6

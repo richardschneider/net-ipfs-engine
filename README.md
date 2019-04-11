@@ -48,6 +48,7 @@ string text = await ipfs.FileSystem.ReadAllTextAsync(filename);
 
 - [IPFS Core](https://github.com/richardschneider/net-ipfs-core)
 - [IPFS HTTP Client](https://github.com/richardschneider/net-ipfs-http-client)
+- [Peer Talk](https://github.com/richardschneider/peer-talk)
 
 ## Sponsors
 <img src="doc/images/atlascity.io-logo.png" width="200" alt="https://atlascity.io" />

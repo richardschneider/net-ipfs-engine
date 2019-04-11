@@ -81,15 +81,11 @@
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
     <div class="level1"><span class="xref">Bitswap</span></div>
   </div>
-  <div classs="implements">
-    <h5>Implements</h5>
-    <div><span class="xref">PeerTalk.IService</span></div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.BlockExchange.html">Ipfs.Engine.BlockExchange</a></h6>
   <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
   <h5 id="Ipfs_Engine_BlockExchange_Bitswap_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Bitswap : object, IService</code></pre>
+    <pre><code class="lang-csharp hljs">public class Bitswap : IService</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -393,7 +389,7 @@ local repository.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">PeerTalk.Swarm</span></td>
+        <td><span class="xref">Swarm</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -713,10 +709,6 @@ Besides using <code data-dev-comment-type="paramref" class="paramref">cancel</co
   <h5 id="Ipfs_Engine_BlockExchange_Bitswap_BlockNeeded_remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Only raised when a block is first requested.</p>
 </div>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <span class="xref">PeerTalk.IService</span>
-  </div>
 </article>
           </div>
           

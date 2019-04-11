@@ -223,11 +223,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap1.Name
   nameWithType: Bitswap1.Name
-- uid: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerTalk.PeerConnection,Stream,CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerConnection,Stream,CancellationToken)
   name: ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_ProcessMessageAsync_PeerTalk_PeerConnection_Stream_CancellationToken_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerTalk.PeerConnection,Stream,CancellationToken)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerTalk.PeerConnection, Stream, CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_ProcessMessageAsync_PeerConnection_Stream_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerConnection,Stream,CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
   nameWithType: Bitswap1.ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
 - uid: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync*
   name: ProcessMessageAsync
@@ -310,11 +310,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap11.Name
   nameWithType: Bitswap11.Name
-- uid: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerTalk.PeerConnection,Stream,CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerConnection,Stream,CancellationToken)
   name: ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_ProcessMessageAsync_PeerTalk_PeerConnection_Stream_CancellationToken_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerTalk.PeerConnection,Stream,CancellationToken)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerTalk.PeerConnection, Stream, CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_ProcessMessageAsync_PeerConnection_Stream_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerConnection,Stream,CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
   nameWithType: Bitswap11.ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
 - uid: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync*
   name: ProcessMessageAsync

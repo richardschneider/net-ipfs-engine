@@ -41,5 +41,10 @@ namespace Ipfs.Engine
         ///    Discovery options.
         /// </summary>
         public DiscoveryOptions Discovery { get; set; } = new DiscoveryOptions();
+
+        /// <summary>
+        ///   Swarm (network) options.
+        /// </summary>
+        public SwarmOptions Swarm { get; set; } = new SwarmOptions();
     }
 }

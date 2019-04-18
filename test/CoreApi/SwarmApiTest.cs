@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
+using PeerTalk.Cryptography;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -94,6 +97,33 @@ namespace Ipfs.Engine
 
             await ipfs.Swarm.DisconnectAsync(remoteAddress);
             Assert.AreEqual(0, (await ipfs.Swarm.PeersAsync()).Count());
+        }
+
+        [TestMethod]
+        public async Task PrivateNetwork()
+        {
+
+            using (var ipfs = CreateNode())
+            {
+                ipfs.Options.Swarm.PrivateNetworkKey = new PreSharedKey().Generate();
+                var swarm = await ipfs.SwarmService;
+                Assert.IsNotNull(swarm.NetworkProtector);
+            }
+        }
+
+
+        IpfsEngine CreateNode()
+        {
+            const string passphrase = "this is not a secure pass phrase";
+            var ipfs = new IpfsEngine(passphrase.ToCharArray());
+            ipfs.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "swarm");
+            ipfs.Options.KeyChain.DefaultKeySize = 512;
+            ipfs.Config.SetAsync(
+                "Addresses.Swarm",
+                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/4007" })
+            ).Wait();
+
+            return ipfs;
         }
 
     }

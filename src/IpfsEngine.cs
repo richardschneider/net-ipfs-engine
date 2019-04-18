@@ -17,6 +17,7 @@ using Nito.AsyncEx;
 using Makaretu.Dns;
 using System.Collections.Concurrent;
 using System.Security;
+using PeerTalk.SecureCommunication;
 
 namespace Ipfs.Engine
 {
@@ -139,8 +140,12 @@ namespace Ipfs.Engine
                 var swarm = new Swarm
                 {
                     LocalPeer = peer,
-                    LocalPeerKey = PeerTalk.Cryptography.Key.CreatePrivateKey(self)
+                    LocalPeerKey = PeerTalk.Cryptography.Key.CreatePrivateKey(self),
+                    NetworkProtector = Options.Swarm.PrivateNetworkKey == null
+                        ? null
+                        : new Psk1Protector { Key = Options.Swarm.PrivateNetworkKey }
                 };
+
                 log.Debug("Built swarm service");
                 return swarm;
             });

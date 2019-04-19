@@ -1,0 +1,19 @@
+﻿# Private Network
+
+A private network is a group of [peers](peer.md) that share the same 256-bit 
+[secret key](xref:PeerTalk.Cryptography.PreSharedKey).  All communication between the
+peers is encryped with the [XSalsa20 cipher](https://en.wikipedia.org/wiki/Salsa20).  The
+specification is at [PSK v1](https://github.com/libp2p/specs/blob/master/pnet/Private-Networks-PSK-V1.md)
+and is implemented by [Psk1Protector](xref:PeerTalk.SecureCommunication.Psk1Protector).
+
+## Configuring
+
+The [local peer](local-peer.md) becomes a member of the private network by setting the
+secret key.  This can be done by
+
+- setting [SwarmOptions.PrivateNetworkKey](xref:Ipfs.Engine.SwarmOptions.PrivateNetworkKey)
+- creating the `swarm.key` file in the [repository](repository.md)
+
+## Example
+
+TODO

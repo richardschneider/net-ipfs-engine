@@ -39,6 +39,8 @@
       href: bootstrap.md
     - name: Local
       href: local-peer.md
+- name: Private Network
+  href: pnet.md
 - name: Asymmetric key 
   href: key.md
 - name: Asynchronous I/O

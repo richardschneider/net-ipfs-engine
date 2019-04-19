@@ -100,23 +100,59 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
-        public async Task PrivateNetwork()
+        public async Task PrivateNetwork_WithOptionsKey()
         {
-
             using (var ipfs = CreateNode())
             {
-                ipfs.Options.Swarm.PrivateNetworkKey = new PreSharedKey().Generate();
-                var swarm = await ipfs.SwarmService;
-                Assert.IsNotNull(swarm.NetworkProtector);
+                try
+                {
+                    ipfs.Options.Swarm.PrivateNetworkKey = new PreSharedKey().Generate();
+                    var swarm = await ipfs.SwarmService;
+                    Assert.IsNotNull(swarm.NetworkProtector);
+                }
+                finally
+                {
+                    if (Directory.Exists(ipfs.Options.Repository.Folder))
+                    {
+                        Directory.Delete(ipfs.Options.Repository.Folder, true);
+                    }
+                }
             }
         }
 
+        [TestMethod]
+        public async Task PrivateNetwork_WithSwarmKeyFile()
+        {
+            using (var ipfs = CreateNode())
+            {
+                try
+                {
+                    var key = new PreSharedKey().Generate();
+                    var path = Path.Combine(ipfs.Options.Repository.ExistingFolder(), "swarm.key");
+                    using (var x = File.CreateText(path))
+                    {
+                        key.Export(x);
+                    }
 
+                    var swarm = await ipfs.SwarmService;
+                    Assert.IsNotNull(swarm.NetworkProtector);
+                }
+                finally
+                {
+                    if (Directory.Exists(ipfs.Options.Repository.Folder))
+                    {
+                        Directory.Delete(ipfs.Options.Repository.Folder, true);
+                    }
+                }
+            }
+        }
+
+        static int nodeNumber = 0;
         IpfsEngine CreateNode()
         {
             const string passphrase = "this is not a secure pass phrase";
             var ipfs = new IpfsEngine(passphrase.ToCharArray());
-            ipfs.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "swarm");
+            ipfs.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), $"swarm-{nodeNumber++}");
             ipfs.Options.KeyChain.DefaultKeySize = 512;
             ipfs.Config.SetAsync(
                 "Addresses.Swarm",

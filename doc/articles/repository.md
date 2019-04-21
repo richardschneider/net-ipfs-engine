@@ -24,5 +24,5 @@ is generated; by default it is RSA with 2048 bits.
 | blocks      | [Block API](xref:Ipfs.Engine.IpfsEngine.Block) | A [Block](repo/block.md) of data |
 | keys        | [Key API](xref:Ipfs.Engine.IpfsEngine.Key) | Cryptographic [keys](repo/key.md) |
 | pins        | [Pin API](xref:Ipfs.Engine.IpfsEngine.Pin) | A [Block](repo/block.md) that is pinned to the local repository |
-
+| swarm.key   | [Swarmp API](xref:Ipfs.Engine.IpfsEngine.Swarm) | The [key](xref:PeerTalk.Cryptography.PreSharedKey) of the [private network](pnet.md) |
 

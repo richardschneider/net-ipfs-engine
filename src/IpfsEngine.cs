@@ -17,6 +17,8 @@ using Nito.AsyncEx;
 using Makaretu.Dns;
 using System.Collections.Concurrent;
 using System.Security;
+using PeerTalk.SecureCommunication;
+using PeerTalk.Cryptography;
 
 namespace Ipfs.Engine
 {
@@ -133,14 +135,30 @@ namespace Ipfs.Engine
             SwarmService = new AsyncLazy<Swarm>(async () =>
             {
                 log.Debug("Building swarm service");
+                if (Options.Swarm.PrivateNetworkKey == null)
+                {
+                    var path = Path.Combine(Options.Repository.Folder, "swarm.key");
+                    if (File.Exists(path))
+                    {
+                        using (var x = File.OpenText(path))
+                        {
+                            Options.Swarm.PrivateNetworkKey = new PreSharedKey();
+                            Options.Swarm.PrivateNetworkKey.Import(x);
+                        }
+                    }
+                }
                 var peer = await LocalPeer;
                 var keyChain = await KeyChain();
                 var self = await keyChain.GetPrivateKeyAsync("self");
                 var swarm = new Swarm
                 {
                     LocalPeer = peer,
-                    LocalPeerKey = PeerTalk.Cryptography.Key.CreatePrivateKey(self)
+                    LocalPeerKey = PeerTalk.Cryptography.Key.CreatePrivateKey(self),
+                    NetworkProtector = Options.Swarm.PrivateNetworkKey == null
+                        ? null
+                        : new Psk1Protector { Key = Options.Swarm.PrivateNetworkKey }
                 };
+
                 log.Debug("Built swarm service");
                 return swarm;
             });

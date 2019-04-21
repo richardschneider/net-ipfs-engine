@@ -73,8 +73,12 @@
 <a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.Cryptography.PreSharedKey.html">secret key</a>.  All communication between the
 peers is encryped with the <a href="https://en.wikipedia.org/wiki/Salsa20">XSalsa20 cipher</a>.  The
 specification is at <a href="https://github.com/libp2p/specs/blob/master/pnet/Private-Networks-PSK-V1.md">PSK v1</a>
-and is implemented by <a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.SecureCommunication.Psk1Protector.html">Psk1Protector</a>.</p>
-<h2 id="configuring">Configuring</h2>
+and is implemented by the <a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.SecureCommunication.Psk1Protector.html">Psk1Protector</a> class.</p>
+<p>The private network is defined by the symmetric secret key, which is known by all members. 
+All traffic leaving the peer is encrypted and there is no characteristic 
+handshake. The secret key is just a random number; public/private 
+keys and certificates are not needed.</p>
+<h2 id="joining">Joining</h2>
 <p>The <a href="local-peer.html">local peer</a> becomes a member of the private network by setting the
 secret key.  This can be done by</p>
 <ul>
@@ -82,7 +86,9 @@ secret key.  This can be done by</p>
 <li>creating the <code>swarm.key</code> file in the <a href="repository.html">repository</a></li>
 </ul>
 <h2 id="example">Example</h2>
+<p>Two ways of specifying the secret key for a private network.</p>
 <h3 id="a-swarmkey-file">A <code>swarm.key</code> file</h3>
+<p>Copy the following file to the repository</p>
 <pre><code>/key/swarm/psk/1.0.0/
 /base16/
 e8d6d31e8e02000010d7d31e8e020000f0d1fc609300000078f0d31e8e020000

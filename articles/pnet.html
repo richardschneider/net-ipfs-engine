@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Accessing IPFS | IPFS Engine documentation </title>
+    <title>Private Network | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Accessing IPFS | IPFS Engine documentation ">
+    <meta name="title" content="Private Network | IPFS Engine documentation ">
     <meta name="generator" content="docfx 2.42.0.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
@@ -67,30 +67,30 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="accessing-ipfs">Accessing IPFS</h1>
+<h1 id="private-network">Private Network</h1>
 
-<p>IPFS is a distributed peer to peer system.  There is no central server!  The <strong>IPFS engine</strong> allows your 
-program to be a peer on the network.</p>
-<p>The <a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html">engine</a> provides a simple way for your program to access the <a href="core-api.html">IPFS Core API</a>.
-The engine should be used as a shared object in your program.  It is thread safe (re-entrant) and conserves resources when only one instance is used.</p>
-<pre><code class="lang-csharp">public class Program
+<p>A private network is a group of <a href="peer.html">peers</a> that share the same 256-bit 
+<a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.Cryptography.PreSharedKey.html">secret key</a>.  All communication between the
+peers is encryped with the <a href="https://en.wikipedia.org/wiki/Salsa20">XSalsa20 cipher</a>.  The
+specification is at <a href="https://github.com/libp2p/specs/blob/master/pnet/Private-Networks-PSK-V1.md">PSK v1</a>
+and is implemented by <a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.SecureCommunication.Psk1Protector.html">Psk1Protector</a>.</p>
+<h2 id="configuring">Configuring</h2>
+<p>The <a href="local-peer.html">local peer</a> becomes a member of the private network by setting the
+secret key.  This can be done by</p>
+<ul>
+<li>setting <a class="xref" href="../api/Ipfs.Engine.SwarmOptions.html#Ipfs_Engine_SwarmOptions_PrivateNetworkKey">SwarmOptions.PrivateNetworkKey</a></li>
+<li>creating the <code>swarm.key</code> file in the <a href="repository.html">repository</a></li>
+</ul>
+<h2 id="example">Example</h2>
+<h3 id="a-swarmkey-file">A <code>swarm.key</code> file</h3>
+<pre><code>/key/swarm/psk/1.0.0/
+/base16/
+e8d6d31e8e02000010d7d31e8e020000f0d1fc609300000078f0d31e8e020000
+</code></pre><h3 id="setting-the-key">Setting the key</h3>
+<pre><code class="lang-csharp">ipfs.Options.Swarm.PrivateNetworkKey = new PreSharedKey
 {
-  const string passphrase = &quot;this is not a secure pass phrase&quot;;
-  static readonly IpfsClient ipfs = new IpfsClient(new IpfsEngine(passphrase.ToCharArray()));
-
-  public async Task Main(string[] args) 
-  {
-    // Set the repository
-    var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); 
-    ipfs.Options.Repository.Folder = Path.Combine(path, &quot;myapp-ipfs&quot;);
-
-    // Start the engine.
-    await ipfs.StartAsync();
-
-    // Get our peer details.
-    var peer = await ipfs.IdAsync();
-  }
-}
+    Value = &quot;e8d6 ... 20000&quot;.ToHexBuffer();
+};
 </code></pre></article>
           </div>
           
@@ -99,7 +99,7 @@ The engine should be used as a shared object in your program.  It is thread safe
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/intro-ipfs.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/pnet.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

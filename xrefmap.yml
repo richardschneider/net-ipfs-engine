@@ -1533,6 +1533,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngineOptions.Repository
   nameWithType: IpfsEngineOptions.Repository
+- uid: Ipfs.Engine.IpfsEngineOptions.Swarm
+  name: Swarm
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Swarm
+  commentId: P:Ipfs.Engine.IpfsEngineOptions.Swarm
+  fullName: Ipfs.Engine.IpfsEngineOptions.Swarm
+  nameWithType: IpfsEngineOptions.Swarm
+- uid: Ipfs.Engine.IpfsEngineOptions.Swarm*
+  name: Swarm
+  href: api/Ipfs.Engine.IpfsEngineOptions.html#Ipfs_Engine_IpfsEngineOptions_Swarm_
+  commentId: Overload:Ipfs.Engine.IpfsEngineOptions.Swarm
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngineOptions.Swarm
+  nameWithType: IpfsEngineOptions.Swarm
 - uid: Ipfs.Engine.LinkedData
   name: Ipfs.Engine.LinkedData
   href: api/Ipfs.Engine.LinkedData.html
@@ -1765,6 +1778,25 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.RepositoryOptions.Folder
   nameWithType: RepositoryOptions.Folder
+- uid: Ipfs.Engine.SwarmOptions
+  name: SwarmOptions
+  href: api/Ipfs.Engine.SwarmOptions.html
+  commentId: T:Ipfs.Engine.SwarmOptions
+  fullName: Ipfs.Engine.SwarmOptions
+  nameWithType: SwarmOptions
+- uid: Ipfs.Engine.SwarmOptions.PrivateNetworkKey
+  name: PrivateNetworkKey
+  href: api/Ipfs.Engine.SwarmOptions.html#Ipfs_Engine_SwarmOptions_PrivateNetworkKey
+  commentId: P:Ipfs.Engine.SwarmOptions.PrivateNetworkKey
+  fullName: Ipfs.Engine.SwarmOptions.PrivateNetworkKey
+  nameWithType: SwarmOptions.PrivateNetworkKey
+- uid: Ipfs.Engine.SwarmOptions.PrivateNetworkKey*
+  name: PrivateNetworkKey
+  href: api/Ipfs.Engine.SwarmOptions.html#Ipfs_Engine_SwarmOptions_PrivateNetworkKey_
+  commentId: Overload:Ipfs.Engine.SwarmOptions.PrivateNetworkKey
+  isSpec: "True"
+  fullName: Ipfs.Engine.SwarmOptions.PrivateNetworkKey
+  nameWithType: SwarmOptions.PrivateNetworkKey
 - uid: Ipfs.Engine.UnixFileSystem
   name: Ipfs.Engine.UnixFileSystem
   href: api/Ipfs.Engine.UnixFileSystem.html

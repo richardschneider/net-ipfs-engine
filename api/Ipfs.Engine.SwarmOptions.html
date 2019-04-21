@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class FileSystem
+    <title>Class SwarmOptions
    | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class FileSystem
+    <meta name="title" content="Class SwarmOptions
    | IPFS Engine documentation ">
     <meta name="generator" content="docfx 2.42.0.0">
     
@@ -68,80 +68,44 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Ipfs.Engine.UnixFileSystem.FileSystem">
+            <article class="content wrap" id="_content" data-uid="Ipfs.Engine.SwarmOptions">
   
   
-  <h1 id="Ipfs_Engine_UnixFileSystem_FileSystem" data-uid="Ipfs.Engine.UnixFileSystem.FileSystem" class="text-break">Class FileSystem
+  <h1 id="Ipfs_Engine_SwarmOptions" data-uid="Ipfs.Engine.SwarmOptions" class="text-break">Class SwarmOptions
   </h1>
-  <div class="markdown level0 summary"><p>Support for the *nix file system.</p>
+  <div class="markdown level0 summary"><p>Configuration options for communication with other peers.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><span class="xref">FileSystem</span></div>
+    <div class="level1"><span class="xref">SwarmOptions</span></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.UnixFileSystem.html">Ipfs.Engine.UnixFileSystem</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.html">Ipfs.Engine</a></h6>
   <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
-  <h5 id="Ipfs_Engine_UnixFileSystem_FileSystem_syntax">Syntax</h5>
+  <h5 id="Ipfs_Engine_SwarmOptions_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class FileSystem : object</code></pre>
+    <pre><code class="lang-csharp hljs">public class SwarmOptions : object</code></pre>
   </div>
-  <h3 id="methods">Methods
+  <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid%2CIBlockApi%2CIpfs.Engine.Cryptography.KeyChain%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_SwarmOptions_PrivateNetworkKey.md&amp;value=---%0Auid%3A%20Ipfs.Engine.SwarmOptions.PrivateNetworkKey%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/FileSystem.cs/#L44">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/SwarmOptions.cs/#L33">View Source</a>
   </span>
-  <a id="Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_" data-uid="Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream*"></a>
-  <h4 id="Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_" data-uid="Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)">CreateReadStream(Cid, IBlockApi, KeyChain, CancellationToken)</h4>
-  <div class="markdown level1 summary"><p>Creates a stream that can read the supplied <see cref="!:Cid"></see>.</p>
+  <a id="Ipfs_Engine_SwarmOptions_PrivateNetworkKey_" data-uid="Ipfs.Engine.SwarmOptions.PrivateNetworkKey*"></a>
+  <h4 id="Ipfs_Engine_SwarmOptions_PrivateNetworkKey" data-uid="Ipfs.Engine.SwarmOptions.PrivateNetworkKey">PrivateNetworkKey</h4>
+  <div class="markdown level1 summary"><p>The key of the private network.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Stream&gt; CreateReadStream(Cid id, IBlockApi blockService, KeyChain keyChain, CancellationToken cancel)</code></pre>
+    <pre><code class="lang-csharp hljs">public PreSharedKey PrivateNetworkKey { get; set; }</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Cid</span></td>
-        <td><span class="parametername">id</span></td>
-        <td><p>The identifier of some content.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">IBlockApi</span></td>
-        <td><span class="parametername">blockService</span></td>
-        <td><p>The source of the cid&apos;s data.</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Ipfs.Engine.Cryptography.KeyChain.html">KeyChain</a></td>
-        <td><span class="parametername">keyChain</span></td>
-        <td><p>Used to decypt the protected data blocks.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">CancellationToken</span></td>
-        <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -151,17 +115,29 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">Stream</span>&gt;</td>
-        <td><p>A task that represents the asynchronous operation. The task&apos;s value is
-a <see cref="!:Stream"></see> that produces the content of the <code data-dev-comment-type="paramref" class="paramref">id</code>.</p>
+        <td><span class="xref">PreSharedKey</span></td>
+        <td><p>The key must either <strong>null</strong> or 32 bytes (256 bits) in length.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>The id&apos;s <see cref="!:Cid.ContentType"></see> is used to determine how to read
-the conent.</p>
+  <h5 id="Ipfs_Engine_SwarmOptions_PrivateNetworkKey_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>When null, the public network is used.  Otherwise, the network is
+considered private and only peers with the same key will be
+communicated with.
+<p>
+When using a private network, the <a class="xref" href="Ipfs.Engine.DiscoveryOptions.html#Ipfs_Engine_DiscoveryOptions_BootstrapPeers">BootstrapPeers</a>
+must also use this key.
+</p></p>
 </div>
+  <h5 id="Ipfs_Engine_SwarmOptions_PrivateNetworkKey_seealso">See Also</h5>
+  <div class="seealso">
+      <div><span><a href="https://github.com/libp2p/specs/blob/master/pnet/Private-Networks-PSK-V1.md">https://github.com/libp2p/specs/blob/master/pnet/Private-Networks-PSK-V1.md</a></span></div>
+  </div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="Ipfs.Engine.IpfsEngineOptions.html">IpfsEngineOptions</a></div>
+  </div>
 </article>
           </div>
           
@@ -170,10 +146,10 @@ the conent.</p>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_UnixFileSystem_FileSystem.md&amp;value=---%0Auid%3A%20Ipfs.Engine.UnixFileSystem.FileSystem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_SwarmOptions.md&amp;value=---%0Auid%3A%20Ipfs.Engine.SwarmOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/UnixFileSystem/FileSystem.cs/#L17" class="contribution-link">View Source</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/SwarmOptions.cs/#L15" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -192,52 +192,52 @@ namespace Ipfs.Engine
         public IpfsEngineOptions Options { get; set; } = new IpfsEngineOptions();
 
         /// <inheritdoc />
-        public IBitswapApi Bitswap { get; private set; }
+        public IBitswapApi Bitswap { get; set; }
 
         /// <inheritdoc />
-        public IBlockApi Block { get; private set; }
+        public IBlockApi Block { get; set; }
 
         /// <inheritdoc />
-        public IBootstrapApi Bootstrap { get; private set; }
+        public IBootstrapApi Bootstrap { get; set; }
 
         /// <inheritdoc />
-        public IConfigApi Config { get; private set; }
+        public IConfigApi Config { get; set; }
 
         /// <inheritdoc />
-        public IDagApi Dag { get; private set; }
+        public IDagApi Dag { get; set; }
 
         /// <inheritdoc />
-        public IDhtApi Dht { get; private set; }
+        public IDhtApi Dht { get; set; }
 
         /// <inheritdoc />
-        public IDnsApi Dns { get; private set; }
+        public IDnsApi Dns { get; set; }
 
         /// <inheritdoc />
-        public IFileSystemApi FileSystem { get; private set; }
+        public IFileSystemApi FileSystem { get; set; }
 
         /// <inheritdoc />
-        public IGenericApi Generic { get; private set; }
+        public IGenericApi Generic { get; set; }
 
         /// <inheritdoc />
-        public IKeyApi Key { get; private set; }
+        public IKeyApi Key { get; set; }
 
         /// <inheritdoc />
-        public INameApi Name { get; private set; }
+        public INameApi Name { get; set; }
 
         /// <inheritdoc />
-        public IObjectApi Object { get; private set; }
+        public IObjectApi Object { get; set; }
 
         /// <inheritdoc />
-        public IPinApi Pin { get; private set; }
+        public IPinApi Pin { get; set; }
 
         /// <inheritdoc />
-        public IPubSubApi PubSub { get; private set; }
+        public IPubSubApi PubSub { get; set; }
 
         /// <inheritdoc />
-        public ISwarmApi Swarm { get; private set; }
+        public ISwarmApi Swarm { get; set; }
 
         /// <inheritdoc />
-        public IStatsApi Stats { get; private set; }
+        public IStatsApi Stats { get; set; }
 
         /// <summary>
         ///   Provides access to the <see cref="KeyChain"/>.

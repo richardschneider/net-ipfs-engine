@@ -56,7 +56,7 @@ namespace Ipfs.Engine
             try
             {
                 var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
-                var providers = await ipfs.Dht.FindProvidersAsync(folder, 1, cts.Token);
+                var providers = await ipfs.Dht.FindProvidersAsync(folder, 1, null, cts.Token);
                 Assert.AreEqual(1, providers.Count());
             }
             finally

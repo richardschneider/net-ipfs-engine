@@ -109,7 +109,7 @@ namespace Ipfs.Server.HttpApi.V0
             [ModelBinder(Name = "num-providers")] int limit = 20
             )
         {
-            var peers = await IpfsCore.Dht.FindProvidersAsync(arg, limit, Cancel);
+            var peers = await IpfsCore.Dht.FindProvidersAsync(arg, limit, null, Cancel);
             return peers.Select(peer => new DhtPeerDto
             {
                 ID = peer.Id.ToBase58(), // TODO: should be the peer ID that answered the query

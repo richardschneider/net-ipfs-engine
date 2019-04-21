@@ -16,7 +16,8 @@ package is published on [NuGet](https://www.nuget.org/packages/Ipfs.Engine).
 
 - [IPFS Core](https://github.com/richardschneider/net-ipfs-core)
 - [IPFS HTTP Client](https://github.com/richardschneider/net-ipfs-http-client)
-
+- [Peer Talk](https://github.com/richardschneider/peer-talk)
+ 
 ## Other implementations
 
 - [Javascript](https://github.com/ipfs/js-ipfs)

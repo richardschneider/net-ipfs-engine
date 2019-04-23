@@ -465,18 +465,6 @@ namespace Ipfs.Engine
         }
 
         /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <remarks>
-        ///   Waits for <see cref="StopAsync"/> to complete.
-        /// </remarks>
-        public void Dispose()
-        {
-            passphrase?.Dispose();
-            StopAsync().Wait();
-        }
-
-        /// <summary>
         ///   Manages communication with other peers.
         /// </summary>
         public AsyncLazy<Swarm> SwarmService { get; private set; }
@@ -512,5 +500,37 @@ namespace Ipfs.Engine
                 // eat it, nothing we can do.
             }
         }
+
+        #region IDisposable Support
+        bool disposedValue = false; // To detect redundant calls
+
+        /// <summary>
+        ///  Releases the unmanaged and optionally managed resources.
+        /// <param name="disposing">
+        ///   <b>true</b> to release both managed and unmanaged resources; <b>false</b> 
+        ///   to release only unmanaged resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    passphrase?.Dispose();
+                    StopAsync().Wait();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

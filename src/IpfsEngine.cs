@@ -512,6 +512,7 @@ namespace Ipfs.Engine
 
         /// <summary>
         ///  Releases the unmanaged and optionally managed resources.
+        /// </summary>
         /// <param name="disposing">
         ///   <b>true</b> to release both managed and unmanaged resources; <b>false</b> 
         ///   to release only unmanaged resources.

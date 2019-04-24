@@ -672,6 +672,46 @@ namespace Ipfs.Engine
             }
         }
 
+        [TestMethod]
+        public async Task Read_From_OtherNode()
+        {
+            using (var a = new TempNode())
+            using (var b = new TempNode())
+            using (var c = new TempNode())
+            {
+                var psk = new PeerTalk.Cryptography.PreSharedKey().Generate();
+
+                // Start bootstrap node.
+                b.Options.Discovery.DisableMdns = true;
+                b.Options.Swarm.PrivateNetworkKey = psk;
+                b.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+                await b.StartAsync();
+                var bootstrapPeers = new MultiAddress[]
+                {
+                    (await b.LocalPeer).Addresses.First()
+                };
+
+                // Node that has the content.
+                c.Options.Discovery.DisableMdns = true;
+                c.Options.Swarm.PrivateNetworkKey = psk;
+                c.Options.Discovery.BootstrapPeers = bootstrapPeers;
+                await c.StartAsync();
+
+                var fsn = await c.FileSystem.AddTextAsync("some content");
+                var cid = fsn.Id;
+                await c.Swarm.ConnectAsync(bootstrapPeers[0]);
+
+                // Node that reads the content.
+                a.Options.Discovery.DisableMdns = true;
+                a.Options.Swarm.PrivateNetworkKey = psk;
+                a.Options.Discovery.BootstrapPeers = bootstrapPeers;
+                await a.StartAsync();
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                var content = await a.FileSystem.ReadAllTextAsync(cid, cts.Token);
+                Assert.AreEqual("some content", content);
+            }
+        }
+
 #if !NETCOREAPP1_1 // TODO
         [TestMethod]
         public async Task GetTar()

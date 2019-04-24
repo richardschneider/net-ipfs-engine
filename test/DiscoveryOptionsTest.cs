@@ -18,7 +18,7 @@ namespace Ipfs.Engine
         {
             var options = new DiscoveryOptions();
             Assert.IsNull(options.BootstrapPeers);
+            Assert.IsFalse(options.DisableMdns);
         }
-
     }
 }

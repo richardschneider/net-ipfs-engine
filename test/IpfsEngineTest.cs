@@ -21,6 +21,15 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Can_Dispose()
+        {
+            using (var node = new TempNode())
+            {
+                await node.StartAsync();
+            }
+        }
+
+        [TestMethod]
         public async Task SecureString_Passphrase()
         { 
             var secret = "this is not a secure pass phrase";

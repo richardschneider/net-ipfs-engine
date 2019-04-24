@@ -844,6 +844,12 @@ references:
   commentId: F:Ipfs.Engine.DiscoveryOptions.BootstrapPeers
   fullName: Ipfs.Engine.DiscoveryOptions.BootstrapPeers
   nameWithType: DiscoveryOptions.BootstrapPeers
+- uid: Ipfs.Engine.DiscoveryOptions.DisableMdns
+  name: DisableMdns
+  href: api/Ipfs.Engine.DiscoveryOptions.html#Ipfs_Engine_DiscoveryOptions_DisableMdns
+  commentId: F:Ipfs.Engine.DiscoveryOptions.DisableMdns
+  fullName: Ipfs.Engine.DiscoveryOptions.DisableMdns
+  nameWithType: DiscoveryOptions.DisableMdns
 - uid: Ipfs.Engine.FileStore`2
   name: FileStore<TName, TValue>
   href: api/Ipfs.Engine.FileStore-2.html
@@ -1234,6 +1240,12 @@ references:
   commentId: M:Ipfs.Engine.IpfsEngine.Dispose
   fullName: Ipfs.Engine.IpfsEngine.Dispose()
   nameWithType: IpfsEngine.Dispose()
+- uid: Ipfs.Engine.IpfsEngine.Dispose(System.Boolean)
+  name: Dispose(Boolean)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dispose_System_Boolean_
+  commentId: M:Ipfs.Engine.IpfsEngine.Dispose(System.Boolean)
+  fullName: Ipfs.Engine.IpfsEngine.Dispose(System.Boolean)
+  nameWithType: IpfsEngine.Dispose(Boolean)
 - uid: Ipfs.Engine.IpfsEngine.Dispose*
   name: Dispose
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Dispose_

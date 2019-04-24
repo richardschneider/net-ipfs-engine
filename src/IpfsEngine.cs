@@ -334,10 +334,14 @@ namespace Ipfs.Engine
             stopTasks.Add(async () => await swarm.StopAsync());
             await swarm.StartAsync();
 
-            var multicast = new MulticastService();
+            MulticastService multicast = null;
+            if (!Options.Discovery.DisableMdns)
+            {
+                multicast = new MulticastService();
 #pragma warning disable CS1998
-            stopTasks.Add(async () => multicast.Dispose());
+                stopTasks.Add(async () => multicast.Dispose());
 #pragma warning restore CS1998
+            }
 
             var tasks = new List<Func<Task>>
             {
@@ -353,6 +357,8 @@ namespace Ipfs.Engine
                 },
                 async () =>
                 {
+                    if (Options.Discovery.DisableMdns)
+                        return;
                     var mdns = new PeerTalk.Discovery.MdnsNext
                     {
                         LocalPeer = localPeer,
@@ -364,6 +370,8 @@ namespace Ipfs.Engine
                 },
                 async () =>
                 {
+                    if (Options.Discovery.DisableMdns)
+                        return;
                     var mdns = new PeerTalk.Discovery.MdnsJs
                     {
                         LocalPeer = localPeer,
@@ -375,6 +383,8 @@ namespace Ipfs.Engine
                 },
                 async () =>
                 {
+                    if (Options.Discovery.DisableMdns)
+                        return;
                     var mdns = new PeerTalk.Discovery.MdnsGo
                     {
                         LocalPeer = localPeer,
@@ -401,10 +411,6 @@ namespace Ipfs.Engine
             log.Debug("waiting for services to start");
             await Task.WhenAll(tasks.Select(t => t()));
 
-            // TODO: Would be nice to make this deterministic.
-            //await Task.Delay(TimeSpan.FromMilliseconds(100));
-            //log.Debug("all service started");
-
             // Starting listening to the swarm.
             var json = await Config.GetAsync("Addresses.Swarm");
             var numberListeners = 0;
@@ -428,7 +434,7 @@ namespace Ipfs.Engine
 
             // Now that the listener addresses are established, the mdns discovery can begin.
             // TODO: Maybe all discovery services should be start here.
-            multicast.Start();
+            multicast?.Start();
 
             log.Debug("started");
         }

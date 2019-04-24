@@ -25,6 +25,12 @@ namespace Ipfs.Engine
         ///   the block API; otherwise the values in the configuration
         ///   file are used.
         /// </remarks>
-        public IEnumerable<MultiAddress> BootstrapPeers = null;
+        public IEnumerable<MultiAddress> BootstrapPeers;
+
+        /// <summary>
+        ///   Disables the multicast DNS discovery of other peers
+        ///   and advertising of this peer.
+        /// </summary>
+        public bool DisableMdns;
     }
 }

@@ -313,13 +313,14 @@ namespace Ipfs.Engine.BlockExchange
         /// </summary>
         Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
         {
-            log.Debug("Spamming all connected peers");
             if (Swarm == null)
                 return Task.CompletedTask;
 
             var tasks = Swarm.KnownPeers
                 .Where(p => p.ConnectedAddress != null)
                 .Select(p => SendWantListAsync(p, wants, full));
+            if (log.IsDebugEnabled)
+                log.Debug($"Spamming {tasks.Count()} connected peers");
             return Task.WhenAll(tasks);
         }
 

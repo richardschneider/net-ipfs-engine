@@ -121,7 +121,7 @@ namespace Ipfs.Engine.CoreApi
             // then send the block to us via bitswap and the get task will finish.
             using (var queryCancel = CancellationTokenSource.CreateLinkedTokenSource(cancel))
             {
-                var bitswapGet = ipfs.Bitswap.GetAsync(id, cancel);
+                var bitswapGet = ipfs.Bitswap.GetAsync(id, queryCancel.Token);
                 var dht = await ipfs.DhtService;
                 var _ = dht.FindProvidersAsync(
                     id: id,

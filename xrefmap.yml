@@ -1796,6 +1796,19 @@ references:
   commentId: T:Ipfs.Engine.SwarmOptions
   fullName: Ipfs.Engine.SwarmOptions
   nameWithType: SwarmOptions
+- uid: Ipfs.Engine.SwarmOptions.MinConnections
+  name: MinConnections
+  href: api/Ipfs.Engine.SwarmOptions.html#Ipfs_Engine_SwarmOptions_MinConnections
+  commentId: P:Ipfs.Engine.SwarmOptions.MinConnections
+  fullName: Ipfs.Engine.SwarmOptions.MinConnections
+  nameWithType: SwarmOptions.MinConnections
+- uid: Ipfs.Engine.SwarmOptions.MinConnections*
+  name: MinConnections
+  href: api/Ipfs.Engine.SwarmOptions.html#Ipfs_Engine_SwarmOptions_MinConnections_
+  commentId: Overload:Ipfs.Engine.SwarmOptions.MinConnections
+  isSpec: "True"
+  fullName: Ipfs.Engine.SwarmOptions.MinConnections
+  nameWithType: SwarmOptions.MinConnections
 - uid: Ipfs.Engine.SwarmOptions.PrivateNetworkKey
   name: PrivateNetworkKey
   href: api/Ipfs.Engine.SwarmOptions.html#Ipfs_Engine_SwarmOptions_PrivateNetworkKey

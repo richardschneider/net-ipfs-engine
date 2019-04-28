@@ -123,10 +123,12 @@ namespace Ipfs.Engine
                 var keyChain = await KeyChain();
                 log.Debug("Getting key info about self");
                 var self = await keyChain.FindKeyByNameAsync("self");
-                var localPeer = new Peer();
-                localPeer.Id = self.Id;
-                localPeer.PublicKey = await keyChain.GetPublicKeyAsync("self");
-                localPeer.ProtocolVersion = "ipfs/0.1.0";
+                var localPeer = new Peer
+                {
+                    Id = self.Id,
+                    PublicKey = await keyChain.GetPublicKeyAsync("self"),
+                    ProtocolVersion = "ipfs/0.1.0"
+                };
                 var version = typeof(IpfsEngine).GetTypeInfo().Assembly.GetName().Version;
                 localPeer.AgentVersion = $"net-ipfs/{version.Major}.{version.Minor}.{version.Revision}";
                 log.Debug("Built local peer");
@@ -331,9 +333,55 @@ namespace Ipfs.Engine
 
             // Everybody needs the swarm.
             var swarm = await SwarmService;
-            stopTasks.Add(async () => await swarm.StopAsync());
+            stopTasks.Add(async () =>
+            {
+                await swarm.StopAsync();
+            });
             await swarm.StartAsync();
 
+            // Start the primary services.
+            var tasks = new List<Func<Task>>
+            {
+                async () =>
+                {
+                    var bitswap = await BitswapService;
+                    stopTasks.Add(async () => await bitswap.StopAsync());
+                    await bitswap.StartAsync();
+                },
+                async () =>
+                {
+                    var dht = await DhtService;
+                    stopTasks.Add(async () => await dht.StopAsync());
+                    await dht.StartAsync();
+                },
+            };
+
+            log.Debug("waiting for services to start");
+            await Task.WhenAll(tasks.Select(t => t()));
+
+            // Starting listening to the swarm.
+            var json = await Config.GetAsync("Addresses.Swarm");
+            var numberListeners = 0;
+            foreach (string a in json)
+            {
+                try
+                {
+                    await swarm.StartListeningAsync(a);
+                    ++numberListeners;
+                }
+                catch (Exception e)
+                {
+                    log.Warn($"Listener failure for '{a}'", e);
+                    // eat the exception
+                }
+            }
+            if (numberListeners == 0)
+            {
+                log.Error("No listeners were created.");
+            }
+
+            // Now that the listener addresses are established, the discovery 
+            // services can begin.
             MulticastService multicast = null;
             if (!Options.Discovery.DisableMdns)
             {
@@ -343,7 +391,15 @@ namespace Ipfs.Engine
 #pragma warning restore CS1998
             }
 
-            var tasks = new List<Func<Task>>
+            var autodialer = new AutoDialer(swarm)
+            {
+                MinConnections = Options.Swarm.MinConnections
+            };
+#pragma warning disable CS1998
+            stopTasks.Add(async () => autodialer.Dispose());
+#pragma warning restore CS1998
+
+            tasks = new List<Func<Task>>
             {
                 async () =>
                 {
@@ -394,46 +450,10 @@ namespace Ipfs.Engine
                     stopTasks.Add(async () => await mdns.StopAsync());
                     await mdns.StartAsync();
                 },
-                async () =>
-                {
-                    var bitswap = await BitswapService;
-                    stopTasks.Add(async () => await bitswap.StopAsync());
-                    await bitswap.StartAsync();
-                },
-                async () =>
-                {
-                    var dht = await DhtService;
-                    stopTasks.Add(async () => await dht.StopAsync());
-                    await dht.StartAsync();
-                },
             };
-
-            log.Debug("waiting for services to start");
+            log.Debug("waiting for discovery services to start");
             await Task.WhenAll(tasks.Select(t => t()));
 
-            // Starting listening to the swarm.
-            var json = await Config.GetAsync("Addresses.Swarm");
-            var numberListeners = 0;
-            foreach (string a in json)
-            {
-                try
-                {
-                    await swarm.StartListeningAsync(a);
-                    ++numberListeners;
-                }
-                catch (Exception e)
-                {
-                    log.Warn($"Listener failure for '{a}'", e);
-                    // eat the exception
-                }
-            }
-            if (numberListeners == 0)
-            {
-                log.Error("No listeners were created.");
-            }
-
-            // Now that the listener addresses are established, the mdns discovery can begin.
-            // TODO: Maybe all discovery services should be start here.
             multicast?.Start();
 
             log.Debug("started");

@@ -32,5 +32,20 @@ namespace Ipfs.Engine
         /// <seealso href="https://github.com/libp2p/specs/blob/master/pnet/Private-Networks-PSK-V1.md"/>
         public PreSharedKey PrivateNetworkKey { get; set; }
 
+        /// <summary>
+        ///   The low water mark for peer connections.
+        /// </summary>
+        /// <value>
+        ///   Defaults to 16.
+        /// </value>
+        /// <remarks>
+        ///   The <see cref="PeerTalk.AutoDialer"/> is used to maintain at
+        ///   least this number of connections.
+        ///   <para>
+        ///   Setting this to zero will disable the auto dial feature.
+        ///   </para>
+        /// </remarks>
+        public int MinConnections { get; set; } = 16;
+
     }
 }

@@ -24,7 +24,7 @@ namespace Ipfs.Engine
             Ipfs.Options.KeyChain.DefaultKeySize = 512;
             Ipfs.Config.SetAsync(
                 "Addresses.Swarm", 
-                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/4007" })
+                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/0" })
             ).Wait();
 
             IpfsOther.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "ipfs-other");

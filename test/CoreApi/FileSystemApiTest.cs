@@ -683,6 +683,7 @@ namespace Ipfs.Engine
 
                 // Start bootstrap node.
                 b.Options.Discovery.DisableMdns = true;
+                b.Options.Swarm.MinConnections = 0;
                 b.Options.Swarm.PrivateNetworkKey = psk;
                 b.Options.Discovery.BootstrapPeers = new MultiAddress[0];
                 await b.StartAsync();
@@ -690,22 +691,27 @@ namespace Ipfs.Engine
                 {
                     (await b.LocalPeer).Addresses.First()
                 };
+                Console.WriteLine($"B is {await b.LocalPeer}");
 
                 // Node that has the content.
                 c.Options.Discovery.DisableMdns = true;
+                c.Options.Swarm.MinConnections = 0;
                 c.Options.Swarm.PrivateNetworkKey = psk;
                 c.Options.Discovery.BootstrapPeers = bootstrapPeers;
                 await c.StartAsync();
+                await c.Swarm.ConnectAsync(bootstrapPeers[0]);
+                Console.WriteLine($"C is {await c.LocalPeer}");
 
                 var fsn = await c.FileSystem.AddTextAsync("some content");
                 var cid = fsn.Id;
-                await c.Swarm.ConnectAsync(bootstrapPeers[0]);
 
                 // Node that reads the content.
                 a.Options.Discovery.DisableMdns = true;
+                a.Options.Swarm.MinConnections = 0;
                 a.Options.Swarm.PrivateNetworkKey = psk;
                 a.Options.Discovery.BootstrapPeers = bootstrapPeers;
                 await a.StartAsync();
+                Console.WriteLine($"A is {await a.LocalPeer}");
                 var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
                 var content = await a.FileSystem.ReadAllTextAsync(cid, cts.Token);
                 Assert.AreEqual("some content", content);

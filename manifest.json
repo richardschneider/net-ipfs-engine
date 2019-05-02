@@ -189,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.IpfsEngine.html",
-          "hash": "x7lKV+dgOV4hz2UAVF16Vw=="
+          "hash": "DYyajYca3r+QrMgxTrqxlQ=="
         }
       },
       "is_incremental": false,
@@ -297,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.SwarmOptions.html",
-          "hash": "gJww1iUt4u3TMeF24REaQA=="
+          "hash": "zGrhNYTLhTwZNCM/zy4Ilw=="
         }
       },
       "is_incremental": false,

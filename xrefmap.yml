@@ -1409,6 +1409,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync
   nameWithType: IpfsEngine.ResolveIpfsPathToCidAsync
+- uid: Ipfs.Engine.IpfsEngine.Start
+  name: Start()
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Start
+  commentId: M:Ipfs.Engine.IpfsEngine.Start
+  fullName: Ipfs.Engine.IpfsEngine.Start()
+  nameWithType: IpfsEngine.Start()
+- uid: Ipfs.Engine.IpfsEngine.Start*
+  name: Start
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Start_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.Start
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.Start
+  nameWithType: IpfsEngine.Start
 - uid: Ipfs.Engine.IpfsEngine.StartAsync
   name: StartAsync()
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StartAsync
@@ -1435,6 +1448,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Stats
   nameWithType: IpfsEngine.Stats
+- uid: Ipfs.Engine.IpfsEngine.Stop
+  name: Stop()
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Stop
+  commentId: M:Ipfs.Engine.IpfsEngine.Stop
+  fullName: Ipfs.Engine.IpfsEngine.Stop()
+  nameWithType: IpfsEngine.Stop()
+- uid: Ipfs.Engine.IpfsEngine.Stop*
+  name: Stop
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Stop_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.Stop
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.Stop
+  nameWithType: IpfsEngine.Stop
 - uid: Ipfs.Engine.IpfsEngine.StopAsync
   name: StopAsync()
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_StopAsync

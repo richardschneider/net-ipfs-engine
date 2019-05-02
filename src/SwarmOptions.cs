@@ -36,16 +36,16 @@ namespace Ipfs.Engine
         ///   The low water mark for peer connections.
         /// </summary>
         /// <value>
-        ///   Defaults to 16.
+        ///   Defaults to 0.
         /// </value>
         /// <remarks>
         ///   The <see cref="PeerTalk.AutoDialer"/> is used to maintain at
         ///   least this number of connections.
         ///   <para>
-        ///   Setting this to zero will disable the auto dial feature.
+        ///   This is an opt-feature.  The value must be positive to enable it.
         ///   </para>
         /// </remarks>
-        public int MinConnections { get; set; } = 16;
+        public int MinConnections { get; set; } = 0;
 
     }
 }

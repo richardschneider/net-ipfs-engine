@@ -18,7 +18,7 @@ namespace Ipfs.Engine
         {
             var options = new SwarmOptions();
             Assert.IsNull(options.PrivateNetworkKey);
-            Assert.AreNotEqual(0, options.MinConnections);
+            Assert.AreEqual(0, options.MinConnections);
         }
 
     }

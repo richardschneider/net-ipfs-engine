@@ -72,8 +72,10 @@ namespace Ipfs.Engine
         public async Task AddDuplicateWithPin()
         {
             var ipfs = TestFixture.Ipfs;
-            var options = new AddFileOptions();
-            options.Pin = true;
+            var options = new AddFileOptions
+            {
+                Pin = true
+            };
             var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
             Assert.AreEqual("Qmf412jQZiuVUtdgnB36FXFX7xg5V6KEbSJ4dpQuhkLyfD", (string)node.Id);
             var pins = await ipfs.Pin.ListAsync();

@@ -8,11 +8,13 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections.Concurrent;
 using PeerTalk;
+using Common.Logging;
 
 namespace Ipfs.Engine.CoreApi
 {
     class SwarmApi : ISwarmApi
     {
+        static ILog log = LogManager.GetLogger(typeof(SwarmApi));
         IpfsEngine ipfs;
 
         static MultiAddress[] defaultFilters = new MultiAddress[]
@@ -48,7 +50,9 @@ namespace Ipfs.Engine.CoreApi
         public async Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
             var swarm = await ipfs.SwarmService;
-            await swarm.ConnectAsync(address, cancel);
+            log.Debug($"Connecting to {address}");
+            var peer = await swarm.ConnectAsync(address, cancel);
+            log.Debug($"Connected to {peer.ConnectedAddress}");
         }
 
         public async Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))

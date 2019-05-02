@@ -160,6 +160,8 @@ namespace Ipfs.Engine
                         ? null
                         : new Psk1Protector { Key = Options.Swarm.PrivateNetworkKey }
                 };
+                if (Options.Swarm.PrivateNetworkKey != null)
+                    log.Debug($"Private network {Options.Swarm.PrivateNetworkKey.Fingerprint().ToHexString()}");
 
                 log.Debug("Built swarm service");
                 return swarm;

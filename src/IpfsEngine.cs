@@ -493,6 +493,28 @@ namespace Ipfs.Engine
         }
 
         /// <summary>
+        ///   A synchronous start.
+        /// </summary>
+        /// <remarks>
+        ///   Calls <see cref="StartAsync"/> and waits for it to complete.
+        /// </remarks>
+        public void Start()
+        {
+            StartAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        ///   A synchronous stop.
+        /// </summary>
+        /// <remarks>
+        ///   Calls <see cref="StopAsync"/> and waits for it to complete.
+        /// </remarks>
+        public void Stop()
+        {
+            StopAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
         ///   Manages communication with other peers.
         /// </summary>
         public AsyncLazy<Swarm> SwarmService { get; private set; }
@@ -543,13 +565,13 @@ namespace Ipfs.Engine
         {
             if (!disposedValue)
             {
+                disposedValue = true;
+
                 if (disposing)
                 {
                     passphrase?.Dispose();
-                    StopAsync().Wait();
+                    Stop();
                 }
-
-                disposedValue = true;
             }
         }
 

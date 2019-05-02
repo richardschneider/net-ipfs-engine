@@ -14,7 +14,7 @@ namespace Ipfs.Engine
     public class SwarmApiTest
     {
         IpfsEngine ipfs = TestFixture.Ipfs;
-        MultiAddress somewhere = "/ip4/127.0.0.1";
+        readonly MultiAddress somewhere = "/ip4/127.0.0.1";
 
         [TestMethod]
         public async Task Filter_Add_Remove()

@@ -102,7 +102,7 @@ namespace Ipfs.Engine.UnixFileSystem
         /// <inheritdoc />
         public override int Read(byte[] buffer, int offset, int count)
         {
-            return ReadAsync(buffer, offset, count).Result;
+            return ReadAsync(buffer, offset, count).GetAwaiter().GetResult();
         }
 
         /// <inheritdoc />

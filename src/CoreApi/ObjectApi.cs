@@ -37,19 +37,19 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<Stream> DataAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            var node = await GetAsync(id, cancel);
+            var node = await GetAsync(id, cancel).ConfigureAwait(false);
             return node.DataStream;
         }
 
         public async Task<DagNode> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            var block = await ipfs.Block.GetAsync(id, cancel);
+            var block = await ipfs.Block.GetAsync(id, cancel).ConfigureAwait(false);
             return new DagNode(block.DataStream);
         }
 
         public async Task<IEnumerable<IMerkleLink>> LinksAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            var node = await GetAsync(id, cancel);
+            var node = await GetAsync(id, cancel).ConfigureAwait(false);
             return node.Links;
         }
 
@@ -79,7 +79,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<DagNode> PutAsync(DagNode node, CancellationToken cancel = default(CancellationToken))
         {
-            node.Id = await ipfs.Block.PutAsync(node.ToArray(), cancel: cancel);
+            node.Id = await ipfs.Block.PutAsync(node.ToArray(), cancel: cancel).ConfigureAwait(false);
             return node;
         }
     }

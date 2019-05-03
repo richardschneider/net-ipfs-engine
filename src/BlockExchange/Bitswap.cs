@@ -135,7 +135,7 @@ namespace Ipfs.Engine.BlockExchange
             {
                 // There is a race condition between getting the remote identity and
                 // the remote sending the first wantlist.
-                await connection.IdentityEstablished.Task;
+                await connection.IdentityEstablished.Task.ConfigureAwait(false);
 
                 // Fire and forget.
                 var _ = SendWantListAsync(connection.RemotePeer);
@@ -334,9 +334,9 @@ namespace Ipfs.Engine.BlockExchange
             {
                 try
                 {
-                    using (var stream = await Swarm.DialAsync(peer, protocol.ToString()))
+                    using (var stream = await Swarm.DialAsync(peer, protocol.ToString()).ConfigureAwait(false))
                     {
-                        await protocol.SendWantsAsync(stream, wants, full: full);
+                        await protocol.SendWantsAsync(stream, wants, full: full).ConfigureAwait(false);
                     }
                     return;
                 }

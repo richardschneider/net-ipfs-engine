@@ -66,7 +66,7 @@ namespace Ipfs.Engine.CoreApi
                         KeyToName = (key) => new MultiHash(key.FromBase32()),
                         Serialize = async (stream, cid, block, cancel) => 
                         {
-                            await stream.WriteAsync(block.DataBytes, 0, block.DataBytes.Length, cancel);
+                            await stream.WriteAsync(block.DataBytes, 0, block.DataBytes.Length, cancel).ConfigureAwait(false);
                         },
                         Deserialize = async (stream, cid, cancel) =>
                         {
@@ -78,7 +78,7 @@ namespace Ipfs.Engine.CoreApi
                             block.DataBytes = new byte[block.Size];
                             for (int i = 0, n; i < block.Size; i += n)
                             {
-                                n = await stream.ReadAsync(block.DataBytes, i, (int)block.Size - i, cancel);
+                                n = await stream.ReadAsync(block.DataBytes, i, (int)block.Size - i, cancel).ConfigureAwait(false);
                             }
                             return block;
                         }
@@ -109,7 +109,7 @@ namespace Ipfs.Engine.CoreApi
             }
 
             // Check the local filesystem for the block.
-            var block = await Store.TryGetAsync(id, cancel);
+            var block = await Store.TryGetAsync(id, cancel).ConfigureAwait(false);
             if (block != null)
             {
                 return block;
@@ -121,13 +121,13 @@ namespace Ipfs.Engine.CoreApi
             // then send the block to us via bitswap and the get task will finish.
             using (var queryCancel = CancellationTokenSource.CreateLinkedTokenSource(cancel))
             {
-                var bitswapGet = ipfs.Bitswap.GetAsync(id, queryCancel.Token);
+                var bitswapGet = ipfs.Bitswap.GetAsync(id, queryCancel.Token).ConfigureAwait(false);
                 var dht = await ipfs.DhtService;
                 var _ = dht.FindProvidersAsync(
                     id: id,
                     limit: 20, // TODO: remove this
                     cancel: queryCancel.Token,
-                    action: (peer) => { var __ = ProviderFound(peer, queryCancel.Token); }
+                    action: (peer) => { var __ = ProviderFound(peer, queryCancel.Token).ConfigureAwait(false); }
                 );
 
                 var got = await bitswapGet;
@@ -144,10 +144,10 @@ namespace Ipfs.Engine.CoreApi
                 return;
 
             log.Debug($"Connecting to provider {peer.Id}");
-            var swarm = await ipfs.SwarmService;
+            var swarm = await ipfs.SwarmService.ConfigureAwait(false);
             try
             {
-                await swarm.ConnectAsync(peer, cancel);
+                await swarm.ConnectAsync(peer, cancel).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -190,27 +190,27 @@ namespace Ipfs.Engine.CoreApi
                 Id = cid,
                 Size = data.Length
             };
-            if (await Store.ExistsAsync(cid))
+            if (await Store.ExistsAsync(cid).ConfigureAwait(false))
             {
                 log.DebugFormat("Block '{0}' already present", cid);
             }
             else
             {
-                await Store.PutAsync(cid, block, cancel);
+                await Store.PutAsync(cid, block, cancel).ConfigureAwait(false);
                 log.DebugFormat("Added block '{0}'", cid);
             }
 
             // Inform the Bitswap service.
-            (await ipfs.BitswapService).Found(block);
+            (await ipfs.BitswapService.ConfigureAwait(false)).Found(block);
 
             // To pin or not.
             if (pin)
             {
-                await ipfs.Pin.AddAsync(cid, recursive: false, cancel: cancel);
+                await ipfs.Pin.AddAsync(cid, recursive: false, cancel: cancel).ConfigureAwait(false);
             }
             else
             {
-                await ipfs.Pin.RemoveAsync(cid, recursive: false, cancel: cancel);
+                await ipfs.Pin.RemoveAsync(cid, recursive: false, cancel: cancel).ConfigureAwait(false);
             }
 
             return cid;
@@ -226,8 +226,8 @@ namespace Ipfs.Engine.CoreApi
         {
             using (var ms = new MemoryStream())
             {
-                await data.CopyToAsync(ms);
-                return await PutAsync(ms.ToArray(), contentType, multiHash, encoding, pin, cancel);
+                await data.CopyToAsync(ms).ConfigureAwait(false);
+                return await PutAsync(ms.ToArray(), contentType, multiHash, encoding, pin, cancel).ConfigureAwait(false);
             }
         }
 
@@ -237,10 +237,10 @@ namespace Ipfs.Engine.CoreApi
             {
                 return id;
             }
-            if (await Store.ExistsAsync(id, cancel))
+            if (await Store.ExistsAsync(id, cancel).ConfigureAwait(false))
             {
-                await Store.RemoveAsync(id, cancel);
-                await ipfs.Pin.RemoveAsync(id, recursive: false, cancel: cancel);
+                await Store.RemoveAsync(id, cancel).ConfigureAwait(false);
+                await ipfs.Pin.RemoveAsync(id, recursive: false, cancel: cancel).ConfigureAwait(false);
                 return id;
             }
             if (ignoreNonexistent) return null;
@@ -251,11 +251,11 @@ namespace Ipfs.Engine.CoreApi
         {
             if (id.Hash.IsIdentityHash)
             {
-                return await GetAsync(id, cancel);
+                return await GetAsync(id, cancel).ConfigureAwait(false);
             }
 
             IDataBlock block = null;
-            var length = await Store.LengthAsync(id, cancel);
+            var length = await Store.LengthAsync(id, cancel).ConfigureAwait(false);
             if (length.HasValue)
             {
                 block = new DataBlock

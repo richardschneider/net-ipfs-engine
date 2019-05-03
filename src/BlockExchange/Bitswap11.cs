@@ -45,11 +45,11 @@ namespace Ipfs.Engine.BlockExchange
         {
             // There is a race condition between getting the remote identity and
             // the remote sending the first wantlist.
-            await connection.IdentityEstablished.Task;
+            await connection.IdentityEstablished.Task.ConfigureAwait(false);
 
             while (true)
             {
-                var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel);
+                var request = await ProtoBufHelper.ReadMessageAsync<Message>(stream, cancel).ConfigureAwait(false);
 
                 // Process want list
                 if (request.wantlist != null && request.wantlist.entries != null)
@@ -89,7 +89,7 @@ namespace Ipfs.Engine.BlockExchange
                                 data: sentBlock.data,
                                 contentType: contentType,
                                 multiHash: multiHash,
-                                pin: false);
+                                pin: false).ConfigureAwait(false);
                             // TODO: Detect if duplicate and update stats
                         }
                     }
@@ -103,19 +103,19 @@ namespace Ipfs.Engine.BlockExchange
             try
             {
                 IDataBlock block;
-                if (null != await Bitswap.BlockService.StatAsync(cid, cancel))
+                if (null != await Bitswap.BlockService.StatAsync(cid, cancel).ConfigureAwait(false))
                 {
-                    block = await Bitswap.BlockService.GetAsync(cid, cancel);
+                    block = await Bitswap.BlockService.GetAsync(cid, cancel).ConfigureAwait(false);
                 }
                 else
                 {
-                    block = await Bitswap.Want(cid, remotePeer.Id, cancel);
+                    block = await Bitswap.Want(cid, remotePeer.Id, cancel).ConfigureAwait(false);
                 }
 
                 // Send block to remote.
-                using (var stream = await Bitswap.Swarm.DialAsync(remotePeer, this.ToString()))
+                using (var stream = await Bitswap.Swarm.DialAsync(remotePeer, this.ToString()).ConfigureAwait(false))
                 {
-                    await SendAsync(stream, block, cancel);
+                    await SendAsync(stream, block, cancel).ConfigureAwait(false);
                 }
 
             }
@@ -156,7 +156,7 @@ namespace Ipfs.Engine.BlockExchange
             };
 
             ProtoBuf.Serializer.SerializeWithLengthPrefix<Message>(stream, message, PrefixStyle.Base128);
-            await stream.FlushAsync(cancel);
+            await stream.FlushAsync(cancel).ConfigureAwait(false);
         }
 
         internal async Task SendAsync(
@@ -181,7 +181,7 @@ namespace Ipfs.Engine.BlockExchange
             };
 
             ProtoBuf.Serializer.SerializeWithLengthPrefix<Message>(stream, message, PrefixStyle.Base128);
-            await stream.FlushAsync(cancel);
+            await stream.FlushAsync(cancel).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -48,7 +48,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IEnumerable<Cid>> AddAsync(string path, bool recursive = true, CancellationToken cancel = default(CancellationToken))
         {
-            var id = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
+            var id = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
             var todos = new Stack<Cid>();
             todos.Push(id);
             var dones = new List<Cid>();
@@ -62,10 +62,10 @@ namespace Ipfs.Engine.CoreApi
                 var current = todos.Pop();
 
                 // Add CID to PIN database.
-                await Store.PutAsync(current, Pin.Default);
+                await Store.PutAsync(current, Pin.Default).ConfigureAwait(false);
 
                 // Make sure that the content is stored locally.
-                await ipfs.Block.GetAsync(current, cancel);
+                await ipfs.Block.GetAsync(current, cancel).ConfigureAwait(false);
 
                 // Recursively pin the links?
                 if (recursive && current.ContentType == "dag-pb")
@@ -100,10 +100,10 @@ namespace Ipfs.Engine.CoreApi
                 var current = todos.Pop();
                 // TODO: exists is never set to true!
                 bool exists = false;
-                await Store.RemoveAsync(current, cancel);
+                await Store.RemoveAsync(current, cancel).ConfigureAwait(false);
                 if (exists && recursive)
                 {
-                    var links = await ipfs.Object.LinksAsync(current, cancel);
+                    var links = await ipfs.Object.LinksAsync(current, cancel).ConfigureAwait(false);
                     foreach (var link in links)
                     {
                         todos.Push(link.Id);

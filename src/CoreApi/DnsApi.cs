@@ -32,7 +32,7 @@ namespace Ipfs.Engine.CoreApi
                         Find(name, cts.Token),
                         Find("_dnslink." + name, cts.Token)
                     };
-                    link = await TaskHelper.WhenAnyResult(attempts, cancel);
+                    link = await TaskHelper.WhenAnyResult(attempts, cancel).ConfigureAwait(false);
                     cts.Cancel();
                 }
                 catch (Exception e)
@@ -46,7 +46,7 @@ namespace Ipfs.Engine.CoreApi
 
             if (link.StartsWith("/ipns/"))
             {
-                return await ipfs.Name.ResolveAsync(link, recursive, false, cancel);
+                return await ipfs.Name.ResolveAsync(link, recursive, false, cancel).ConfigureAwait(false);
             }
 
             throw new NotSupportedException($"Cannot resolve '{link}'.");
@@ -54,7 +54,7 @@ namespace Ipfs.Engine.CoreApi
 
         async Task<string> Find(string name, CancellationToken cancel)
         {
-            var response = await ipfs.Options.Dns.QueryAsync(name, DnsType.TXT, cancel);
+            var response = await ipfs.Options.Dns.QueryAsync(name, DnsType.TXT, cancel).ConfigureAwait(false);
             var link = response.Answers
                 .OfType<TXTRecord>()
                 .SelectMany(txt => txt.Strings)

@@ -21,10 +21,10 @@ namespace Ipfs.Engine.CoreApi
         {
             if (peer == null)
             {
-                return await ipfs.LocalPeer;
+                return await ipfs.LocalPeer.ConfigureAwait(false);
             }
 
-            return await ipfs.Dht.FindPeerAsync(peer, cancel);
+            return await ipfs.Dht.FindPeerAsync(peer, cancel).ConfigureAwait(false);
         }
 
         public async Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
@@ -32,7 +32,7 @@ namespace Ipfs.Engine.CoreApi
             var path = name;
             if (path.StartsWith("/ipns/"))
             {
-                path = await ipfs.Name.ResolveAsync(path, recursive, false, cancel);
+                path = await ipfs.Name.ResolveAsync(path, recursive, false, cancel).ConfigureAwait(false);
                 if (!recursive)
                     return path;
             }
@@ -48,7 +48,7 @@ namespace Ipfs.Engine.CoreApi
             var id = Cid.Decode(parts[0]);
             foreach (var child in parts.Skip(1))
             {
-                var container = await ipfs.Object.GetAsync(id, cancel);
+                var container = await ipfs.Object.GetAsync(id, cancel).ConfigureAwait(false);
                 var link = container.Links.FirstOrDefault(l => l.Name == child);
                 if (link == null)
                     throw new ArgumentException($"Cannot resolve '{name}'.");

@@ -31,7 +31,7 @@ namespace Ipfs.Engine.Cryptography
             string keyName, 
             CancellationToken cancel = default(CancellationToken))
         {
-            var cert = await CreateBCCertificateAsync(keyName, cancel);
+            var cert = await CreateBCCertificateAsync(keyName, cancel).ConfigureAwait(false);
             return cert.GetEncoded();
         }
 
@@ -48,7 +48,7 @@ namespace Ipfs.Engine.Cryptography
             CancellationToken cancel = default(CancellationToken))
         {
             // Get the BC key pair for the named key.
-            var ekey = await Store.TryGetAsync(keyName, cancel);
+            var ekey = await Store.TryGetAsync(keyName, cancel).ConfigureAwait(false);
             if (ekey == null)
                 throw new KeyNotFoundException($"The key '{keyName}' does not exist.");
             AsymmetricCipherKeyPair kp = null;

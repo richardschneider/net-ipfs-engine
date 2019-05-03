@@ -18,20 +18,20 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<Peer> FindPeerAsync(MultiHash id, CancellationToken cancel = default(CancellationToken))
         {
-            var dht = await ipfs.DhtService;
-            return await dht.FindPeerAsync(id, cancel);
+            var dht = await ipfs.DhtService.ConfigureAwait(false);
+            return await dht.FindPeerAsync(id, cancel).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<Peer>> FindProvidersAsync(Cid id, int limit = 20, Action<Peer> providerFound = null, CancellationToken cancel = default(CancellationToken))
         {
-            var dht = await ipfs.DhtService;
-            return await dht.FindProvidersAsync(id, limit, providerFound, cancel);
+            var dht = await ipfs.DhtService.ConfigureAwait(false);
+            return await dht.FindProvidersAsync(id, limit, providerFound, cancel).ConfigureAwait(false);
         }
 
         public async Task ProvideAsync(Cid cid, bool advertise = true, CancellationToken cancel = default(CancellationToken))
         {
-            var dht = await ipfs.DhtService;
-            await dht.ProvideAsync(cid, advertise, cancel);
+            var dht = await ipfs.DhtService.ConfigureAwait(false);
+            await dht.ProvideAsync(cid, advertise, cancel).ConfigureAwait(false);
         }
 
         public Task<byte[]> GetAsync(byte[] key, CancellationToken cancel = default(CancellationToken))

@@ -42,12 +42,12 @@ namespace Ipfs.Engine.CoreApi
                     using (var reader = File.OpenText(path))
                     using (var jtr = new JsonTextReader(reader))
                     {
-                        configuration = await JObject.LoadAsync(jtr);
+                        configuration = await JObject.LoadAsync(jtr).ConfigureAwait(false);
                     }
                 }
                 else
                 {
-                    await ReplaceAsync(defaultConfiguration);
+                    await ReplaceAsync(defaultConfiguration).ConfigureAwait(false);
                 }
             }
 
@@ -56,7 +56,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<JToken> GetAsync(string key, CancellationToken cancel = default(CancellationToken))
         {
-            JToken config = await GetAsync(cancel);
+            JToken config = await GetAsync(cancel).ConfigureAwait(false);
             var keys = key.Split('.');
             foreach (var name in keys)
             {
@@ -83,7 +83,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task SetAsync(string key, JToken value, CancellationToken cancel = default(CancellationToken))
         {
-            var config = await GetAsync(cancel);
+            var config = await GetAsync(cancel).ConfigureAwait(false);
 
             // If needed, create the setting owner keys.
             var keys = key.Split('.');
@@ -99,7 +99,7 @@ namespace Ipfs.Engine.CoreApi
             }
 
             config[keys.Last()] = value;
-            await SaveAsync();
+            await SaveAsync().ConfigureAwait(false);
         }
 
         async Task SaveAsync()
@@ -109,7 +109,7 @@ namespace Ipfs.Engine.CoreApi
             using (var writer = new StreamWriter(fs))
             using (var jtw = new JsonTextWriter(writer) { Formatting = Formatting.Indented })
             {
-                await configuration.WriteToAsync(jtw);
+                await configuration.WriteToAsync(jtw).ConfigureAwait(false);
             }
         }
     }

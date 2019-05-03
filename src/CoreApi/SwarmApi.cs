@@ -28,44 +28,44 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<MultiAddress> AddAddressFilterAsync(MultiAddress address, bool persist = false, CancellationToken cancel = default(CancellationToken))
         {
-            var addrs = (await ListAddressFiltersAsync(persist, cancel)).ToList();
+            var addrs = (await ListAddressFiltersAsync(persist, cancel).ConfigureAwait(false)).ToList();
             if (addrs.Any(a => a == address))
                 return address;
 
             addrs.Add(address);
             var strings = addrs.Select(a => a.ToString());
-            await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel);
+            await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel).ConfigureAwait(false);
 
-            (await ipfs.SwarmService).WhiteList.Add(address);
+            (await ipfs.SwarmService.ConfigureAwait(false)).WhiteList.Add(address);
 
             return address;
         }
 
         public async Task<IEnumerable<Peer>> AddressesAsync(CancellationToken cancel = default(CancellationToken))
         {
-            var swarm = await ipfs.SwarmService;
+            var swarm = await ipfs.SwarmService.ConfigureAwait(false);
             return swarm.KnownPeers;
         }
 
         public async Task ConnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            var swarm = await ipfs.SwarmService;
+            var swarm = await ipfs.SwarmService.ConfigureAwait(false);
             log.Debug($"Connecting to {address}");
-            var peer = await swarm.ConnectAsync(address, cancel);
+            var peer = await swarm.ConnectAsync(address, cancel).ConfigureAwait(false);
             log.Debug($"Connected to {peer.ConnectedAddress}");
         }
 
         public async Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            var swarm = await ipfs.SwarmService;
-            await swarm.DisconnectAsync(address, cancel);
+            var swarm = await ipfs.SwarmService.ConfigureAwait(false);
+            await swarm.DisconnectAsync(address, cancel).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<MultiAddress>> ListAddressFiltersAsync(bool persist = false, CancellationToken cancel = default(CancellationToken))
         {
             try
             {
-                var json = await ipfs.Config.GetAsync("Swarm.AddrFilters", cancel);
+                var json = await ipfs.Config.GetAsync("Swarm.AddrFilters", cancel).ConfigureAwait(false);
                 if (json == null)
                     return new MultiAddress[0];
 
@@ -76,33 +76,33 @@ namespace Ipfs.Engine.CoreApi
             catch (KeyNotFoundException)
             {
                 var strings = defaultFilters.Select(a => a.ToString());
-                await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel);
+                await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel).ConfigureAwait(false);
                 return defaultFilters;
             }
         }
 
         public async Task<IEnumerable<Peer>> PeersAsync(CancellationToken cancel = default(CancellationToken))
         {
-            var swarm = await ipfs.SwarmService;
+            var swarm = await ipfs.SwarmService.ConfigureAwait(false);
             return swarm.KnownPeers.Where(p => p.ConnectedAddress != null);
         }
 
         public async Task<MultiAddress> RemoveAddressFilterAsync(MultiAddress address, bool persist = false, CancellationToken cancel = default(CancellationToken))
         {
-            var addrs = (await ListAddressFiltersAsync(persist, cancel)).ToList();
+            var addrs = (await ListAddressFiltersAsync(persist, cancel).ConfigureAwait(false)).ToList();
             if (!addrs.Any(a => a == address))
                 return null;
 
             addrs.Remove(address);
             var strings = addrs.Select(a => a.ToString());
-            await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel);
+            await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel).ConfigureAwait(false);
 
             var bag = new WhiteList<MultiAddress>();
             foreach (var a in addrs)
             {
                 bag.Add(a);
             }
-            (await ipfs.SwarmService).WhiteList = bag;
+            (await ipfs.SwarmService.ConfigureAwait(false)).WhiteList = bag;
 
             return address;
         }

@@ -104,7 +104,7 @@ namespace Ipfs.Engine.Cryptography
             });
 
             // Verify that that pass phrase is okay, by reading a key.
-            var akey = await Store.TryGetAsync("self", cancel);
+            var akey = await Store.TryGetAsync("self", cancel).ConfigureAwait(false);
             if (akey != null)
             {
                 try
@@ -135,7 +135,7 @@ namespace Ipfs.Engine.Cryptography
         /// </returns>
         public async Task<IKey> FindKeyByNameAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
-            var key = await Store.TryGetAsync(name, cancel);
+            var key = await Store.TryGetAsync(name, cancel).ConfigureAwait(false);
             if (key == null)
                 return null;
             return new KeyInfo { Id = key.Id, Name = key.Name };
@@ -163,7 +163,7 @@ namespace Ipfs.Engine.Cryptography
         {
             // TODO: Rename to GetIpfsPublicKeyAsync
             string result = null;
-            var ekey = await Store.TryGetAsync(name, cancel);
+            var ekey = await Store.TryGetAsync(name, cancel).ConfigureAwait(false);
             if (ekey != null)
             {
                 UseEncryptedKey(ekey, key =>
@@ -230,14 +230,14 @@ namespace Ipfs.Engine.Cryptography
             var keyPair = g.GenerateKeyPair();
             log.Debug("Created key");
 
-            return await AddPrivateKeyAsync(name, keyPair, cancel);
+            return await AddPrivateKeyAsync(name, keyPair, cancel).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<string> ExportAsync(string name, char[] password, CancellationToken cancel = default(CancellationToken))
         {
             string pem = "";
-            var key = await Store.GetAsync(name, cancel);
+            var key = await Store.GetAsync(name, cancel).ConfigureAwait(false);
             UseEncryptedKey(key, pkey => 
             {
                 using (var sw = new StringWriter())
@@ -276,7 +276,7 @@ namespace Ipfs.Engine.Cryptography
                     throw new InvalidDataException("Not a valid PEM private key");
             }
 
-            return await AddPrivateKeyAsync(name, GetKeyPairFromPrivateKey(key), cancel);
+            return await AddPrivateKeyAsync(name, GetKeyPairFromPrivateKey(key), cancel).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -292,23 +292,23 @@ namespace Ipfs.Engine.Cryptography
         /// <inheritdoc />
         public async Task<IKey> RemoveAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
-            var key = await Store.TryGetAsync(name, cancel);
+            var key = await Store.TryGetAsync(name, cancel).ConfigureAwait(false);
             if (key == null)
                 return null;
 
-            await Store.RemoveAsync(name, cancel);
+            await Store.RemoveAsync(name, cancel).ConfigureAwait(false);
             return new KeyInfo { Id = key.Id, Name = key.Name };
         }
 
         /// <inheritdoc />
         public async Task<IKey> RenameAsync(string oldName, string newName, CancellationToken cancel = default(CancellationToken))
         {
-            var key = await Store.TryGetAsync(oldName, cancel);
+            var key = await Store.TryGetAsync(oldName, cancel).ConfigureAwait(false);
             if (key == null)
                 return null;
             key.Name = newName;
-            await Store.PutAsync(newName, key, cancel);
-            await Store.RemoveAsync(oldName,  cancel);
+            await Store.PutAsync(newName, key, cancel).ConfigureAwait(false);
+            await Store.RemoveAsync(oldName,  cancel).ConfigureAwait(false);
 
             return new KeyInfo { Id = key.Id, Name = newName };
         }
@@ -328,7 +328,7 @@ namespace Ipfs.Engine.Cryptography
         /// </returns>
         public async Task<AsymmetricKeyParameter> GetPrivateKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
-            var key = await Store.TryGetAsync(name, cancel);
+            var key = await Store.TryGetAsync(name, cancel).ConfigureAwait(false);
             if (key == null)
                 throw new KeyNotFoundException($"The key '{name}' does not exist.");
             AsymmetricKeyParameter kp = null;
@@ -376,7 +376,7 @@ namespace Ipfs.Engine.Cryptography
                 Name = name,
                 Pem = pem
             };
-            await Store.PutAsync(name, key);
+            await Store.PutAsync(name, key).ConfigureAwait(false);
             log.DebugFormat("Added key '{0}' with ID {1}", name, keyId);
 
             return new KeyInfo { Id = key.Id, Name = key.Name };

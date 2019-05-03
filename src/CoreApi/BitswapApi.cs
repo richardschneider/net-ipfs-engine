@@ -18,23 +18,24 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IDataBlock> GetAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            var bs = await ipfs.BitswapService;
-            var peer = await ipfs.LocalPeer;
-            return await bs.Want(id, peer.Id, cancel);
+            var bs = await ipfs.BitswapService.ConfigureAwait(false);
+            var peer = await ipfs.LocalPeer.ConfigureAwait(false);
+            return await bs.Want(id, peer.Id, cancel).ConfigureAwait(false);
         }
 
         public async Task UnwantAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            (await ipfs.BitswapService).Unwant(id);
+            (await ipfs.BitswapService.ConfigureAwait(false)).Unwant(id);
         }
 
         public async Task<IEnumerable<Cid>> WantsAsync(MultiHash peer = null, CancellationToken cancel = default(CancellationToken))
         {
             if (peer == null)
             {
-                peer = (await ipfs.LocalPeer).Id;
+                peer = (await ipfs.LocalPeer.ConfigureAwait(false)).Id;
             }
-            return (await ipfs.BitswapService).PeerWants(peer);
+            var bs = await ipfs.BitswapService.ConfigureAwait(false);
+            return bs.PeerWants(peer);
         }
     }
 }

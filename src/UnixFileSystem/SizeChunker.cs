@@ -61,7 +61,7 @@ namespace Ipfs.Engine.UnixFileSystem
                 int length = 0;
                 while (length < chunkSize)
                 {
-                    var n = await stream.ReadAsync(chunk, length, chunkSize - length, cancel);
+                    var n = await stream.ReadAsync(chunk, length, chunkSize - length, cancel).ConfigureAwait(false);
                     if (n < 1)
                     {
                         chunking = false;
@@ -92,14 +92,14 @@ namespace Ipfs.Engine.UnixFileSystem
                     // TODO: Inefficent to copy chunk, use ArraySegment in DataMessage.Data
                     var plain = new byte[length];
                     Array.Copy(chunk, plain, length);
-                    var cipher = await keyChain.CreateProtectedData(options.ProtectionKey, plain, cancel);
+                    var cipher = await keyChain.CreateProtectedData(options.ProtectionKey, plain, cancel).ConfigureAwait(false);
                     var cid = await blockService.PutAsync(
                         data: cipher,
                         contentType: "cms",
                         multiHash: options.Hash,
                         encoding: options.Encoding,
                         pin: options.Pin,
-                        cancel: cancel);
+                        cancel: cancel).ConfigureAwait(false);
                     nodes.Add(new FileSystemNode
                     {
                         Id = cid,
@@ -119,7 +119,7 @@ namespace Ipfs.Engine.UnixFileSystem
                         multiHash: options.Hash,
                         encoding: options.Encoding,
                         pin: options.Pin,
-                        cancel: cancel);
+                        cancel: cancel).ConfigureAwait(false);
                     nodes.Add(new FileSystemNode
                     {
                         Id = cid,
@@ -153,7 +153,7 @@ namespace Ipfs.Engine.UnixFileSystem
                         multiHash: options.Hash,
                         encoding: options.Encoding,
                         pin: options.Pin,
-                        cancel: cancel);
+                        cancel: cancel).ConfigureAwait(false);
 
                     var node = new FileSystemNode
                     {

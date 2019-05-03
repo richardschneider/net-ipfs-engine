@@ -108,7 +108,7 @@ namespace Ipfs.Engine.UnixFileSystem
         /// <inheritdoc />
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancel)
         {
-            var block = await GetBlockAsync(Position, cancel);
+            var block = await GetBlockAsync(Position, cancel).ConfigureAwait(false);
             var k = Math.Min(count, block.Count);
             if (k > 0)
             {
@@ -129,7 +129,7 @@ namespace Ipfs.Engine.UnixFileSystem
             var need = blocks.Last(b => b.Position <= position);
             if (need != currentBlock)
             {
-                var stream = await FileSystem.CreateReadStream(need.Id, BlockService, KeyChain, cancel);
+                var stream = await FileSystem.CreateReadStream(need.Id, BlockService, KeyChain, cancel).ConfigureAwait(false);
                 currentBlock = need;
                 currentData = new byte[stream.Length];
                 for (int i = 0, n; i < stream.Length; i += n)

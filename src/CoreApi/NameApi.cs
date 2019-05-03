@@ -40,7 +40,7 @@ namespace Ipfs.Engine.CoreApi
                     throw new ArgumentException($"Cannot resolve '{name}'.");
                 if (IsDomainName(parts[0]))
                 {
-                    name = await ipfs.Dns.ResolveAsync(parts[0], recursive, cancel);
+                    name = await ipfs.Dns.ResolveAsync(parts[0], recursive, cancel).ConfigureAwait(false);
                 }
                 else
                 {

@@ -32,7 +32,7 @@ namespace Ipfs.Engine.CoreApi
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                return await AddAsync(stream, Path.GetFileName(path), options, cancel);
+                return await AddAsync(stream, Path.GetFileName(path), options, cancel).ConfigureAwait(false);
             }
         }
 
@@ -43,7 +43,7 @@ namespace Ipfs.Engine.CoreApi
         {
             using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(text), false))
             {
-                return await AddAsync(ms, "", options, cancel);
+                return await AddAsync(ms, "", options, cancel).ConfigureAwait(false);
             }
         }
 
@@ -59,10 +59,10 @@ namespace Ipfs.Engine.CoreApi
             if (options.Trickle) throw new NotImplementedException("Trickle");
 
             var blockService = GetBlockService(options);
-            var keyChain = await ipfs.KeyChain(cancel);
+            var keyChain = await ipfs.KeyChain(cancel).ConfigureAwait(false);
 
             var chunker = new SizeChunker();
-            var nodes = await chunker.ChunkAsync(stream, name, options, blockService, keyChain, cancel);
+            var nodes = await chunker.ChunkAsync(stream, name, options, blockService, keyChain, cancel).ConfigureAwait(false);
 
             // Multiple nodes for the file?
             FileSystemNode node = null;
@@ -91,7 +91,7 @@ namespace Ipfs.Engine.CoreApi
                     multiHash: options.Hash,
                     encoding: options.Encoding,
                     pin: options.Pin,
-                    cancel: cancel);
+                    cancel: cancel).ConfigureAwait(false);
 
                 node = new FileSystemNode
                 {
@@ -107,7 +107,7 @@ namespace Ipfs.Engine.CoreApi
             {
                 var link = node.ToLink(name);
                 var wlinks = new IFileSystemLink[] { link };
-                return await CreateDirectoryAsync(wlinks, options, cancel);
+                return await CreateDirectoryAsync(wlinks, options, cancel).ConfigureAwait(false);
             }
 
             // Return the file system node.
@@ -138,13 +138,13 @@ namespace Ipfs.Engine.CoreApi
                     .Select(dir => AddDirectoryAsync(dir, recursive, options, cancel));
                 files = files.Union(folders);
             }
-            var nodes = await Task.WhenAll(files);
+            var nodes = await Task.WhenAll(files).ConfigureAwait(false);
 
             // Create the DAG with links to the created files and sub-directories
             var links = nodes
                 .Select(node => node.ToLink())
                 .ToArray();
-            var fsn = await CreateDirectoryAsync(links, options, cancel);
+            var fsn = await CreateDirectoryAsync(links, options, cancel).ConfigureAwait(false);
             fsn.Name = Path.GetFileName(path);
             return fsn;
         }
@@ -162,7 +162,7 @@ namespace Ipfs.Engine.CoreApi
                 multiHash: options.Hash,
                 encoding: options.Encoding,
                 pin: options.Pin,
-                cancel: cancel);
+                cancel: cancel).ConfigureAwait(false);
 
             return new FileSystemNode
             {
@@ -174,8 +174,8 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IFileSystemNode> ListFileAsync(string path, CancellationToken cancel = default(CancellationToken))
         {
-            var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
-            var block = await ipfs.Block.GetAsync(cid, cancel);
+            var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
+            var block = await ipfs.Block.GetAsync(cid, cancel).ConfigureAwait(false);
             var dag = new DagNode(block.DataStream);
             var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
 
@@ -200,7 +200,7 @@ namespace Ipfs.Engine.CoreApi
             {
                 foreach (FileSystemLink link in fsn.Links)
                 {
-                    var lblock = await ipfs.Block.GetAsync(link.Id, cancel);
+                    var lblock = await ipfs.Block.GetAsync(link.Id, cancel).ConfigureAwait(false);
                     var ldag = new DagNode(lblock.DataStream);
                     var ldm = Serializer.Deserialize<DataMessage>(ldag.DataStream);
                     link.IsDirectory = ldm.Type == DataType.Directory;
@@ -212,23 +212,23 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<string> ReadAllTextAsync(string path, CancellationToken cancel = default(CancellationToken))
         {
-            using (var data = await ReadFileAsync(path, cancel))
+            using (var data = await ReadFileAsync(path, cancel).ConfigureAwait(false))
             using (var text = new StreamReader(data))
             {
-                return await text.ReadToEndAsync();
+                return await text.ReadToEndAsync().ConfigureAwait(false);
             }
         }
 
         public async Task<Stream> ReadFileAsync(string path, CancellationToken cancel = default(CancellationToken))
         {
-            var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
-            var keyChain = await ipfs.KeyChain(cancel);
-            return await FileSystem.CreateReadStream(cid, ipfs.Block, keyChain, cancel);
+            var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
+            var keyChain = await ipfs.KeyChain(cancel).ConfigureAwait(false);
+            return await FileSystem.CreateReadStream(cid, ipfs.Block, keyChain, cancel).ConfigureAwait(false);
         }
 
         public async Task<Stream> ReadFileAsync(string path, long offset, long count = 0, CancellationToken cancel = default(CancellationToken))
         {
-            var stream = await ReadFileAsync(path, cancel);
+            var stream = await ReadFileAsync(path, cancel).ConfigureAwait(false);
             return new SlicedStream(stream, offset, count);
         }
 
@@ -240,13 +240,13 @@ namespace Ipfs.Engine.CoreApi
 #else
         public async Task<Stream> GetAsync(string path, bool compress = false, CancellationToken cancel = default(CancellationToken))
         {
-            var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel);
+            var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
             var ms = new MemoryStream();
             using (var tarStream = new TarOutputStream(ms, 1))
             using (var archive = TarArchive.CreateOutputTarArchive(tarStream))
             {
                 archive.IsStreamOwner = false;
-                await AddTarNodeAsync(cid, cid.Encode(), tarStream, cancel);
+                await AddTarNodeAsync(cid, cid.Encode(), tarStream, cancel).ConfigureAwait(false);
             }
             ms.Position = 0;
             return ms;
@@ -256,7 +256,7 @@ namespace Ipfs.Engine.CoreApi
 #if !NETSTANDARD14 // TODO
         async Task AddTarNodeAsync(Cid cid, string name, TarOutputStream tar, CancellationToken cancel)
         {
-            var block = await ipfs.Block.GetAsync(cid, cancel);
+            var block = await ipfs.Block.GetAsync(cid, cancel).ConfigureAwait(false);
             var dag = new DagNode(block.DataStream);
             var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
 
@@ -283,7 +283,7 @@ namespace Ipfs.Engine.CoreApi
             }
             else // Must be a file
             {
-                var content = await ReadFileAsync(cid, cancel);
+                var content = await ReadFileAsync(cid, cancel).ConfigureAwait(false);
                 header.TypeFlag = TarHeader.LF_NORMAL;
                 header.Size = content.Length;
                 tar.PutNextEntry(entry);
@@ -296,7 +296,7 @@ namespace Ipfs.Engine.CoreApi
             {
                 foreach (var link in dag.Links)
                 {
-                    await AddTarNodeAsync(link.Id, $"{name}/{link.Name}", tar, cancel);
+                    await AddTarNodeAsync(link.Id, $"{name}/{link.Name}", tar, cancel).ConfigureAwait(false);
                 }
             }
         }

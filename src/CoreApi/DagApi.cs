@@ -31,7 +31,7 @@ namespace Ipfs.Engine.CoreApi
             Cid id,
             CancellationToken cancel = default(CancellationToken))
         {
-            var block = await ipfs.Block.GetAsync(id, cancel);
+            var block = await ipfs.Block.GetAsync(id, cancel).ConfigureAwait(false);
             var format = GetDataFormat(id);
             var canonical = format.Deserialise(block.DataBytes);
             using (var ms = new MemoryStream())
@@ -57,7 +57,7 @@ namespace Ipfs.Engine.CoreApi
             if (parts.Length == 0)
                 throw new ArgumentException($"Cannot resolve '{path}'.");
 
-            JToken token = await GetAsync(Cid.Decode(parts[0]), cancel);
+            JToken token = await GetAsync(Cid.Decode(parts[0]), cancel).ConfigureAwait(false);
             foreach (var child in parts.Skip(1))
             {
                 token = ((JObject)token)[child];
@@ -72,7 +72,7 @@ namespace Ipfs.Engine.CoreApi
             Cid id, 
             CancellationToken cancel = default(CancellationToken))
         {
-            var block = await ipfs.Block.GetAsync(id, cancel);
+            var block = await ipfs.Block.GetAsync(id, cancel).ConfigureAwait(false);
             var format = GetDataFormat(id);
             var canonical = format.Deserialise(block.DataBytes);
 
@@ -101,7 +101,7 @@ namespace Ipfs.Engine.CoreApi
                 ms.Position = 0;
                 var format = GetDataFormat(contentType);
                 var block = format.Serialize(CBORObject.ReadJSON(ms));
-                return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel);
+                return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel).ConfigureAwait(false);
             }
         }
 
@@ -114,7 +114,7 @@ namespace Ipfs.Engine.CoreApi
         {
             var format = GetDataFormat(contentType);
             var block = format.Serialize(CBORObject.Read(data));
-            return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel);
+            return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel).ConfigureAwait(false);
         }
 
         public async Task<Cid> PutAsync(object data,
@@ -126,7 +126,7 @@ namespace Ipfs.Engine.CoreApi
         {
             var format = GetDataFormat(contentType);
             var block = format.Serialize(CBORObject.FromObject(data, podOptions));
-            return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel);
+            return await ipfs.Block.PutAsync(block, contentType, multiHash, encoding, pin, cancel).ConfigureAwait(false);
         }
 
         ILinkedDataFormat GetDataFormat(Cid id)

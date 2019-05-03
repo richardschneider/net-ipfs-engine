@@ -37,13 +37,13 @@ namespace Ipfs.Engine.CoreApi
             // Throw if missing peer ID
             var _ = address.PeerId;
 
-            var addrs = (await ListAsync(cancel)).ToList();
+            var addrs = (await ListAsync(cancel).ConfigureAwait(false)).ToList();
             if (addrs.Any(a => a == address))
                 return address;
 
             addrs.Add(address);
             var strings = addrs.Select(a => a.ToString());
-            await ipfs.Config.SetAsync("Bootstrap", JToken.FromObject(strings), cancel);
+            await ipfs.Config.SetAsync("Bootstrap", JToken.FromObject(strings), cancel).ConfigureAwait(false);
             return address;
         }
 
@@ -51,7 +51,7 @@ namespace Ipfs.Engine.CoreApi
         {
             foreach (var a in defaults)
             {
-                await AddAsync(a, cancel);
+                await AddAsync(a, cancel).ConfigureAwait(false);
             }
 
             return defaults;
@@ -77,25 +77,25 @@ namespace Ipfs.Engine.CoreApi
             catch (KeyNotFoundException)
             {
                 var strings = defaults.Select(a => a.ToString());
-                await ipfs.Config.SetAsync("Bootstrap", JToken.FromObject(strings), cancel);
+                await ipfs.Config.SetAsync("Bootstrap", JToken.FromObject(strings), cancel).ConfigureAwait(false);
                 return defaults;
             }
         }
 
         public async Task RemoveAllAsync(CancellationToken cancel = default(CancellationToken))
         {
-            await ipfs.Config.SetAsync("Bootstrap", JToken.FromObject(new string[0]), cancel);
+            await ipfs.Config.SetAsync("Bootstrap", JToken.FromObject(new string[0]), cancel).ConfigureAwait(false);
         }
 
         public async Task<MultiAddress> RemoveAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))
         {
-            var addrs = (await ListAsync(cancel)).ToList();
+            var addrs = (await ListAsync(cancel).ConfigureAwait(false)).ToList();
             if (!addrs.Any(a => a == address))
                 return address;
 
             addrs.Remove(address);
             var strings = addrs.Select(a => a.ToString());
-            await ipfs.Config.SetAsync("Bootstrap", JToken.FromObject(strings), cancel);
+            await ipfs.Config.SetAsync("Bootstrap", JToken.FromObject(strings), cancel).ConfigureAwait(false);
             return address;
         }
     }

@@ -27,7 +27,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<BitswapData> BitswapAsync(CancellationToken cancel = default(CancellationToken))
         {
-            var bitswap = await ipfs.BitswapService;
+            var bitswap = await ipfs.BitswapService.ConfigureAwait(false);
             return bitswap.Statistics;
         }
 

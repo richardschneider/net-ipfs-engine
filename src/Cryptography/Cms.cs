@@ -47,7 +47,7 @@ namespace Ipfs.Engine.Cryptography
 
             // TODO: Need a method to just the get BC public key
             // Get the BC key pair for the named key.
-            var ekey = await Store.TryGetAsync(keyName, cancel);
+            var ekey = await Store.TryGetAsync(keyName, cancel).ConfigureAwait(false);
             if (ekey == null)
                 throw new KeyNotFoundException($"The key '{keyName}' does not exist.");
             AsymmetricCipherKeyPair kp = null;
@@ -64,7 +64,7 @@ namespace Ipfs.Engine.Cryptography
             }
             else if (kp.Private is ECPrivateKeyParameters)
             {
-                var cert = await CreateBCCertificateAsync(keyName, cancel);
+                var cert = await CreateBCCertificateAsync(keyName, cancel).ConfigureAwait(false);
                 edGen.AddKeyAgreementRecipient(
                     agreementAlgorithm: CmsEnvelopedDataGenerator.ECDHSha1Kdf,
                     senderPrivateKey: kp.Private,
@@ -116,7 +116,7 @@ namespace Ipfs.Engine.Cryptography
 
             // Find a recipient whose key we hold. We only deal with recipient names
             // issued by ipfs (O=ipfs, OU=keystore).
-            var knownKeys = (await ListAsync(cancel)).ToArray();
+            var knownKeys = (await ListAsync(cancel).ConfigureAwait(false)).ToArray();
             var recipient = cms
                 .GetRecipientInfos()
                 .GetRecipients()
@@ -132,7 +132,7 @@ namespace Ipfs.Engine.Cryptography
                 throw new KeyNotFoundException("The required decryption key is missing.");
 
             // Decrypt the contents.
-            var decryptionKey = await GetPrivateKeyAsync(recipient.key.Name);
+            var decryptionKey = await GetPrivateKeyAsync(recipient.key.Name).ConfigureAwait(false);
             return recipient.recipient.GetContent(decryptionKey);
         }
 

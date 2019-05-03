@@ -18,54 +18,75 @@ namespace Ipfs.Engine
         [TestMethod]
         public async Task Wants()
         {
-            var cts = new CancellationTokenSource();
-            var block = new DagNode(Encoding.UTF8.GetBytes("BitswapApiTest unknown block"));
-            Task wantTask = ipfs.Bitswap.GetAsync(block.Id, cts.Token);
-
-            var endTime = DateTime.Now.AddSeconds(10);
-            while (true)
+            await ipfs.StartAsync();
+            try
             {
-                if (DateTime.Now > endTime)
-                    Assert.Fail("wanted block is missing");
-                await Task.Delay(100);
-                var w = await ipfs.Bitswap.WantsAsync();
-                if (w.Contains(block.Id))
-                    break;
-            }
+                var cts = new CancellationTokenSource();
+                var block = new DagNode(Encoding.UTF8.GetBytes("BitswapApiTest unknown block"));
+                Task wantTask = ipfs.Bitswap.GetAsync(block.Id, cts.Token);
 
-            cts.Cancel();
-            var wants = await ipfs.Bitswap.WantsAsync();
-            CollectionAssert.DoesNotContain(wants.ToArray(), block.Id);
-            Assert.IsTrue(wantTask.IsCanceled);
+                var endTime = DateTime.Now.AddSeconds(10);
+                while (true)
+                {
+                    if (DateTime.Now > endTime)
+                        Assert.Fail("wanted block is missing");
+                    await Task.Delay(100);
+                    var w = await ipfs.Bitswap.WantsAsync();
+                    if (w.Contains(block.Id))
+                        break;
+                }
+
+                cts.Cancel();
+                var wants = await ipfs.Bitswap.WantsAsync();
+                CollectionAssert.DoesNotContain(wants.ToArray(), block.Id);
+                Assert.IsTrue(wantTask.IsCanceled);
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
         }
 
         [TestMethod]
         public async Task Unwant()
         {
-            var block = new DagNode(Encoding.UTF8.GetBytes("BitswapApiTest unknown block 2"));
-            Task wantTask = ipfs.Bitswap.GetAsync(block.Id);
-
-            var endTime = DateTime.Now.AddSeconds(10);
-            while (true)
+            await ipfs.StartAsync();
+            try
             {
-                if (DateTime.Now > endTime)
-                    Assert.Fail("wanted block is missing");
-                await Task.Delay(100);
-                var w = await ipfs.Bitswap.WantsAsync();
-                if (w.Contains(block.Id))
-                    break;
-            }
+                var block = new DagNode(Encoding.UTF8.GetBytes("BitswapApiTest unknown block 2"));
+                Task wantTask = ipfs.Bitswap.GetAsync(block.Id);
 
-            await ipfs.Bitswap.UnwantAsync(block.Id);
-            var wants = await ipfs.Bitswap.WantsAsync();
-            CollectionAssert.DoesNotContain(wants.ToArray(), block.Id);
-            Assert.IsTrue(wantTask.IsCanceled);
+                var endTime = DateTime.Now.AddSeconds(10);
+                while (true)
+                {
+                    if (DateTime.Now > endTime)
+                        Assert.Fail("wanted block is missing");
+                    await Task.Delay(100);
+                    var w = await ipfs.Bitswap.WantsAsync();
+                    if (w.Contains(block.Id))
+                        break;
+                }
+
+                await ipfs.Bitswap.UnwantAsync(block.Id);
+                var wants = await ipfs.Bitswap.WantsAsync();
+                CollectionAssert.DoesNotContain(wants.ToArray(), block.Id);
+                Assert.IsTrue(wantTask.IsCanceled);
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
         }
 
         [TestMethod]
         public async Task OnConnect_Sends_WantList()
         {
+            ipfs.Options.Discovery.DisableMdns = true;
+            ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
             await ipfs.StartAsync();
+
+            ipfsOther.Options.Discovery.DisableMdns = true;
+            ipfsOther.Options.Discovery.BootstrapPeers = new MultiAddress[0];
             await ipfsOther.StartAsync();
             try
             {
@@ -94,13 +115,21 @@ namespace Ipfs.Engine
             {
                 await ipfsOther.StopAsync();
                 await ipfs.StopAsync();
+
+                ipfs.Options.Discovery = new DiscoveryOptions();
+                ipfsOther.Options.Discovery = new DiscoveryOptions();
             }
         }
 
         [TestMethod]
         public async Task GetsBlock_OnConnect()
         {
+            ipfs.Options.Discovery.DisableMdns = true;
+            ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
             await ipfs.StartAsync();
+
+            ipfsOther.Options.Discovery.DisableMdns = true;
+            ipfsOther.Options.Discovery.BootstrapPeers = new MultiAddress[0];
             await ipfsOther.StartAsync();
             try
             {
@@ -124,24 +153,32 @@ namespace Ipfs.Engine
             {
                 await ipfsOther.StopAsync();
                 await ipfs.StopAsync();
+
+                ipfs.Options.Discovery = new DiscoveryOptions();
+                ipfsOther.Options.Discovery = new DiscoveryOptions();
             }
         }
 
         [TestMethod]
         public async Task GetsBlock_OnRequest()
         {
+            ipfs.Options.Discovery.DisableMdns = true;
+            ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
             await ipfs.StartAsync();
+
+            ipfsOther.Options.Discovery.DisableMdns = true;
+            ipfsOther.Options.Discovery.BootstrapPeers = new MultiAddress[0];
             await ipfsOther.StartAsync();
             try
             {
+                var cts = new CancellationTokenSource(10000);
                 var data = Guid.NewGuid().ToByteArray();
-                var cid = await ipfsOther.Block.PutAsync(data);
+                var cid = await ipfsOther.Block.PutAsync(data, cancel:  cts.Token);
 
                 var remote = await ipfsOther.LocalPeer;
-                await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First(), cancel: cts.Token);
 
-                var cts = new CancellationTokenSource(10000);
-                var block = await ipfs.Block.GetAsync(cid, cts.Token);
+                var block = await ipfs.Block.GetAsync(cid, cancel: cts.Token);
                 Assert.AreEqual(cid, block.Id);
                 CollectionAssert.AreEqual(data, block.DataBytes);
             }
@@ -149,6 +186,8 @@ namespace Ipfs.Engine
             {
                 await ipfsOther.StopAsync();
                 await ipfs.StopAsync();
+                ipfs.Options.Discovery = new DiscoveryOptions();
+                ipfsOther.Options.Discovery = new DiscoveryOptions();
             }
         }
 

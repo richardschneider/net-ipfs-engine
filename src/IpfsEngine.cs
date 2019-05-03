@@ -511,7 +511,20 @@ namespace Ipfs.Engine
         /// </remarks>
         public void Stop()
         {
-            StopAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            log.Debug("stopping");
+            try
+            {
+                var tasks = stopTasks.ToArray();
+                stopTasks = new ConcurrentBag<Func<Task>>();
+                foreach (var task in tasks)
+                {
+                    task().ConfigureAwait(false).GetAwaiter().GetResult();
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Failure when stopping the engine", e);
+            }
         }
 
         /// <summary>

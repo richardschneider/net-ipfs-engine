@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Engine
 {
+    /// <summary>
+    ///   Creates a temporary node.
+    /// </summary>
+    /// <remarks>
+    ///   A temporary node has its own repository and listening address.
+    ///   When it is disposed, the repository is deleted.
+    /// </remarks>
     class TempNode : IpfsEngine
     {
         static int nodeNumber;
@@ -23,6 +30,7 @@ namespace Ipfs.Engine
             ).Wait();
         }
 
+        /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

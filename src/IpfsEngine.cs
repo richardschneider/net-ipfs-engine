@@ -403,6 +403,7 @@ namespace Ipfs.Engine
 
             tasks = new List<Func<Task>>
             {
+                // Bootstrap discovery
                 async () =>
                 {
                     var bootstrap = new PeerTalk.Discovery.Bootstrap
@@ -413,6 +414,7 @@ namespace Ipfs.Engine
                     stopTasks.Add(async () => await bootstrap.StopAsync().ConfigureAwait(false));
                     await bootstrap.StartAsync().ConfigureAwait(false);
                 },
+                // New multicast DNS discovery
                 async () =>
                 {
                     if (Options.Discovery.DisableMdns)
@@ -422,13 +424,18 @@ namespace Ipfs.Engine
                         LocalPeer = localPeer,
                         MulticastService = multicast
                     };
+                    if (Options.Swarm.PrivateNetworkKey != null)
+                    {
+                        mdns.ServiceName = $"_p2p-{Options.Swarm.PrivateNetworkKey.Fingerprint().ToHexString()}._udp";
+                    }
                     mdns.PeerDiscovered += OnPeerDiscovered;
                     stopTasks.Add(async () => await mdns.StopAsync().ConfigureAwait(false));
                     await mdns.StartAsync().ConfigureAwait(false);
                 },
+                // Old style JS multicast DNS discovery
                 async () =>
                 {
-                    if (Options.Discovery.DisableMdns)
+                    if (Options.Discovery.DisableMdns || Options.Swarm.PrivateNetworkKey != null)
                         return;
                     var mdns = new PeerTalk.Discovery.MdnsJs
                     {
@@ -439,9 +446,10 @@ namespace Ipfs.Engine
                     stopTasks.Add(async () => await mdns.StopAsync().ConfigureAwait(false));
                     await mdns.StartAsync().ConfigureAwait(false);
                 },
+                // Old style GO multicast DNS discovery
                 async () =>
                 {
-                    if (Options.Discovery.DisableMdns)
+                    if (Options.Discovery.DisableMdns || Options.Swarm.PrivateNetworkKey != null)
                         return;
                     var mdns = new PeerTalk.Discovery.MdnsGo
                     {

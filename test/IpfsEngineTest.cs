@@ -1,6 +1,7 @@
 ﻿using Ipfs.Engine.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using PeerTalk.Cryptography;
 using System;
 using System.Linq;
 using System.Security;
@@ -130,6 +131,17 @@ namespace Ipfs.Engine
                 Assert.AreEqual(0, peer2.Addresses.Count());
                 await ipfs1.StopAsync();
                 Assert.AreEqual(0, peer1.Addresses.Count());
+            }
+        }
+
+        [TestMethod]
+        public async Task Can_Use_Private_Node()
+        {
+            using (var ipfs = new TempNode())
+            {
+                ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+                ipfs.Options.Swarm.PrivateNetworkKey = new PreSharedKey().Generate();
+                await ipfs.StartAsync();
             }
         }
 

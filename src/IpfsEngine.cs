@@ -554,20 +554,20 @@ namespace Ipfs.Engine
         ///   Fired when a peer is discovered.
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="peer"></param>
         /// <remarks>
         ///   Registers the peer with the <see cref="SwarmService"/>.
         /// </remarks>
-        async void OnPeerDiscovered(object sender, PeerDiscoveredEventArgs e)
+        async void OnPeerDiscovered(object sender, Peer peer)
         {
             try
             {
                 var swarm = await SwarmService.ConfigureAwait(false);
-                var peer = await swarm.RegisterPeerAsync(e.Address).ConfigureAwait(false);
+                swarm.RegisterPeer(peer);
             }
             catch (Exception ex)
             {
-                log.Warn("failed to register peer " + e.Address, ex);
+                log.Warn("failed to register peer " + peer, ex);
                 // eat it, nothing we can do.
             }
         }

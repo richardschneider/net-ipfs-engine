@@ -51,8 +51,8 @@ namespace Ipfs.Engine.CoreApi
         {
             var swarm = await ipfs.SwarmService.ConfigureAwait(false);
             log.Debug($"Connecting to {address}");
-            var peer = await swarm.ConnectAsync(address, cancel).ConfigureAwait(false);
-            log.Debug($"Connected to {peer.ConnectedAddress}");
+            var conn = await swarm.ConnectAsync(address, cancel).ConfigureAwait(false);
+            log.Debug($"Connected to {conn.RemotePeer.ConnectedAddress}");
         }
 
         public async Task DisconnectAsync(MultiAddress address, CancellationToken cancel = default(CancellationToken))

@@ -45,7 +45,7 @@ namespace Ipfs.Engine
         ///   This is an opt-feature.  The value must be positive to enable it.
         ///   </para>
         /// </remarks>
-        public int MinConnections { get; set; } = 0;
+        public int MinConnections { get; set; } = 8;
 
     }
 }

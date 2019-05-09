@@ -415,8 +415,15 @@ namespace Ipfs.Engine.Cryptography
             using (var ms = new MemoryStream())
             {
                 ProtoBuf.Serializer.Serialize(ms, publicKey);
+
+                // If the length of the serialized bytes <= 42, then we compute the "identity" multihash of 
+                // the serialized bytes. The idea here is that if the serialized byte array 
+                // is short enough, we can fit it in a multihash verbatim without having to 
+                // condense it using a hash function.
+                var alg = (ms.Length <= 48) ? "identity" : "sha2-256";
+
                 ms.Position = 0;
-                return MultiHash.ComputeHash(ms, "sha2-256");
+                return MultiHash.ComputeHash(ms, alg);
             }
         }
 

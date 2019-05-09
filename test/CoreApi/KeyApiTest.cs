@@ -363,6 +363,15 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [TestMethod]
+        public async Task Ed25519_Id_IdentityHash_of_PublicKey()
+        {
+            var name = "test-ed25519-id-hash";
+            var ipfs = TestFixture.Ipfs;
+            var key = await ipfs.Key.CreateAsync(name, "ed25519", 0);
+            Assert.AreEqual("identity", key.Id.Algorithm.Name);
+        }
+
+        [TestMethod]
         public async Task Import_OpenSSL_Ed25519()
         {
             // Created with:
@@ -377,7 +386,7 @@ MC4CAQAwBQYDK2VwBCIEIGJnyy3U4ksTQoRBz3mf1dxeFDPXZBrwh7gD7SqMg+/i
             await ipfs.Key.RemoveAsync("oed1");
             var key = await ipfs.Key.ImportAsync("oed1", pem);
             Assert.AreEqual("oed1", key.Name);
-            Assert.AreEqual("QmcYtMEm7n8cA8ZRtANgA7jGv8GSA4SS6ZEefZF9npLKZp", key.Id);
+            Assert.AreEqual("18n3naE9kBZoVvgYMV6saMZe3jn87dZiNbQ22BhxKTwU5yUoGfvBL1R3eScjokDGBk7i", key.Id);
 
             var keychain = await ipfs.KeyChain();
             var privateKey = await keychain.GetPrivateKeyAsync("oed1");

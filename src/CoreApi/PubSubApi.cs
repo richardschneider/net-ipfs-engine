@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +23,16 @@ namespace Ipfs.Engine.CoreApi
         }
 
         public Task PublishAsync(string topic, string message, CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PublishAsync(string topic, byte[] message, CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PublishAsync(string topic, Stream message, CancellationToken cancel = default(CancellationToken))
         {
             throw new NotImplementedException();
         }

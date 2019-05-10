@@ -39,7 +39,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ipfs.Core" Version="0.41.0" />
+    <PackageReference Include="Ipfs.Core" Version="0.50.0" />
     <PackageReference Include="Makaretu.Dns.Unicast" Version="0.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />

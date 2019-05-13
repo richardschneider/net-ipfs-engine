@@ -188,6 +188,20 @@ namespace Ipfs.Engine
                 log.Debug("Built DHT service");
                 return dht;
             });
+            PubSubService = new AsyncLazy<PeerTalk.PubSub.NotificationService>(async () =>
+            {
+                log.Debug("Building PubSub service");
+                var pubsub = new PeerTalk.PubSub.NotificationService
+                {
+                    LocalPeer = await LocalPeer.ConfigureAwait(false)
+                };
+                pubsub.Routers.Add(new PeerTalk.PubSub.FloodRouter
+                {
+                    Swarm = await SwarmService.ConfigureAwait(false)
+                });
+                log.Debug("Built PubSub service");
+                return pubsub;
+            });
         }
 
         /// <summary>
@@ -355,6 +369,12 @@ namespace Ipfs.Engine
                     var dht = await DhtService.ConfigureAwait(false);
                     stopTasks.Add(async () => await dht.StopAsync().ConfigureAwait(false));
                     await dht.StartAsync().ConfigureAwait(false);
+                },
+                async () =>
+                {
+                    var pubsub = await PubSubService.ConfigureAwait(false);
+                    stopTasks.Add(async () => await pubsub.StopAsync().ConfigureAwait(false));
+                    await pubsub.StartAsync().ConfigureAwait(false);
                 },
             };
 
@@ -539,6 +559,11 @@ namespace Ipfs.Engine
         ///   Manages communication with other peers.
         /// </summary>
         public AsyncLazy<Swarm> SwarmService { get; private set; }
+
+        /// <summary>
+        ///   Manages publishng and subscribing to messages.
+        /// </summary>
+        public AsyncLazy<PeerTalk.PubSub.NotificationService> PubSubService { get; private set; }
 
         /// <summary>
         ///   Exchange blocks with other peers.

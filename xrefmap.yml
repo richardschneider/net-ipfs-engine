@@ -1396,6 +1396,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.PubSub
   nameWithType: IpfsEngine.PubSub
+- uid: Ipfs.Engine.IpfsEngine.PubSubService
+  name: PubSubService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_PubSubService
+  commentId: P:Ipfs.Engine.IpfsEngine.PubSubService
+  fullName: Ipfs.Engine.IpfsEngine.PubSubService
+  nameWithType: IpfsEngine.PubSubService
+- uid: Ipfs.Engine.IpfsEngine.PubSubService*
+  name: PubSubService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_PubSubService_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.PubSubService
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.PubSubService
+  nameWithType: IpfsEngine.PubSubService
 - uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,CancellationToken)
   name: ResolveIpfsPathToCidAsync(String, CancellationToken)
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_CancellationToken_

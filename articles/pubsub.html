@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace Ipfs.Engine.LinkedData
-   | IPFS Engine documentation </title>
+    <title>IPFS PubSub system | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace Ipfs.Engine.LinkedData
-   | IPFS Engine documentation ">
+    <meta name="title" content="IPFS PubSub system | IPFS Engine documentation ">
     <meta name="generator" content="docfx 2.42.3.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
@@ -68,32 +66,41 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Ipfs.Engine.LinkedData">
-  
-  <h1 id="Ipfs_Engine_LinkedData" data-uid="Ipfs.Engine.LinkedData" class="text-break">Namespace Ipfs.Engine.LinkedData
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="Ipfs.Engine.LinkedData.CborFormat.html">CborFormat</a></h4>
-      <section><p>Linked data as a CBOR message.</p>
-</section>
-      <h4><a class="xref" href="Ipfs.Engine.LinkedData.IpldRegistry.html">IpldRegistry</a></h4>
-      <section><p>Metadata on <a class="xref" href="Ipfs.Engine.LinkedData.ILinkedDataFormat.html">ILinkedDataFormat</a>.</p>
-</section>
-      <h4><a class="xref" href="Ipfs.Engine.LinkedData.ProtobufFormat.html">ProtobufFormat</a></h4>
-      <section><p>Linked data as a protobuf message.</p>
-</section>
-      <h4><a class="xref" href="Ipfs.Engine.LinkedData.RawFormat.html">RawFormat</a></h4>
-      <section><p>Unlinked data.</p>
-</section>
-    <h3 id="interfaces">Interfaces
-  </h3>
-      <h4><a class="xref" href="Ipfs.Engine.LinkedData.ILinkedDataFormat.html">ILinkedDataFormat</a></h4>
-      <section><p>A specific format for linked data.</p>
-</section>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="ipfs-pubsub-system">IPFS PubSub system</h1>
+
+<p>The publish/subscribe system allows a <code>message</code> to be sent to a group of peers that 
+are subsctibed to a <code>topic</code> via the <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IPubSubApi.html">PubAub API</a>.
+The <code>topic</code> is just a name that indicates a group of related messages. 
+The <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IPublishedMessage.html">message</a> contains the author, topic(s), 
+sequence number and content.</p>
+<h3 id="publishing">Publishing</h3>
+<p><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IPubSubApi.html#Ipfs_CoreApi_IPubSubApi_PublishAsync_">PublishAsync</a> sends a
+message to a group of peers that are subscribed to a topic.</p>
+<p>The following, sends a &quot;hello world&quot; to all peers subscribed to &quot;nz&quot;.</p>
+<pre><code class="lang-csharp">await ipfs.PubSub.PublishAsync(&quot;nz&quot;, &quot;tēnā koutou&quot;);
+</code></pre><h3 id="subscribing">Subscribing</h3>
+<p><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IPubSubApi.html#Ipfs_CoreApi_IPubSubApi_SubscribeAsync_">SubscribeAsync</a> indicates interest
+in messages for the specified topic. The <code>handler</code> is invoked when a <a href="pubsub/dupmsg.html">unique
+message</a> is received.</p>
+<pre><code class="lang-csharp">var cs = new CancellationTokenSource();
+await ipfs.PubSub.SubscribeAsync(&quot;nz&quot;, msg =&gt;
+{
+    // do something with msg.DataBytes
+}, cs.Token);
+</code></pre><p>To unsubscribe, simply cancel the subscribe</p>
+<pre><code class="lang-csharp">cs.Cancel();
+</code></pre><h3 id="implementation">Implementation</h3>
+<p>The peer talk <a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.PubSub.NotificationService.html">notification service</a>
+with a <a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.PubSub.FloodRouter.html">floodsub router</a> is currently
+used.  In the future a <a href="https://github.com/richardschneider/peer-talk/issues/25">gossip router</a> will be used.</p>
+<p>See also</p>
+<ul>
+<li><a href="https://github.com/libp2p/specs/tree/master/pubsub">PubSub interface for libp2p</a></li>
+<li><a href="https://github.com/libp2p/specs/tree/master/pubsub/gossipsub#in-the-beginning-was-floodsub">In the beginning was floodsub</a></li>
+<li><a href="https://github.com/libp2p/specs/tree/master/pubsub/gossipsub#the-gossipsub-protocol">And then there is gossipsub</a></li>
+<li><a href="https://github.com/libp2p/specs/blob/master/pubsub/gossipsub/episub.md">Proximity Aware Epidemic PubSub for libp2p</a></li>
+</ul>
 </article>
           </div>
           
@@ -101,6 +108,9 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/pubsub.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

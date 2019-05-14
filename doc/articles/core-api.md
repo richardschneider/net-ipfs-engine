@@ -2,7 +2,7 @@
 
 The [Core API](xref:Ipfs.CoreApi.ICoreApi) is a set of interfaces to the IPFS features and is implemented by the 
 [engine](xref:Ipfs.Engine.IpfsEngine).  The 
-[FileSystem](filesystem.md) and [PubSub]() features are most often used.
+[FileSystem](filesystem.md) and [PubSub](pubsub.md) features are most often used.
 
 ```csharp
 const string filename = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv/about";
@@ -28,7 +28,7 @@ Each IPFS feature has it's own interface.
 | [Name](xref:Ipfs.CoreApi.INameApi) | Manages the Interplanetary Name Space (IPNS) |
 | [Object](xref:Ipfs.CoreApi.IObjectApi) | Manages the IPFS Directed Acrylic Graph |
 | [Pin](xref:Ipfs.CoreApi.IPinApi) | Manage objects that are locally stored and permanent |
-| [PubSub](xref:Ipfs.CoreApi.IPubSubApi) | Publish and subscribe topic messages |
+| [PubSub](pubsub.md) | Publish and subscribe topic messages |
 | [Swarm](xref:Ipfs.CoreApi.ISwarmApi) | Manages the swarm of peers |
 | [Stats](xref:Ipfs.CoreApi.IStatsApi) | Statistics on IPFS components |
 

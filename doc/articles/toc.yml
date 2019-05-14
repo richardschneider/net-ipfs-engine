@@ -7,7 +7,7 @@
       href: intro-ipfs.md
     - name: Questions
       href: questions.md
-- name: Core API
+- name: Features
   href: core-api.md
 - name: File System
   href: filesystem.md
@@ -22,6 +22,15 @@
       href: fs/wrap.md
     - name: Format
       href: fs/format.md
+- name: Message System
+  href: pubsub.md
+  items:
+    - name: Encrypting
+      href: pubsub/encrypt.md
+    - name: Signing
+      href: pubsub/sign.md
+    - name: Duplicate Message
+      href: pubsub/dupmsg.md
 - name: Repository
   href: repository.md
   items:

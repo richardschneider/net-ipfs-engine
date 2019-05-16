@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Bootstrap Peers | IPFS Engine documentation </title>
+    <title>Peer Discovery | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Bootstrap Peers | IPFS Engine documentation ">
+    <meta name="title" content="Peer Discovery | IPFS Engine documentation ">
     <meta name="generator" content="docfx 2.42.3.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
@@ -67,28 +67,31 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="bootstrap-peers">Bootstrap Peers</h1>
+<h1 id="peer-discovery">Peer Discovery</h1>
 
-<p>The bootstrap peers, aka seed nodes, are the 
-<a href="https://richardschneider.github.io/net-ipfs-core/articles/multiaddress.html">multiaddress(es)</a> 
-of well known and trusted peers that have high availability and is used to 
-find other peers on the IPFS network.</p>
-<p>These peers are listed in the <a href="repo/config.html">configuration file</a> and are managed with the 
-<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IBootstrapApi.html">Bootstrap API</a>.</p>
-<p>The <a class="xref" href="../api/Ipfs.Engine.DiscoveryOptions.html">Discovery options</a> can be used to override the default bootstrap peers.
-When using a <a href="pnet.html">private network</a> new bootstap peers must be defined.</p>
-<h2 id="factorty-default">Factorty Default</h2>
-<p>The default bootstrap peers are:</p>
-<pre><code>/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
-/ip4/104.236.179.241/tcp/4001/ipfs/QmSoLPppuBtQSGwKDZT2M73ULpjvfd3aZ6ha4oFGL1KrGM
-/ip4/128.199.219.111/tcp/4001/ipfs/QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu
-/ip4/104.236.76.40/tcp/4001/ipfs/QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64
-/ip4/178.62.158.247/tcp/4001/ipfs/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd
-/ip6/2604:a880:1:20::203:d001/tcp/4001/ipfs/QmSoLPppuBtQSGwKDZT2M73ULpjvfd3aZ6ha4oFGL1KrGM
-/ip6/2400:6180:0:d0::151:6001/tcp/4001/ipfs/QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu
-/ip6/2604:a880:800:10::4a:5001/tcp/4001/ipfs/QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64
-/ip6/2a03:b0c0:0:1010::23:1001/tcp/4001/ipfs/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd
-</code></pre></article>
+<p>Various schemes are used to find other peers in the network. </p>
+<p>To get the discovered peers use the <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.ISwarmApi.html">Swarm API</a></p>
+<pre><code class="lang-csharp">foreach (var peer in await ipfs.Swarm.AddressesAsync())
+{
+   Console.WriteLine(peer.Id);
+}
+</code></pre><h2 id="multicast-dns">Multicast DNS</h2>
+<p><a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.Discovery.MdnsNext.html">MdnsNext</a> uses <a href="https://tools.ietf.org/html/rfc6762">RFC 6762 - Multicast DNS</a> 
+to locate peers on the local area network with zero configuration. 
+Local area network peers are very useful to peer-to-peer protocols, because of their low latency links.</p>
+<p>The <a href="https://github.com/libp2p/specs/blob/master/discovery/mdns.md">mDNS-discovery</a> specification 
+describes how IPFS uses mDNS to discover other peers;
+<a href="pnet.html">private networks</a> are also supported.</p>
+<h2 id="bootstrap">Bootstrap</h2>
+<p><a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.Discovery.Bootstrap.html">Bootstrap</a> uses a <a href="bootstrap.html">pre-configured list</a>
+of addresses of highly stable (and somewhat trusted) peers to
+find the rest of the network.  These is sometimes referred to as <code>seed nodes</code>.</p>
+<h2 id="randon-walk">Randon walk</h2>
+<p>It makes random DHT (Distributed Hash Table) <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IPeerRouting.html#Ipfs_CoreApi_IPeerRouting_FindPeerAsync_">queries</a>
+in order to discover a large number of peers quickly.
+This causes the DHT to converge much faster, at the expense of a small load 
+at the very beginning.</p>
+</article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
@@ -96,7 +99,7 @@ When using a <a href="pnet.html">private network</a> new bootstap peers must be 
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/bootstrap.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/disco.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

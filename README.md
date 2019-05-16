@@ -22,6 +22,8 @@ This is **BETA CODE** and breaking changes will occur.
 ## Features
 
 - An embedded .Net implementation of IPFS, no need for a "IPFS daemon"
+- A [distributed file system](https://richardschneider.github.io/net-ipfs-engine/articles/filesystem.html)
+- A zero config [pubsub message system](https://richardschneider.github.io/net-ipfs-engine/articles/pubsub.html)
 - Targets 
   - .NET Framework 4.6.1
   - .NET Standard 1.4

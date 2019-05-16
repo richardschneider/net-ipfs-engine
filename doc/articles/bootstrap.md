@@ -9,6 +9,7 @@ These peers are listed in the [configuration file](repo/config.md) and are manag
 [Bootstrap API](xref:Ipfs.CoreApi.IBootstrapApi).
 
 The [Discovery options](xref:Ipfs.Engine.DiscoveryOptions) can be used to override the default bootstrap peers.
+When using a [private network](pnet.md) new bootstap peers must be defined.
 
 ## Factorty Default
 

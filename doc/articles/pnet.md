@@ -23,16 +23,16 @@ secret key.  This can be done by
 
 Two ways of specifying the secret key for a private network.
 
-### A `swarm.key` file
+#### A `swarm.key` file
 
 Copy the following file to the repository
 
 ```
 /key/swarm/psk/1.0.0/
 /base16/
-e8d6d31e8e02000010d7d31e8e020000f0d1fc609300000078f0d31e8e020000
+e8d6d31e8e02000010d6d31e8e020000f0d1fc609400000078f0d31e8e020000
 ```
-### Setting the key
+#### Setting the key
 
 ```csharp
 ipfs.Options.Swarm.PrivateNetworkKey = new PreSharedKey

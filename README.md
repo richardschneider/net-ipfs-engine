@@ -13,7 +13,7 @@ which makes it possible to create a decentralised
 and distributed application without relying on an "IPFS daemon".
 Basically, your application becomes an IPFS node.
 
-More information, including the class reference, is on the [Project](https://richardschneider.github.io/net-ipfs-engine/) web site.
+More information, including the class reference, is on the [Project](https://richardschneider.github.io/net-ipfs-engine/articles/intro.html) web site.
 This is **BETA CODE** and breaking changes will occur.
 
 [![IPFS Core API](https://github.com/ipfs/interface-ipfs-core/raw/master/img/badge.png)](https://github.com/ipfs/interface-ipfs-core)

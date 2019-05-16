@@ -6,8 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/richardschneider/net-ipfs-engine/badge.svg?branch=master&service=github)](https://coveralls.io/github/richardschneider/net-ipfs-engine?branch=master)
 [![Version](https://img.shields.io/nuget/v/Ipfs.Engine.svg)](https://www.nuget.org/packages/Ipfs.Engine)
 [![docs](https://cdn.rawgit.com/richardschneider/net-ipfs-engine/master/doc/images/docs-latest-green.svg)](https://richardschneider.github.io/net-ipfs-engine/articles/intro.html)
-
-
+s
 An embedded [IPFS](https://ipfs.io) engine implemented in C#.  It implements the 
 [IPFS Core API](https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.html) 
 which makes it possible to create a decentralised 
@@ -40,6 +39,9 @@ Published releases are available on [NuGet](https://www.nuget.org/packages/Ipfs.
     
 
 ## Usage
+
+Reads a [file](https://richardschneider.github.io/net-ipfs-engine/articles/filesystem.html#files)
+from anywhere on the network.
 
 ```csharp
 using Ipfs.Engine;

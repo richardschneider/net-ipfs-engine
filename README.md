@@ -8,11 +8,17 @@
 [![docs](https://cdn.rawgit.com/richardschneider/net-ipfs-engine/master/doc/images/docs-latest-green.svg)](https://richardschneider.github.io/net-ipfs-engine/articles/intro.html)
 
 
-An embedded IPFS engine implemented in C#. More information, including the class reference, is on the [Project](https://richardschneider.github.io/net-ipfs-engine/) web site.
+An embedded [IPFS](https://ipfs.io) engine implemented in C#.  It implements the 
+[IPFS Core API](https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.html) 
+which makes it possible to create a decentralised 
+and distributed application without relying on an "IPFS daemon".
+Basically, your application becomes an IPFS node.
+
+More information, including the class reference, is on the [Project](https://richardschneider.github.io/net-ipfs-engine/) web site.
+This is **BETA CODE** and breaking changes will occur.
 
 [![IPFS Core API](https://github.com/ipfs/interface-ipfs-core/raw/master/img/badge.png)](https://github.com/ipfs/interface-ipfs-core)
 
-This is **BETA CODE** and is not yet ready for prime time. 
 
 ## Features
 

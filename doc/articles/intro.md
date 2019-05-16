@@ -1,9 +1,9 @@
 # IPFS Engine
 
 An [IPFS](https://ipfs.io) engine implemented in C#.  It implements the 
-[Core API](core-api.md) which
-makes it possible to create a decentralised and distributed application without relying on an 
-"IPFS daemon".
+[Core API](core-api.md) which makes it possible to create a decentralised 
+and distributed application without relying on an "IPFS daemon".
+Basically, your application becomes an IPFS node.
 
 IPFS is a global, versioned, peer-to-peer filesystem. It combines good ideas from Git, BitTorrent, Kademlia, SFS, and the Web. It is like a single bittorrent swarm, exchanging git objects. IPFS provides an interface as simple as the HTTP web, but with permanence built in. 
 

@@ -21,6 +21,7 @@ namespace Ipfs.Engine
         static ILog log = LogManager.GetLogger(typeof(RandomWalk));
         Random rng = new Random();
         Thread thread;
+        CancellationTokenSource cancel;
 
         /// <summary>
         ///   The Distributed Hash Table to query.
@@ -58,6 +59,7 @@ namespace Ipfs.Engine
             {
                 IsBackground = true
             };
+            cancel = new CancellationTokenSource();
             thread.Start();
             log.Debug("started");
 
@@ -69,7 +71,9 @@ namespace Ipfs.Engine
         /// </summary>
         public Task StopAsync()
         {
-            thread?.Abort();
+            cancel?.Cancel();
+            cancel?.Dispose();
+            cancel = null;
             thread = null;
 
             log.Debug("stopped");
@@ -106,7 +110,8 @@ namespace Ipfs.Engine
             var id = MultiHash.ComputeHash(x);
 
             // Run the query for a while.
-            using (var cts = new CancellationTokenSource(QueryTime))
+            using (var timeout = new CancellationTokenSource(QueryTime))
+            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel.Token))
             {
                 var _ = Dht.FindPeerAsync(id, cts.Token).Result;
             }

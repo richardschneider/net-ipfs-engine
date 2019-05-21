@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard14;netstandard2</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2</TargetFrameworks>
     <AssemblyName>Ipfs.Engine</AssemblyName>
     <RootNamespace>Ipfs.Engine</RootNamespace>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -20,7 +20,7 @@
     <Description>An embedded IPFS engine for .Net</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>https://github.com/richardschneider/net-ipfs-engine/releases</PackageReleaseNotes>
-    <Copyright>© 2018 Richard Schneider</Copyright>
+    <Copyright>© 2018-2019 Richard Schneider</Copyright>
     <PackageTags>ipfs peer-to-peer p2p distributed file-system web</PackageTags>
     <IncludeSymbols>True</IncludeSymbols>
     <PackageLicenseUrl>https://github.com/richardschneider/net-ipfs-engine/blob/master/LICENSE</PackageLicenseUrl>
@@ -28,9 +28,6 @@
     <PackageIconUrl>https://github.com/ipfs/logo/blob/master/platform-icons/osx-menu-bar.png</PackageIconUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard14'">
-    <DefineConstants>NETSTANDARD14</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2'">
     <DefineConstants>NETSTANDARD2</DefineConstants>
   </PropertyGroup>

@@ -33,3 +33,7 @@ body {
         display: none;
     }
 }
+
+.hex {
+    font-size: 80%;
+}

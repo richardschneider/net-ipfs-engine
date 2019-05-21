@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD14 // TODO
-using ICSharpCode.SharpZipLib.Tar;
-#endif
+﻿using ICSharpCode.SharpZipLib.Tar;
 using Common.Logging;
 using System;
 using System.Collections.Generic;
@@ -232,12 +230,6 @@ namespace Ipfs.Engine.CoreApi
             return new SlicedStream(stream, offset, count);
         }
 
-#if NETSTANDARD14 // TODO
-        public Task<Stream> GetAsync(string path, bool compress = false, CancellationToken cancel = default(CancellationToken))
-        {
-            throw new NotImplementedException("FileSystem.Api.GetAsync is not implemented on NETSTANDARD 1.4");
-        }
-#else
         public async Task<Stream> GetAsync(string path, bool compress = false, CancellationToken cancel = default(CancellationToken))
         {
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
@@ -251,9 +243,7 @@ namespace Ipfs.Engine.CoreApi
             ms.Position = 0;
             return ms;
         }
-#endif
 
-#if !NETSTANDARD14 // TODO
         async Task AddTarNodeAsync(Cid cid, string name, TarOutputStream tar, CancellationToken cancel)
         {
             var block = await ipfs.Block.GetAsync(cid, cancel).ConfigureAwait(false);
@@ -301,7 +291,6 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
-#endif
 
         IBlockApi GetBlockService(AddFileOptions options)
         {

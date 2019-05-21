@@ -36,6 +36,25 @@ namespace Ipfs.Server.HttpApi.V0
     }
 
     /// <summary>
+    ///   A published message.
+    /// </summary>
+    public class MessageDto
+    {
+        public string from;
+        public string seqno;
+        public string data;
+        public string[] topicIDs;
+
+        public MessageDto(IPublishedMessage msg)
+        {
+            from = Convert.ToBase64String(msg.Sender.Id.ToArray());
+            seqno = Convert.ToBase64String(msg.SequenceNumber);
+            data = Convert.ToBase64String(msg.DataBytes);
+            topicIDs = msg.Topics.ToArray();
+        }
+    }
+
+    /// <summary>
     ///   Publishing and subscribing to messages on a topic.
     /// </summary>
     public class PubSubController : IpfsController
@@ -77,7 +96,7 @@ namespace Ipfs.Server.HttpApi.V0
         ///   Publish a message to a topic.
         /// </summary>
         /// <param name="arg">
-        ///   The first arg is then topic name and second is the message.
+        ///   The first arg is the topic name and second is the message.
         /// </param>
         [HttpGet, HttpPost, Route("pubsub/pub")]
         public async Task Publish(string[] arg)
@@ -86,6 +105,32 @@ namespace Ipfs.Server.HttpApi.V0
                 throw new ArgumentException("Missing topic and/or message.");
             var message = arg[1].Select(c => (byte)c).ToArray();
             await IpfsCore.PubSub.PublishAsync(arg[0], message, Cancel);
+        }
+
+        /// <summary>
+        ///   Subscribe to messages on the topic.
+        /// </summary>
+        /// <param name="arg">
+        ///   The topic name.
+        /// </param>
+        [HttpGet, HttpPost, Route("pubsub/sub")]
+        public async Task Subscribe(string arg)
+        {
+            await IpfsCore.PubSub.SubscribeAsync(arg, async message =>
+            {
+                // Send the published message to the caller.
+                var dto = new MessageDto(message);
+                await StreamJsonAsync(dto);
+            }, Cancel);
+
+            // Send 200 OK to caller; but do not close the stream
+            // so that published messages can be sent.
+            Response.ContentType = "application/json";
+            Response.StatusCode = 200;
+            await Response.Body.FlushAsync();
+
+            // Wait for the caller to cancel.
+            await Task.Delay(-1, Cancel);
         }
     }
 }

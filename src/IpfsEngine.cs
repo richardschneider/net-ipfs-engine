@@ -480,6 +480,14 @@ namespace Ipfs.Engine
                     stopTasks.Add(async () => await mdns.StopAsync().ConfigureAwait(false));
                     await mdns.StartAsync().ConfigureAwait(false);
                 },
+                async () => 
+                {
+                    if (Options.Discovery.DisableRandomWalk)
+                        return;
+                    var randomWalk = new RandomWalk { Dht = Dht };
+                    stopTasks.Add(async () => await randomWalk.StopAsync().ConfigureAwait(false));
+                    await randomWalk.StartAsync().ConfigureAwait(false);
+                }
             };
             log.Debug("waiting for discovery services to start");
             await Task.WhenAll(tasks.Select(t => t())).ConfigureAwait(false);

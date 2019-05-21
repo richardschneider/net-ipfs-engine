@@ -32,5 +32,11 @@ namespace Ipfs.Engine
         ///   and advertising of this peer.
         /// </summary>
         public bool DisableMdns;
+
+        /// <summary>
+        ///   Disables discovery of other peers by walking the
+        ///   DHT.
+        /// </summary>
+        public bool DisableRandomWalk;
     }
 }

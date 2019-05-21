@@ -36,11 +36,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ipfs.Core" Version="0.50.0" />
+    <PackageReference Include="Ipfs.Core" Version="0.50.1" />
     <PackageReference Include="Makaretu.Dns.Unicast" Version="0.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
-    <PackageReference Include="PeerTalk" Version="0.11.2" />
+    <PackageReference Include="PeerTalk" Version="0.11.3" />
     <PackageReference Include="PeterO.Cbor" Version="3.1.0" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.5" />
     <PackageReference Include="protobuf-net" Version="2.4.0" />

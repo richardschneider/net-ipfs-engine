@@ -16,7 +16,7 @@ namespace Ipfs.Engine
     /// <remarks>
     ///   This is a background task that runs every <see cref="Period"/>.
     /// </remarks>
-    class RandomWalk : IService
+    public class RandomWalk : IService
     {
         static ILog log = LogManager.GetLogger(typeof(RandomWalk));
         Random rng = new Random();
@@ -49,7 +49,7 @@ namespace Ipfs.Engine
         /// </summary>
         public Task StartAsync()
         {
-            if (this != null)
+            if (thread != null)
             {
                 throw new Exception("Already started.");
             }
@@ -59,6 +59,7 @@ namespace Ipfs.Engine
                 IsBackground = true
             };
             thread.Start();
+            log.Debug("started");
 
             return Task.CompletedTask;
         }
@@ -70,6 +71,8 @@ namespace Ipfs.Engine
         {
             thread?.Abort();
             thread = null;
+
+            log.Debug("stopped");
 
             return Task.CompletedTask;
         }
@@ -95,6 +98,8 @@ namespace Ipfs.Engine
 
         void RunQuery()
         {
+            log.Debug("Running a query");
+
             // Get a random peer id.
             byte[] x = new byte[32];
             rng.NextBytes(x);

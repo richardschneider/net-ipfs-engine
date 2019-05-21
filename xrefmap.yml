@@ -850,6 +850,12 @@ references:
   commentId: F:Ipfs.Engine.DiscoveryOptions.DisableMdns
   fullName: Ipfs.Engine.DiscoveryOptions.DisableMdns
   nameWithType: DiscoveryOptions.DisableMdns
+- uid: Ipfs.Engine.DiscoveryOptions.DisableRandomWalk
+  name: DisableRandomWalk
+  href: api/Ipfs.Engine.DiscoveryOptions.html#Ipfs_Engine_DiscoveryOptions_DisableRandomWalk
+  commentId: F:Ipfs.Engine.DiscoveryOptions.DisableRandomWalk
+  fullName: Ipfs.Engine.DiscoveryOptions.DisableRandomWalk
+  nameWithType: DiscoveryOptions.DisableRandomWalk
 - uid: Ipfs.Engine.FileStore`2
   name: FileStore<TName, TValue>
   href: api/Ipfs.Engine.FileStore-2.html
@@ -1784,6 +1790,63 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.LinkedData.RawFormat.Serialize
   nameWithType: RawFormat.Serialize
+- uid: Ipfs.Engine.RandomWalk
+  name: RandomWalk
+  href: api/Ipfs.Engine.RandomWalk.html
+  commentId: T:Ipfs.Engine.RandomWalk
+  fullName: Ipfs.Engine.RandomWalk
+  nameWithType: RandomWalk
+- uid: Ipfs.Engine.RandomWalk.Dht
+  name: Dht
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Dht
+  commentId: P:Ipfs.Engine.RandomWalk.Dht
+  fullName: Ipfs.Engine.RandomWalk.Dht
+  nameWithType: RandomWalk.Dht
+- uid: Ipfs.Engine.RandomWalk.Dht*
+  name: Dht
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Dht_
+  commentId: Overload:Ipfs.Engine.RandomWalk.Dht
+  isSpec: "True"
+  fullName: Ipfs.Engine.RandomWalk.Dht
+  nameWithType: RandomWalk.Dht
+- uid: Ipfs.Engine.RandomWalk.Period
+  name: Period
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Period
+  commentId: F:Ipfs.Engine.RandomWalk.Period
+  fullName: Ipfs.Engine.RandomWalk.Period
+  nameWithType: RandomWalk.Period
+- uid: Ipfs.Engine.RandomWalk.QueryTime
+  name: QueryTime
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_QueryTime
+  commentId: F:Ipfs.Engine.RandomWalk.QueryTime
+  fullName: Ipfs.Engine.RandomWalk.QueryTime
+  nameWithType: RandomWalk.QueryTime
+- uid: Ipfs.Engine.RandomWalk.StartAsync
+  name: StartAsync()
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_StartAsync
+  commentId: M:Ipfs.Engine.RandomWalk.StartAsync
+  fullName: Ipfs.Engine.RandomWalk.StartAsync()
+  nameWithType: RandomWalk.StartAsync()
+- uid: Ipfs.Engine.RandomWalk.StartAsync*
+  name: StartAsync
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_StartAsync_
+  commentId: Overload:Ipfs.Engine.RandomWalk.StartAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.RandomWalk.StartAsync
+  nameWithType: RandomWalk.StartAsync
+- uid: Ipfs.Engine.RandomWalk.StopAsync
+  name: StopAsync()
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_StopAsync
+  commentId: M:Ipfs.Engine.RandomWalk.StopAsync
+  fullName: Ipfs.Engine.RandomWalk.StopAsync()
+  nameWithType: RandomWalk.StopAsync()
+- uid: Ipfs.Engine.RandomWalk.StopAsync*
+  name: StopAsync
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_StopAsync_
+  commentId: Overload:Ipfs.Engine.RandomWalk.StopAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.RandomWalk.StopAsync
+  nameWithType: RandomWalk.StopAsync
 - uid: Ipfs.Engine.RepositoryOptions
   name: RepositoryOptions
   href: api/Ipfs.Engine.RepositoryOptions.html

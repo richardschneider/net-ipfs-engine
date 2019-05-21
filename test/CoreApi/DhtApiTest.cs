@@ -65,6 +65,35 @@ namespace Ipfs.Engine
             }
         }
 
+        [TestMethod]
+        public async Task RandomWalk()
+        {
+            //var id = "QmSoLMeWqB7YGVLJN3pxxQpmmEk35v6wYtsMGLzSr5QBU3"; // TODO
+            byte[] x = new byte[32];
+            (new Random()).NextBytes(x);
+            var id = MultiHash.ComputeHash(x);
+
+            var ipfs = TestFixture.Ipfs;
+            await ipfs.StartAsync();
+            try
+            {
+                var prevPeers = (await ipfs.Swarm.AddressesAsync()).ToArray();
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1 * 60));
+                await ipfs.Dht.FindPeerAsync(id, cts.Token);
+                var peers = (await ipfs.Swarm.AddressesAsync()).ToArray();
+                foreach (var peer in peers)
+                {
+                    if (!prevPeers.Contains(peer))
+                    {
+                        Console.WriteLine($"found {peer} conn={peer.ConnectedAddress}");
+                    }
+                }
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
+        }
     }
 }
 

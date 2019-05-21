@@ -2,7 +2,7 @@
   "profiles": {
     "IpfsCli": {
       "commandName": "Project",
-      "commandLineArgs": "stats bitswap"
+      "commandLineArgs": "--help"
     }
   }
 }

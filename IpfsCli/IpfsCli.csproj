@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Common.Logging" Version="3.4.1" />
-    <PackageReference Include="Ipfs.Http.Client" Version="0.27.2" />
+    <PackageReference Include="Ipfs.Http.Client" Version="0.28.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.9.0" />

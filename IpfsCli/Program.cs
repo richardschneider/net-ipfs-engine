@@ -41,6 +41,7 @@ namespace Ipfs.Cli
     [Subcommand("key", typeof(KeyCommand))]
     [Subcommand("dns", typeof(DnsCommand))]
     [Subcommand("pin", typeof(PinCommand))]
+    [Subcommand("pubsub", typeof(PubsubCommand))]
     [Subcommand("bootstrap", typeof(BootstrapCommand))]
     [Subcommand("swarm", typeof(SwarmCommand))]
     [Subcommand("dht", typeof(DhtCommand))]

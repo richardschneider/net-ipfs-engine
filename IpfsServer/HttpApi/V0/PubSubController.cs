@@ -104,6 +104,7 @@ namespace Ipfs.Server.HttpApi.V0
             if (arg.Length != 2)
                 throw new ArgumentException("Missing topic and/or message.");
             var message = arg[1].Select(c => (byte)c).ToArray();
+            Console.WriteLine($"MSG = {message.ToHexString()}");
             await IpfsCore.PubSub.PublishAsync(arg[0], message, Cancel);
         }
 
@@ -116,11 +117,11 @@ namespace Ipfs.Server.HttpApi.V0
         [HttpGet, HttpPost, Route("pubsub/sub")]
         public async Task Subscribe(string arg)
         {
-            await IpfsCore.PubSub.SubscribeAsync(arg, async message =>
+            await IpfsCore.PubSub.SubscribeAsync(arg, message =>
             {
                 // Send the published message to the caller.
                 var dto = new MessageDto(message);
-                await StreamJsonAsync(dto);
+                StreamJson(dto);
             }, Cancel);
 
             // Send 200 OK to caller; but do not close the stream
@@ -130,7 +131,14 @@ namespace Ipfs.Server.HttpApi.V0
             await Response.Body.FlushAsync();
 
             // Wait for the caller to cancel.
-            await Task.Delay(-1, Cancel);
+            try
+            {
+                await Task.Delay(-1, Cancel);
+            }
+            catch (TaskCanceledException)
+            {
+                // eat
+            }
         }
     }
 }

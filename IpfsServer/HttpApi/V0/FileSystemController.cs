@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
 using Newtonsoft.Json;
+using Microsoft.Net.Http.Headers;
 
 namespace Ipfs.Server.HttpApi.V0
 {
@@ -134,8 +135,21 @@ namespace Ipfs.Server.HttpApi.V0
             long offset = 0,
             long length = 0)
         {
-            var stream = await IpfsCore.FileSystem.ReadFileAsync(arg, offset, length, Cancel);
-            return File(stream, "application/octet-stream", arg);
+            EntityTagHeaderValue etag = null;
+            var path = await IpfsCore.Generic.ResolveAsync(arg, true, Cancel);
+            var cid = Cid.Decode(path.Substring(6)); // remove leading "/ipfs/"
+
+            // Use an etag if the path is IPFS or CID.
+            if (arg.StartsWith("/ipfs/") || arg[0] != '/')
+            {
+                etag = ETag(cid);
+                Immutable();
+            }
+
+            // Use the last part of the path as the download filename
+            var filename = arg.Split('/').Last();
+            var stream = await IpfsCore.FileSystem.ReadFileAsync(cid, offset, length, Cancel);
+            return File(stream, "application/octet-stream", filename, null, etag);
         }
 
         /// <summary>

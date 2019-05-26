@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ipfs.Cli
@@ -11,6 +12,7 @@ namespace Ipfs.Cli
     [Subcommand("ls", typeof(PubsubListCommand))]
     [Subcommand("peers", typeof(PubsubPeersCommand))]
     [Subcommand("pub", typeof(PubsubPublishCommand))]
+    [Subcommand("sub", typeof(PubsubSubscribeCommand))]
     class PubsubCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -73,6 +75,35 @@ namespace Ipfs.Cli
         {
             var Program = Parent.Parent;
             await Program.CoreApi.PubSub.PublishAsync(Topic, Message);
+            return 0;
+        }
+    }
+
+    [Command(Description = "Subscribe to messages on a topic")]
+    class PubsubSubscribeCommand : CommandBase
+    {
+        [Argument(0, "topic", "The topic of interest")]
+        [Required]
+        public string Topic { get; set; }
+
+        PubsubCommand Parent { get; set; }
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            var Program = Parent.Parent;
+            var cts = new CancellationTokenSource();
+            await Program.CoreApi.PubSub.SubscribeAsync(Topic, (m) =>
+            {
+                Program.Output(app, m, (data, writer) =>
+                {
+                    writer.WriteLine(Encoding.UTF8.GetString(data.DataBytes));
+                });
+            }, cts.Token);
+
+            // Never return, just print messages received.
+            await Task.Delay(-1);
+
+            // Keep compiler happy.
             return 0;
         }
     }

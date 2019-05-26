@@ -104,7 +104,6 @@ namespace Ipfs.Server.HttpApi.V0
             if (arg.Length != 2)
                 throw new ArgumentException("Missing topic and/or message.");
             var message = arg[1].Select(c => (byte)c).ToArray();
-            Console.WriteLine($"MSG = {message.ToHexString()}");
             await IpfsCore.PubSub.PublishAsync(arg[0], message, Cancel);
         }
 

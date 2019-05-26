@@ -85,7 +85,7 @@ namespace Ipfs.Engine.BlockExchange
         /// <summary>
         ///   Statistics on the bitswap component.
         /// </summary>
-        /// <seealso cref="CoreApi.StatsApi"/>
+        /// <seealso cref="Ipfs.CoreApi.IStatsApi"/>
         public BitswapData Statistics
         {
             get

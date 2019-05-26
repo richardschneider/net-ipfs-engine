@@ -23,7 +23,7 @@ using PeerTalk.Cryptography;
 namespace Ipfs.Engine
 {
     /// <summary>
-    ///   Implements the <see cref="ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
+    ///   Implements the <see cref="Ipfs.CoreApi.ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
     ///   application without relying on an "IPFS daemon".
     /// </summary>
     /// <remarks>
@@ -265,7 +265,7 @@ namespace Ipfs.Engine
         /// </param>
         /// <returns>
         ///   A task that represents the asynchronous operation. The task's result is
-        ///   the <see cref="keyChain"/>.
+        ///   the <see cref="KeyChain"/>.
         /// </returns>
         public async Task<KeyChain> KeyChain(CancellationToken cancel = default(CancellationToken))
         {
@@ -299,7 +299,7 @@ namespace Ipfs.Engine
         /// </summary>
         /// <returns>
         ///   A task that represents the asynchronous operation. The task's result is
-        ///   a <see cref="Peer"/>.
+        ///   a <see cref="Ipfs.Peer"/>.
         /// </returns>
         public AsyncLazy<Peer> LocalPeer { get; private set; }
 

@@ -70,7 +70,7 @@
     "xref": [
       "https://richardschneider.github.io/net-ipfs-core/xrefmap.yml",
       "https://richardschneider.github.io/peer-talk/xrefmap.yml",
-      "https://richardschneider.github.io/net-ipfs-core/xrefmap.yml"
+      "https://richardschneider.github.io/net-udns/xrefmap.yml"
     ],
     "globalMetadata": {
       "_appTitle": "IPFS Engine documentation",

@@ -28,7 +28,7 @@ namespace Ipfs.Engine
         ///   Provides access to the Domain Name System.
         /// </summary>
         /// <value>
-        ///   Defaults to <see cref="DotClient">DNS over TLS</see>.
+        ///   Defaults to <see cref="DotClient"/>, DNS over TLS.
         /// </value>
         public IDnsClient Dns { get; set; } = new DotClient();
 

@@ -324,7 +324,7 @@ namespace Ipfs.Engine.Cryptography
         /// </param>
         /// <returns>
         ///   A task that represents the asynchronous operation. The task's result is
-        ///   the private key as an <see cref="AsymmetricKeyParameter"/>.
+        ///   the private key as an <b>AsymmetricKeyParameter</b>.
         /// </returns>
         public async Task<AsymmetricKeyParameter> GetPrivateKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
         {

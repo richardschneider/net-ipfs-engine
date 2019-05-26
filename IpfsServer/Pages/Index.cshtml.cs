@@ -24,6 +24,9 @@ namespace Ipfs.Server.Pages
             this.ipfs = ipfs;
         }
 
+        /// <summary>
+        ///   The local node's globally unique identifier.
+        /// </summary>
         public string NodeId = "foo-bar";
 
         /// <summary>

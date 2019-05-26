@@ -40,11 +40,33 @@ namespace Ipfs.Server.HttpApi.V0
     /// </summary>
     public class MessageDto
     {
+        /// <summary>
+        ///   The base-64 encoding of the author's peer id.
+        /// </summary>
         public string from;
+
+        /// <summary>
+        ///   The base-64 encoding of the author's unique sequence number.
+        /// </summary>
         public string seqno;
+
+        /// <summary>
+        ///   The base-64 encoding of the message data.
+        /// </summary>
         public string data;
+
+        /// <summary>
+        ///   The topics associated with the message.
+        /// </summary>
         public string[] topicIDs;
 
+        /// <summary>
+        ///   Create a new instance of the <see cref="MessageDto"/>
+        ///   from the <see cref="IPublishedMessage"/>.
+        /// </summary>
+        /// <param name="msg">
+        ///   A pubsub messagee.
+        /// </param>
         public MessageDto(IPublishedMessage msg)
         {
             from = Convert.ToBase64String(msg.Sender.Id.ToArray());

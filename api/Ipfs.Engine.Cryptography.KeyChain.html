@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class KeyChain
    | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.42.3.0">
+    <meta name="generator" content="docfx 2.42.4.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -81,11 +81,39 @@
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
     <div class="level1"><span class="xref">KeyChain</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IKeyApi.html">IKeyApi</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gethashcode#System_Object_GetHashCode">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#System_Object_GetType">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.memberwiseclone#System_Object_MemberwiseClone">Object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#System_Object_ReferenceEquals_System_Object_System_Object_">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.tostring#System_Object_ToString">Object.ToString()</a>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.Cryptography.html">Ipfs.Engine.Cryptography</a></h6>
   <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
   <h5 id="Ipfs_Engine_Cryptography_KeyChain_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class KeyChain : CoreApi.IKeyApi</code></pre>
+    <pre><code class="lang-csharp hljs">public class KeyChain : IKeyApi</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -160,18 +188,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String%2CSystem.String%2CSystem.Int32%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String%2CSystem.String%2CSystem.Int32%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L200">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_CreateAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)">CreateAsync(String, String, Int32, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,System.Threading.CancellationToken)">CreateAsync(String, String, Int32, CancellationToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; CreateAsync(string name, string keyType, int size, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; CreateAsync(string name, string keyType, int size, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -199,7 +227,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
         <td></td>
       </tr>
@@ -215,26 +243,26 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IKey</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html">IKey</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/Pki.cs/#L46">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String,CancellationToken)">CreateBCCertificateAsync(String, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_System_String_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String,System.Threading.CancellationToken)">CreateBCCertificateAsync(String, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Create a X509 certificate for the specified key.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;X509Certificate&gt; CreateBCCertificateAsync(string keyName, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;X509Certificate&gt; CreateBCCertificateAsync(string keyName, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -253,7 +281,7 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
         <td></td>
       </tr>
@@ -269,26 +297,26 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">X509Certificate</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span class="xref">Org.BouncyCastle.X509.X509Certificate</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/Pki.cs/#L30">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String,CancellationToken)">CreateCertificateAsync(String, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_System_String_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String,System.Threading.CancellationToken)">CreateCertificateAsync(String, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Create a X509 certificate for the specified key.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;byte[]&gt; CreateCertificateAsync(string keyName, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;byte[]&gt; CreateCertificateAsync(string keyName, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -307,7 +335,7 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
         <td></td>
       </tr>
@@ -323,26 +351,26 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String%2CSystem.Byte%5B%5D%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String%2CSystem.Byte%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/Cms.cs/#L41">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String,System.Byte[],CancellationToken)">CreateProtectedData(String, Byte[], CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String,System.Byte[],System.Threading.CancellationToken)">CreateProtectedData(String, Byte[], CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Encrypt data as CMS protected data.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;byte[]&gt; CreateProtectedData(string keyName, byte[] plainText, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;byte[]&gt; CreateProtectedData(string keyName, byte[] plainText, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -367,9 +395,9 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -384,14 +412,14 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
 the cipher text of the <code data-dev-comment-type="paramref" class="paramref">plainText</code>.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___CancellationToken__remarks">Remarks</h5>
+  <h5 id="Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___System_Threading_CancellationToken__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Cryptographic Message Syntax (CMS), aka PKCS #7 and 
 <a href="https://tools.ietf.org/html/rfc5652">RFC 5652</a>,
 describes an encapsulation syntax for data protection. It
@@ -400,18 +428,18 @@ arbitrary message content.</p>
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String%2CSystem.Char%5B%5D%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String%2CSystem.Char%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L237">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_ExportAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ExportAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)">ExportAsync(String, Char[], CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],System.Threading.CancellationToken)">ExportAsync(String, Char[], CancellationToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;string&gt; ExportAsync(string name, char[] password, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;string&gt; ExportAsync(string name, char[] password, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -434,7 +462,7 @@ arbitrary message content.</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
         <td></td>
       </tr>
@@ -450,26 +478,26 @@ arbitrary message content.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L136">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)">FindKeyByNameAsync(String, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,System.Threading.CancellationToken)">FindKeyByNameAsync(String, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Find a key by its name.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; FindKeyByNameAsync(string name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; FindKeyByNameAsync(string name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -488,9 +516,9 @@ arbitrary message content.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -505,28 +533,28 @@ arbitrary message content.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IKey</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html">IKey</a>&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
-an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defined.</p>
+an <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html">IKey</a> or <strong>null</strong> if the the key is not defined.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L329">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String,CancellationToken)">GetPrivateKeyAsync(String, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_System_String_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String,System.Threading.CancellationToken)">GetPrivateKeyAsync(String, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Gets the Bouncy Castle representation of the private key.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;AsymmetricKeyParameter&gt; GetPrivateKeyAsync(string name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;AsymmetricKeyParameter&gt; GetPrivateKeyAsync(string name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -545,9 +573,9 @@ an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defi
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -562,28 +590,28 @@ an <see cref="!:IKey"></see> or <strong>null</strong> if the the key is not defi
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">AsymmetricKeyParameter</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span class="xref">Org.BouncyCastle.Crypto.AsymmetricKeyParameter</span>&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
-the private key as an <see cref="!:AsymmetricKeyParameter"></see>.</p>
+the private key as an <strong>AsymmetricKeyParameter</strong>.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L162">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,CancellationToken)">GetPublicKeyAsync(String, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,System.Threading.CancellationToken)">GetPublicKeyAsync(String, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Gets the IPFS encoded public key for the specified key.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;string&gt; GetPublicKeyAsync(string name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;string&gt; GetPublicKeyAsync(string name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -602,9 +630,9 @@ the private key as an <see cref="!:AsymmetricKeyParameter"></see>.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -619,35 +647,35 @@ the private key as an <see cref="!:AsymmetricKeyParameter"></see>.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
 the IPFS encoded public key.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_CancellationToken__remarks">Remarks</h5>
+  <h5 id="Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_System_Threading_CancellationToken__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>The IPFS public key is the base-64 encoding of a protobuf encoding containing 
 a type and the DER encoding of the PKCS Subject Public Key Info.</p>
 </div>
-  <h5 id="Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_CancellationToken__seealso">See Also</h5>
+  <h5 id="Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_System_Threading_CancellationToken__seealso">See Also</h5>
   <div class="seealso">
       <div><span><a href="https://tools.ietf.org/html/rfc5280#section-4.1.2.7">https://tools.ietf.org/html/rfc5280#section-4.1.2.7</a></span></div>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String%2CSystem.String%2CSystem.Char%5B%5D%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String%2CSystem.String%2CSystem.Char%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L260">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_ImportAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ImportAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)">ImportAsync(String, String, Char[], CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],System.Threading.CancellationToken)">ImportAsync(String, String, Char[], CancellationToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; ImportAsync(string name, string pem, char[] password = null, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; ImportAsync(string name, string pem, char[] password = null, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -675,7 +703,7 @@ a type and the DER encoding of the PKCS Subject Public Key Info.</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
         <td></td>
       </tr>
@@ -691,25 +719,25 @@ a type and the DER encoding of the PKCS Subject Public Key Info.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IKey</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html">IKey</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ListAsync_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L283">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_ListAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ListAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)">ListAsync(CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_ListAsync_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)">ListAsync(CancellationToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IEnumerable&lt;IKey&gt;&gt; ListAsync(CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;IEnumerable&lt;IKey&gt;&gt; ListAsync(CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -722,7 +750,7 @@ a type and the DER encoding of the PKCS Subject Public Key Info.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
         <td></td>
       </tr>
@@ -738,26 +766,26 @@ a type and the DER encoding of the PKCS Subject Public Key Info.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IEnumerable</span>&lt;<span class="xref">IKey</span>&gt;&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html">IKey</a>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte%5B%5D%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/Cms.cs/#L111">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[],CancellationToken)">ReadProtectedData(Byte[], CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[],System.Threading.CancellationToken)">ReadProtectedData(Byte[], CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Decrypt CMS protected data.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;byte[]&gt; ReadProtectedData(byte[] cipherText, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;byte[]&gt; ReadProtectedData(byte[] cipherText, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -776,9 +804,9 @@ a type and the DER encoding of the PKCS Subject Public Key Info.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -793,34 +821,50 @@ a type and the DER encoding of the PKCS Subject Public Key Info.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
 the plain text byte array of the protected data.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___CancellationToken__remarks">Remarks</h5>
+  <h5 id="Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___System_Threading_CancellationToken__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Cryptographic Message Syntax (CMS), aka PKCS #7 and 
 <a href="https://tools.ietf.org/html/rfc5652">RFC 5652</a>,
 describes an encapsulation syntax for data protection. It
 is used to digitally sign, digest, authenticate, and/or encrypt
 arbitrary message content.</p>
 </div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.keynotfoundexception">KeyNotFoundException</a></td>
+        <td><p>When the required private key, to decrypt the data, is not foumd.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L293">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RemoveAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)">RemoveAsync(String, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,System.Threading.CancellationToken)">RemoveAsync(String, CancellationToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; RemoveAsync(string name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; RemoveAsync(string name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -838,7 +882,7 @@ arbitrary message content.</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
         <td></td>
       </tr>
@@ -854,25 +898,25 @@ arbitrary message content.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IKey</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html">IKey</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String%2CSystem.String%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String%2CSystem.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L304">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_RenameAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RenameAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)">RenameAsync(String, String, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,System.Threading.CancellationToken)">RenameAsync(String, String, CancellationToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; RenameAsync(string oldName, string newName, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;IKey&gt; RenameAsync(string oldName, string newName, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -895,7 +939,7 @@ arbitrary message content.</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
         <td></td>
       </tr>
@@ -911,26 +955,26 @@ arbitrary message content.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IKey</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IKey.html">IKey</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_SecureString_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(SecureString%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Security_SecureString_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Security.SecureString%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/Cryptography/KeyChain.cs/#L91">View Source</a>
   </span>
   <a id="Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_" data-uid="Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync*"></a>
-  <h4 id="Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_SecureString_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(SecureString,CancellationToken)">SetPassphraseAsync(SecureString, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Security_SecureString_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Security.SecureString,System.Threading.CancellationToken)">SetPassphraseAsync(SecureString, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Sets the passphrase for the key chain.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task SetPassphraseAsync(SecureString passphrase, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task SetPassphraseAsync(SecureString passphrase, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -943,14 +987,14 @@ arbitrary message content.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">SecureString</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.security.securestring">SecureString</a></td>
         <td><span class="parametername">passphrase</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -965,19 +1009,39 @@ arbitrary message content.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
         <td><p>A task that represents the asynchronous operation.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_SecureString_CancellationToken__remarks">Remarks</h5>
+  <h5 id="Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Security_SecureString_System_Threading_CancellationToken__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>The <code data-dev-comment-type="paramref" class="paramref">passphrase</code> is used to generate a DEK (derived encryption
 key).  The DEK is then used to encrypt the stored keys.
 <p>
 Neither the <code data-dev-comment-type="paramref" class="paramref">passphrase</code> nor the DEK are stored.
 </p></p>
 </div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.unauthorizedaccessexception">UnauthorizedAccessException</a></td>
+        <td><p>When the <code data-dev-comment-type="paramref" class="paramref">passphrase</code> is wrong.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IKeyApi.html">IKeyApi</a>
+  </div>
 </article>
           </div>
           

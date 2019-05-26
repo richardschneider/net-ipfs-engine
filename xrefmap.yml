@@ -87,11 +87,11 @@ references:
   commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived
   fullName: Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived
   nameWithType: Bitswap.DupDataReceived
-- uid: Ipfs.Engine.BlockExchange.Bitswap.Found(IDataBlock)
+- uid: Ipfs.Engine.BlockExchange.Bitswap.Found(Ipfs.IDataBlock)
   name: Found(IDataBlock)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Found_IDataBlock_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.Found(IDataBlock)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.Found(IDataBlock)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Found_Ipfs_IDataBlock_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.Found(Ipfs.IDataBlock)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.Found(Ipfs.IDataBlock)
   nameWithType: Bitswap.Found(IDataBlock)
 - uid: Ipfs.Engine.BlockExchange.Bitswap.Found*
   name: Found
@@ -100,11 +100,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap.Found
   nameWithType: Bitswap.Found
-- uid: Ipfs.Engine.BlockExchange.Bitswap.PeerWants(MultiHash)
+- uid: Ipfs.Engine.BlockExchange.Bitswap.PeerWants(Ipfs.MultiHash)
   name: PeerWants(MultiHash)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_PeerWants_MultiHash_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.PeerWants(MultiHash)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.PeerWants(MultiHash)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_PeerWants_Ipfs_MultiHash_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.PeerWants(Ipfs.MultiHash)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.PeerWants(Ipfs.MultiHash)
   nameWithType: Bitswap.PeerWants(MultiHash)
 - uid: Ipfs.Engine.BlockExchange.Bitswap.PeerWants*
   name: PeerWants
@@ -165,11 +165,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap.Swarm
   nameWithType: Bitswap.Swarm
-- uid: Ipfs.Engine.BlockExchange.Bitswap.Unwant(Cid)
+- uid: Ipfs.Engine.BlockExchange.Bitswap.Unwant(Ipfs.Cid)
   name: Unwant(Cid)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Unwant_Cid_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.Unwant(Cid)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.Unwant(Cid)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Unwant_Ipfs_Cid_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.Unwant(Ipfs.Cid)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.Unwant(Ipfs.Cid)
   nameWithType: Bitswap.Unwant(Cid)
 - uid: Ipfs.Engine.BlockExchange.Bitswap.Unwant*
   name: Unwant
@@ -178,11 +178,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap.Unwant
   nameWithType: Bitswap.Unwant
-- uid: Ipfs.Engine.BlockExchange.Bitswap.Want(Cid,MultiHash,CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap.Want(Ipfs.Cid,Ipfs.MultiHash,System.Threading.CancellationToken)
   name: Want(Cid, MultiHash, CancellationToken)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Want_Cid_MultiHash_CancellationToken_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.Want(Cid,MultiHash,CancellationToken)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.Want(Cid, MultiHash, CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Want_Ipfs_Cid_Ipfs_MultiHash_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.Want(Ipfs.Cid,Ipfs.MultiHash,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.Want(Ipfs.Cid, Ipfs.MultiHash, System.Threading.CancellationToken)
   nameWithType: Bitswap.Want(Cid, MultiHash, CancellationToken)
 - uid: Ipfs.Engine.BlockExchange.Bitswap.Want*
   name: Want
@@ -223,11 +223,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap1.Name
   nameWithType: Bitswap1.Name
-- uid: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerConnection,Stream,CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)
   name: ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_ProcessMessageAsync_PeerConnection_Stream_CancellationToken_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerConnection,Stream,CancellationToken)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_ProcessMessageAsync_PeerTalk_PeerConnection_System_IO_Stream_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync(PeerTalk.PeerConnection, System.IO.Stream, System.Threading.CancellationToken)
   nameWithType: Bitswap1.ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
 - uid: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync*
   name: ProcessMessageAsync
@@ -236,13 +236,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap1.ProcessMessageAsync
   nameWithType: Bitswap1.ProcessMessageAsync
-- uid: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(System.IO.Stream,System.Collections.Generic.IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,System.Threading.CancellationToken)
   name: SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_SendWantsAsync_Stream_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_CancellationToken_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap1.html#Ipfs_Engine_BlockExchange_Bitswap1_SendWantsAsync_System_IO_Stream_System_Collections_Generic_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(System.IO.Stream,System.Collections.Generic.IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,System.Threading.CancellationToken)
   name.vb: SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(Stream, IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, CancellationToken)
-  fullName.vb: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(Stream, IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(System.IO.Stream, System.Collections.Generic.IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync(System.IO.Stream, System.Collections.Generic.IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, System.Threading.CancellationToken)
   nameWithType: Bitswap1.SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
   nameWithType.vb: Bitswap1.SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
 - uid: Ipfs.Engine.BlockExchange.Bitswap1.SendWantsAsync*
@@ -310,11 +310,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap11.Name
   nameWithType: Bitswap11.Name
-- uid: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerConnection,Stream,CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)
   name: ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_ProcessMessageAsync_PeerConnection_Stream_CancellationToken_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerConnection,Stream,CancellationToken)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_ProcessMessageAsync_PeerTalk_PeerConnection_System_IO_Stream_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerTalk.PeerConnection,System.IO.Stream,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync(PeerTalk.PeerConnection, System.IO.Stream, System.Threading.CancellationToken)
   nameWithType: Bitswap11.ProcessMessageAsync(PeerConnection, Stream, CancellationToken)
 - uid: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync*
   name: ProcessMessageAsync
@@ -323,13 +323,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap11.ProcessMessageAsync
   nameWithType: Bitswap11.ProcessMessageAsync
-- uid: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(System.IO.Stream,System.Collections.Generic.IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,System.Threading.CancellationToken)
   name: SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
-  href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_SendWantsAsync_Stream_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_CancellationToken_
-  commentId: M:Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap11.html#Ipfs_Engine_BlockExchange_Bitswap11_SendWantsAsync_System_IO_Stream_System_Collections_Generic_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(System.IO.Stream,System.Collections.Generic.IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,System.Threading.CancellationToken)
   name.vb: SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
-  fullName: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream, IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, CancellationToken)
-  fullName.vb: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(Stream, IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(System.IO.Stream, System.Collections.Generic.IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync(System.IO.Stream, System.Collections.Generic.IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, System.Threading.CancellationToken)
   nameWithType: Bitswap11.SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
   nameWithType.vb: Bitswap11.SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
 - uid: Ipfs.Engine.BlockExchange.Bitswap11.SendWantsAsync*
@@ -390,13 +390,13 @@ references:
   commentId: T:Ipfs.Engine.BlockExchange.IBitswapProtocol
   fullName: Ipfs.Engine.BlockExchange.IBitswapProtocol
   nameWithType: IBitswapProtocol
-- uid: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+- uid: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(System.IO.Stream,System.Collections.Generic.IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,System.Threading.CancellationToken)
   name: SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
-  href: api/Ipfs.Engine.BlockExchange.IBitswapProtocol.html#Ipfs_Engine_BlockExchange_IBitswapProtocol_SendWantsAsync_Stream_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_CancellationToken_
-  commentId: M:Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(Stream,IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,CancellationToken)
+  href: api/Ipfs.Engine.BlockExchange.IBitswapProtocol.html#Ipfs_Engine_BlockExchange_IBitswapProtocol_SendWantsAsync_System_IO_Stream_System_Collections_Generic_IEnumerable_Ipfs_Engine_BlockExchange_WantedBlock__System_Boolean_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(System.IO.Stream,System.Collections.Generic.IEnumerable{Ipfs.Engine.BlockExchange.WantedBlock},System.Boolean,System.Threading.CancellationToken)
   name.vb: SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
-  fullName: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(Stream, IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, CancellationToken)
-  fullName.vb: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(Stream, IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, CancellationToken)
+  fullName: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(System.IO.Stream, System.Collections.Generic.IEnumerable<Ipfs.Engine.BlockExchange.WantedBlock>, System.Boolean, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync(System.IO.Stream, System.Collections.Generic.IEnumerable(Of Ipfs.Engine.BlockExchange.WantedBlock), System.Boolean, System.Threading.CancellationToken)
   nameWithType: IBitswapProtocol.SendWantsAsync(Stream, IEnumerable<WantedBlock>, Boolean, CancellationToken)
   nameWithType.vb: IBitswapProtocol.SendWantsAsync(Stream, IEnumerable(Of WantedBlock), Boolean, CancellationToken)
 - uid: Ipfs.Engine.BlockExchange.IBitswapProtocol.SendWantsAsync*
@@ -500,11 +500,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.KeyChain
   nameWithType: KeyChain.KeyChain
-- uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,System.Threading.CancellationToken)
   name: CreateAsync(String, String, Int32, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String, System.String, System.Int32, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateAsync_System_String_System_String_System_Int32_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String,System.String,System.Int32,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync(System.String, System.String, System.Int32, System.Threading.CancellationToken)
   nameWithType: KeyChain.CreateAsync(String, String, Int32, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.CreateAsync*
   name: CreateAsync
@@ -513,11 +513,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateAsync
   nameWithType: KeyChain.CreateAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String,System.Threading.CancellationToken)
   name: CreateBCCertificateAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateBCCertificateAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.CreateBCCertificateAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync*
   name: CreateBCCertificateAsync
@@ -526,11 +526,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateBCCertificateAsync
   nameWithType: KeyChain.CreateBCCertificateAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String,System.Threading.CancellationToken)
   name: CreateCertificateAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateCertificateAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.CreateCertificateAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync*
   name: CreateCertificateAsync
@@ -539,13 +539,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateCertificateAsync
   nameWithType: KeyChain.CreateCertificateAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String,System.Byte[],CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String,System.Byte[],System.Threading.CancellationToken)
   name: CreateProtectedData(String, Byte[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String,System.Byte[],CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_CreateProtectedData_System_String_System_Byte___System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String,System.Byte[],System.Threading.CancellationToken)
   name.vb: CreateProtectedData(String, Byte(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String, System.Byte[], CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String, System.Byte(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String, System.Byte[], System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData(System.String, System.Byte(), System.Threading.CancellationToken)
   nameWithType: KeyChain.CreateProtectedData(String, Byte[], CancellationToken)
   nameWithType.vb: KeyChain.CreateProtectedData(String, Byte(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData*
@@ -555,13 +555,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.CreateProtectedData
   nameWithType: KeyChain.CreateProtectedData
-- uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],System.Threading.CancellationToken)
   name: ExportAsync(String, Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ExportAsync_System_String_System_Char___System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String,System.Char[],System.Threading.CancellationToken)
   name.vb: ExportAsync(String, Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char[], CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char[], System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ExportAsync(System.String, System.Char(), System.Threading.CancellationToken)
   nameWithType: KeyChain.ExportAsync(String, Char[], CancellationToken)
   nameWithType.vb: KeyChain.ExportAsync(String, Char(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ExportAsync*
@@ -571,11 +571,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.ExportAsync
   nameWithType: KeyChain.ExportAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,System.Threading.CancellationToken)
   name: FindKeyByNameAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_FindKeyByNameAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.FindKeyByNameAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync*
   name: FindKeyByNameAsync
@@ -584,11 +584,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.FindKeyByNameAsync
   nameWithType: KeyChain.FindKeyByNameAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String,System.Threading.CancellationToken)
   name: GetPrivateKeyAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPrivateKeyAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.GetPrivateKeyAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync*
   name: GetPrivateKeyAsync
@@ -597,11 +597,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.GetPrivateKeyAsync
   nameWithType: KeyChain.GetPrivateKeyAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,System.Threading.CancellationToken)
   name: GetPublicKeyAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_GetPublicKeyAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.GetPublicKeyAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync*
   name: GetPublicKeyAsync
@@ -610,13 +610,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.GetPublicKeyAsync
   nameWithType: KeyChain.GetPublicKeyAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],System.Threading.CancellationToken)
   name: ImportAsync(String, String, Char[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ImportAsync_System_String_System_String_System_Char___System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String,System.String,System.Char[],System.Threading.CancellationToken)
   name.vb: ImportAsync(String, String, Char(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char[], CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char[], System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ImportAsync(System.String, System.String, System.Char(), System.Threading.CancellationToken)
   nameWithType: KeyChain.ImportAsync(String, String, Char[], CancellationToken)
   nameWithType.vb: KeyChain.ImportAsync(String, String, Char(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ImportAsync*
@@ -626,11 +626,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.ImportAsync
   nameWithType: KeyChain.ImportAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
   name: ListAsync(CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync(CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ListAsync_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ListAsync(System.Threading.CancellationToken)
   nameWithType: KeyChain.ListAsync(CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ListAsync*
   name: ListAsync
@@ -652,13 +652,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.Options
   nameWithType: KeyChain.Options
-- uid: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[],CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[],System.Threading.CancellationToken)
   name: ReadProtectedData(Byte[], CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[],CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_ReadProtectedData_System_Byte___System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[],System.Threading.CancellationToken)
   name.vb: ReadProtectedData(Byte(), CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[], CancellationToken)
-  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte(), CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte[], System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData(System.Byte(), System.Threading.CancellationToken)
   nameWithType: KeyChain.ReadProtectedData(Byte[], CancellationToken)
   nameWithType.vb: KeyChain.ReadProtectedData(Byte(), CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData*
@@ -668,11 +668,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.ReadProtectedData
   nameWithType: KeyChain.ReadProtectedData
-- uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,System.Threading.CancellationToken)
   name: RemoveAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RemoveAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync(System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.RemoveAsync(String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync*
   name: RemoveAsync
@@ -681,11 +681,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.RemoveAsync
   nameWithType: KeyChain.RemoveAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,System.Threading.CancellationToken)
   name: RenameAsync(String, String, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String, System.String, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_RenameAsync_System_String_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String,System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync(System.String, System.String, System.Threading.CancellationToken)
   nameWithType: KeyChain.RenameAsync(String, String, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.RenameAsync*
   name: RenameAsync
@@ -694,11 +694,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.Cryptography.KeyChain.RenameAsync
   nameWithType: KeyChain.RenameAsync
-- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(SecureString,CancellationToken)
+- uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Security.SecureString,System.Threading.CancellationToken)
   name: SetPassphraseAsync(SecureString, CancellationToken)
-  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_SecureString_CancellationToken_
-  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(SecureString,CancellationToken)
-  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(SecureString, CancellationToken)
+  href: api/Ipfs.Engine.Cryptography.KeyChain.html#Ipfs_Engine_Cryptography_KeyChain_SetPassphraseAsync_System_Security_SecureString_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Security.SecureString,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync(System.Security.SecureString, System.Threading.CancellationToken)
   nameWithType: KeyChain.SetPassphraseAsync(SecureString, CancellationToken)
 - uid: Ipfs.Engine.Cryptography.KeyChain.SetPassphraseAsync*
   name: SetPassphraseAsync
@@ -816,13 +816,13 @@ references:
   commentId: T:Ipfs.Engine.Cryptography.SecureStringExtensions
   fullName: Ipfs.Engine.Cryptography.SecureStringExtensions
   nameWithType: SecureStringExtensions
-- uid: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(SecureString,Action{System.Byte[]})
+- uid: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(System.Security.SecureString,System.Action{System.Byte[]})
   name: UseSecretBytes(SecureString, Action<Byte[]>)
-  href: api/Ipfs.Engine.Cryptography.SecureStringExtensions.html#Ipfs_Engine_Cryptography_SecureStringExtensions_UseSecretBytes_SecureString_Action_System_Byte____
-  commentId: M:Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(SecureString,Action{System.Byte[]})
+  href: api/Ipfs.Engine.Cryptography.SecureStringExtensions.html#Ipfs_Engine_Cryptography_SecureStringExtensions_UseSecretBytes_System_Security_SecureString_System_Action_System_Byte____
+  commentId: M:Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(System.Security.SecureString,System.Action{System.Byte[]})
   name.vb: UseSecretBytes(SecureString, Action(Of Byte()))
-  fullName: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(SecureString, Action<System.Byte[]>)
-  fullName.vb: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(SecureString, Action(Of System.Byte()))
+  fullName: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(System.Security.SecureString, System.Action<System.Byte[]>)
+  fullName.vb: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes(System.Security.SecureString, System.Action(Of System.Byte()))
   nameWithType: SecureStringExtensions.UseSecretBytes(SecureString, Action<Byte[]>)
   nameWithType.vb: SecureStringExtensions.UseSecretBytes(SecureString, Action(Of Byte()))
 - uid: Ipfs.Engine.Cryptography.SecureStringExtensions.UseSecretBytes*
@@ -882,12 +882,12 @@ references:
   fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Deserialize
   nameWithType: FileStore<TName, TValue>.Deserialize
   nameWithType.vb: FileStore(Of TName, TValue).Deserialize
-- uid: Ipfs.Engine.FileStore`2.ExistsAsync(`0,CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.ExistsAsync(`0,System.Threading.CancellationToken)
   name: ExistsAsync(TName, CancellationToken)
-  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_ExistsAsync__0_CancellationToken_
-  commentId: M:Ipfs.Engine.FileStore`2.ExistsAsync(`0,CancellationToken)
-  fullName: Ipfs.Engine.FileStore<TName, TValue>.ExistsAsync(TName, CancellationToken)
-  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).ExistsAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_ExistsAsync__0_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.ExistsAsync(`0,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.ExistsAsync(TName, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).ExistsAsync(TName, System.Threading.CancellationToken)
   nameWithType: FileStore<TName, TValue>.ExistsAsync(TName, CancellationToken)
   nameWithType.vb: FileStore(Of TName, TValue).ExistsAsync(TName, CancellationToken)
 - uid: Ipfs.Engine.FileStore`2.ExistsAsync*
@@ -916,12 +916,12 @@ references:
   fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Folder
   nameWithType: FileStore<TName, TValue>.Folder
   nameWithType.vb: FileStore(Of TName, TValue).Folder
-- uid: Ipfs.Engine.FileStore`2.GetAsync(`0,CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.GetAsync(`0,System.Threading.CancellationToken)
   name: GetAsync(TName, CancellationToken)
-  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_GetAsync__0_CancellationToken_
-  commentId: M:Ipfs.Engine.FileStore`2.GetAsync(`0,CancellationToken)
-  fullName: Ipfs.Engine.FileStore<TName, TValue>.GetAsync(TName, CancellationToken)
-  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).GetAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_GetAsync__0_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.GetAsync(`0,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.GetAsync(TName, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).GetAsync(TName, System.Threading.CancellationToken)
   nameWithType: FileStore<TName, TValue>.GetAsync(TName, CancellationToken)
   nameWithType.vb: FileStore(Of TName, TValue).GetAsync(TName, CancellationToken)
 - uid: Ipfs.Engine.FileStore`2.GetAsync*
@@ -966,12 +966,12 @@ references:
   fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).KeyToName
   nameWithType: FileStore<TName, TValue>.KeyToName
   nameWithType.vb: FileStore(Of TName, TValue).KeyToName
-- uid: Ipfs.Engine.FileStore`2.LengthAsync(`0,CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.LengthAsync(`0,System.Threading.CancellationToken)
   name: LengthAsync(TName, CancellationToken)
-  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_LengthAsync__0_CancellationToken_
-  commentId: M:Ipfs.Engine.FileStore`2.LengthAsync(`0,CancellationToken)
-  fullName: Ipfs.Engine.FileStore<TName, TValue>.LengthAsync(TName, CancellationToken)
-  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).LengthAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_LengthAsync__0_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.LengthAsync(`0,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.LengthAsync(TName, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).LengthAsync(TName, System.Threading.CancellationToken)
   nameWithType: FileStore<TName, TValue>.LengthAsync(TName, CancellationToken)
   nameWithType.vb: FileStore(Of TName, TValue).LengthAsync(TName, CancellationToken)
 - uid: Ipfs.Engine.FileStore`2.LengthAsync*
@@ -1017,12 +1017,12 @@ references:
   fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).NameToKey
   nameWithType: FileStore<TName, TValue>.NameToKey
   nameWithType.vb: FileStore(Of TName, TValue).NameToKey
-- uid: Ipfs.Engine.FileStore`2.PutAsync(`0,`1,CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.PutAsync(`0,`1,System.Threading.CancellationToken)
   name: PutAsync(TName, TValue, CancellationToken)
-  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_PutAsync__0__1_CancellationToken_
-  commentId: M:Ipfs.Engine.FileStore`2.PutAsync(`0,`1,CancellationToken)
-  fullName: Ipfs.Engine.FileStore<TName, TValue>.PutAsync(TName, TValue, CancellationToken)
-  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).PutAsync(TName, TValue, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_PutAsync__0__1_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.PutAsync(`0,`1,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.PutAsync(TName, TValue, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).PutAsync(TName, TValue, System.Threading.CancellationToken)
   nameWithType: FileStore<TName, TValue>.PutAsync(TName, TValue, CancellationToken)
   nameWithType.vb: FileStore(Of TName, TValue).PutAsync(TName, TValue, CancellationToken)
 - uid: Ipfs.Engine.FileStore`2.PutAsync*
@@ -1034,12 +1034,12 @@ references:
   fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).PutAsync
   nameWithType: FileStore<TName, TValue>.PutAsync
   nameWithType.vb: FileStore(Of TName, TValue).PutAsync
-- uid: Ipfs.Engine.FileStore`2.RemoveAsync(`0,CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.RemoveAsync(`0,System.Threading.CancellationToken)
   name: RemoveAsync(TName, CancellationToken)
-  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_RemoveAsync__0_CancellationToken_
-  commentId: M:Ipfs.Engine.FileStore`2.RemoveAsync(`0,CancellationToken)
-  fullName: Ipfs.Engine.FileStore<TName, TValue>.RemoveAsync(TName, CancellationToken)
-  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).RemoveAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_RemoveAsync__0_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.RemoveAsync(`0,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.RemoveAsync(TName, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).RemoveAsync(TName, System.Threading.CancellationToken)
   nameWithType: FileStore<TName, TValue>.RemoveAsync(TName, CancellationToken)
   nameWithType.vb: FileStore(Of TName, TValue).RemoveAsync(TName, CancellationToken)
 - uid: Ipfs.Engine.FileStore`2.RemoveAsync*
@@ -1068,12 +1068,12 @@ references:
   fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).Serialize
   nameWithType: FileStore<TName, TValue>.Serialize
   nameWithType.vb: FileStore(Of TName, TValue).Serialize
-- uid: Ipfs.Engine.FileStore`2.TryGetAsync(`0,CancellationToken)
+- uid: Ipfs.Engine.FileStore`2.TryGetAsync(`0,System.Threading.CancellationToken)
   name: TryGetAsync(TName, CancellationToken)
-  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_TryGetAsync__0_CancellationToken_
-  commentId: M:Ipfs.Engine.FileStore`2.TryGetAsync(`0,CancellationToken)
-  fullName: Ipfs.Engine.FileStore<TName, TValue>.TryGetAsync(TName, CancellationToken)
-  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).TryGetAsync(TName, CancellationToken)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_TryGetAsync__0_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.FileStore`2.TryGetAsync(`0,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.TryGetAsync(TName, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).TryGetAsync(TName, System.Threading.CancellationToken)
   nameWithType: FileStore<TName, TValue>.TryGetAsync(TName, CancellationToken)
   nameWithType.vb: FileStore(Of TName, TValue).TryGetAsync(TName, CancellationToken)
 - uid: Ipfs.Engine.FileStore`2.TryGetAsync*
@@ -1114,12 +1114,6 @@ references:
   commentId: M:Ipfs.Engine.IpfsEngine.#ctor
   fullName: Ipfs.Engine.IpfsEngine.IpfsEngine()
   nameWithType: IpfsEngine.IpfsEngine()
-- uid: Ipfs.Engine.IpfsEngine.#ctor(SecureString)
-  name: IpfsEngine(SecureString)
-  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_SecureString_
-  commentId: M:Ipfs.Engine.IpfsEngine.#ctor(SecureString)
-  fullName: Ipfs.Engine.IpfsEngine.IpfsEngine(SecureString)
-  nameWithType: IpfsEngine.IpfsEngine(SecureString)
 - uid: Ipfs.Engine.IpfsEngine.#ctor(System.Char[])
   name: IpfsEngine(Char[])
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_System_Char___
@@ -1129,6 +1123,12 @@ references:
   fullName.vb: Ipfs.Engine.IpfsEngine.IpfsEngine(System.Char())
   nameWithType: IpfsEngine.IpfsEngine(Char[])
   nameWithType.vb: IpfsEngine.IpfsEngine(Char())
+- uid: Ipfs.Engine.IpfsEngine.#ctor(System.Security.SecureString)
+  name: IpfsEngine(SecureString)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_System_Security_SecureString_
+  commentId: M:Ipfs.Engine.IpfsEngine.#ctor(System.Security.SecureString)
+  fullName: Ipfs.Engine.IpfsEngine.IpfsEngine(System.Security.SecureString)
+  nameWithType: IpfsEngine.IpfsEngine(SecureString)
 - uid: Ipfs.Engine.IpfsEngine.#ctor*
   name: IpfsEngine
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine__ctor_
@@ -1311,11 +1311,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Key
   nameWithType: IpfsEngine.Key
-- uid: Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
   name: KeyChain(CancellationToken)
-  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_CancellationToken_
-  commentId: M:Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
-  fullName: Ipfs.Engine.IpfsEngine.KeyChain(CancellationToken)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_KeyChain_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.IpfsEngine.KeyChain(System.Threading.CancellationToken)
   nameWithType: IpfsEngine.KeyChain(CancellationToken)
 - uid: Ipfs.Engine.IpfsEngine.KeyChain*
   name: KeyChain
@@ -1415,11 +1415,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.PubSubService
   nameWithType: IpfsEngine.PubSubService
-- uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,CancellationToken)
+- uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,System.Threading.CancellationToken)
   name: ResolveIpfsPathToCidAsync(String, CancellationToken)
-  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_CancellationToken_
-  commentId: M:Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,CancellationToken)
-  fullName: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String, CancellationToken)
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_ResolveIpfsPathToCidAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync(System.String, System.Threading.CancellationToken)
   nameWithType: IpfsEngine.ResolveIpfsPathToCidAsync(String, CancellationToken)
 - uid: Ipfs.Engine.IpfsEngine.ResolveIpfsPathToCidAsync*
   name: ResolveIpfsPathToCidAsync
@@ -1631,11 +1631,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.LinkedData.CborFormat.Deserialise
   nameWithType: CborFormat.Deserialise
-- uid: Ipfs.Engine.LinkedData.CborFormat.Serialize(CBORObject)
+- uid: Ipfs.Engine.LinkedData.CborFormat.Serialize(PeterO.Cbor.CBORObject)
   name: Serialize(CBORObject)
-  href: api/Ipfs.Engine.LinkedData.CborFormat.html#Ipfs_Engine_LinkedData_CborFormat_Serialize_CBORObject_
-  commentId: M:Ipfs.Engine.LinkedData.CborFormat.Serialize(CBORObject)
-  fullName: Ipfs.Engine.LinkedData.CborFormat.Serialize(CBORObject)
+  href: api/Ipfs.Engine.LinkedData.CborFormat.html#Ipfs_Engine_LinkedData_CborFormat_Serialize_PeterO_Cbor_CBORObject_
+  commentId: M:Ipfs.Engine.LinkedData.CborFormat.Serialize(PeterO.Cbor.CBORObject)
+  fullName: Ipfs.Engine.LinkedData.CborFormat.Serialize(PeterO.Cbor.CBORObject)
   nameWithType: CborFormat.Serialize(CBORObject)
 - uid: Ipfs.Engine.LinkedData.CborFormat.Serialize*
   name: Serialize
@@ -1666,11 +1666,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.LinkedData.ILinkedDataFormat.Deserialise
   nameWithType: ILinkedDataFormat.Deserialise
-- uid: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(CBORObject)
+- uid: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(PeterO.Cbor.CBORObject)
   name: Serialize(CBORObject)
-  href: api/Ipfs.Engine.LinkedData.ILinkedDataFormat.html#Ipfs_Engine_LinkedData_ILinkedDataFormat_Serialize_CBORObject_
-  commentId: M:Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(CBORObject)
-  fullName: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(CBORObject)
+  href: api/Ipfs.Engine.LinkedData.ILinkedDataFormat.html#Ipfs_Engine_LinkedData_ILinkedDataFormat_Serialize_PeterO_Cbor_CBORObject_
+  commentId: M:Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(PeterO.Cbor.CBORObject)
+  fullName: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize(PeterO.Cbor.CBORObject)
   nameWithType: ILinkedDataFormat.Serialize(CBORObject)
 - uid: Ipfs.Engine.LinkedData.ILinkedDataFormat.Serialize*
   name: Serialize
@@ -1742,11 +1742,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.LinkedData.ProtobufFormat.Deserialise
   nameWithType: ProtobufFormat.Deserialise
-- uid: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(CBORObject)
+- uid: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(PeterO.Cbor.CBORObject)
   name: Serialize(CBORObject)
-  href: api/Ipfs.Engine.LinkedData.ProtobufFormat.html#Ipfs_Engine_LinkedData_ProtobufFormat_Serialize_CBORObject_
-  commentId: M:Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(CBORObject)
-  fullName: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(CBORObject)
+  href: api/Ipfs.Engine.LinkedData.ProtobufFormat.html#Ipfs_Engine_LinkedData_ProtobufFormat_Serialize_PeterO_Cbor_CBORObject_
+  commentId: M:Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(PeterO.Cbor.CBORObject)
+  fullName: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize(PeterO.Cbor.CBORObject)
   nameWithType: ProtobufFormat.Serialize(CBORObject)
 - uid: Ipfs.Engine.LinkedData.ProtobufFormat.Serialize*
   name: Serialize
@@ -1777,11 +1777,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.LinkedData.RawFormat.Deserialise
   nameWithType: RawFormat.Deserialise
-- uid: Ipfs.Engine.LinkedData.RawFormat.Serialize(CBORObject)
+- uid: Ipfs.Engine.LinkedData.RawFormat.Serialize(PeterO.Cbor.CBORObject)
   name: Serialize(CBORObject)
-  href: api/Ipfs.Engine.LinkedData.RawFormat.html#Ipfs_Engine_LinkedData_RawFormat_Serialize_CBORObject_
-  commentId: M:Ipfs.Engine.LinkedData.RawFormat.Serialize(CBORObject)
-  fullName: Ipfs.Engine.LinkedData.RawFormat.Serialize(CBORObject)
+  href: api/Ipfs.Engine.LinkedData.RawFormat.html#Ipfs_Engine_LinkedData_RawFormat_Serialize_PeterO_Cbor_CBORObject_
+  commentId: M:Ipfs.Engine.LinkedData.RawFormat.Serialize(PeterO.Cbor.CBORObject)
+  fullName: Ipfs.Engine.LinkedData.RawFormat.Serialize(PeterO.Cbor.CBORObject)
   nameWithType: RawFormat.Serialize(CBORObject)
 - uid: Ipfs.Engine.LinkedData.RawFormat.Serialize*
   name: Serialize
@@ -1936,11 +1936,11 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.ChunkedStream
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream
   nameWithType: ChunkedStream
-- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,Ipfs.Engine.Cryptography.KeyChain,DagNode)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(Ipfs.CoreApi.IBlockApi,Ipfs.Engine.Cryptography.KeyChain,Ipfs.DagNode)
   name: ChunkedStream(IBlockApi, KeyChain, DagNode)
-  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_DagNode_
-  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(IBlockApi,Ipfs.Engine.Cryptography.KeyChain,DagNode)
-  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream(IBlockApi, Ipfs.Engine.Cryptography.KeyChain, DagNode)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream__ctor_Ipfs_CoreApi_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_Ipfs_DagNode_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor(Ipfs.CoreApi.IBlockApi,Ipfs.Engine.Cryptography.KeyChain,Ipfs.DagNode)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ChunkedStream(Ipfs.CoreApi.IBlockApi, Ipfs.Engine.Cryptography.KeyChain, Ipfs.DagNode)
   nameWithType: ChunkedStream.ChunkedStream(IBlockApi, KeyChain, DagNode)
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.#ctor*
   name: ChunkedStream
@@ -2043,13 +2043,13 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Read
   nameWithType: ChunkedStream.Read
-- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
   name: ReadAsync(Byte[], Int32, Int32, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_System_Byte___System_Int32_System_Int32_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_ReadAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
   name.vb: ReadAsync(Byte(), Int32, Int32, CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[], System.Int32, System.Int32, CancellationToken)
-  fullName.vb: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte(), System.Int32, System.Int32, CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullName.vb: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
   nameWithType: ChunkedStream.ReadAsync(Byte[], Int32, Int32, CancellationToken)
   nameWithType.vb: ChunkedStream.ReadAsync(Byte(), Int32, Int32, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync*
@@ -2059,11 +2059,11 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.ReadAsync
   nameWithType: ChunkedStream.ReadAsync
-- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,SeekOrigin)
+- uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,System.IO.SeekOrigin)
   name: Seek(Int64, SeekOrigin)
-  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_System_Int64_SeekOrigin_
-  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,SeekOrigin)
-  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64, SeekOrigin)
+  href: api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html#Ipfs_Engine_UnixFileSystem_ChunkedStream_Seek_System_Int64_System_IO_SeekOrigin_
+  commentId: M:Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64,System.IO.SeekOrigin)
+  fullName: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek(System.Int64, System.IO.SeekOrigin)
   nameWithType: ChunkedStream.Seek(Int64, SeekOrigin)
 - uid: Ipfs.Engine.UnixFileSystem.ChunkedStream.Seek*
   name: Seek
@@ -2107,11 +2107,11 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.FileSystem
   fullName: Ipfs.Engine.UnixFileSystem.FileSystem
   nameWithType: FileSystem
-- uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid,Ipfs.CoreApi.IBlockApi,Ipfs.Engine.Cryptography.KeyChain,System.Threading.CancellationToken)
   name: CreateReadStream(Cid, IBlockApi, KeyChain, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Cid_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Cid, IBlockApi, Ipfs.Engine.Cryptography.KeyChain, CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.FileSystem.html#Ipfs_Engine_UnixFileSystem_FileSystem_CreateReadStream_Ipfs_Cid_Ipfs_CoreApi_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid,Ipfs.CoreApi.IBlockApi,Ipfs.Engine.Cryptography.KeyChain,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream(Ipfs.Cid, Ipfs.CoreApi.IBlockApi, Ipfs.Engine.Cryptography.KeyChain, System.Threading.CancellationToken)
   nameWithType: FileSystem.CreateReadStream(Cid, IBlockApi, KeyChain, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.FileSystem.CreateReadStream*
   name: CreateReadStream
@@ -2313,11 +2313,11 @@ references:
   commentId: T:Ipfs.Engine.UnixFileSystem.SizeChunker
   fullName: Ipfs.Engine.UnixFileSystem.SizeChunker
   nameWithType: SizeChunker
-- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,System.String,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
+- uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream,System.String,Ipfs.CoreApi.AddFileOptions,Ipfs.CoreApi.IBlockApi,Ipfs.Engine.Cryptography.KeyChain,System.Threading.CancellationToken)
   name: ChunkAsync(Stream, String, AddFileOptions, IBlockApi, KeyChain, CancellationToken)
-  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_Stream_System_String_AddFileOptions_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_CancellationToken_
-  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream,System.String,AddFileOptions,IBlockApi,Ipfs.Engine.Cryptography.KeyChain,CancellationToken)
-  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(Stream, System.String, AddFileOptions, IBlockApi, Ipfs.Engine.Cryptography.KeyChain, CancellationToken)
+  href: api/Ipfs.Engine.UnixFileSystem.SizeChunker.html#Ipfs_Engine_UnixFileSystem_SizeChunker_ChunkAsync_System_IO_Stream_System_String_Ipfs_CoreApi_AddFileOptions_Ipfs_CoreApi_IBlockApi_Ipfs_Engine_Cryptography_KeyChain_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream,System.String,Ipfs.CoreApi.AddFileOptions,Ipfs.CoreApi.IBlockApi,Ipfs.Engine.Cryptography.KeyChain,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync(System.IO.Stream, System.String, Ipfs.CoreApi.AddFileOptions, Ipfs.CoreApi.IBlockApi, Ipfs.Engine.Cryptography.KeyChain, System.Threading.CancellationToken)
   nameWithType: SizeChunker.ChunkAsync(Stream, String, AddFileOptions, IBlockApi, KeyChain, CancellationToken)
 - uid: Ipfs.Engine.UnixFileSystem.SizeChunker.ChunkAsync*
   name: ChunkAsync

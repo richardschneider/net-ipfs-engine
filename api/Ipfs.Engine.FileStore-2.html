@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class FileStore&lt;TName, TValue&gt;
    | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.42.3.0">
+    <meta name="generator" content="docfx 2.42.4.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -81,11 +81,36 @@
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
     <div class="level1"><span class="xref">FileStore&lt;TName, TValue&gt;</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gethashcode#System_Object_GetHashCode">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#System_Object_GetType">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.memberwiseclone#System_Object_MemberwiseClone">Object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#System_Object_ReferenceEquals_System_Object_System_Object_">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.tostring#System_Object_ToString">Object.ToString()</a>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.html">Ipfs.Engine</a></h6>
   <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
   <h5 id="Ipfs_Engine_FileStore_2_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class FileStore&lt;TName, TValue&gt; : object where TValue : class</code></pre>
+    <pre><code class="lang-csharp hljs">public class FileStore&lt;TName, TValue&gt;
+    where TValue : class</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -138,7 +163,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Func</span>&lt;<span class="xref">Stream</span>, TName, <span class="xref">CancellationToken</span>, <span class="xref">Task</span>&lt;TValue&gt;&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.func-4">Func</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a>, TName, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;TValue&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -171,7 +196,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Func</span>&lt;<span class="xref">Stream</span>, TName, TValue, <span class="xref">CancellationToken</span>, <span class="xref">Task</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.func-5">Func</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a>, TName, TValue, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -207,7 +232,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Func</span>&lt;<span class="xref">Stream</span>, TName, <span class="xref">CancellationToken</span>, <span class="xref">Task</span>&lt;TValue&gt;&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.func-4">Func</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a>, TName, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;TValue&gt;&gt;</td>
         <td><p>Defaults to using <a class="xref" href="Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_JsonDeserialize">JsonDeserialize</a></p>
 </td>
       </tr>
@@ -275,7 +300,7 @@ that stores the name value pairs.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Func</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>, TName&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>, TName&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -306,7 +331,7 @@ that stores the name value pairs.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;TName&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TName&gt;</td>
         <td><p>A sequence of <code data-dev-comment-type="typeparamref" class="typeparamref">TName</code>.</p>
 </td>
       </tr>
@@ -338,7 +363,7 @@ that stores the name value pairs.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Func</span>&lt;TName, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TName, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -369,7 +394,7 @@ that stores the name value pairs.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Func</span>&lt;<span class="xref">Stream</span>, TName, TValue, <span class="xref">CancellationToken</span>, <span class="xref">Task</span>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.func-5">Func</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.io.stream">Stream</a>, TName, TValue, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</td>
         <td><p>Defaults to using <a class="xref" href="Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_JsonSerialize">JsonSerialize</a>.</p>
 </td>
       </tr>
@@ -401,7 +426,7 @@ that stores the name value pairs.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;TValue&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TValue&gt;</td>
         <td><p>A sequence of <code data-dev-comment-type="typeparamref" class="typeparamref">TValue</code>.</p>
 </td>
       </tr>
@@ -411,19 +436,19 @@ that stores the name value pairs.</p>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_ExistsAsync__0_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.ExistsAsync(%600%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_ExistsAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.ExistsAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/FileStore.cs/#L258">View Source</a>
   </span>
   <a id="Ipfs_Engine_FileStore_2_ExistsAsync_" data-uid="Ipfs.Engine.FileStore`2.ExistsAsync*"></a>
-  <h4 id="Ipfs_Engine_FileStore_2_ExistsAsync__0_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.ExistsAsync(`0,CancellationToken)">ExistsAsync(TName, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_FileStore_2_ExistsAsync__0_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.ExistsAsync(`0,System.Threading.CancellationToken)">ExistsAsync(TName, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Determines if the name exists.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ExistsAsync(TName name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ExistsAsync(TName name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -442,9 +467,9 @@ that stores the name value pairs.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -459,7 +484,7 @@ that stores the name value pairs.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a>&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
 <strong>true</strong> if the <code data-dev-comment-type="paramref" class="paramref">name</code> exists.</p>
 </td>
@@ -468,19 +493,19 @@ that stores the name value pairs.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_GetAsync__0_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.GetAsync(%600%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_GetAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.GetAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/FileStore.cs/#L153">View Source</a>
   </span>
   <a id="Ipfs_Engine_FileStore_2_GetAsync_" data-uid="Ipfs.Engine.FileStore`2.GetAsync*"></a>
-  <h4 id="Ipfs_Engine_FileStore_2_GetAsync__0_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.GetAsync(`0,CancellationToken)">GetAsync(TName, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_FileStore_2_GetAsync__0_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.GetAsync(`0,System.Threading.CancellationToken)">GetAsync(TName, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Get the value with the specified name.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;TValue&gt; GetAsync(TName name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;TValue&gt; GetAsync(TName name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -499,9 +524,9 @@ that stores the name value pairs.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -516,28 +541,44 @@ that stores the name value pairs.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;TValue&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;TValue&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
 a <code data-dev-comment-type="typeparamref" class="typeparamref">TValue</code></p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.keynotfoundexception">KeyNotFoundException</a></td>
+        <td><p>When the <code data-dev-comment-type="paramref" class="paramref">name</code> does not exist.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_LengthAsync__0_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.LengthAsync(%600%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_LengthAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.LengthAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/FileStore.cs/#L231">View Source</a>
   </span>
   <a id="Ipfs_Engine_FileStore_2_LengthAsync_" data-uid="Ipfs.Engine.FileStore`2.LengthAsync*"></a>
-  <h4 id="Ipfs_Engine_FileStore_2_LengthAsync__0_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.LengthAsync(`0,CancellationToken)">LengthAsync(TName, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_FileStore_2_LengthAsync__0_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.LengthAsync(`0,System.Threading.CancellationToken)">LengthAsync(TName, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Get&apos;s the serialised length of the entity.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;long? &gt; LengthAsync(TName name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;long? &gt; LengthAsync(TName name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -556,9 +597,9 @@ a <code data-dev-comment-type="typeparamref" class="typeparamref">TValue</code><
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -573,31 +614,31 @@ a <code data-dev-comment-type="typeparamref" class="typeparamref">TValue</code><
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int64">Int64</a>&gt;&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int64">Int64</a>&gt;&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
 a nullable long.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_FileStore_2_LengthAsync__0_CancellationToken__remarks">Remarks</h5>
+  <h5 id="Ipfs_Engine_FileStore_2_LengthAsync__0_System_Threading_CancellationToken__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Return a null when the <code data-dev-comment-type="paramref" class="paramref">name</code> does not exist.</p>
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_PutAsync__0__1_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.PutAsync(%600%2C%601%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_PutAsync__0__1_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.PutAsync(%600%2C%601%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/FileStore.cs/#L180">View Source</a>
   </span>
   <a id="Ipfs_Engine_FileStore_2_PutAsync_" data-uid="Ipfs.Engine.FileStore`2.PutAsync*"></a>
-  <h4 id="Ipfs_Engine_FileStore_2_PutAsync__0__1_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.PutAsync(`0,`1,CancellationToken)">PutAsync(TName, TValue, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_FileStore_2_PutAsync__0__1_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.PutAsync(`0,`1,System.Threading.CancellationToken)">PutAsync(TName, TValue, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Put the value with the specified name.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task PutAsync(TName name, TValue value, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task PutAsync(TName name, TValue value, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -622,9 +663,9 @@ a nullable long.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -639,30 +680,30 @@ a nullable long.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
         <td><p>A task that represents the asynchronous operation.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_FileStore_2_PutAsync__0__1_CancellationToken__remarks">Remarks</h5>
+  <h5 id="Ipfs_Engine_FileStore_2_PutAsync__0__1_System_Threading_CancellationToken__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>If <code data-dev-comment-type="paramref" class="paramref">name</code> already exists, it&apos;s value is overwriten.</p>
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_RemoveAsync__0_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.RemoveAsync(%600%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_RemoveAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.RemoveAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/FileStore.cs/#L206">View Source</a>
   </span>
   <a id="Ipfs_Engine_FileStore_2_RemoveAsync_" data-uid="Ipfs.Engine.FileStore`2.RemoveAsync*"></a>
-  <h4 id="Ipfs_Engine_FileStore_2_RemoveAsync__0_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.RemoveAsync(`0,CancellationToken)">RemoveAsync(TName, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_FileStore_2_RemoveAsync__0_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.RemoveAsync(`0,System.Threading.CancellationToken)">RemoveAsync(TName, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Remove the value with the specified name.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task RemoveAsync(TName name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task RemoveAsync(TName name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -681,9 +722,9 @@ a nullable long.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -698,30 +739,30 @@ a nullable long.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
         <td><p>A task that represents the asynchronous operation.</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Ipfs_Engine_FileStore_2_RemoveAsync__0_CancellationToken__remarks">Remarks</h5>
+  <h5 id="Ipfs_Engine_FileStore_2_RemoveAsync__0_System_Threading_CancellationToken__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>A non-existent <code data-dev-comment-type="paramref" class="paramref">name</code> does nothing.</p>
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_TryGetAsync__0_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.TryGetAsync(%600%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_FileStore_2_TryGetAsync__0_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.FileStore%602.TryGetAsync(%600%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/FileStore.cs/#L120">View Source</a>
   </span>
   <a id="Ipfs_Engine_FileStore_2_TryGetAsync_" data-uid="Ipfs.Engine.FileStore`2.TryGetAsync*"></a>
-  <h4 id="Ipfs_Engine_FileStore_2_TryGetAsync__0_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.TryGetAsync(`0,CancellationToken)">TryGetAsync(TName, CancellationToken)</h4>
+  <h4 id="Ipfs_Engine_FileStore_2_TryGetAsync__0_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.FileStore`2.TryGetAsync(`0,System.Threading.CancellationToken)">TryGetAsync(TName, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Try to get the value with the specified name.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;TValue&gt; TryGetAsync(TName name, CancellationToken cancel = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;TValue&gt; TryGetAsync(TName name, CancellationToken cancel = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -740,9 +781,9 @@ a nullable long.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
         <td><span class="parametername">cancel</span></td>
-        <td><p>Is used to stop the task.  When cancelled, the <see cref="!:TaskCanceledException"></see> is raised.</p>
+        <td><p>Is used to stop the task.  When cancelled, the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.taskcanceledexception">TaskCanceledException</a> is raised.</p>
 </td>
       </tr>
     </tbody>
@@ -757,7 +798,7 @@ a nullable long.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;TValue&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;TValue&gt;</td>
         <td><p>A task that represents the asynchronous operation. The task&apos;s result is
 a <code data-dev-comment-type="typeparamref" class="typeparamref">TValue</code> or <strong>null</strong> if the <code data-dev-comment-type="paramref" class="paramref">name</code>
 does not exist.</p>

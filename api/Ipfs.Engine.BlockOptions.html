@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class BlockOptions
    | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.42.3.0">
+    <meta name="generator" content="docfx 2.42.4.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -73,7 +73,7 @@
   
   <h1 id="Ipfs_Engine_BlockOptions" data-uid="Ipfs.Engine.BlockOptions" class="text-break">Class BlockOptions
   </h1>
-  <div class="markdown level0 summary"><p>Configuration options for a <see cref="!:IBlockApi">block service</see>.</p>
+  <div class="markdown level0 summary"><p>Configuration options for a <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IBlockApi.html">IBlockApi</a>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -81,11 +81,35 @@
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
     <div class="level1"><span class="xref">BlockOptions</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gethashcode#System_Object_GetHashCode">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#System_Object_GetType">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.memberwiseclone#System_Object_MemberwiseClone">Object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#System_Object_ReferenceEquals_System_Object_System_Object_">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.tostring#System_Object_ToString">Object.ToString()</a>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Ipfs.Engine.html">Ipfs.Engine</a></h6>
   <h6><strong>Assembly</strong>: Ipfs.Engine.dll</h6>
   <h5 id="Ipfs_Engine_BlockOptions_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class BlockOptions : object</code></pre>
+    <pre><code class="lang-csharp hljs">public class BlockOptions</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
@@ -94,7 +118,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockOptions_AllowInlineCid.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockOptions.AllowInlineCid%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockOptions.cs/#L26">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockOptions.cs/#L25">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockOptions_AllowInlineCid_" data-uid="Ipfs.Engine.BlockOptions.AllowInlineCid*"></a>
   <h4 id="Ipfs_Engine_BlockOptions_AllowInlineCid" data-uid="Ipfs.Engine.BlockOptions.AllowInlineCid">AllowInlineCid</h4>
@@ -130,7 +154,7 @@ It is used to speed up access to content that is small.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockOptions_InlineCidLimit.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockOptions.InlineCidLimit%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockOptions.cs/#L35">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockOptions.cs/#L34">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockOptions_InlineCidLimit_" data-uid="Ipfs.Engine.BlockOptions.InlineCidLimit*"></a>
   <h4 id="Ipfs_Engine_BlockOptions_InlineCidLimit" data-uid="Ipfs.Engine.BlockOptions.InlineCidLimit">InlineCidLimit</h4>
@@ -163,7 +187,7 @@ Defaults to 64.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockOptions_MaxBlockSize.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockOptions.MaxBlockSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockOptions.cs/#L43">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockOptions.cs/#L42">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockOptions_MaxBlockSize_" data-uid="Ipfs.Engine.BlockOptions.MaxBlockSize*"></a>
   <h4 id="Ipfs_Engine_BlockOptions_MaxBlockSize" data-uid="Ipfs.Engine.BlockOptions.MaxBlockSize">MaxBlockSize</h4>
@@ -204,7 +228,7 @@ Defaults to 64.</p>
                     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockOptions.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockOptions.cs/#L14" class="contribution-link">View Source</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockOptions.cs/#L13" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

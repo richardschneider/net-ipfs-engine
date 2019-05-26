@@ -23,7 +23,7 @@ using PeerTalk.Cryptography;
 namespace Ipfs.Engine
 {
     /// <summary>
-    ///   Implements the <see cref="ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
+    ///   Implements the <see cref="Ipfs.CoreApi.ICoreApi">Core API</see> which makes it possible to create a decentralised and distributed 
     ///   application without relying on an "IPFS daemon".
     /// </summary>
     /// <remarks>

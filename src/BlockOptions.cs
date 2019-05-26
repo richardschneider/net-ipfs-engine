@@ -1,5 +1,4 @@
-﻿using Ipfs.CoreApi;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 namespace Ipfs.Engine
 {
     /// <summary>
-    ///   Configuration options for a <see cref="IBlockApi">block service</see>.
+    ///   Configuration options for a <see cref="Ipfs.CoreApi.IBlockApi">block service</see>.
     /// </summary>
     /// <seealso cref="IpfsEngineOptions"/>
     public class BlockOptions

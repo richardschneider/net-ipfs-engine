@@ -11,6 +11,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.IO;
+using System.Text;
 
 namespace Ipfs.Server.HttpApi.V0
 {
@@ -86,7 +87,7 @@ namespace Ipfs.Server.HttpApi.V0
         ///   Immediately sends the Line Delimited JSON (LDJSON) representation
         ///   of <paramref name="o"/> to the  requestor.
         /// </remarks>
-        protected async Task StreamJsonAsync(object o)
+        protected void StreamJson(object o)
         {
             if (!Response.HasStarted)
             {
@@ -97,8 +98,9 @@ namespace Ipfs.Server.HttpApi.V0
             {
                 JsonSerializer.Create().Serialize(sw, o);
                 sw.Write('\n');
-                await Response.WriteAsync(sw.ToString(), Cancel);
-                await Response.Body.FlushAsync(Cancel);
+                var bytes = Encoding.UTF8.GetBytes(sw.ToString());
+                Response.Body.Write(bytes, 0, bytes.Length);
+                Response.Body.Flush();
             }
         }
     }

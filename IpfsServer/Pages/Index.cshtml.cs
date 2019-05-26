@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Ipfs.CoreApi;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +24,17 @@ namespace Ipfs.Server.Pages
             this.ipfs = ipfs;
         }
 
+        /// <summary>
+        ///   The local node's globally unique identifier.
+        /// </summary>
         public string NodeId = "foo-bar";
 
         /// <summary>
         ///   Build the model.
         /// </summary>
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(CancellationToken cancel)
         {
-            var peer = await ipfs.Generic.IdAsync();
+            var peer = await ipfs.Generic.IdAsync(null, cancel);
             NodeId = peer.Id.ToString();
         }
     }

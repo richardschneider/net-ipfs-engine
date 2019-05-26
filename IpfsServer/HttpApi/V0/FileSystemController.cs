@@ -243,7 +243,7 @@ namespace Ipfs.Server.HttpApi.V0
 
             if (progress)
             {
-                options.Progress = new Progress<TransferProgress>(async t => await StreamJsonAsync(t));
+                options.Progress = new Progress<TransferProgress>(StreamJson);
             }
 
             // TODO: Accept multiple files.
@@ -251,7 +251,7 @@ namespace Ipfs.Server.HttpApi.V0
             {
                 // TODO: AddAsync returns a list of nodes containing every node added not just the top level.
                 var node = await IpfsCore.FileSystem.AddAsync(stream, file.FileName, options, Cancel);
-                await StreamJsonAsync(new FileSystemNodeDto
+                StreamJson(new FileSystemNodeDto
                 {
                     Name = node.Id,
                     Hash = node.Id,

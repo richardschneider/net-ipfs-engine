@@ -1,0 +1,37 @@
+﻿@page "{*Path}"
+@model IpfsModel
+
+<h4>Index of <span class="hex">@Model.Path</span></h4>
+
+<table class="table">
+    <tbody>
+        @if (@Model.PathParts.Count() > 1)
+        {
+            <tr>
+                <td>
+                    <span class="glyphicon glyphicon-level-up" aria-hidden="true"></span>
+                    <a href="/ipfs/@Model.Parent"><i>(parent)</i></a>
+                </td>
+            </tr>
+        }
+        @foreach (var f in @Model.Directories)
+        {
+        <tr>
+            <td>
+                <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 
+                <a href="/ipfs/@Model.Path/@f.Name">@f.Name</a>
+            </td>
+        </tr>
+        }
+        @foreach (var f in @Model.Files)
+        {
+        <tr>
+            <td>
+                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                <a href="/ipfs/@Model.Path/@f.Name">@f.Name</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>

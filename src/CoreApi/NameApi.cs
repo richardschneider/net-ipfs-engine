@@ -44,7 +44,7 @@ namespace Ipfs.Engine.CoreApi
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    throw new NotImplementedException("Resolving IPNS is not yet implemented.");
                 }
                 if (parts.Length > 1)
                 {

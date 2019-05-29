@@ -13,7 +13,7 @@ namespace Ipfs.Server
     public class WebUIController : Controller
     {
         /// <summary>
-        ///   Handles HTTP Get "/webui" 
+        ///   Gets the IPFS WebUI app.
         /// </summary>
         [HttpGet]
         public ActionResult Get()

@@ -1,5 +1,8 @@
 ﻿@page "{*Path}"
 @model IpfsModel
+@{
+    ViewData["Title"] = Model.Path;
+}
 
 <h4>Index of <span class="hex">@Model.Path</span></h4>
 
@@ -7,18 +10,18 @@
     <tbody>
         @if (@Model.PathParts.Count() > 1)
         {
-            <tr>
-                <td>
-                    <span class="glyphicon glyphicon-level-up" aria-hidden="true"></span>
-                    <a href="/ipfs/@Model.Parent"><i>(parent)</i></a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                <span class="glyphicon glyphicon-level-up" aria-hidden="true"></span>
+                <a href="/ipfs/@Model.Parent/"><i>(parent)</i></a>
+            </td>
+        </tr>
         }
         @foreach (var f in @Model.Directories)
         {
         <tr>
             <td>
-                <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 
+                <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
                 <a href="/ipfs/@Model.Path/@f.Name">@f.Name</a>
             </td>
         </tr>

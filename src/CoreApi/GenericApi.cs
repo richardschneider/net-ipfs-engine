@@ -51,7 +51,7 @@ namespace Ipfs.Engine.CoreApi
                 var container = await ipfs.Object.GetAsync(id, cancel).ConfigureAwait(false);
                 var link = container.Links.FirstOrDefault(l => l.Name == child);
                 if (link == null)
-                    throw new ArgumentException($"Cannot resolve '{name}'.");
+                    throw new ArgumentException($"Cannot resolve '{child}' in '{name}'.");
                 id = link.Id;
             }
 

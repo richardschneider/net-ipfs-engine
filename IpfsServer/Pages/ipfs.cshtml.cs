@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -93,11 +94,30 @@ namespace Ipfs.Server.Pages
         /// </remarks>
         public async Task<IActionResult> OnGetAsync(CancellationToken cancel)
         {
-            node = await ipfs.FileSystem.ListFileAsync(Path, cancel);
+            if (String.IsNullOrWhiteSpace(Path))
+            {
+                return NotFound();
+            }
 
-            // If a directory, then display a page with directory contents.
+            try
+            {
+                node = await ipfs.FileSystem.ListFileAsync(Path, cancel);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            // If a directory, then display a page with directory contents or if
+            // the directory contain "index.html", redirect to the page.
             if (node.IsDirectory)
             {
+                if (!Path.EndsWith("/") && node.Links.Any(l => l.Name == "index.html"))
+                {
+                    return Redirect($"/ipfs/{Path}/index.html");
+                }
+
+                Path = Path.TrimEnd('/');
                 return Page();
             }
 

@@ -18,7 +18,7 @@ namespace Ipfs.Server
         [HttpGet]
         public ActionResult Get()
         {
-            return Redirect("/ipfs/QmfQkD8pBSBCBxWEwFSu4XaDVSWK6bjnNuaWZjMyQbyDub/index.html");
+            return Redirect("/ipfs/QmfQkD8pBSBCBxWEwFSu4XaDVSWK6bjnNuaWZjMyQbyDub");
         }
 
     }

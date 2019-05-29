@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ipfs.Core" Version="0.50.1" />
-    <PackageReference Include="Makaretu.Dns.Unicast" Version="0.8.0" />
+    <PackageReference Include="Makaretu.Dns.Unicast" Version="0.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
     <PackageReference Include="PeerTalk" Version="0.11.3" />

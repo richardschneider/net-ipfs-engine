@@ -1175,6 +1175,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Block
   nameWithType: IpfsEngine.Block
+- uid: Ipfs.Engine.IpfsEngine.BlockRepository
+  name: BlockRepository
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_BlockRepository
+  commentId: P:Ipfs.Engine.IpfsEngine.BlockRepository
+  fullName: Ipfs.Engine.IpfsEngine.BlockRepository
+  nameWithType: IpfsEngine.BlockRepository
+- uid: Ipfs.Engine.IpfsEngine.BlockRepository*
+  name: BlockRepository
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_BlockRepository_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.BlockRepository
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.BlockRepository
+  nameWithType: IpfsEngine.BlockRepository
 - uid: Ipfs.Engine.IpfsEngine.Bootstrap
   name: Bootstrap
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Bootstrap

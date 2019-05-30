@@ -101,6 +101,7 @@ namespace Ipfs.Engine
             // Init the core api inteface.
             Bitswap = new BitswapApi(this);
             Block = new BlockApi(this);
+            BlockRepository = new BlockRepositoryApi(this);
             Bootstrap = new BootstrapApi(this);
             Config = new ConfigApi(this);
             Dag = new DagApi(this);
@@ -214,6 +215,9 @@ namespace Ipfs.Engine
 
         /// <inheritdoc />
         public IBlockApi Block { get; set; }
+
+        /// <inheritdoc />
+        public IBlockRepositoryApi BlockRepository { get; set; }
 
         /// <inheritdoc />
         public IBootstrapApi Bootstrap { get; set; }

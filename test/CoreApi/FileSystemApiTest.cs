@@ -113,6 +113,23 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task StreamBehaviour()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                ChunkSize = 3,
+                Pin = true,
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            var stream = await ipfs.FileSystem.ReadFileAsync(node.Id);
+            Assert.AreEqual(11, stream.Length);
+            Assert.IsTrue(stream.CanRead);
+            Assert.IsFalse(stream.CanWrite);
+            Assert.IsTrue(stream.CanSeek);
+        }
+
+        [TestMethod]
         public async Task Add_HashAlgorithm()
         {
             var ipfs = TestFixture.Ipfs;

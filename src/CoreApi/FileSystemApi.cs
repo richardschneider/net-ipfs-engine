@@ -273,9 +273,14 @@ namespace Ipfs.Engine.CoreApi
         async Task AddTarNodeAsync(Cid cid, string name, TarOutputStream tar, CancellationToken cancel)
         {
             var block = await ipfs.Block.GetAsync(cid, cancel).ConfigureAwait(false);
-            var dag = new DagNode(block.DataStream);
-            var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
+            var dm = new DataMessage { Type = DataType.Raw };
+            DagNode dag = null;
 
+            if (cid.ContentType == "dag-pb")
+            {
+                dag = new DagNode(block.DataStream);
+                dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
+            }
             var entry = new TarEntry(new TarHeader());
             var header = entry.TarHeader;
             header.Mode = 0x1ff; // 777 in octal
@@ -307,7 +312,7 @@ namespace Ipfs.Engine.CoreApi
                 tar.CloseEntry();
             }
 
-            // TODO: recurse over files and subdirectories
+            // Recurse over files and subdirectories
             if (dm.Type == DataType.Directory)
             {
                 foreach (var link in dag.Links)

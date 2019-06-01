@@ -792,6 +792,22 @@ namespace Ipfs.Engine
         }
 #endif
 
+        [TestMethod]
+        public async Task Isssue108()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                Hash = "blake2b-256",
+                RawLeaves = true
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            var other = await ipfs.FileSystem.ListFileAsync(node.Id);
+            Assert.AreEqual(node.Id, other.Id);
+            Assert.AreEqual(node.IsDirectory, other.IsDirectory);
+            Assert.AreEqual(node.Size, other.Size);
+        }
+
         public static string MakeTemp()
         {
             var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

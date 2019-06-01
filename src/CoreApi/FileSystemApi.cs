@@ -174,9 +174,35 @@ namespace Ipfs.Engine.CoreApi
         {
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
             var block = await ipfs.Block.GetAsync(cid, cancel).ConfigureAwait(false);
+
+            // TODO: A content-type registry should be used.
+            if (cid.ContentType == "dag-pb")
+            {
+                // fall thru
+            }
+            else if (cid.ContentType == "raw")
+            {
+                return new FileSystemNode
+                {
+                    Id = cid,
+                    Size = block.Size
+                };
+            }
+            else if (cid.ContentType == "cms")
+            {
+                return new FileSystemNode
+                {
+                    Id = cid,
+                    Size = block.Size
+                };
+            }
+            else
+            {
+                throw new NotSupportedException($"Cannot read content type '{cid.ContentType}'.");
+            }
+
             var dag = new DagNode(block.DataStream);
             var dm = Serializer.Deserialize<DataMessage>(dag.DataStream);
-
             var fsn = new FileSystemNode
             {
                 Id = cid,
@@ -189,7 +215,7 @@ namespace Ipfs.Engine.CoreApi
                     })
                     .ToArray(),
                 IsDirectory = dm.Type == DataType.Directory,
-                Size = (long) (dm.FileSize ?? 0)
+                Size = (long)(dm.FileSize ?? 0)
             };
 
             // Cannot determine if a link points to a directory.  The link's block must be

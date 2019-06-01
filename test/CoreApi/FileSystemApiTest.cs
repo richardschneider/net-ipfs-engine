@@ -772,6 +772,43 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task GetTar_RawLeaves()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var temp = MakeTemp();
+            try
+            {
+                var options = new AddFileOptions
+                {
+                    RawLeaves = true
+                };
+                var dir = ipfs.FileSystem.AddDirectoryAsync(temp, true, options).Result;
+                var dirid = dir.Id.Encode();
+
+                var tar = await ipfs.FileSystem.GetAsync(dir.Id);
+                var archive = TarArchive.CreateInputTarArchive(tar);
+                var files = new List<string>();
+                archive.ProgressMessageEvent += (a, e, m) =>
+                {
+                    files.Add(e.Name);
+                };
+                archive.ListContents();
+
+                Assert.AreEqual($"{dirid}", files[0]);
+                Assert.AreEqual($"{dirid}/alpha.txt", files[1]);
+                Assert.AreEqual($"{dirid}/beta.txt", files[2]);
+                Assert.AreEqual($"{dirid}/x", files[3]);
+                Assert.AreEqual($"{dirid}/x/x.txt", files[4]);
+                Assert.AreEqual($"{dirid}/x/y", files[5]);
+                Assert.AreEqual($"{dirid}/x/y/y.txt", files[6]);
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [TestMethod]
         public async Task GetTar_EmptyDirectory()
         {
             var ipfs = TestFixture.Ipfs;
@@ -791,6 +828,22 @@ namespace Ipfs.Engine
             }
         }
 #endif
+
+        [TestMethod]
+        public async Task Isssue108()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var options = new AddFileOptions
+            {
+                Hash = "blake2b-256",
+                RawLeaves = true
+            };
+            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+            var other = await ipfs.FileSystem.ListFileAsync(node.Id);
+            Assert.AreEqual(node.Id, other.Id);
+            Assert.AreEqual(node.IsDirectory, other.IsDirectory);
+            Assert.AreEqual(node.Size, other.Size);
+        }
 
         public static string MakeTemp()
         {

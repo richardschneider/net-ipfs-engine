@@ -57,6 +57,7 @@ string text = await ipfs.FileSystem.ReadAllTextAsync(filename);
 
 - [IPFS Core](https://github.com/richardschneider/net-ipfs-core)
 - [IPFS HTTP Client](https://github.com/richardschneider/net-ipfs-http-client)
+- [IPFS HTTP Gateway](https://github.com/richardschneider/net-ipfs-http-gateway)
 - [Peer Talk](https://github.com/richardschneider/peer-talk)
 
 ## Sponsors

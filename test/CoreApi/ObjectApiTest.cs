@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ipfs.CoreApi;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
@@ -132,6 +133,28 @@ namespace Ipfs.Engine.CoreApi
             catch (TaskCanceledException)
             {
                 return;
+            }
+        }
+
+        [TestMethod]
+        /// <seealso href="https://github.com/ipfs/js-ipfs/issues/2084"/>
+        public async Task Get_Inlinefile()
+        {
+            var original = ipfs.Options.Block.AllowInlineCid;
+            try
+            {
+                ipfs.Options.Block.AllowInlineCid = true;
+
+                var node = await ipfs.FileSystem.AddTextAsync("hiya");
+                Assert.AreEqual(1, node.Id.Version);
+                Assert.IsTrue(node.Id.Hash.IsIdentityHash);
+
+                var dag = await ipfs.Object.GetAsync(node.Id);
+                Assert.AreEqual(12, dag.Size);
+            }
+            finally
+            {
+                ipfs.Options.Block.AllowInlineCid = original;
             }
         }
 

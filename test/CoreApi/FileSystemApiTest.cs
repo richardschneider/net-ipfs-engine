@@ -275,6 +275,31 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task Add_Inline()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var original = ipfs.Options.Block.AllowInlineCid;
+            try
+            {
+                ipfs.Options.Block.AllowInlineCid = true;
+
+                var node = await ipfs.FileSystem.AddTextAsync("hiya");
+                Assert.AreEqual(1, node.Id.Version);
+                Assert.IsTrue(node.Id.Hash.IsIdentityHash);
+                Assert.AreEqual(4, node.Size);
+                Assert.AreEqual(0, node.Links.Count());
+                Assert.AreEqual(false, node.IsDirectory);
+                Assert.AreEqual("zBJ95gnTvsVtx49wHb2LGj", node.Id.Encode());
+                var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+                Assert.AreEqual("hiya", text);
+            }
+            finally
+            {
+                ipfs.Options.Block.AllowInlineCid = original;
+            }
+        }
+
+        [TestMethod]
         public async Task Add_RawAndChunked()
         {
             var ipfs = TestFixture.Ipfs;

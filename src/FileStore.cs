@@ -176,6 +176,9 @@ namespace Ipfs.Engine
         /// </returns>
         /// <remarks>
         ///   If <paramref name="name"/> already exists, it's value is overwriten.
+        ///   <para>
+        ///   The file is deleted if an exception is encountered.
+        ///   </para>
         /// </remarks>
         public async Task PutAsync(TName name, TValue value, CancellationToken cancel = default(CancellationToken))
         {
@@ -184,7 +187,23 @@ namespace Ipfs.Engine
             using (await storeLock.WriterLockAsync(cancel).ConfigureAwait(false))
             using (var stream = File.Create(path))
             {
-                await Serialize(stream, name, value, cancel).ConfigureAwait(false);
+                try
+                {
+                    await Serialize(stream, name, value, cancel).ConfigureAwait(false);
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        stream.Dispose();
+                        File.Delete(path);
+                    }
+                    catch (Exception)
+                    {
+                        // eat it.
+                    }
+                    throw;  // original exception
+                }
             }
         }
 

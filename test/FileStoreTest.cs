@@ -160,5 +160,18 @@ namespace Ipfs.Engine
             var values = store.Values;
         }
 
+        [TestMethod]
+        public void PutWithException()
+        {
+            Func<Stream, int, Entity, CancellationToken, Task> BadSerialize =
+                (stream, name, value, canel) => throw new Exception("no serializer");
+            var store = Store;
+            store.Serialize = BadSerialize;
+
+            ExceptionAssert.Throws<Exception>(() => store.PutAsync(a.Number, a).Wait());
+            Assert.IsFalse(store.ExistsAsync(a.Number).Result);
+        }
+
+
     }
 }

@@ -329,6 +329,16 @@ namespace Ipfs.Engine
         }
 
         /// <summary>
+        ///   Determines if the engine has started.
+        /// </summary>
+        /// <value>
+        ///   <b>true</b> if the engine has started; otherwise, <b>false</b>.
+        /// </value>
+        /// <seealso cref="Start"/>
+        /// <seealso cref="StartAsync"/>
+        public bool IsStarted => stopTasks.Count > 0;
+
+        /// <summary>
         ///   Starts the network services.
         /// </summary>
         /// <returns>

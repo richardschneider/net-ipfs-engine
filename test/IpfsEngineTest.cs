@@ -95,9 +95,12 @@ namespace Ipfs.Engine
             var ipfs = TestFixture.Ipfs;
             var peer = await ipfs.LocalPeer;
 
+            Assert.IsFalse(ipfs.IsStarted);
             await ipfs.StartAsync();
+            Assert.IsTrue(ipfs.IsStarted);
             Assert.AreNotEqual(0, peer.Addresses.Count());
             await ipfs.StopAsync();
+            Assert.IsFalse(ipfs.IsStarted);
             Assert.AreEqual(0, peer.Addresses.Count());
 
             await ipfs.StartAsync();

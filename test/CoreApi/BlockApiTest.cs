@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -237,6 +238,27 @@ namespace Ipfs.Engine
             Assert.AreEqual(cid, wantTask.Result.Id);
             Assert.AreEqual(data.Length, wantTask.Result.Size);
             CollectionAssert.AreEqual(data, wantTask.Result.DataBytes);
+        }
+
+        [TestMethod]
+        public async Task Put_Informs_Dht()
+        {
+            var data = Guid.NewGuid().ToByteArray();
+            var ipfs = TestFixture.Ipfs;
+            await ipfs.StartAsync();
+            try
+            {
+                var self = await ipfs.LocalPeer;
+                var cid = await ipfs.Block.PutAsync(data);
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+                var peers = await ipfs.Dht.FindProvidersAsync(cid, limit: 1, cancel: cts.Token);
+                Assert.AreEqual(self, peers.First());
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
+
         }
     }
 }

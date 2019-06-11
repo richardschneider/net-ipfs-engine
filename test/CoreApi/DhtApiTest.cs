@@ -27,6 +27,7 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74#issuecomment-500668261")]
         public async Task Mars_Info()
         {
             var marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";

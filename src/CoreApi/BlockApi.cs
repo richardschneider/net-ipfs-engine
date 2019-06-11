@@ -197,6 +197,10 @@ namespace Ipfs.Engine.CoreApi
             else
             {
                 await Store.PutAsync(cid, block, cancel).ConfigureAwait(false);
+                if (ipfs.IsStarted)
+                {
+                    await ipfs.Dht.ProvideAsync(cid, advertise: false, cancel: cancel).ConfigureAwait(false);
+                }
                 log.DebugFormat("Added block '{0}'", cid);
             }
 

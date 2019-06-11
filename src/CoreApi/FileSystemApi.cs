@@ -105,11 +105,20 @@ namespace Ipfs.Engine.CoreApi
             {
                 var link = node.ToLink(name);
                 var wlinks = new IFileSystemLink[] { link };
-                return await CreateDirectoryAsync(wlinks, options, cancel).ConfigureAwait(false);
+                node = await CreateDirectoryAsync(wlinks, options, cancel).ConfigureAwait(false);
+            }
+            else
+            {
+                node.Name = name;
+            }
+
+            // Advertise the root node.
+            if (options.Pin && ipfs.IsStarted)
+            {
+                await ipfs.Dht.ProvideAsync(node.Id, advertise: true, cancel: cancel).ConfigureAwait(false);
             }
 
             // Return the file system node.
-            node.Name = name;
             return node;
         }
 

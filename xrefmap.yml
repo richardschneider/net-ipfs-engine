@@ -1311,6 +1311,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Generic
   nameWithType: IpfsEngine.Generic
+- uid: Ipfs.Engine.IpfsEngine.IsStarted
+  name: IsStarted
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_IsStarted
+  commentId: P:Ipfs.Engine.IpfsEngine.IsStarted
+  fullName: Ipfs.Engine.IpfsEngine.IsStarted
+  nameWithType: IpfsEngine.IsStarted
+- uid: Ipfs.Engine.IpfsEngine.IsStarted*
+  name: IsStarted
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_IsStarted_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.IsStarted
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.IsStarted
+  nameWithType: IpfsEngine.IsStarted
 - uid: Ipfs.Engine.IpfsEngine.Key
   name: Key
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Key

@@ -1,8 +1,8 @@
 language: csharp
-mono: none
-dotnet: 2.1.400
-dist: trusty
 sudo: required
+mono: none
+dist: xenial
+dotnet: 2.2.300
 os:
 #  - linux CircleCI does linux tests
   - osx

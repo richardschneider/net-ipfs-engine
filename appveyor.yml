@@ -11,7 +11,7 @@ for:
     git_token:
       secure: NeX5NCOUXsCLc1UjTJjqB9F02FZ8Wq0VsxqTXC8kBdyK6zjxjebrf/9Da2sY1Kql
 
-configuration: Debug
+configuration: Release
 os: Visual Studio 2017
 
 init:
@@ -22,7 +22,6 @@ init:
   - git config --global user.name "Appveyor CI"
 
 cache:
-  - packages -> **\packages.config      # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
   - '%APPDATA%\npm-cache'               # npm cache
   - '%USERPROFILE%\.nuget\packages'     # nuget cache
 
@@ -34,7 +33,6 @@ environment:
 # tools we need for bulding/testing/deploying
 install:
   - choco install gitversion.portable -y
-  - nuget update -self
   - choco install docfx -y
   - npm install gh-pages -g
 
@@ -43,36 +41,34 @@ pull_requests:
   do_not_increment_build_number: true
 
 before_build:
-  - nuget restore
   - ps: gitversion /output buildserver /updateAssemblyInfo >gitversion.log
 
 build_script:
   - dotnet build -c %CONFIGURATION% -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
-  - dotnet pack -c %CONFIGURATION% --no-build --no-restore -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_MajorMinorPatch%
-
-after_build:
-  - cmd: appveyor PushArtifact "src\bin\%CONFIGURATION%\Ipfs.Engine.%GitVersion_MajorMinorPatch%.nupkg"
 
 test_script:
   - dotnet test --logger "console;verbosity=normal" -c %CONFIGURATION% --no-build --no-restore test
 
 after_test: 
 # Generate coverage report
-    - packages\OpenCover.4.6.519\tools\OpenCover.Console.exe 
-        -register:user -filter:"+[Ipfs.Engine*]* -[*Tests]*" 
-        -target:"c:\Program Files\dotnet\dotnet.exe" 
-        -targetargs:"test -c Debug --no-build --no-restore --framework netcoreapp2.1 test" 
-        -output:coverage.xml  
-        -hideskipped:File 
-        -oldStyle 
+    - dotnet test -c %CONFIGURATION% -f netcoreapp2.1 --no-build --no-restore test /p:CollectCoverage=true
+    - choco install codecov -y
+    - codecov -f "test/coverage.opencover.xml"
+    - dotnet tool install --global coveralls.net --version 1.0.0
     - if defined COVERALLS_REPO_TOKEN 
-        packages\coveralls.net.0.6.0\tools\csmacnz.coveralls.exe 
-        --opencover -i ./coverage.xml --useRelativePaths --serviceName appveyor --jobId %APPVEYOR_BUILD_NUMBER%
+        csmacnz.coveralls.exe 
+        --opencover -i test/coverage.opencover.xml --useRelativePaths --serviceName appveyor --jobId %APPVEYOR_BUILD_NUMBER%
 # Build documentation in doc\_site
     - docfx doc\docfx.json --logLevel Warning
     - 7z a -tzip docs.zip doc\_site
     - appveyor PushArtifact docs.zip
     - if defined git_token gh-pages -d doc\_site -m "new docs %GitVersion_FullSemVer%"
+
+artifacts:
+  - path: 'src/**/*.nupkg'
+    name: nupkg
+  - path: 'src/**/*.snupkg'
+    name: snupkg
 
 # publish NuGet package on tag build
 nuget:

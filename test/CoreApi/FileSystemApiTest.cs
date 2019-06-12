@@ -870,6 +870,40 @@ namespace Ipfs.Engine
             Assert.AreEqual(node.Size, other.Size);
         }
 
+        [TestMethod]
+        public async Task Read_SameFile_DifferentCids()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var text = "\"hello world\" \r\n";
+            var node = await ipfs.FileSystem.AddTextAsync(text);
+            var cids = new Cid[]
+            {
+                node.Id,
+                new Cid
+                {
+                    ContentType = node.Id.ContentType,
+                    Version = 1,
+                    Encoding = node.Id.Encoding,
+                    Hash = node.Id.Hash,
+                },
+                new Cid
+                {
+                    ContentType = node.Id.ContentType,
+                    Version = 1,
+                    Encoding = "base32",
+                    Hash = node.Id.Hash,
+                },
+            };
+            foreach (var cid in cids)
+            {
+                using (var cts = new CancellationTokenSource(3000))
+                {
+                    var got = await ipfs.FileSystem.ReadAllTextAsync(cid, cts.Token);
+                    Assert.AreEqual(text, got);
+                }
+            }
+        }
+
         public static string MakeTemp()
         {
             var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

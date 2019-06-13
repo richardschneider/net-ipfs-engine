@@ -50,7 +50,7 @@ namespace Ipfs.Server.HttpApi.V0
         public ConnectedPeerDto(Peer peer)
         {
             Peer = peer.Id.ToString();
-            Addr = peer.ConnectedAddress?.ToString();
+            Addr = peer.ConnectedAddress?.WithoutPeerId().ToString();
             Latency = peer.Latency == null ? string.Empty : Duration.Stringify(peer.Latency.Value, string.Empty);
         }
     }
@@ -97,7 +97,9 @@ namespace Ipfs.Server.HttpApi.V0
             var dto = new AddrsDto();
             foreach (var peer in peers)
             {
-                dto.Addrs[peer.Id.ToString()] = peer.Addresses.Select(a => a.ToString()).ToList();
+                dto.Addrs[peer.Id.ToString()] = peer.Addresses
+                    .Select(a => a.ToString())
+                    .ToList();
             }
             return dto;
         }

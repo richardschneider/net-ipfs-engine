@@ -92,7 +92,7 @@ namespace Ipfs.Engine.UnixFileSystem
                     // TODO: Inefficent to copy chunk, use ArraySegment in DataMessage.Data
                     var plain = new byte[length];
                     Array.Copy(chunk, plain, length);
-                    var cipher = await keyChain.CreateProtectedData(options.ProtectionKey, plain, cancel).ConfigureAwait(false);
+                    var cipher = await keyChain.CreateProtectedDataAsync(options.ProtectionKey, plain, cancel).ConfigureAwait(false);
                     var cid = await blockService.PutAsync(
                         data: cipher,
                         contentType: "cms",

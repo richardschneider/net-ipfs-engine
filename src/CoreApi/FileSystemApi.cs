@@ -256,7 +256,7 @@ namespace Ipfs.Engine.CoreApi
         {
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
             var keyChain = await ipfs.KeyChain(cancel).ConfigureAwait(false);
-            return await FileSystem.CreateReadStream(cid, ipfs.Block, keyChain, cancel).ConfigureAwait(false);
+            return await FileSystem.CreateReadStreamAsync(cid, ipfs.Block, keyChain, cancel).ConfigureAwait(false);
         }
 
         public async Task<Stream> ReadFileAsync(string path, long offset, long count = 0, CancellationToken cancel = default(CancellationToken))

@@ -51,7 +51,7 @@ knU1yykWGkdlbclCuu0NaAfmb8o0OX50CbEKZB7xmsv8tnqn0H0jMF4GCSqGSIb3
 DQEHATAdBglghkgBZQMEASoEEP/PW1JWehQx6/dsLkp/Mf+gMgQwFM9liLTqC56B
 nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
 ");
-                var plain = await keychain.ReadProtectedData(cipher);
+                var plain = await keychain.ReadProtectedDataAsync(cipher);
                 var plainText = Encoding.UTF8.GetString(plain);
                 Assert.AreEqual("This is a message from Alice to Bob", plainText);
             }
@@ -78,7 +78,7 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
 ");
             ExceptionAssert.Throws<KeyNotFoundException>(() =>
             {
-                var plain = keychain.ReadProtectedData(cipher).Result;
+                var plain = keychain.ReadProtectedDataAsync(cipher).Result;
             });
         }
 
@@ -91,8 +91,8 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
             try
             {
                 var data = new byte[] { 1, 2, 3, 4 };
-                var cipher = await keychain.CreateProtectedData("alice", data);
-                var plain = await keychain.ReadProtectedData(cipher);
+                var cipher = await keychain.CreateProtectedDataAsync("alice", data);
+                var plain = await keychain.ReadProtectedDataAsync(cipher);
                 CollectionAssert.AreEqual(data, plain);
             }
             finally
@@ -110,8 +110,8 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
             try
             {
                 var data = new byte[] { 1, 2, 3, 4 };
-                var cipher = await keychain.CreateProtectedData("alice", data);
-                var plain = await keychain.ReadProtectedData(cipher);
+                var cipher = await keychain.CreateProtectedDataAsync("alice", data);
+                var plain = await keychain.ReadProtectedDataAsync(cipher);
                 CollectionAssert.AreEqual(data, plain);
             }
             finally
@@ -130,8 +130,8 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
             try
             {
                 var data = new byte[] { 1, 2, 3, 4 };
-                var cipher = await keychain.CreateProtectedData("alice", data);
-                var plain = await keychain.ReadProtectedData(cipher);
+                var cipher = await keychain.CreateProtectedDataAsync("alice", data);
+                var plain = await keychain.ReadProtectedDataAsync(cipher);
                 CollectionAssert.AreEqual(data, plain);
             }
             finally

@@ -29,8 +29,8 @@ namespace Ipfs.Engine.CoreApi
                 {
                     var attempts = new Task<string>[]
                     {
-                        Find(name, cts.Token),
-                        Find("_dnslink." + name, cts.Token)
+                        FindAsync(name, cts.Token),
+                        FindAsync("_dnslink." + name, cts.Token)
                     };
                     link = await TaskHelper.WhenAnyResult(attempts, cancel).ConfigureAwait(false);
                     cts.Cancel();
@@ -52,7 +52,7 @@ namespace Ipfs.Engine.CoreApi
             throw new NotSupportedException($"Cannot resolve '{link}'.");
         }
 
-        async Task<string> Find(string name, CancellationToken cancel)
+        async Task<string> FindAsync(string name, CancellationToken cancel)
         {
             var response = await ipfs.Options.Dns.QueryAsync(name, DnsType.TXT, cancel).ConfigureAwait(false);
             var link = response.Answers

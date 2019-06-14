@@ -129,7 +129,7 @@ namespace Ipfs.Engine.UnixFileSystem
             var need = blocks.Last(b => b.Position <= position);
             if (need != currentBlock)
             {
-                var stream = await FileSystem.CreateReadStream(need.Id, BlockService, KeyChain, cancel).ConfigureAwait(false);
+                var stream = await FileSystem.CreateReadStreamAsync(need.Id, BlockService, KeyChain, cancel).ConfigureAwait(false);
                 currentBlock = need;
                 currentData = new byte[stream.Length];
                 for (int i = 0, n; i < stream.Length; i += n)

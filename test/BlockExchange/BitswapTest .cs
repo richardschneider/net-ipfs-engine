@@ -26,7 +26,7 @@ namespace Ipfs.Engine.BlockExchange
 
             var cid = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block")).Id;
             var cancel = new CancellationTokenSource();
-            var task = bitswap.Want(cid, self.Id, cancel.Token);
+            var task = bitswap.WantAsync(cid, self.Id, cancel.Token);
             CollectionAssert.Contains(bitswap.PeerWants(self.Id).ToArray(), cid);
 
             bitswap.Unwant(cid);
@@ -39,7 +39,7 @@ namespace Ipfs.Engine.BlockExchange
             var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
             var cid = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block")).Id;
             var cancel = new CancellationTokenSource();
-            var task = bitswap.Want(cid, self.Id, cancel.Token);
+            var task = bitswap.WantAsync(cid, self.Id, cancel.Token);
             CollectionAssert.Contains(bitswap.PeerWants(self.Id).ToArray(), cid);
 
             cancel.Cancel();
@@ -62,10 +62,10 @@ namespace Ipfs.Engine.BlockExchange
             };
             try
             {
-                bitswap.Want(cid1, self.Id, cancel.Token);
-                bitswap.Want(cid1, self.Id, cancel.Token);
-                bitswap.Want(cid2, self.Id, cancel.Token);
-                bitswap.Want(cid2, self.Id, cancel.Token);
+                bitswap.WantAsync(cid1, self.Id, cancel.Token);
+                bitswap.WantAsync(cid1, self.Id, cancel.Token);
+                bitswap.WantAsync(cid2, self.Id, cancel.Token);
+                bitswap.WantAsync(cid2, self.Id, cancel.Token);
                 Assert.AreEqual(2, callCount);
             }
             finally
@@ -80,7 +80,7 @@ namespace Ipfs.Engine.BlockExchange
             var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
             var cid = new DagNode(Encoding.UTF8.GetBytes("BitswapTest unknown block")).Id;
             var cancel = new CancellationTokenSource();
-            var task = bitswap.Want(cid, self.Id, cancel.Token);
+            var task = bitswap.WantAsync(cid, self.Id, cancel.Token);
             CollectionAssert.Contains(bitswap.PeerWants(self.Id).ToArray(), cid);
 
             bitswap.Unwant(cid);
@@ -97,7 +97,7 @@ namespace Ipfs.Engine.BlockExchange
             var a = new DagNode(Encoding.UTF8.GetBytes("BitswapTest found block a"));
             var b = new DagNode(Encoding.UTF8.GetBytes("BitswapTest found block b"));
             var cancel = new CancellationTokenSource();
-            var task = bitswap.Want(a.Id, self.Id, cancel.Token);
+            var task = bitswap.WantAsync(a.Id, self.Id, cancel.Token);
             Assert.IsFalse(task.IsCompleted);
             CollectionAssert.Contains(bitswap.PeerWants(self.Id).ToArray(), a.Id);
 
@@ -120,8 +120,8 @@ namespace Ipfs.Engine.BlockExchange
             Assert.AreEqual(0, bitswap.Found(a));
 
             var cancel = new CancellationTokenSource();
-            var task1 = bitswap.Want(a.Id, self.Id, cancel.Token);
-            var task2 = bitswap.Want(a.Id, self.Id, cancel.Token);
+            var task1 = bitswap.WantAsync(a.Id, self.Id, cancel.Token);
+            var task2 = bitswap.WantAsync(a.Id, self.Id, cancel.Token);
             Assert.AreEqual(2, bitswap.Found(a));
 
             Assert.IsTrue(task1.IsCompleted);

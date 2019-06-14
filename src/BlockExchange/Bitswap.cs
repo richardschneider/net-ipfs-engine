@@ -206,7 +206,7 @@ namespace Ipfs.Engine.BlockExchange
         ///   <see cref="Unwant"/> method will also cancel the operation.
         ///   </para>
         /// </remarks>
-        public Task<IDataBlock> Want(Cid id, MultiHash peer, CancellationToken cancel)
+        public Task<IDataBlock> WantAsync(Cid id, MultiHash peer, CancellationToken cancel)
         {
             log.Trace($"{peer} wants {id}");
 

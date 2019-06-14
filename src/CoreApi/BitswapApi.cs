@@ -20,7 +20,7 @@ namespace Ipfs.Engine.CoreApi
         {
             var bs = await ipfs.BitswapService.ConfigureAwait(false);
             var peer = await ipfs.LocalPeer.ConfigureAwait(false);
-            return await bs.Want(id, peer.Id, cancel).ConfigureAwait(false);
+            return await bs.WantAsync(id, peer.Id, cancel).ConfigureAwait(false);
         }
 
         public async Task UnwantAsync(Cid id, CancellationToken cancel = default(CancellationToken))

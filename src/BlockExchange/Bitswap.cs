@@ -129,7 +129,9 @@ namespace Ipfs.Engine.BlockExchange
 
         // When a connection is established
         // (1) Send the local peer's want list to the remote
+#pragma warning disable VSTHRD100 // Avoid async void methods
         async void Swarm_ConnectionEstablished(object sender, PeerConnection connection)
+#pragma warning restore VSTHRD100 // Avoid async void methods
         {
             try
             {
@@ -206,7 +208,7 @@ namespace Ipfs.Engine.BlockExchange
         ///   <see cref="Unwant"/> method will also cancel the operation.
         ///   </para>
         /// </remarks>
-        public Task<IDataBlock> Want(Cid id, MultiHash peer, CancellationToken cancel)
+        public Task<IDataBlock> WantAsync(Cid id, MultiHash peer, CancellationToken cancel)
         {
             log.Trace($"{peer} wants {id}");
 

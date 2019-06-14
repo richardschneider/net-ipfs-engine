@@ -16,7 +16,7 @@ namespace Ipfs.Engine.Cryptography
         public async Task ReadPrivateKey()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             string alice1 = @"-----BEGIN PRIVATE KEY-----
 MC4CAQAwBQYDK2VwBCIEINTuctv5E1hK1bbY8fdp+K06/nwoy/HU++CXqI9EdVhC
 -----END PRIVATE KEY-----
@@ -42,7 +42,7 @@ MC4CAQAwBQYDK2VwBCIEINTuctv5E1hK1bbY8fdp+K06/nwoy/HU++CXqI9EdVhC
         public async Task ReadPrivateAndPublicKey()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             string alice1 = @"-----BEGIN PRIVATE KEY-----
 MHICAQEwBQYDK2VwBCIEINTuctv5E1hK1bbY8fdp+K06/nwoy/HU++CXqI9EdVhC
 oB8wHQYKKoZIhvcNAQkJFDEPDA1DdXJkbGUgQ2hhaXJzgSEAGb9ECWmEzf6FQbrB

@@ -102,7 +102,7 @@ namespace Ipfs.Engine.UnixFileSystem
         /// <inheritdoc />
         public override int Read(byte[] buffer, int offset, int count)
         {
-            return ReadAsync(buffer, offset, count).GetAwaiter().GetResult();
+            return ReadAsync(buffer, offset, count).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <inheritdoc />
@@ -129,12 +129,12 @@ namespace Ipfs.Engine.UnixFileSystem
             var need = blocks.Last(b => b.Position <= position);
             if (need != currentBlock)
             {
-                var stream = await FileSystem.CreateReadStream(need.Id, BlockService, KeyChain, cancel).ConfigureAwait(false);
+                var stream = await FileSystem.CreateReadStreamAsync(need.Id, BlockService, KeyChain, cancel).ConfigureAwait(false);
                 currentBlock = need;
                 currentData = new byte[stream.Length];
                 for (int i = 0, n; i < stream.Length; i += n)
                 {
-                    n = stream.Read(currentData, i, (int) stream.Length - i);
+                    n = await stream.ReadAsync(currentData, i, (int) stream.Length - i);
                 }
             }
             int offset = (int)(position - currentBlock.Position);

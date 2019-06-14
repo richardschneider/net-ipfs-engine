@@ -38,7 +38,7 @@ namespace Ipfs.Engine.Cryptography
         ///   is used to digitally sign, digest, authenticate, and/or encrypt
         ///   arbitrary message content.
         /// </remarks>
-        public async Task<byte[]> CreateProtectedData(
+        public async Task<byte[]> CreateProtectedDataAsync(
             string keyName, 
             byte[] plainText, 
             CancellationToken cancel = default(CancellationToken))
@@ -108,7 +108,7 @@ namespace Ipfs.Engine.Cryptography
         ///   is used to digitally sign, digest, authenticate, and/or encrypt
         ///   arbitrary message content.
         /// </remarks>
-        public async Task<byte[]> ReadProtectedData(
+        public async Task<byte[]> ReadProtectedDataAsync(
             byte[] cipherText,
             CancellationToken cancel = default(CancellationToken))
         {

@@ -127,7 +127,7 @@ namespace Ipfs.Engine.CoreApi
                     id: id,
                     limit: 20, // TODO: remove this
                     cancel: queryCancel.Token,
-                    action: (peer) => { var __ = ProviderFound(peer, queryCancel.Token).ConfigureAwait(false); }
+                    action: (peer) => { var __ = ProviderFoundAsync(peer, queryCancel.Token).ConfigureAwait(false); }
                 );
 
                 var got = await bitswapGet;
@@ -138,7 +138,7 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
-        async Task ProviderFound(Peer peer, CancellationToken cancel)
+        async Task ProviderFoundAsync(Peer peer, CancellationToken cancel)
         {
             if (cancel.IsCancellationRequested)
                 return;

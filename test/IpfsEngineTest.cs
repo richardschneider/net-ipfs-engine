@@ -36,13 +36,13 @@ namespace Ipfs.Engine
             var secret = "this is not a secure pass phrase";
             var ipfs = new IpfsEngine(secret.ToCharArray());
             ipfs.Options = TestFixture.Ipfs.Options;
-            await ipfs.KeyChain();
+            await ipfs.KeyChainAsync();
 
             var passphrase = new SecureString();
             foreach (var c in secret) passphrase.AppendChar(c);
             ipfs = new IpfsEngine(passphrase);
             ipfs.Options = TestFixture.Ipfs.Options;
-            await ipfs.KeyChain();
+            await ipfs.KeyChainAsync();
         }
 
         [TestMethod]
@@ -51,14 +51,14 @@ namespace Ipfs.Engine
             var secret = "this is not a secure pass phrase";
             var ipfs = new IpfsEngine(secret.ToCharArray());
             ipfs.Options = TestFixture.Ipfs.Options;
-            await ipfs.KeyChain();
+            await ipfs.KeyChainAsync();
 
             Environment.SetEnvironmentVariable("IPFS_PASS", secret);
             try
             {
                 ipfs = new IpfsEngine();
                 ipfs.Options = TestFixture.Ipfs.Options;
-                await ipfs.KeyChain();
+                await ipfs.KeyChainAsync();
             }
             finally
             {
@@ -70,7 +70,7 @@ namespace Ipfs.Engine
         public async Task Wrong_Passphrase()
         {
             var ipfs1 = TestFixture.Ipfs;
-            await ipfs1.KeyChain();
+            await ipfs1.KeyChainAsync();
 
             var ipfs2 = new IpfsEngine("the wrong pass phrase".ToCharArray())
             {
@@ -78,7 +78,7 @@ namespace Ipfs.Engine
             };
             ExceptionAssert.Throws<UnauthorizedAccessException>(() =>
             {
-                var _ = ipfs2.KeyChain().Result;
+                var _ = ipfs2.KeyChainAsync().Result;
             });
         }
 
@@ -167,8 +167,8 @@ namespace Ipfs.Engine
             var ipfs = TestFixture.Ipfs;
             Task<KeyChain>[] tasks = new Task<KeyChain>[]
             {
-                Task.Run(async () => await ipfs.KeyChain()),
-                Task.Run(async () => await ipfs.KeyChain())
+                Task.Run(async () => await ipfs.KeyChainAsync()),
+                Task.Run(async () => await ipfs.KeyChainAsync())
             };
             var r = await Task.WhenAll(tasks);
             Assert.AreSame(r[0], r[1]);
@@ -178,7 +178,7 @@ namespace Ipfs.Engine
         public async Task KeyChain_GetKey()
         {
             var ipfs = TestFixture.Ipfs;
-            var keyChain = await ipfs.KeyChain();
+            var keyChain = await ipfs.KeyChainAsync();
             var key = await keyChain.GetPrivateKeyAsync("self");
             Assert.IsNotNull(key);
             Assert.IsTrue(key.IsPrivate);

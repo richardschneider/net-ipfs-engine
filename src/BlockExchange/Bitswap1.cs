@@ -100,7 +100,7 @@ namespace Ipfs.Engine.BlockExchange
                 }
                 else
                 {
-                    block = await Bitswap.Want(cid, remotePeer.Id, cancel).ConfigureAwait(false);
+                    block = await Bitswap.WantAsync(cid, remotePeer.Id, cancel).ConfigureAwait(false);
                 }
 
                 // Send block to remote.

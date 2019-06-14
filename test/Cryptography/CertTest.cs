@@ -17,7 +17,7 @@ namespace Ipfs.Engine.Cryptography
         public async Task Create_Rsa()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var key = await ipfs.Key.CreateAsync("alice", "rsa", 512);
             try
             {
@@ -36,7 +36,7 @@ namespace Ipfs.Engine.Cryptography
         public async Task Create_Secp256k1()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var key = await ipfs.Key.CreateAsync("alice", "secp256k1", 0);
             try
             {
@@ -55,7 +55,7 @@ namespace Ipfs.Engine.Cryptography
         public async Task Create_Ed25519()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var key = await ipfs.Key.CreateAsync("alice", "ed25519", 0);
             try
             {

@@ -57,7 +57,7 @@ namespace Ipfs.Engine.CoreApi
             if (options.Trickle) throw new NotImplementedException("Trickle");
 
             var blockService = GetBlockService(options);
-            var keyChain = await ipfs.KeyChain(cancel).ConfigureAwait(false);
+            var keyChain = await ipfs.KeyChainAsync(cancel).ConfigureAwait(false);
 
             var chunker = new SizeChunker();
             var nodes = await chunker.ChunkAsync(stream, name, options, blockService, keyChain, cancel).ConfigureAwait(false);
@@ -255,8 +255,8 @@ namespace Ipfs.Engine.CoreApi
         public async Task<Stream> ReadFileAsync(string path, CancellationToken cancel = default(CancellationToken))
         {
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
-            var keyChain = await ipfs.KeyChain(cancel).ConfigureAwait(false);
-            return await FileSystem.CreateReadStream(cid, ipfs.Block, keyChain, cancel).ConfigureAwait(false);
+            var keyChain = await ipfs.KeyChainAsync(cancel).ConfigureAwait(false);
+            return await FileSystem.CreateReadStreamAsync(cid, ipfs.Block, keyChain, cancel).ConfigureAwait(false);
         }
 
         public async Task<Stream> ReadFileAsync(string path, long offset, long count = 0, CancellationToken cancel = default(CancellationToken))
@@ -317,7 +317,7 @@ namespace Ipfs.Engine.CoreApi
                 header.TypeFlag = TarHeader.LF_NORMAL;
                 header.Size = content.Length;
                 tar.PutNextEntry(entry);
-                content.CopyTo(tar);
+                await content.CopyToAsync(tar);
                 tar.CloseEntry();
             }
 

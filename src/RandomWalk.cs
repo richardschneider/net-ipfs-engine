@@ -113,7 +113,7 @@ namespace Ipfs.Engine
             using (var timeout = new CancellationTokenSource(QueryTime))
             using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel.Token))
             {
-                var _ = Dht.FindPeerAsync(id, cts.Token).Result;
+                var _ = Dht.FindPeerAsync(id, cts.Token).ConfigureAwait(false).GetAwaiter().GetResult();
             }
         }
 

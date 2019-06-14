@@ -41,7 +41,7 @@ namespace Ipfs.Engine.UnixFileSystem
         ///  The id's <see cref="Cid.ContentType"/> is used to determine how to read
         ///  the conent.
         /// </remarks>
-        public static Task<Stream> CreateReadStream(
+        public static Task<Stream> CreateReadStreamAsync(
             Cid id,
             IBlockApi blockService,
             KeyChain keyChain,
@@ -104,7 +104,7 @@ namespace Ipfs.Engine.UnixFileSystem
             CancellationToken cancel)
         {
             var block = await blockService.GetAsync(id, cancel).ConfigureAwait(false);
-            var plain = await keyChain.ReadProtectedData(block.DataBytes, cancel).ConfigureAwait(false);
+            var plain = await keyChain.ReadProtectedDataAsync(block.DataBytes, cancel).ConfigureAwait(false);
             return new MemoryStream(plain, false);
         }
     }

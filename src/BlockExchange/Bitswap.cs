@@ -129,7 +129,9 @@ namespace Ipfs.Engine.BlockExchange
 
         // When a connection is established
         // (1) Send the local peer's want list to the remote
+#pragma warning disable VSTHRD100 // Avoid async void methods
         async void Swarm_ConnectionEstablished(object sender, PeerConnection connection)
+#pragma warning restore VSTHRD100 // Avoid async void methods
         {
             try
             {

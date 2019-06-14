@@ -115,7 +115,7 @@ Rw==
             Assert.AreEqual("jsipfs", key.Name);
             Assert.AreEqual("QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb", key.Id);
 
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var pubkey = await keychain.GetPublicKeyAsync("jsipfs");
             Assert.AreEqual(spki, pubkey);
         }
@@ -187,7 +187,7 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
                 Assert.AreEqual(key.Name, clone.Name);
                 Assert.AreEqual(key.Id, clone.Id);
 
-                var keychain = await ipfs.KeyChain();
+                var keychain = await ipfs.KeyChainAsync();
                 var priv = await keychain.GetPrivateKeyAsync(name);
                 Assert.IsNotNull(priv);
                 var pub = await keychain.GetPublicKeyAsync(name);
@@ -227,7 +227,7 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
             Assert.AreEqual("ob1", key.Name);
             Assert.AreEqual("QmUUYGCaT2eYDH8RT7dJSM9zMexZGEnf6fMUy6nD9C31xZ", key.Id);
 
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var privateKey = await keychain.GetPrivateKeyAsync("ob1");
             Assert.IsInstanceOfType(privateKey, typeof(ECPrivateKeyParameters));
         }
@@ -341,7 +341,7 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
                 Assert.AreEqual(key.Name, clone.Name);
                 Assert.AreEqual(key.Id, clone.Id);
 
-                var keychain = await ipfs.KeyChain();
+                var keychain = await ipfs.KeyChainAsync();
                 var priv = await keychain.GetPrivateKeyAsync(name);
                 Assert.IsNotNull(priv);
                 var pub = await keychain.GetPublicKeyAsync(name);
@@ -388,7 +388,7 @@ MC4CAQAwBQYDK2VwBCIEIGJnyy3U4ksTQoRBz3mf1dxeFDPXZBrwh7gD7SqMg+/i
             Assert.AreEqual("oed1", key.Name);
             Assert.AreEqual("18n3naE9kBZoVvgYMV6saMZe3jn87dZiNbQ22BhxKTwU5yUoGfvBL1R3eScjokDGBk7i", key.Id);
 
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var privateKey = await keychain.GetPrivateKeyAsync("oed1");
             Assert.IsInstanceOfType(privateKey, typeof(Ed25519PrivateKeyParameters));
         }

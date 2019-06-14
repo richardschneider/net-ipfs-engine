@@ -15,7 +15,7 @@ namespace Ipfs.Engine.Cryptography
         public async Task ReadCms()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             string aliceKid = "QmNzBqPwp42HZJccsLtc4ok6LjZAspckgs2du5tTmjPfFA";
             string alice = @"-----BEGIN ENCRYPTED PRIVATE KEY-----
 MIICxjBABgkqhkiG9w0BBQ0wMzAbBgkqhkiG9w0BBQwwDgQIMhYqiVoLJMICAggA
@@ -65,7 +65,7 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
         public async Task ReadCms_FailsWithoutKey()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var cipher = Convert.FromBase64String(@"
 MIIBcwYJKoZIhvcNAQcDoIIBZDCCAWACAQAxgfowgfcCAQAwYDBbMQ0wCwYDVQQK
 EwRpcGZzMREwDwYDVQQLEwhrZXlzdG9yZTE3MDUGA1UEAxMuUW1OekJxUHdwNDJI
@@ -86,7 +86,7 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
         public async Task CreateCms_Rsa()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var key = await ipfs.Key.CreateAsync("alice", "rsa", 512);
             try
             {
@@ -105,7 +105,7 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
         public async Task CreateCms_Secp256k1()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var key = await ipfs.Key.CreateAsync("alice", "secp256k1", 0);
             try
             {
@@ -125,7 +125,7 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
         public async Task CreateCms_Ed25519()
         {
             var ipfs = TestFixture.Ipfs;
-            var keychain = await ipfs.KeyChain();
+            var keychain = await ipfs.KeyChainAsync();
             var key = await ipfs.Key.CreateAsync("alice", "ed25519", 0);
             try
             {

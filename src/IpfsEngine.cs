@@ -121,7 +121,7 @@ namespace Ipfs.Engine
             LocalPeer = new AsyncLazy<Peer>(async () =>
             {
                 log.Debug("Building local peer");
-                var keyChain = await KeyChain().ConfigureAwait(false);
+                var keyChain = await KeyChainAsync().ConfigureAwait(false);
                 log.Debug("Getting key info about self");
                 var self = await keyChain.FindKeyByNameAsync("self").ConfigureAwait(false);
                 var localPeer = new Peer
@@ -151,7 +151,7 @@ namespace Ipfs.Engine
                     }
                 }
                 var peer = await LocalPeer.ConfigureAwait(false);
-                var keyChain = await KeyChain().ConfigureAwait(false);
+                var keyChain = await KeyChainAsync().ConfigureAwait(false);
                 var self = await keyChain.GetPrivateKeyAsync("self").ConfigureAwait(false);
                 var swarm = new Swarm
                 {
@@ -271,8 +271,9 @@ namespace Ipfs.Engine
         ///   A task that represents the asynchronous operation. The task's result is
         ///   the <see cref="KeyChain"/>.
         /// </returns>
-        public async Task<KeyChain> KeyChain(CancellationToken cancel = default(CancellationToken))
+        public async Task<KeyChain> KeyChainAsync(CancellationToken cancel = default(CancellationToken))
         {
+            // TODO: this should be a LazyAsync property.
             if (keyChain == null)
             {
                 lock (this)
@@ -597,6 +598,7 @@ namespace Ipfs.Engine
         /// </summary>
         public AsyncLazy<PeerTalk.Routing.Dht1> DhtService { get; private set; }
 
+#pragma warning disable VSTHRD100 // Avoid async void methods
         /// <summary>
         ///   Fired when a peer is discovered.
         /// </summary>
@@ -606,6 +608,7 @@ namespace Ipfs.Engine
         ///   Registers the peer with the <see cref="SwarmService"/>.
         /// </remarks>
         async void OnPeerDiscovered(object sender, Peer peer)
+#pragma warning restore VSTHRD100 // Avoid async void methods
         {
             try
             {

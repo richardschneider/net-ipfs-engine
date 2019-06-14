@@ -15,7 +15,7 @@ namespace Ipfs.Engine.CoreApi
 {
     class DagApi : IDagApi
     {
-        static PODOptions podOptions = new PODOptions
+        static readonly PODOptions podOptions = new PODOptions
         (
             removeIsPrefix: false,
             useCamelCase: false
@@ -96,7 +96,7 @@ namespace Ipfs.Engine.CoreApi
             using (var sw = new StreamWriter(ms))
             using (var writer = new JsonTextWriter(sw))
             {
-                data.WriteTo(writer);
+                await data.WriteToAsync(writer);
                 writer.Flush();
                 ms.Position = 0;
                 var format = GetDataFormat(contentType);

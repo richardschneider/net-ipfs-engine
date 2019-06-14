@@ -317,7 +317,7 @@ namespace Ipfs.Engine.CoreApi
                 header.TypeFlag = TarHeader.LF_NORMAL;
                 header.Size = content.Length;
                 tar.PutNextEntry(entry);
-                content.CopyTo(tar);
+                await content.CopyToAsync(tar);
                 tar.CloseEntry();
             }
 

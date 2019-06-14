@@ -134,7 +134,7 @@ namespace Ipfs.Engine.UnixFileSystem
                 currentData = new byte[stream.Length];
                 for (int i = 0, n; i < stream.Length; i += n)
                 {
-                    n = stream.Read(currentData, i, (int) stream.Length - i);
+                    n = await stream.ReadAsync(currentData, i, (int) stream.Length - i);
                 }
             }
             int offset = (int)(position - currentBlock.Position);

@@ -365,7 +365,7 @@ namespace Ipfs.Engine.Cryptography
                 };
                 var pw = new PemWriter(sw);
                 pw.WriteObject(pkcs8);
-                pw.Writer.Flush();
+                await pw.Writer.FlushAsync();
                 pem = sw.ToString();
             }
 

@@ -1,6 +1,4 @@
-﻿#if !NETCOREAPP1_1 // TODO
-using ICSharpCode.SharpZipLib.Tar;
-#endif
+﻿using ICSharpCode.SharpZipLib.Tar;
 using Ipfs.CoreApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -762,7 +760,6 @@ namespace Ipfs.Engine
             }
         }
 
-#if !NETCOREAPP1_1 // TODO
         [TestMethod]
         public async Task GetTar()
         {
@@ -852,7 +849,6 @@ namespace Ipfs.Engine
                 Directory.Delete(temp, true);
             }
         }
-#endif
 
         [TestMethod]
         public async Task Isssue108()

@@ -4,27 +4,432 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
-      "type": "Conceptual",
-      "source_relative_path": "articles/async.md",
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap.yml",
       "output": {
         ".html": {
-          "relative_path": "articles/async.html",
-          "hash": "54CeUtT/a70P1z08hEXaPA=="
+          "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap.html",
+          "hash": "Z2hophwVw6prJ0xQHaLCtg=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "UidNotFound"
-      ],
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap1.html",
+          "hash": "V6pY3juIEfXi/HRsLw6fzw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap11.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap11.html",
+          "hash": "v9K/Lma+32uV2QYiA9wmew=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.CidEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.CidEventArgs.html",
+          "hash": "N8D5XXwegZ+4a29c1Jm/HQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.IBitswapProtocol.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.IBitswapProtocol.html",
+          "hash": "Ktf7qIoTHZuaQBg7TLpPjw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.WantedBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.WantedBlock.html",
+          "hash": "TwXG08prPgLxBzMO28RaKw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockExchange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockExchange.html",
+          "hash": "jzAt12YQa+7uDZLLTvujQw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.BlockOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.BlockOptions.html",
+          "hash": "bxoqMTg2G3gujiowgDgmXA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.KeyChain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.KeyChain.html",
+          "hash": "TGAnuZzW4yQIrA9X+rZPvw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.KeyChainDekOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.KeyChainDekOptions.html",
+          "hash": "zSMX41rUoDYmQVPxs2bd9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.KeyChainOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.KeyChainOptions.html",
+          "hash": "c1ylFSRdsda+PFpjGbGsgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.SecureStringExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.SecureStringExtensions.html",
+          "hash": "v6hUj5OfTyBlsvHMmCCVwg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.Cryptography.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.Cryptography.html",
+          "hash": "XP6DwG0OAVZiwAfaSouboQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.DiscoveryOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.DiscoveryOptions.html",
+          "hash": "yNnrlM0BlnVKmQEuLVnTVA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.FileStore-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.FileStore-2.html",
+          "hash": "I8n3csalaxEj1xqGMyPcUA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.IpfsEngine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.IpfsEngine.html",
+          "hash": "8iAeXxAGvWbKccP5zpHHeQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.IpfsEngineOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.IpfsEngineOptions.html",
+          "hash": "8cItnCW+Z/NFTYyZa6ccQw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.LinkedData.CborFormat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.LinkedData.CborFormat.html",
+          "hash": "vfxyvXit2G9W2QaTbA4spQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.LinkedData.ILinkedDataFormat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.LinkedData.ILinkedDataFormat.html",
+          "hash": "AUZLyjFWm+aHcAN1icSuMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.LinkedData.IpldRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.LinkedData.IpldRegistry.html",
+          "hash": "56hdEsUjVqrfj0hxZAAGHw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.LinkedData.ProtobufFormat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.LinkedData.ProtobufFormat.html",
+          "hash": "dT/eVcG7/cVFJw/y1Nnl8Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.LinkedData.RawFormat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.LinkedData.RawFormat.html",
+          "hash": "daqaD5rxoG5TQTowz1qtCA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.LinkedData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.LinkedData.html",
+          "hash": "qs2ryjXcHM2mTJEtm1Cd1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.RandomWalk.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.RandomWalk.html",
+          "hash": "upZL2g35ZluB/vaSOPyhXA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.RepositoryOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.RepositoryOptions.html",
+          "hash": "F22vfFAx6325E5UFmnbMRg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.SwarmOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.SwarmOptions.html",
+          "hash": "3PGZLg7VlBQ2xirD0N0pxw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.ChunkedStream.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.ChunkedStream.html",
+          "hash": "pb5U/6uqlAv7edeb+g2/vg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystem.html",
+          "hash": "v1uH7pL6Co+2c2+d+++r+Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystemLink.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html",
+          "hash": "RRwqX14Z3uiYFH4a4btbQg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystemNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.FileSystemNode.html",
+          "hash": "u41n11dwQFjQhKLO5uEing=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.SizeChunker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.SizeChunker.html",
+          "hash": "gWfp+U4Q/MjjC/tSSqTl9Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.UnixFileSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.UnixFileSystem.html",
+          "hash": "FcOhGaHT/uJ0E/br3a6X/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Ipfs.Engine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Ipfs.Engine.html",
+          "hash": "yMMmhk9fj0kKiITTVpdrdQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "NbrBFAyfzj8l3baMLFfrEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/async.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/async.html",
+          "hash": "BUYRhh2S60p1nF104YYtVg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "articles/bootstrap.md",
       "output": {
         ".html": {
           "relative_path": "articles/bootstrap.html",
-          "hash": "qymNZNGza/P1KOJ4fD/q8Q=="
+          "hash": "fZxLIp4FznJpPL2d+Yz4TQ=="
         }
       },
       "is_incremental": false,
@@ -36,22 +441,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/cancellation.html",
-          "hash": "H+N0NpgxjAxJG9NM8EyDxA=="
+          "hash": "zcpyViBxf969DjJ7sraezg=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "UidNotFound"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/core-api.md",
       "output": {
         ".html": {
           "relative_path": "articles/core-api.html",
-          "hash": "IkUknym3RBEEBUCmLjuTrQ=="
+          "hash": "uiGg3Dx84z8JX66SiXPOiA=="
         }
       },
       "is_incremental": false,
@@ -63,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/disco.html",
-          "hash": "YQfbI0FFdZau+y1nKLPjcQ=="
+          "hash": "F+VSIQzSx5CEoNZXtumfKg=="
         }
       },
       "is_incremental": false,
@@ -75,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/envvars.html",
-          "hash": "k/2VA/gXmSbV3kztpgfdEA=="
+          "hash": "yNyGPWRbF1NIvqahno+Nvg=="
         }
       },
       "is_incremental": false,
@@ -87,7 +489,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/filesystem.html",
-          "hash": "GNIHlQ/9nDA8ZCIxEXqa0A=="
+          "hash": "+UGsWn/bSKGKlVs7+9bLFQ=="
         }
       },
       "is_incremental": false,
@@ -99,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/fs/cid-only.html",
-          "hash": "uPZ5EbsNirZzKW7AoxhPZQ=="
+          "hash": "PeAH1V0+r8O+7FiOMl6Xmg=="
         }
       },
       "is_incremental": false,
@@ -111,7 +513,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/fs/encryption.html",
-          "hash": "gJrplpxHKqcvgCfhyhVHGQ=="
+          "hash": "dgMCaSusnE33vzBgBvU3lA=="
         }
       },
       "is_incremental": false,
@@ -123,7 +525,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/fs/format.html",
-          "hash": "u9keiBVpZGlhm9TlvOq3RQ=="
+          "hash": "9voFiY/h6b4Zlk5xhSsauw=="
         }
       },
       "is_incremental": false,
@@ -135,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/fs/raw.html",
-          "hash": "dbq5iQnaH9rjNzwD085nqA=="
+          "hash": "ooT/CV8bcrspur+vY4YRKQ=="
         }
       },
       "is_incremental": false,
@@ -147,22 +549,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/fs/wrap.html",
-          "hash": "nJ8TeF3JKTOyzMXtqTX/ZQ=="
+          "hash": "H79SFNSDuwkWv8tQE0c34A=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "UidNotFound"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/intro-ipfs.md",
       "output": {
         ".html": {
           "relative_path": "articles/intro-ipfs.html",
-          "hash": "fKDf5XWVXH3toOPVthQODA=="
+          "hash": "YenqTOKw9MncnqeS2fFUiQ=="
         }
       },
       "is_incremental": false,
@@ -174,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro-start.html",
-          "hash": "Eipo4hkUgqKvUzX4QVcYyQ=="
+          "hash": "qYJhU7Unq7N/dbjSuKGM9g=="
         }
       },
       "is_incremental": false,
@@ -186,22 +585,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "C5soIEMLR8lWu7TB2vZC/A=="
+          "hash": "9vtMChGNg4QWmhhai+UR4g=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "UidNotFound"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/key.md",
       "output": {
         ".html": {
           "relative_path": "articles/key.html",
-          "hash": "YJDQMXhpuIuS7Q4S4IPMhQ=="
+          "hash": "d2kia5sNEqQEZFKEUVl9yg=="
         }
       },
       "is_incremental": false,
@@ -213,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/local-peer.html",
-          "hash": "Oasl72IS/zbdUCs4nMZYPQ=="
+          "hash": "62/uYYZyNFciSKYIBz/PxQ=="
         }
       },
       "is_incremental": false,
@@ -225,22 +621,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/peer.html",
-          "hash": "vW6StwpayJJXrdlAa8njYA=="
+          "hash": "i0DytiKOJXpXqfUaM0rUiQ=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "UidNotFound"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/pnet.md",
       "output": {
         ".html": {
           "relative_path": "articles/pnet.html",
-          "hash": "P4Dr4ukwafu83TQ/ZbnUJg=="
+          "hash": "mlwEUF3h41YqWWRrnIMwPQ=="
         }
       },
       "is_incremental": false,
@@ -252,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/pubsub.html",
-          "hash": "3P6X3rhUPf84SkI76V9QHQ=="
+          "hash": "bJDf7qDD/YQu4wXV68TsXw=="
         }
       },
       "is_incremental": false,
@@ -264,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/pubsub/dupmsg.html",
-          "hash": "6aW7JsgQY+dM4cdYAfR4rg=="
+          "hash": "NnZfsOEWwOkbigupwOH6Sw=="
         }
       },
       "is_incremental": false,
@@ -276,7 +669,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/pubsub/encrypt.html",
-          "hash": "88fLKoKluK+OXcGEMrE5nQ=="
+          "hash": "2kGz0HkhyMjDPD3PV4GEaQ=="
         }
       },
       "is_incremental": false,
@@ -288,7 +681,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/pubsub/sign.html",
-          "hash": "QH7xR8gM/wq8ncx3BTWgNQ=="
+          "hash": "+F+Ci2tujF7zUqGnpa4Ghw=="
         }
       },
       "is_incremental": false,
@@ -300,7 +693,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/questions.html",
-          "hash": "97fJpo5GFYE29N4pHuqhbA=="
+          "hash": "GKN87h1r6XLudlS7vkIO3Q=="
         }
       },
       "is_incremental": false,
@@ -312,7 +705,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/repo/block.html",
-          "hash": "RjtLF0+m38k78+rtnQZZFQ=="
+          "hash": "YPQ2RpRKkPrhxsL8Br3W0w=="
         }
       },
       "is_incremental": false,
@@ -324,7 +717,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/repo/config.html",
-          "hash": "TRZE7XhC20MzeAZpky4VXg=="
+          "hash": "iwruLOGhZl5brwP9mkPx1A=="
         }
       },
       "is_incremental": false,
@@ -336,37 +729,31 @@
       "output": {
         ".html": {
           "relative_path": "articles/repo/key.html",
-          "hash": "0jSSZ4T53oWs0d7uYWC1OQ=="
+          "hash": "mXmZA5cV0/y1197AV2JFKg=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "UidNotFound"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/repository.md",
       "output": {
         ".html": {
           "relative_path": "articles/repository.html",
-          "hash": "YQvD93iru26BJG5iwUOK2Q=="
+          "hash": "rx6wy6ehp6uEtOsVrmZPvA=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Toc",
       "source_relative_path": "articles/toc.yml",
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "sd5OcGeM1VCHuLoGZUSMUA=="
+          "hash": "rt3SVVXXsc+b6aUQBbtMvA=="
         }
       },
       "is_incremental": false,
@@ -428,15 +815,12 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "3b/Ru1cSeqq3YMnHurAnKA=="
+          "hash": "0pQhhwrZ7jpUh/KFfUNXxQ=="
         }
       },
       "is_incremental": false,
@@ -448,7 +832,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "0cBcHzMxt08mc+iXuAr+Ug=="
+          "hash": "sy0TY583Z08I4RPkVQ7nUg=="
         }
       },
       "is_incremental": false,
@@ -477,6 +861,12 @@
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 29,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 33,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {

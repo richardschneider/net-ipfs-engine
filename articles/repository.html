@@ -8,7 +8,7 @@
     <title>Repository | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Repository | IPFS Engine documentation ">
-    <meta name="generator" content="docfx 2.43.0.0">
+    <meta name="generator" content="docfx 2.42.0.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -70,15 +70,15 @@
 <h1 id="repository">Repository</h1>
 
 <p>The repository is a local persistent store for IPFS data. By default, it is located 
-at <code>$HOME/.csipfs</code>.  If not present, the <a href="xref:Ipfs.Engine.IpfsEngine">IPFS Engine</a> 
+at <code>$HOME/.csipfs</code>.  If not present, the <a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html">IPFS Engine</a> 
 will create it with the factory defaults.</p>
 <p>To change its name and/or location use the <a href="envvars.html">environment variables</a> 
-or the <a href="xref:Ipfs.Engine.RepositoryOptions">Repository Options</a>.</p>
+or the <a class="xref" href="../api/Ipfs.Engine.RepositoryOptions.html">Repository Options</a>.</p>
 <h2 id="creating">Creating</h2>
 <p>The repository will be automatically created if it does not already exist.  </p>
 <p>At creation time 
 a <a href="key.html">cryptograhic key</a> named <code>self</code> is created and is used to uniquely identify this node 
-in the IPFS network.  The <a href="xref:Ipfs.Engine.Cryptography.KeyChainOptions">keychain options</a> are used to control the type of key that 
+in the IPFS network.  The <a class="xref" href="../api/Ipfs.Engine.Cryptography.KeyChainOptions.html">keychain options</a> are used to control the type of key that 
 is generated; by default it is RSA with 2048 bits.</p>
 <h2 id="contents">Contents</h2>
 <table>
@@ -92,27 +92,27 @@ is generated; by default it is RSA with 2048 bits.</p>
 <tbody>
 <tr>
 <td>config</td>
-<td><a href="xref:Ipfs.Engine.IpfsEngine.Config">Config API</a></td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Config">Config API</a></td>
 <td>The <a href="repo/config.html">configuration</a> information</td>
 </tr>
 <tr>
 <td>blocks</td>
-<td><a href="xref:Ipfs.Engine.IpfsEngine.Block">Block API</a></td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Block">Block API</a></td>
 <td>A <a href="repo/block.html">Block</a> of data</td>
 </tr>
 <tr>
 <td>keys</td>
-<td><a href="xref:Ipfs.Engine.IpfsEngine.Key">Key API</a></td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Key">Key API</a></td>
 <td>Cryptographic <a href="repo/key.html">keys</a></td>
 </tr>
 <tr>
 <td>pins</td>
-<td><a href="xref:Ipfs.Engine.IpfsEngine.Pin">Pin API</a></td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Pin">Pin API</a></td>
 <td>A <a href="repo/block.html">Block</a> that is pinned to the local repository</td>
 </tr>
 <tr>
 <td>swarm.key</td>
-<td><a href="xref:Ipfs.Engine.IpfsEngine.Swarm">Swarmp API</a></td>
+<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Swarm">Swarmp API</a></td>
 <td>The <a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.Cryptography.PreSharedKey.html">key</a> of the <a href="pnet.html">private network</a></td>
 </tr>
 </tbody>

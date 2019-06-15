@@ -5,7 +5,8 @@
     <AssemblyName>Ipfs.Engine</AssemblyName>
     <RootNamespace>Ipfs.Engine</RootNamespace>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    
     <!-- Needed for snupkg -->
     <DebugType>portable</DebugType>
 
@@ -23,9 +24,8 @@
     <Copyright>© 2018-2019 Richard Schneider</Copyright>
     <PackageTags>ipfs peer-to-peer p2p distributed file-system web</PackageTags>
     <IncludeSymbols>True</IncludeSymbols>
-    <PackageLicenseUrl>https://github.com/richardschneider/net-ipfs-engine/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-engine</PackageProjectUrl>
-    <PackageIconUrl>https://github.com/ipfs/logo/blob/master/platform-icons/osx-menu-bar.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/richardschneider/net-ipfs-core/master/doc/images/ipfs-cs-logo-64x64.png</PackageIconUrl>
 
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

@@ -5,7 +5,8 @@
     <AssemblyName>Ipfs.Engine</AssemblyName>
     <RootNamespace>Ipfs.Engine</RootNamespace>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    
     <!-- Needed for snupkg -->
     <DebugType>portable</DebugType>
 

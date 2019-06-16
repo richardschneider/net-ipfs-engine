@@ -137,7 +137,7 @@ namespace Ipfs.Engine
                 RawLeaves = true
             };
             var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
-            Assert.AreEqual("zCT5htkdzN4Q7EX2HUVByjuB7bgYszUosExP2iTMSLoSCsZDNHfm", (string)node.Id);
+            Assert.AreEqual("bafk2bzaceaswza5ss4iu2ia3galz6pyo6dfm5f4dmiw2lf2de22dmf4k533ba", (string)node.Id);
 
             var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
             Assert.AreEqual("hello world", text);
@@ -263,7 +263,7 @@ namespace Ipfs.Engine
                 RawLeaves = true
             };
             var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
-            Assert.AreEqual("zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn", (string)node.Id);
+            Assert.AreEqual("bafkreifzjut3te2nhyekklss27nh3k72ysco7y32koao5eei66wof36n5e", (string)node.Id);
             Assert.AreEqual(11, node.Size);
             Assert.AreEqual(0, node.Links.Count());
             Assert.AreEqual(false, node.IsDirectory);
@@ -287,7 +287,7 @@ namespace Ipfs.Engine
                 Assert.AreEqual(4, node.Size);
                 Assert.AreEqual(0, node.Links.Count());
                 Assert.AreEqual(false, node.IsDirectory);
-                Assert.AreEqual("zBJ95gnTvsVtx49wHb2LGj", node.Id.Encode());
+                Assert.AreEqual("bafyaadakbieaeeqenbuxsyiyaq", node.Id.Encode());
                 var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
                 Assert.AreEqual("hiya", text);
             }
@@ -311,10 +311,10 @@ namespace Ipfs.Engine
             Assert.AreEqual("QmUuooB6zEhMmMaBvMhsMaUzar5gs5KwtVSFqG4C1Qhyhs", (string)node.Id);
             Assert.AreEqual(false, node.IsDirectory);
             Assert.AreEqual(4, links.Length);
-            Assert.AreEqual("zb2rhm6D8PTYoMh7PSFKbCxxcD1yjWPD5KPr6nVRuw9ymDyUL", (string)links[0].Id);
-            Assert.AreEqual("zb2rhgo7y6J7p76kCrXs4pmmMQx56fZeWJkC3sfbjeay4UruU", (string)links[1].Id);
-            Assert.AreEqual("zb2rha4Pd2AruByr2RwzhRCVxRCqBC67h7ukTJd99jCjUtmyM", (string)links[2].Id);
-            Assert.AreEqual("zb2rhn6eZLLj7vdVizbNxpASGoVw4vcSmc8avHXmDMVu5ZA6Q", (string)links[3].Id);
+            Assert.AreEqual("bafkreigwvapses57f56cfow5xvoua4yowigpwcz5otqqzk3bpcbbjswowe", (string)links[0].Id);
+            Assert.AreEqual("bafkreiew3cvfrp2ijn4qokcp5fqtoknnmr6azhzxovn6b3ruguhoubkm54", (string)links[1].Id);
+            Assert.AreEqual("bafkreibsybcn72tquh2l5zpim2bba4d2kfwcbpzuspdyv2breaq5efo7tq", (string)links[2].Id);
+            Assert.AreEqual("bafkreihfuch72plvbhdg46lef3n5zwhnrcjgtjywjryyv7ffieyedccchu", (string)links[3].Id);
 
             var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
             Assert.AreEqual("hello world", text);

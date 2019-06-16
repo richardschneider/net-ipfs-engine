@@ -23,6 +23,11 @@ namespace Ipfs.Engine.CoreApi
             return await bs.WantAsync(id, peer.Id, cancel).ConfigureAwait(false);
         }
 
+        public Task<BitswapLedger> LedgerAsync(Peer peer, CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UnwantAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
             (await ipfs.BitswapService.ConfigureAwait(false)).Unwant(id);

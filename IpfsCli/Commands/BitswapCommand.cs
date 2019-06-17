@@ -10,6 +10,7 @@ namespace Ipfs.Cli
     [Command(Description = "Manage swapped blocks")]
     [Subcommand("wantlist", typeof(BitswapWantListCommand))]
     [Subcommand("unwant", typeof(BitswapUnwantCommand))]
+    [Subcommand("ledger", typeof(BitswapLedgerCommand))]
     class BitswapCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -57,4 +58,21 @@ namespace Ipfs.Cli
         }
     }
 
+    [Command(Description = "Show the current ledger for a peer")]
+    class BitswapLedgerCommand : CommandBase
+    {
+        [Argument(0, "peerid", "The PeerID (B58) of the ledger to inspect")]
+        [Required]
+        public string PeerId { get; set; }
+
+        BitswapCommand Parent { get; set; }
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            var Program = Parent.Parent;
+            var peer = new Peer { Id = PeerId };
+            var ledger = await Program.CoreApi.Bitswap.LedgerAsync(peer);
+            return Program.Output(app, ledger, null);
+        }
+    }
 }

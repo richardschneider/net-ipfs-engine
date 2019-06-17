@@ -119,7 +119,7 @@ namespace Ipfs.Server.HttpApi.V0
         ///   The blocks that are needed by a peer.
         /// </summary>
         /// <param name="arg">
-        ///   A peer ID or empty for self.
+        ///   A peer ID.
         /// </param>
         [HttpGet, HttpPost, Route("bitswap/ledger")]
         public async Task<BitswapLedgerDto> Ledger(string arg)

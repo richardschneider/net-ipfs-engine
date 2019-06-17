@@ -178,12 +178,17 @@ namespace Ipfs.Engine.CoreApi
                 };
             }
 
+            // CID V1 encoding defaulting to base32 which is not
+            // the multibase default. 
             var cid = new Cid
             {
                 ContentType = contentType,
-                Encoding = encoding,
                 Hash = MultiHash.ComputeHash(data, multiHash)
             };
+            if (encoding != "base58btc")
+            {
+                cid.Encoding = encoding;
+            }
             var block = new DataBlock
             {
                 DataBytes = data,

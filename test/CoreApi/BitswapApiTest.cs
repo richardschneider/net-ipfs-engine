@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ipfs.Engine.BlockExchange;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
@@ -148,6 +149,22 @@ namespace Ipfs.Engine
                 Assert.IsTrue(getTask.IsCompleted, "task not completed");
                 Assert.AreEqual(cid, block.Id);
                 CollectionAssert.AreEqual(data, block.DataBytes);
+
+                var otherPeer = await ipfsOther.LocalPeer;
+                var ledger = await ipfs.Bitswap.LedgerAsync(otherPeer);
+                Assert.AreEqual(otherPeer, ledger.Peer);
+                Assert.AreNotEqual(0UL, ledger.BlocksExchanged);
+                Assert.AreNotEqual(0UL, ledger.DataReceived);
+                Assert.AreEqual(0UL, ledger.DataSent);
+                Assert.IsTrue(ledger.IsInDebt);
+
+                var localPeer = await ipfs.LocalPeer;
+                ledger = await ipfsOther.Bitswap.LedgerAsync(localPeer);
+                Assert.AreEqual(localPeer, ledger.Peer);
+                Assert.AreNotEqual(0UL, ledger.BlocksExchanged);
+                Assert.AreEqual(0UL, ledger.DataReceived);
+                Assert.AreNotEqual(0UL, ledger.DataSent);
+                Assert.IsFalse(ledger.IsInDebt);
             }
             finally
             {
@@ -156,6 +173,142 @@ namespace Ipfs.Engine
 
                 ipfs.Options.Discovery = new DiscoveryOptions();
                 ipfsOther.Options.Discovery = new DiscoveryOptions();
+            }
+        }
+
+        [TestMethod]
+        public async Task GetsBlock_OnConnect_Bitswap1()
+        {
+            var originalProtocols = (await ipfs.BitswapService).Protocols;
+            var otherOriginalProtocols = (await ipfsOther.BitswapService).Protocols;
+
+            (await ipfs.BitswapService).Protocols = new IBitswapProtocol[]
+            {
+                new Bitswap1 { Bitswap = (await ipfs.BitswapService) }
+            };
+            ipfs.Options.Discovery.DisableMdns = true;
+            ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+            await ipfs.StartAsync();
+
+            (await ipfsOther.BitswapService).Protocols = new IBitswapProtocol[]
+            {
+                new Bitswap1 { Bitswap = (await ipfsOther.BitswapService) }
+            };
+            ipfsOther.Options.Discovery.DisableMdns = true;
+            ipfsOther.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+            await ipfsOther.StartAsync();
+            try
+            {
+                var data = Guid.NewGuid().ToByteArray();
+                var cid = await ipfsOther.Block.PutAsync(data);
+
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var getTask = ipfs.Block.GetAsync(cid, cts.Token);
+
+                var remote = await ipfsOther.LocalPeer;
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First(), cts.Token);
+                var block = await getTask;
+
+                Assert.IsFalse(getTask.IsCanceled, "task cancelled");
+                Assert.IsFalse(getTask.IsFaulted, "task faulted");
+                Assert.IsTrue(getTask.IsCompleted, "task not completed");
+                Assert.AreEqual(cid, block.Id);
+                CollectionAssert.AreEqual(data, block.DataBytes);
+
+                var otherPeer = await ipfsOther.LocalPeer;
+                var ledger = await ipfs.Bitswap.LedgerAsync(otherPeer);
+                Assert.AreEqual(otherPeer, ledger.Peer);
+                Assert.AreNotEqual(0UL, ledger.BlocksExchanged);
+                Assert.AreNotEqual(0UL, ledger.DataReceived);
+                Assert.AreEqual(0UL, ledger.DataSent);
+                Assert.IsTrue(ledger.IsInDebt);
+
+                var localPeer = await ipfs.LocalPeer;
+                ledger = await ipfsOther.Bitswap.LedgerAsync(localPeer);
+                Assert.AreEqual(localPeer, ledger.Peer);
+                Assert.AreNotEqual(0UL, ledger.BlocksExchanged);
+                Assert.AreEqual(0UL, ledger.DataReceived);
+                Assert.AreNotEqual(0UL, ledger.DataSent);
+                Assert.IsFalse(ledger.IsInDebt);
+            }
+            finally
+            {
+                await ipfsOther.StopAsync();
+                await ipfs.StopAsync();
+
+                ipfs.Options.Discovery = new DiscoveryOptions();
+                ipfsOther.Options.Discovery = new DiscoveryOptions();
+
+                (await ipfs.BitswapService).Protocols = originalProtocols;
+                (await ipfsOther.BitswapService).Protocols = otherOriginalProtocols;
+            }
+        }
+
+        [TestMethod]
+        public async Task GetsBlock_OnConnect_Bitswap11()
+        {
+            var originalProtocols = (await ipfs.BitswapService).Protocols;
+            var otherOriginalProtocols = (await ipfsOther.BitswapService).Protocols;
+
+            (await ipfs.BitswapService).Protocols = new IBitswapProtocol[]
+            {
+                new Bitswap11 { Bitswap = (await ipfs.BitswapService) }
+            };
+            ipfs.Options.Discovery.DisableMdns = true;
+            ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+            await ipfs.StartAsync();
+
+            (await ipfsOther.BitswapService).Protocols = new IBitswapProtocol[]
+            {
+                new Bitswap11 { Bitswap = (await ipfsOther.BitswapService) }
+            };
+            ipfsOther.Options.Discovery.DisableMdns = true;
+            ipfsOther.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+            await ipfsOther.StartAsync();
+            try
+            {
+                var data = Guid.NewGuid().ToByteArray();
+                var cid = await ipfsOther.Block.PutAsync(data);
+
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var getTask = ipfs.Block.GetAsync(cid, cts.Token);
+
+                var remote = await ipfsOther.LocalPeer;
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First(), cts.Token);
+                var block = await getTask;
+
+                Assert.IsFalse(getTask.IsCanceled, "task cancelled");
+                Assert.IsFalse(getTask.IsFaulted, "task faulted");
+                Assert.IsTrue(getTask.IsCompleted, "task not completed");
+                Assert.AreEqual(cid, block.Id);
+                CollectionAssert.AreEqual(data, block.DataBytes);
+
+                var otherPeer = await ipfsOther.LocalPeer;
+                var ledger = await ipfs.Bitswap.LedgerAsync(otherPeer);
+                Assert.AreEqual(otherPeer, ledger.Peer);
+                Assert.AreNotEqual(0UL, ledger.BlocksExchanged);
+                Assert.AreNotEqual(0UL, ledger.DataReceived);
+                Assert.AreEqual(0UL, ledger.DataSent);
+                Assert.IsTrue(ledger.IsInDebt);
+
+                var localPeer = await ipfs.LocalPeer;
+                ledger = await ipfsOther.Bitswap.LedgerAsync(localPeer);
+                Assert.AreEqual(localPeer, ledger.Peer);
+                Assert.AreNotEqual(0UL, ledger.BlocksExchanged);
+                Assert.AreEqual(0UL, ledger.DataReceived);
+                Assert.AreNotEqual(0UL, ledger.DataSent);
+                Assert.IsFalse(ledger.IsInDebt);
+            }
+            finally
+            {
+                await ipfsOther.StopAsync();
+                await ipfs.StopAsync();
+
+                ipfs.Options.Discovery = new DiscoveryOptions();
+                ipfsOther.Options.Discovery = new DiscoveryOptions();
+
+                (await ipfs.BitswapService).Protocols = originalProtocols;
+                (await ipfsOther.BitswapService).Protocols = otherOriginalProtocols;
             }
         }
 
@@ -215,6 +368,7 @@ namespace Ipfs.Engine
                 await ipfs.StopAsync();
             }
         }
+
         [TestMethod]
         public async Task GetBlock_Timeout()
         {
@@ -230,6 +384,22 @@ namespace Ipfs.Engine
                 });
 
                 Assert.AreEqual(0, (await ipfs.Bitswap.WantsAsync()).Count());
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task PeerLedger()
+        {
+            await ipfs.StartAsync();
+            try
+            {
+                var peer = await ipfsOther.LocalPeer;
+                var ledger = await ipfs.Bitswap.LedgerAsync(peer);
+                Assert.IsNotNull(ledger);
             }
             finally
             {

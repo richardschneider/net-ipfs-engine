@@ -19,7 +19,7 @@ namespace Ipfs.Engine
         public async Task Get_Raw()
         {
             var cid = await ipfs.Block.PutAsync(blob, contentType: "raw");
-            Assert.AreEqual("zb2rhYDhWhxyHN6HFAKGvHnLogYfnk9KvzBUZvCg7sYhS22N8", (string)cid);
+            Assert.AreEqual("bafkreiaxnnnb7qz2focittuqq3ya25q7rcv3bqynnczfzako47346wosmu", (string)cid);
 
             var dag = await ipfs.Dag.GetAsync(cid);
             Assert.AreEqual(blob64, (string) dag["data"]);
@@ -42,7 +42,7 @@ namespace Ipfs.Engine
         {
             var expected = new JObject();
             expected["a"] = "alpha";
-            var expectedId = "zdpuAyZWTqKMMn76eAAdDoL5nSdwZfSBRn5cSb2L4NALcWcyS";
+            var expectedId = "bafyreigdhej736dobd6z3jt2vxsxvbwrwgyts7e7wms6yrr46rp72uh5bu";
             var id = await ipfs.Dag.PutAsync(expected);
             Assert.IsNotNull(id);
             Assert.AreEqual(expectedId, (string)id);
@@ -110,7 +110,7 @@ namespace Ipfs.Engine
         {
             var data = Encoding.UTF8.GetBytes("abc");
             var id = await ipfs.Block.PutAsync(data, "raw");
-            Assert.AreEqual("zb2rhjCBERUodVMcKTiFjjbWP12nfh2nNKKcpDNHeQPReWC2G", id.Encode());
+            Assert.AreEqual("bafkreif2pall7dybz7vecqka3zo24irdwabwdi4wc55jznaq75q7eaavvu", id.Encode());
 
             var actual = await ipfs.Dag.GetAsync(id);
             Assert.AreEqual(Convert.ToBase64String(data), (string)actual["data"]);

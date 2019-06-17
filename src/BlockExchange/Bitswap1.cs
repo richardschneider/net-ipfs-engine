@@ -80,10 +80,7 @@ namespace Ipfs.Engine.BlockExchange
                 log.Debug("got some blocks");
                 foreach (var sentBlock in request.blocks)
                 {
-                    ++Bitswap.BlocksReceived;
-                    Bitswap.DataReceived += (ulong)sentBlock.Length;
-                    await Bitswap.BlockService.PutAsync(sentBlock, pin: false).ConfigureAwait(false);
-                    // TODO: Detect if duplicate and update stats
+                    await Bitswap.OnBlockReceivedAsync(connection.RemotePeer, sentBlock);
                 }
             }
         }
@@ -108,7 +105,7 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     await SendAsync(stream, block, cancel).ConfigureAwait(false);
                 }
-
+                await Bitswap.OnBlockSentAsync(remotePeer, block);
             }
             catch (Exception e)
             {
@@ -152,8 +149,6 @@ namespace Ipfs.Engine.BlockExchange
             )
         {
             log.Debug($"Sending block {block.Id}");
-            ++Bitswap.BlocksSent;
-            Bitswap.DataSent += (ulong)block.Size;
 
             var message = new Message
             {

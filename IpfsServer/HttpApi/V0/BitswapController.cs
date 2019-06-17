@@ -135,5 +135,7 @@ namespace Ipfs.Server.HttpApi.V0
                 Value = ledger.DebtRatio
             };
         }
+
+        // "bitswap/stat" is handled by the StatsController.
     }
 }

@@ -91,7 +91,7 @@ namespace Ipfs.Server.HttpApi.V0
         /// <summary>
         ///   Get bitswap information.
         /// </summary>
-        [HttpGet, HttpPost, Route("stats/bitswap")]
+        [HttpGet, HttpPost, Route("stats/bitswap"), Route("bitswap/stat")]
         public async Task<StatsBitswapDto> Bitswap()
         {
             Response.Headers.Add("X-Chunked-Output", "1");

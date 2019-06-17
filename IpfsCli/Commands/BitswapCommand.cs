@@ -11,6 +11,7 @@ namespace Ipfs.Cli
     [Subcommand("wantlist", typeof(BitswapWantListCommand))]
     [Subcommand("unwant", typeof(BitswapUnwantCommand))]
     [Subcommand("ledger", typeof(BitswapLedgerCommand))]
+    [Subcommand("stat", typeof(BitswapStatCommand))]
     class BitswapCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -75,4 +76,19 @@ namespace Ipfs.Cli
             return Program.Output(app, ledger, null);
         }
     }
+
+    [Command(Description = "Show bitswap information")]
+    class BitswapStatCommand : CommandBase
+    {
+        BitswapCommand Parent { get; set; }
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            var Program = Parent.Parent;
+
+            var stats = await Program.CoreApi.Stats.BitswapAsync();
+            return Program.Output(app, stats, null);
+        }
+    }
+
 }

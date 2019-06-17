@@ -122,7 +122,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap__ctor.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L66">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L74">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap__ctor_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.#ctor*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap__ctor" data-uid="Ipfs.Engine.BlockExchange.Bitswap.#ctor">Bitswap()</h4>
@@ -137,18 +137,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_BlocksReceived.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.BlocksReceived%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Protocols.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Protocols%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L28">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L31">View Source</a>
   </span>
-  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_BlocksReceived" data-uid="Ipfs.Engine.BlockExchange.Bitswap.BlocksReceived">BlocksReceived</h4>
-  <div class="markdown level1 summary"><p>The number of blocks sent by other peers.</p>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Protocols" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Protocols">Protocols</h4>
+  <div class="markdown level1 summary"><p>The supported bitswap protocols.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ulong BlocksReceived</code></pre>
+    <pre><code class="lang-csharp hljs">public IBitswapProtocol[] Protocols</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -160,169 +160,12 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint64">UInt64</a></td>
-        <td></td>
+        <td><a class="xref" href="Ipfs.Engine.BlockExchange.IBitswapProtocol.html">IBitswapProtocol</a>[]</td>
+        <td><p>Defaults to <a class="xref" href="Ipfs.Engine.BlockExchange.Bitswap11.html">Bitswap11</a> and <a class="xref" href="Ipfs.Engine.BlockExchange.Bitswap1.html">Bitswap1</a>.</p>
+</td>
       </tr>
     </tbody>
   </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_BlocksSent.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.BlocksSent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L38">View Source</a>
-  </span>
-  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_BlocksSent" data-uid="Ipfs.Engine.BlockExchange.Bitswap.BlocksSent">BlocksSent</h4>
-  <div class="markdown level1 summary"><p>The number of blocks sent to other peers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ulong BlocksSent</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint64">UInt64</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_DataReceived.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.DataReceived%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L33">View Source</a>
-  </span>
-  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_DataReceived" data-uid="Ipfs.Engine.BlockExchange.Bitswap.DataReceived">DataReceived</h4>
-  <div class="markdown level1 summary"><p>The number of bytes sent by other peers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ulong DataReceived</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint64">UInt64</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_DataSent.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.DataSent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L43">View Source</a>
-  </span>
-  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_DataSent" data-uid="Ipfs.Engine.BlockExchange.Bitswap.DataSent">DataSent</h4>
-  <div class="markdown level1 summary"><p>The number of bytes sent to other peers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ulong DataSent</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint64">UInt64</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_DupBlksReceived.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.DupBlksReceived%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L52">View Source</a>
-  </span>
-  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_DupBlksReceived" data-uid="Ipfs.Engine.BlockExchange.Bitswap.DupBlksReceived">DupBlksReceived</h4>
-  <div class="markdown level1 summary"><p>The number of duplicate blocks sent by other peers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ulong DupBlksReceived</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint64">UInt64</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_DupBlksReceived_remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>A duplicate block is a block that is already stored in the
-local repository.</p>
-</div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_DupDataReceived.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L61">View Source</a>
-  </span>
-  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_DupDataReceived" data-uid="Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived">DupDataReceived</h4>
-  <div class="markdown level1 summary"><p>The number of duplicate bytes sent by other peers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ulong DupDataReceived</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint64">UInt64</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_DupDataReceived_remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>A duplicate block is a block that is already stored in the
-local repository.</p>
-</div>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
@@ -330,7 +173,7 @@ local repository.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_BlockService.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.BlockService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L83">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L91">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_BlockService_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.BlockService*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_BlockService" data-uid="Ipfs.Engine.BlockExchange.Bitswap.BlockService">BlockService</h4>
@@ -361,7 +204,7 @@ local repository.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Statistics.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Statistics%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L89">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L97">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_Statistics_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Statistics*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Statistics" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Statistics">Statistics</h4>
@@ -396,7 +239,7 @@ local repository.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Swarm.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Swarm%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L78">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L86">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_Swarm_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Swarm*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Swarm" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Swarm">Swarm</h4>
@@ -429,7 +272,7 @@ local repository.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Found_Ipfs_IDataBlock_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Found(Ipfs.IDataBlock)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L287">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L444">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_Found_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Found*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Found_Ipfs_IDataBlock_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Found(Ipfs.IDataBlock)">Found(IDataBlock)</h4>
@@ -481,10 +324,263 @@ remove the block from the want list.</p>
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_Ipfs_Peer_System_Byte___.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L325">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_Ipfs_Peer_System_Byte___" data-uid="Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer,System.Byte[])">OnBlockReceivedAsync(Peer, Byte[])</h4>
+  <div class="markdown level1 summary"><p>Indicate that a remote peer sent a block.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task OnBlockReceivedAsync(Peer remote, byte[] block)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.Peer.html">Peer</a></td>
+        <td><span class="parametername">remote</span></td>
+        <td><p>The peer that sent the block.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="parametername">block</span></td>
+        <td><p>The data for the block.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td><p>A task that represents the asynchronous operation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_Ipfs_Peer_System_Byte____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+Updates the statistics.
+</p>
+<p>
+If the block is acceptable then the <code data-dev-comment-type="paramref" class="paramref">block</code> is added to local cache
+via the <a class="xref" href="Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_BlockService">BlockService</a>.
+</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_Ipfs_Peer_System_Byte___System_String_System_String_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer%2CSystem.Byte%5B%5D%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L357">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_Ipfs_Peer_System_Byte___System_String_System_String_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer,System.Byte[],System.String,System.String)">OnBlockReceivedAsync(Peer, Byte[], String, String)</h4>
+  <div class="markdown level1 summary"><p>Indicate that a remote peer sent a block.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task OnBlockReceivedAsync(Peer remote, byte[] block, string contentType, string multiHash)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.Peer.html">Peer</a></td>
+        <td><span class="parametername">remote</span></td>
+        <td><p>The peer that sent the block.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="parametername">block</span></td>
+        <td><p>The data for the block.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">contentType</span></td>
+        <td><p>The <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.Cid.html#Ipfs_Cid_ContentType">ContentType</a> of the block.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">multiHash</span></td>
+        <td><p>The multihash algorithm name of the block.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td><p>A task that represents the asynchronous operation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_Ipfs_Peer_System_Byte___System_String_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+Updates the statistics.
+</p>
+<p>
+If the block is acceptable then the <code data-dev-comment-type="paramref" class="paramref">block</code> is added to local cache
+via the <a class="xref" href="Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_BlockService">BlockService</a>.
+</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_OnBlockSentAsync_Ipfs_Peer_Ipfs_IDataBlock_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync(Ipfs.Peer%2CIpfs.IDataBlock)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L409">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_OnBlockSentAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_OnBlockSentAsync_Ipfs_Peer_Ipfs_IDataBlock_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync(Ipfs.Peer,Ipfs.IDataBlock)">OnBlockSentAsync(Peer, IDataBlock)</h4>
+  <div class="markdown level1 summary"><p>Indicate that the local peer sent a block to a remote peer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task OnBlockSentAsync(Peer remote, IDataBlock block)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.Peer.html">Peer</a></td>
+        <td><span class="parametername">remote</span></td>
+        <td><p>The peer that sent the block.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.IDataBlock.html">IDataBlock</a></td>
+        <td><span class="parametername">block</span></td>
+        <td><p>The data for the block.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td><p>A task that represents the asynchronous operation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_PeerLedger_Ipfs_Peer_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.PeerLedger(Ipfs.Peer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L127">View Source</a>
+  </span>
+  <a id="Ipfs_Engine_BlockExchange_Bitswap_PeerLedger_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.PeerLedger*"></a>
+  <h4 id="Ipfs_Engine_BlockExchange_Bitswap_PeerLedger_Ipfs_Peer_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.PeerLedger(Ipfs.Peer)">PeerLedger(Peer)</h4>
+  <div class="markdown level1 summary"><p>Gets the bitswap ledger for the specified peer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BitswapLedger PeerLedger(Peer peer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.Peer.html">Peer</a></td>
+        <td><span class="parametername">peer</span></td>
+        <td><p>The peer to get information on.  If the peer is unknown, then a ledger
+with zeros is returned.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.BitswapLedger.html">BitswapLedger</a></td>
+        <td><p>Statistics on the bitswap blocks exchanged with the peer.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Ipfs_Engine_BlockExchange_Bitswap_PeerLedger_Ipfs_Peer__seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IBitswapApi.html#Ipfs_CoreApi_IBitswapApi_LedgerAsync_Ipfs_Peer_System_Threading_CancellationToken_">LedgerAsync(Peer, CancellationToken)</a></div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_PeerWants_Ipfs_MultiHash_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.PeerWants(Ipfs.MultiHash)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L179">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L210">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_PeerWants_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.PeerWants*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_PeerWants_Ipfs_MultiHash_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.PeerWants(Ipfs.MultiHash)">PeerWants(MultiHash)</h4>
@@ -534,7 +630,7 @@ remove the block from the want list.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_StartAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.StartAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L117">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L145">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_StartAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.StartAsync*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_StartAsync" data-uid="Ipfs.Engine.BlockExchange.Bitswap.StartAsync">StartAsync()</h4>
@@ -564,7 +660,7 @@ remove the block from the want list.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_StopAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.StopAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L152">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L183">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_StopAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.StopAsync*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_StopAsync" data-uid="Ipfs.Engine.BlockExchange.Bitswap.StopAsync">StopAsync()</h4>
@@ -594,7 +690,7 @@ remove the block from the want list.</p>
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_Unwant_Ipfs_Cid_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.Unwant(Ipfs.Cid)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L262">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L293">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_Unwant_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Unwant*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_Unwant_Ipfs_Cid_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.Unwant(Ipfs.Cid)">Unwant(Cid)</h4>
@@ -635,7 +731,7 @@ on the want list.
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_WantAsync_Ipfs_Cid_Ipfs_MultiHash_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.WantAsync(Ipfs.Cid%2CIpfs.MultiHash%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L211">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L242">View Source</a>
   </span>
   <a id="Ipfs_Engine_BlockExchange_Bitswap_WantAsync_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.WantAsync*"></a>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_WantAsync_Ipfs_Cid_Ipfs_MultiHash_System_Threading_CancellationToken_" data-uid="Ipfs.Engine.BlockExchange.Bitswap.WantAsync(Ipfs.Cid,Ipfs.MultiHash,System.Threading.CancellationToken)">WantAsync(Cid, MultiHash, CancellationToken)</h4>
@@ -709,7 +805,7 @@ Besides using <code data-dev-comment-type="paramref" class="paramref">cancel</co
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_BlockExchange_Bitswap_BlockNeeded.md&amp;value=---%0Auid%3A%20Ipfs.Engine.BlockExchange.Bitswap.BlockNeeded%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L114">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/BlockExchange/Bitswap.cs/#L142">View Source</a>
   </span>
   <h4 id="Ipfs_Engine_BlockExchange_Bitswap_BlockNeeded" data-uid="Ipfs.Engine.BlockExchange.Bitswap.BlockNeeded">BlockNeeded</h4>
   <div class="markdown level1 summary"><p>Raised when a blocked is needed.</p>

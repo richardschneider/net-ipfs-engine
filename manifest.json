@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap.html",
-          "hash": "Z2hophwVw6prJ0xQHaLCtg=="
+          "hash": "pqeZPacyPtykZCKBA9g8yA=="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap1.html",
-          "hash": "V6pY3juIEfXi/HRsLw6fzw=="
+          "hash": "NbZBUZoIniUma0QvDX+OeA=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Ipfs.Engine.BlockExchange.Bitswap11.html",
-          "hash": "v9K/Lma+32uV2QYiA9wmew=="
+          "hash": "xQzFc9xbSRr/S07U+wA6gQ=="
         }
       },
       "is_incremental": false,
@@ -850,10 +850,11 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "ManagedReferenceDocumentProcessor": {
+        "ResourceDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 33,
+          "total_file_count": 0,
           "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
@@ -869,11 +870,10 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "ResourceDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 0,
+          "total_file_count": 33,
           "skipped_file_count": 0
         }
       }

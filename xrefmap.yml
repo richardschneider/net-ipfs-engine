@@ -51,42 +51,6 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap.BlockService
   nameWithType: Bitswap.BlockService
-- uid: Ipfs.Engine.BlockExchange.Bitswap.BlocksReceived
-  name: BlocksReceived
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_BlocksReceived
-  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.BlocksReceived
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.BlocksReceived
-  nameWithType: Bitswap.BlocksReceived
-- uid: Ipfs.Engine.BlockExchange.Bitswap.BlocksSent
-  name: BlocksSent
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_BlocksSent
-  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.BlocksSent
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.BlocksSent
-  nameWithType: Bitswap.BlocksSent
-- uid: Ipfs.Engine.BlockExchange.Bitswap.DataReceived
-  name: DataReceived
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_DataReceived
-  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DataReceived
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.DataReceived
-  nameWithType: Bitswap.DataReceived
-- uid: Ipfs.Engine.BlockExchange.Bitswap.DataSent
-  name: DataSent
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_DataSent
-  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DataSent
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.DataSent
-  nameWithType: Bitswap.DataSent
-- uid: Ipfs.Engine.BlockExchange.Bitswap.DupBlksReceived
-  name: DupBlksReceived
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_DupBlksReceived
-  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DupBlksReceived
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.DupBlksReceived
-  nameWithType: Bitswap.DupBlksReceived
-- uid: Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived
-  name: DupDataReceived
-  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_DupDataReceived
-  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived
-  fullName: Ipfs.Engine.BlockExchange.Bitswap.DupDataReceived
-  nameWithType: Bitswap.DupDataReceived
 - uid: Ipfs.Engine.BlockExchange.Bitswap.Found(Ipfs.IDataBlock)
   name: Found(IDataBlock)
   href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Found_Ipfs_IDataBlock_
@@ -100,6 +64,57 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap.Found
   nameWithType: Bitswap.Found
+- uid: Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer,System.Byte[])
+  name: OnBlockReceivedAsync(Peer, Byte[])
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_Ipfs_Peer_System_Byte___
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer,System.Byte[])
+  name.vb: OnBlockReceivedAsync(Peer, Byte())
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer, System.Byte[])
+  fullName.vb: Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer, System.Byte())
+  nameWithType: Bitswap.OnBlockReceivedAsync(Peer, Byte[])
+  nameWithType.vb: Bitswap.OnBlockReceivedAsync(Peer, Byte())
+- uid: Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer,System.Byte[],System.String,System.String)
+  name: OnBlockReceivedAsync(Peer, Byte[], String, String)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_Ipfs_Peer_System_Byte___System_String_System_String_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer,System.Byte[],System.String,System.String)
+  name.vb: OnBlockReceivedAsync(Peer, Byte(), String, String)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer, System.Byte[], System.String, System.String)
+  fullName.vb: Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync(Ipfs.Peer, System.Byte(), System.String, System.String)
+  nameWithType: Bitswap.OnBlockReceivedAsync(Peer, Byte[], String, String)
+  nameWithType.vb: Bitswap.OnBlockReceivedAsync(Peer, Byte(), String, String)
+- uid: Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync*
+  name: OnBlockReceivedAsync
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_OnBlockReceivedAsync_
+  commentId: Overload:Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.OnBlockReceivedAsync
+  nameWithType: Bitswap.OnBlockReceivedAsync
+- uid: Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync(Ipfs.Peer,Ipfs.IDataBlock)
+  name: OnBlockSentAsync(Peer, IDataBlock)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_OnBlockSentAsync_Ipfs_Peer_Ipfs_IDataBlock_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync(Ipfs.Peer,Ipfs.IDataBlock)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync(Ipfs.Peer, Ipfs.IDataBlock)
+  nameWithType: Bitswap.OnBlockSentAsync(Peer, IDataBlock)
+- uid: Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync*
+  name: OnBlockSentAsync
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_OnBlockSentAsync_
+  commentId: Overload:Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.OnBlockSentAsync
+  nameWithType: Bitswap.OnBlockSentAsync
+- uid: Ipfs.Engine.BlockExchange.Bitswap.PeerLedger(Ipfs.Peer)
+  name: PeerLedger(Peer)
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_PeerLedger_Ipfs_Peer_
+  commentId: M:Ipfs.Engine.BlockExchange.Bitswap.PeerLedger(Ipfs.Peer)
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.PeerLedger(Ipfs.Peer)
+  nameWithType: Bitswap.PeerLedger(Peer)
+- uid: Ipfs.Engine.BlockExchange.Bitswap.PeerLedger*
+  name: PeerLedger
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_PeerLedger_
+  commentId: Overload:Ipfs.Engine.BlockExchange.Bitswap.PeerLedger
+  isSpec: "True"
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.PeerLedger
+  nameWithType: Bitswap.PeerLedger
 - uid: Ipfs.Engine.BlockExchange.Bitswap.PeerWants(Ipfs.MultiHash)
   name: PeerWants(MultiHash)
   href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_PeerWants_Ipfs_MultiHash_
@@ -113,6 +128,12 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.BlockExchange.Bitswap.PeerWants
   nameWithType: Bitswap.PeerWants
+- uid: Ipfs.Engine.BlockExchange.Bitswap.Protocols
+  name: Protocols
+  href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_Protocols
+  commentId: F:Ipfs.Engine.BlockExchange.Bitswap.Protocols
+  fullName: Ipfs.Engine.BlockExchange.Bitswap.Protocols
+  nameWithType: Bitswap.Protocols
 - uid: Ipfs.Engine.BlockExchange.Bitswap.StartAsync
   name: StartAsync()
   href: api/Ipfs.Engine.BlockExchange.Bitswap.html#Ipfs_Engine_BlockExchange_Bitswap_StartAsync

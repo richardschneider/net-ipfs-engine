@@ -105,7 +105,7 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     await SendAsync(stream, block, cancel).ConfigureAwait(false);
                 }
-                await Bitswap.OnBlockSentAsync(remotePeer, block);
+                await Bitswap.OnBlockSentAsync(remotePeer, block).ConfigureAwait(false);
             }
             catch (Exception e)
             {

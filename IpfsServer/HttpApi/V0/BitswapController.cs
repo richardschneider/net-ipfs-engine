@@ -36,6 +36,37 @@ namespace Ipfs.Server.HttpApi.V0
     }
 
     /// <summary>
+    ///   The bitswap ledger with another peer.
+    /// </summary>
+    public class BitswapLedgerDto
+    {
+        /// <summary>
+        ///   The peer ID.
+        /// </summary>
+        public string Peer;
+
+        /// <summary>
+        ///   The debt ratio.
+        /// </summary>
+        public double Value;
+
+        /// <summary>
+        ///   The number of bytes sent.
+        /// </summary>
+        public ulong Sent;
+
+        /// <summary>
+        ///   The number of bytes received.
+        /// </summary>
+        public ulong Recv;
+
+        /// <summary>
+        ///   The number blocks exchanged.
+        /// </summary>
+        public ulong Exchanged;
+    }
+
+    /// <summary>
     ///   Data trading module for IPFS. Its purpose is to request blocks from and 
     ///   send blocks to other peers in the network.
     /// </summary>
@@ -84,5 +115,25 @@ namespace Ipfs.Server.HttpApi.V0
             await IpfsCore.Bitswap.UnwantAsync(arg, Cancel);
         }
 
+        /// <summary>
+        ///   The blocks that are needed by a peer.
+        /// </summary>
+        /// <param name="arg">
+        ///   A peer ID or empty for self.
+        /// </param>
+        [HttpGet, HttpPost, Route("bitswap/ledger")]
+        public async Task<BitswapLedgerDto> Ledger(string arg)
+        {
+            var peer = new Peer { Id = arg };
+            var ledger = await IpfsCore.Bitswap.LedgerAsync(peer, Cancel);
+            return new BitswapLedgerDto
+            {
+                Peer = ledger.Peer.Id.ToBase58(),
+                Exchanged = ledger.BlocksExchanged,
+                Recv = ledger.DataReceived,
+                Sent = ledger.DataSent,
+                Value = ledger.DebtRatio
+            };
+        }
     }
 }

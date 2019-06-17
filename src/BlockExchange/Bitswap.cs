@@ -22,7 +22,13 @@ namespace Ipfs.Engine.BlockExchange
         ConcurrentDictionary<Cid, WantedBlock> wants = new ConcurrentDictionary<Cid, WantedBlock>();
         ConcurrentDictionary<Peer, BitswapLedger> peerLedgers = new ConcurrentDictionary<Peer, BitswapLedger>();
 
-        IBitswapProtocol[] protocols;
+        /// <summary>
+        ///   The supported bitswap protocols.
+        /// </summary>
+        /// <value>
+        ///   Defaults to <see cref="Bitswap11"/> and <see cref="Bitswap1"/>.
+        /// </value>
+        public IBitswapProtocol[] Protocols;
 
         /// <summary>
         ///   The number of blocks sent by other peers.
@@ -67,7 +73,7 @@ namespace Ipfs.Engine.BlockExchange
         /// </summary>
         public Bitswap()
         {
-            protocols = new IBitswapProtocol[]
+            Protocols = new IBitswapProtocol[]
             {
                 new Bitswap11 { Bitswap = this },
                 new Bitswap1 { Bitswap = this }
@@ -140,7 +146,7 @@ namespace Ipfs.Engine.BlockExchange
         {
             log.Debug("Starting");
 
-            foreach (var protocol in protocols)
+            foreach (var protocol in Protocols)
             {
                 Swarm.AddProtocol(protocol);
             }
@@ -179,7 +185,7 @@ namespace Ipfs.Engine.BlockExchange
             log.Debug("Stopping");
 
             Swarm.ConnectionEstablished -= Swarm_ConnectionEstablished;
-            foreach (var protocol in protocols)
+            foreach (var protocol in Protocols)
             {
                 Swarm.RemoveProtocol(protocol);
             }
@@ -483,7 +489,7 @@ namespace Ipfs.Engine.BlockExchange
 
             // Send the want list to the peer on any bitswap protocol
             // that it supports.
-            foreach (var protocol in protocols)
+            foreach (var protocol in Protocols)
             {
                 try
                 {

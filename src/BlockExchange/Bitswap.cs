@@ -20,27 +20,29 @@ namespace Ipfs.Engine.BlockExchange
         static ILog log = LogManager.GetLogger(typeof(Bitswap));
 
         ConcurrentDictionary<Cid, WantedBlock> wants = new ConcurrentDictionary<Cid, WantedBlock>();
+        ConcurrentDictionary<Peer, BitswapLedger> peerLedgers = new ConcurrentDictionary<Peer, BitswapLedger>();
+
         IBitswapProtocol[] protocols;
 
         /// <summary>
         ///   The number of blocks sent by other peers.
         /// </summary>
-        public ulong BlocksReceived;
+        ulong BlocksReceived;
 
         /// <summary>
         ///   The number of bytes sent by other peers.
         /// </summary>
-        public ulong DataReceived;
+        ulong DataReceived;
 
         /// <summary>
         ///   The number of blocks sent to other peers.
         /// </summary>
-        public ulong BlocksSent;
+        ulong BlocksSent;
 
         /// <summary>
         ///   The number of bytes sent to other peers.
         /// </summary>
-        public ulong DataSent;
+        ulong DataSent;
 
         /// <summary>
         ///   The number of duplicate blocks sent by other peers.
@@ -49,7 +51,7 @@ namespace Ipfs.Engine.BlockExchange
         ///   A duplicate block is a block that is already stored in the
         ///   local repository.
         /// </remarks>
-        public ulong DupBlksReceived;
+        ulong DupBlksReceived;
 
         /// <summary>
         ///   The number of duplicate bytes sent by other peers.
@@ -58,7 +60,7 @@ namespace Ipfs.Engine.BlockExchange
         ///   A duplicate block is a block that is already stored in the
         ///   local repository.
         /// </remarks>
-        public ulong DupDataReceived;
+        ulong DupDataReceived;
 
         /// <summary>
         ///   Creates a new instance of the <see cref="Bitswap"/> class.
@@ -104,6 +106,26 @@ namespace Ipfs.Engine.BlockExchange
                 };
             }
         }
+
+        /// <summary>
+        ///   Gets the bitswap ledger for the specified peer.
+        /// </summary>
+        /// <param name="peer">
+        ///   The peer to get information on.  If the peer is unknown, then a ledger
+        ///   with zeros is returned.
+        /// </param>
+        /// <returns>
+        ///   Statistics on the bitswap blocks exchanged with the peer.
+        /// </returns>
+        /// <seealso cref="Ipfs.CoreApi.IBitswapApi.LedgerAsync(Peer, CancellationToken)"/>
+        public BitswapLedger PeerLedger(Peer peer)
+        {
+            if (peerLedgers.TryGetValue(peer, out BitswapLedger ledger))
+            {
+                return ledger;
+            }
+            return new BitswapLedger { Peer = peer };
+        }
         
         /// <summary>
         ///   Raised when a blocked is needed.
@@ -123,6 +145,9 @@ namespace Ipfs.Engine.BlockExchange
                 Swarm.AddProtocol(protocol);
             }
             Swarm.ConnectionEstablished += Swarm_ConnectionEstablished;
+
+            // TODO: clear the stats.
+            peerLedgers.Clear();
 
             return Task.CompletedTask;
         }
@@ -268,6 +293,132 @@ namespace Ipfs.Engine.BlockExchange
                     consumer.SetCanceled();
                 }
             }
+        }
+
+        /// <summary>
+        ///   Indicate that a remote peer sent a block.
+        /// </summary>
+        /// <param name="remote">
+        ///   The peer that sent the block.
+        /// </param>
+        /// <param name="block">
+        ///   The data for the block.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        /// <remarks>
+        ///   <para>
+        ///   Updates the statistics.
+        ///   </para>
+        ///   <para>
+        ///   If the block is acceptable then the <paramref name="block"/> is added to local cache
+        ///   via the <see cref="BlockService"/>.
+        ///   </para>
+        /// </remarks>
+        public Task OnBlockReceivedAsync(Peer remote, byte[] block)
+        {
+            return OnBlockReceivedAsync(remote, block, Cid.DefaultContentType, MultiHash.DefaultAlgorithmName);
+        }
+
+        /// <summary>
+        ///   Indicate that a remote peer sent a block.
+        /// </summary>
+        /// <param name="remote">
+        ///   The peer that sent the block.
+        /// </param>
+        /// <param name="block">
+        ///   The data for the block.
+        /// </param>
+        /// <param name="contentType">
+        ///   The <see cref="Cid.ContentType"/> of the block.
+        /// </param>
+        /// <param name="multiHash">
+        ///   The multihash algorithm name of the block.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        /// <remarks>
+        ///   <para>
+        ///   Updates the statistics.
+        ///   </para>
+        ///   <para>
+        ///   If the block is acceptable then the <paramref name="block"/> is added to local cache
+        ///   via the <see cref="BlockService"/>.
+        ///   </para>
+        /// </remarks>
+        public async Task OnBlockReceivedAsync(Peer remote, byte[] block, string contentType, string multiHash)
+        {
+            // Update statistics.
+            ++BlocksReceived;
+            DataReceived += (ulong)block.LongLength;
+            peerLedgers.AddOrUpdate(remote,
+                (peer) => new BitswapLedger
+                {
+                    Peer = peer,
+                    BlocksExchanged = 1,
+                    DataReceived = (ulong)block.LongLength
+                },
+                (peer, ledger) => 
+                {
+                    ++ledger.BlocksExchanged;
+                    DataReceived += (ulong)block.LongLength;
+                    return ledger;
+                });
+
+            // TODO: Detect if duplicate and update stats
+            var isDuplicate = false;
+            if (isDuplicate)
+            {
+                ++DupBlksReceived;
+                DupDataReceived += (ulong)block.Length;
+            }
+
+            // TODO: Determine if we should accept the block from the remote.
+            var acceptble = true;
+            if (acceptble)
+            {
+                await BlockService.PutAsync(
+                    data: block,
+                    contentType: contentType,
+                    multiHash: multiHash,
+                    pin: false)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        ///   Indicate that the local peer sent a block to a remote peer.
+        /// </summary>
+        /// <param name="remote">
+        ///   The peer that sent the block.
+        /// </param>
+        /// <param name="block">
+        ///   The data for the block.
+        /// </param>
+        /// <returns>
+        ///   A task that represents the asynchronous operation.
+        /// </returns>
+        public Task OnBlockSentAsync(Peer remote, IDataBlock block)
+        {
+            ++BlocksSent;
+            DataSent += (ulong)block.Size;
+            peerLedgers.AddOrUpdate(remote,
+                (peer) => new BitswapLedger
+                {
+                    Peer = peer,
+                    BlocksExchanged = 1,
+                    DataSent = (ulong)block.Size
+                },
+                (peer, ledger) =>
+                {
+                    ++ledger.BlocksExchanged;
+                    DataSent += (ulong)block.Size;
+                    return ledger;
+                });
+
+            return Task.CompletedTask;
         }
 
         /// <summary>

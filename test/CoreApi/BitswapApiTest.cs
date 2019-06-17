@@ -148,6 +148,22 @@ namespace Ipfs.Engine
                 Assert.IsTrue(getTask.IsCompleted, "task not completed");
                 Assert.AreEqual(cid, block.Id);
                 CollectionAssert.AreEqual(data, block.DataBytes);
+
+                var otherPeer = await ipfsOther.LocalPeer;
+                var ledger = await ipfs.Bitswap.LedgerAsync(otherPeer);
+                Assert.AreEqual(otherPeer, ledger.Peer);
+                Assert.AreEqual(1UL, ledger.BlocksExchanged);
+                Assert.AreEqual((ulong)block.Size, ledger.DataReceived);
+                Assert.AreEqual(0UL, ledger.DataSent);
+                Assert.IsTrue(ledger.IsInDebt);
+
+                var localPeer = await ipfs.LocalPeer;
+                ledger = await ipfsOther.Bitswap.LedgerAsync(localPeer);
+                Assert.AreEqual(localPeer, ledger.Peer);
+                Assert.AreEqual(1UL, ledger.BlocksExchanged);
+                Assert.AreEqual(0UL, ledger.DataReceived);
+                Assert.AreEqual((ulong)block.Size, ledger.DataSent);
+                Assert.IsFalse(ledger.IsInDebt);
             }
             finally
             {
@@ -215,6 +231,7 @@ namespace Ipfs.Engine
                 await ipfs.StopAsync();
             }
         }
+
         [TestMethod]
         public async Task GetBlock_Timeout()
         {
@@ -230,6 +247,22 @@ namespace Ipfs.Engine
                 });
 
                 Assert.AreEqual(0, (await ipfs.Bitswap.WantsAsync()).Count());
+            }
+            finally
+            {
+                await ipfs.StopAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task PeerLedger()
+        {
+            await ipfs.StartAsync();
+            try
+            {
+                var peer = await ipfsOther.LocalPeer;
+                var ledger = await ipfs.Bitswap.LedgerAsync(peer);
+                Assert.IsNotNull(ledger);
             }
             finally
             {

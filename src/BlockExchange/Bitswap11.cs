@@ -78,19 +78,12 @@ namespace Ipfs.Engine.BlockExchange
                     log.Debug($"got block(s) from {connection.RemotePeer}");
                     foreach (var sentBlock in request.payload)
                     {
-                        ++Bitswap.BlocksReceived;
-                        Bitswap.DataReceived += (ulong)sentBlock.data.Length;
                         using (var ms = new MemoryStream(sentBlock.prefix))
                         {
                             var version = ms.ReadVarint32();
                             var contentType = ms.ReadMultiCodec().Name;
                             var multiHash = MultiHash.GetHashAlgorithmName(ms.ReadVarint32());
-                            await Bitswap.BlockService.PutAsync(
-                                data: sentBlock.data,
-                                contentType: contentType,
-                                multiHash: multiHash,
-                                pin: false).ConfigureAwait(false);
-                            // TODO: Detect if duplicate and update stats
+                            await Bitswap.OnBlockReceivedAsync(connection.RemotePeer, sentBlock.data, contentType, multiHash);
                         }
                     }
                 }
@@ -117,7 +110,7 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     await SendAsync(stream, block, cancel).ConfigureAwait(false);
                 }
-
+                await Bitswap.OnBlockSentAsync(remotePeer, block).ConfigureAwait(false);
             }
             catch (TaskCanceledException)
             {
@@ -166,8 +159,6 @@ namespace Ipfs.Engine.BlockExchange
             )
         {
             log.Debug($"Sending block {block.Id}");
-            ++Bitswap.BlocksSent;
-            Bitswap.DataSent += (ulong)block.Size;
             var message = new Message
             {
                 payload = new List<Block>

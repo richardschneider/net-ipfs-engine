@@ -554,9 +554,10 @@ namespace Ipfs.Engine
                 };
                 var result = await ipfs.FileSystem.AddFileAsync(path, options);
 
-                // Progress reports get posted on another synchronisation context.
+                // Progress reports get posted on another synchronisation context
+                // so they can come in later.
                 var stop = DateTime.Now.AddSeconds(3);
-                while (DateTime.Now < stop && lastProgress == null)
+                while (DateTime.Now < stop && lastProgress?.Bytes == 11UL)
                 {
                     await Task.Delay(10);
                 }

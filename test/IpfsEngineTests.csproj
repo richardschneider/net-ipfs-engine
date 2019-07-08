@@ -33,6 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="starx2.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="star_trails.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,12 +1,66 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage raw dag nodes [WIP]")]
-    class ObjectCommand : CommandBase // TODO
+    [Command(Description = "Manage IPFS objects")]
+    [Subcommand("links", typeof(ObjectLinksCommand))]
+    [Subcommand("get", typeof(ObjectGetCommand))]
+    class ObjectCommand : CommandBase
     {
+        public Program Parent { get; set; }
+
+        protected override Task<int> OnExecute(CommandLineApplication app)
+        {
+            app.ShowHelp();
+            return Task.FromResult(0);
+        }
     }
+
+    [Command(Description = "Information on the links pointed to by the IPFS block")]
+    class ObjectLinksCommand : CommandBase
+    {
+        [Argument(0, "cid", "The content ID of the object")]
+        [Required]
+        public string Cid { get; set; }
+
+        ObjectCommand Parent { get; set; }
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            var Program = Parent.Parent;
+            var links = await Program.CoreApi.Object.LinksAsync(Cid);
+
+            return Program.Output(app, links, (data, writer) =>
+            {
+                foreach (var link in data)
+                {
+                    writer.WriteLine($"{link.Id.Encode()} {link.Size} {link.Name}");
+                }
+            });
+        }
+    }
+
+    [Command(Description = "Serialise the DAG node")]
+    class ObjectGetCommand : CommandBase
+    {
+        [Argument(0, "cid", "The content ID of the object")]
+        [Required]
+        public string Cid { get; set; }
+
+        ObjectCommand Parent { get; set; }
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            var Program = Parent.Parent;
+            var node = await Program.CoreApi.Object.GetAsync(Cid);
+
+            return Program.Output(app, node, null);
+        }
+    }
+
 }

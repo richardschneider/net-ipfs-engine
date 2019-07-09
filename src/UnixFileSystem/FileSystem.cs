@@ -16,7 +16,7 @@ namespace Ipfs.Engine.UnixFileSystem
     /// </summary>
     public static class FileSystem
     {
-        static byte[] emptyData = new byte[0];
+        static readonly byte[] emptyData = new byte[0];
 
         /// <summary>
         ///   Creates a stream that can read the supplied <see cref="Cid"/>.

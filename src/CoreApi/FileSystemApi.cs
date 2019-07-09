@@ -18,6 +18,8 @@ namespace Ipfs.Engine.CoreApi
         static ILog log = LogManager.GetLogger(typeof(FileSystemApi));
         IpfsEngine ipfs;
 
+        static readonly int DefaultLinksPerBlock = 174;
+
         public FileSystemApi(IpfsEngine ipfs)
         {
             this.ipfs = ipfs;
@@ -63,42 +65,7 @@ namespace Ipfs.Engine.CoreApi
             var nodes = await chunker.ChunkAsync(stream, name, options, blockService, keyChain, cancel).ConfigureAwait(false);
 
             // Multiple nodes for the file?
-            FileSystemNode node = null;
-            if (nodes.Count() == 1)
-            {
-                node = nodes.First();
-            }
-            else
-            {
-                // Build the DAG that contains all the file nodes.
-                var links = nodes.Select(n => n.ToLink()).ToArray();
-                var fileSize = (ulong)nodes.Sum(n => n.Size);
-                var dm = new DataMessage
-                {
-                    Type = DataType.File,
-                    FileSize = fileSize,
-                    BlockSizes = nodes.Select(n => (ulong) n.Size).ToArray()
-                };
-                var pb = new MemoryStream();
-                ProtoBuf.Serializer.Serialize<DataMessage>(pb, dm);
-                var dag = new DagNode(pb.ToArray(), links, options.Hash);
-
-                // Save it.
-                dag.Id = await blockService.PutAsync(
-                    data: dag.ToArray(),
-                    multiHash: options.Hash,
-                    encoding: options.Encoding,
-                    pin: options.Pin,
-                    cancel: cancel).ConfigureAwait(false);
-
-                node = new FileSystemNode
-                {
-                    Id = dag.Id,
-                    Size = (long)dm.FileSize,
-                    DagSize = dag.Size,
-                    Links = links
-                };
-            }
+            FileSystemNode node = await BuildTreeAsync(nodes, options, cancel);
 
             // Wrap in directory?
             if (options.Wrap)
@@ -120,6 +87,70 @@ namespace Ipfs.Engine.CoreApi
 
             // Return the file system node.
             return node;
+        }
+
+        async Task<FileSystemNode> BuildTreeAsync(
+            IEnumerable<FileSystemNode> nodes,
+            AddFileOptions options,
+            CancellationToken cancel)
+        {
+            if (nodes.Count() == 1)
+            {
+                return nodes.First();
+            }
+
+            // Bundle X links into a block.
+            var tree = new List<FileSystemNode>();
+            for (int i = 0; true; ++i)
+            {
+                var bundle = nodes
+                    .Skip(DefaultLinksPerBlock * i)
+                    .Take(DefaultLinksPerBlock);
+                if (bundle.Count() == 0)
+                {
+                    break;
+                }
+                var node = await BuildTreeNodeAsync(bundle, options, cancel);
+                tree.Add(node);
+            }
+            return await BuildTreeAsync(tree, options, cancel);
+        }
+
+        async Task<FileSystemNode> BuildTreeNodeAsync(
+            IEnumerable<FileSystemNode> nodes,
+            AddFileOptions options,
+            CancellationToken cancel)
+        {
+            var blockService = GetBlockService(options);
+
+            // Build the DAG that contains all the file nodes.
+            var links = nodes.Select(n => n.ToLink()).ToArray();
+            var fileSize = (ulong)nodes.Sum(n => n.Size);
+            var dm = new DataMessage
+            {
+                Type = DataType.File,
+                FileSize = fileSize,
+                BlockSizes = nodes.Select(n => (ulong)n.Size).ToArray()
+            };
+            var pb = new MemoryStream();
+            ProtoBuf.Serializer.Serialize<DataMessage>(pb, dm);
+            var dag = new DagNode(pb.ToArray(), links, options.Hash);
+
+            // Save it.
+            dag.Id = await blockService.PutAsync(
+                data: dag.ToArray(),
+                multiHash: options.Hash,
+                encoding: options.Encoding,
+                pin: options.Pin,
+                cancel: cancel).ConfigureAwait(false);
+
+            return new FileSystemNode
+            {
+                Id = dag.Id,
+                Size = (long)dm.FileSize,
+                DagSize = dag.Size,
+                Links = links
+            };
         }
 
         public async Task<IFileSystemNode> AddDirectoryAsync(

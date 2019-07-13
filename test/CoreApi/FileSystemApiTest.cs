@@ -228,6 +228,48 @@ namespace Ipfs.Engine
             Console.WriteLine("Readfile file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
         }
 
+
+        /// <seealso href="https://github.com/richardschneider/net-ipfs-engine/issues/125"/>
+        [TestMethod]
+        public void AddFile_Larger()
+        {
+            AddFile(); // warm up
+
+            var path = "starx2.mp4";
+            var ipfs = TestFixture.Ipfs;
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var node = ipfs.FileSystem.AddFileAsync(path).Result;
+            stopWatch.Stop();
+            Console.WriteLine("Add file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
+
+            Assert.AreEqual("QmeFhfB4g2GFbxYb7usApWzq8uC1vmuxJajFpiJiT5zLoy", (string)node.Id);
+
+            var k = 8 * 1024;
+            var buffer1 = new byte[k];
+            var buffer2 = new byte[k];
+            stopWatch.Restart();
+            using (var localStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (var ipfsStream = ipfs.FileSystem.ReadFileAsync(node.Id).Result)
+            {
+                while (true)
+                {
+                    var n1 = localStream.Read(buffer1, 0, k);
+                    var n2 = ipfsStream.Read(buffer2, 0, k);
+                    Assert.AreEqual(n1, n2);
+                    if (n1 == 0)
+                        break;
+                    for (var i = 0; i < n1; ++i)
+                    {
+                        if (buffer1[i] != buffer2[i])
+                            Assert.Fail("data not the same");
+                    }
+                }
+            }
+            stopWatch.Stop();
+            Console.WriteLine("Readfile file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
+        }
+
         [TestMethod]
         public async Task AddFile_Wrap()
         {

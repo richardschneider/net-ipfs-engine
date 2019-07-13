@@ -10,13 +10,39 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Engine.UnixFileSystem
 {
-    enum DataType
+    /// <summary>
+    ///   Specifies the type of data.
+    /// </summary>
+    public enum DataType
     {
+        /// <summary>
+        ///  Raw data
+        /// </summary>
         Raw = 0,
+
+        /// <summary>
+        ///   A directory of files. 
+        /// </summary>
         Directory = 1,
+
+        /// <summary>
+        ///   A file.
+        /// </summary>
         File = 2,
+
+        /// <summary>
+        ///  Metadata (NYI) 
+        /// </summary>
         Metadata = 3,
+
+        /// <summary>
+        ///  Symbolic link (NYI) 
+        /// </summary>
         Symlink = 4,
+
+        /// <summary>
+        ///  NYI 
+        /// </summary>
         HAMTShard = 5
     };
 
@@ -24,25 +50,43 @@ namespace Ipfs.Engine.UnixFileSystem
     ///   The ProtoBuf data that is stored in a DAG.
     /// </summary>
     [ProtoContract]
-    internal class DataMessage
+    public class DataMessage
     {
+        /// <summary>
+        ///   The type of data.
+        /// </summary>
         [ProtoMember(1, IsRequired = true)]
         public DataType Type;
 
+        /// <summary>
+        ///   The data.
+        /// </summary>
         [ProtoMember(2, IsRequired = false)]
         public byte[] Data;
 
+        /// <summary>
+        ///   The file size.
+        /// </summary>
         [ProtoMember(3, IsRequired = false)]
         public ulong? FileSize;
 
+        /// <summary>
+        ///  The file size of each block.
+        /// </summary>
         [ProtoMember(4, IsRequired = false)]
         public ulong[] BlockSizes;
 
 #pragma warning disable 0649 // disable warning about unassinged fields
+        /// <summary>
+        ///   NYI
+        /// </summary>
         [ProtoMember(5, IsRequired = false)]
         public ulong? HashType;
 
 #pragma warning disable 0649 // disable warning about unassinged fields
+        /// <summary>
+        ///   NYI
+        /// </summary>
         [ProtoMember(6, IsRequired = false)]
         public ulong? Fanout;
     }

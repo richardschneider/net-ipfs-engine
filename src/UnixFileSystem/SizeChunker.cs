@@ -40,7 +40,7 @@ namespace Ipfs.Engine.UnixFileSystem
         ///    A task that represents the asynchronous operation. The task's value is
         ///    the sequence of file system nodes of the added data blocks.
         /// </returns>
-        public async Task<IEnumerable<FileSystemNode>> ChunkAsync(
+        public async Task<List<FileSystemNode>> ChunkAsync(
             Stream stream, 
             string name,
             AddFileOptions options, 

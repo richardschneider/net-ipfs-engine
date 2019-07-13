@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
+using Ipfs.Engine.UnixFileSystem;
+using System.IO;
 
 namespace Ipfs.Cli
 {
     [Command(Description = "Manage IPFS objects")]
     [Subcommand("links", typeof(ObjectLinksCommand))]
     [Subcommand("get", typeof(ObjectGetCommand))]
+    [Subcommand("dump", typeof(ObjectDumpCommand))]
     class ObjectCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -63,4 +66,30 @@ namespace Ipfs.Cli
         }
     }
 
+    [Command(Description = "Dump the DAG node")]
+    class ObjectDumpCommand : CommandBase
+    {
+        [Argument(0, "cid", "The content ID of the object")]
+        [Required]
+        public string Cid { get; set; }
+
+        ObjectCommand Parent { get; set; }
+
+        class Node
+        {
+            public DagNode Dag;
+            public DataMessage DataMessage;
+        }
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            var Program = Parent.Parent;
+            var node = new Node();
+            var block = await Program.CoreApi.Block.GetAsync(Cid);
+            node.Dag = new DagNode(block.DataStream);
+            node.DataMessage = ProtoBuf.Serializer.Deserialize<DataMessage>(node.Dag.DataStream);
+
+            return Program.Output(app, node, null);
+        }
+    }
 }

@@ -90,7 +90,7 @@ namespace Ipfs.Cli
             }
 
             var took = DateTime.Now - startTime;
-            Console.Write($"Took {took.TotalSeconds} seconds.");
+            //Console.Write($"Took {took.TotalSeconds} seconds.");
 
             return 0;
         }

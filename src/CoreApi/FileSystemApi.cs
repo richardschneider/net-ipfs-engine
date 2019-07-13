@@ -99,7 +99,7 @@ namespace Ipfs.Engine.CoreApi
                 return nodes.First();
             }
 
-            // Bundle X links into a block.
+            // Bundle DefaultLinksPerBlock links into a block.
             var tree = new List<FileSystemNode>();
             for (int i = 0; true; ++i)
             {
@@ -126,6 +126,7 @@ namespace Ipfs.Engine.CoreApi
             // Build the DAG that contains all the file nodes.
             var links = nodes.Select(n => n.ToLink()).ToArray();
             var fileSize = (ulong)nodes.Sum(n => n.Size);
+            var dagSize = nodes.Sum(n => n.DagSize);
             var dm = new DataMessage
             {
                 Type = DataType.File,
@@ -148,7 +149,7 @@ namespace Ipfs.Engine.CoreApi
             {
                 Id = dag.Id,
                 Size = (long)dm.FileSize,
-                DagSize = dag.Size,
+                DagSize = dagSize + dag.Size,
                 Links = links
             };
         }

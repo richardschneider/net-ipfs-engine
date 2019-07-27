@@ -50,7 +50,7 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        FileStore<Cid, DataBlock> Store
+        public FileStore<Cid, DataBlock> Store
         {
             get
             {

@@ -34,7 +34,8 @@ namespace Ipfs.Engine.CoreApi
                 StorageMax = 10000000000 // TODO: there is no storage max
             };
 
-            GetDirStats(data.RepoPath, data, cancel);
+            var blockApi = (BlockApi)ipfs.Block;
+            GetDirStats(blockApi.Store.Folder, data, cancel);
 
             return Task.FromResult(data);
         }

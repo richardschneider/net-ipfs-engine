@@ -41,6 +41,9 @@
     - name: Keys
       href: repo/key.md
     - name: Pins
+      href: repo/pin.md
+    - name: Garbage Collection
+      href: repo/gc.md
 - name: Peer
   href: peer.md
   items:

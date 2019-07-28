@@ -7,6 +7,9 @@ will create it with the factory defaults.
 To change its name and/or location use the [environment variables](envvars.md) 
 or the [Repository Options](xref:Ipfs.Engine.RepositoryOptions).
 
+The [Block Repository API](xref:Ipfs.CoreApi.IBlockRepositoryApi) manages the [blocks](repo/block.md) in the repository.
+
+
 ## Creating
 
 The repository will be automatically created if it does not already exist.  

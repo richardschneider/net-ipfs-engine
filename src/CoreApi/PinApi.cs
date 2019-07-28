@@ -10,7 +10,7 @@ namespace Ipfs.Engine.CoreApi
 {
     class Pin
     {
-        public static Pin Default = new Pin();
+        public Cid Id;
     }
 
     class PinApi : IPinApi
@@ -32,13 +32,12 @@ namespace Ipfs.Engine.CoreApi
                     var folder = Path.Combine(ipfs.Options.Repository.Folder, "pins");
                     if (!Directory.Exists(folder))
                         Directory.CreateDirectory(folder);
+                    // TODO: Need cid.Encode("base32")
                     store = new FileStore<Cid, Pin>
                     {
                         Folder = folder,
                         NameToKey = (cid) => cid.Hash.ToBase32(),
-                        KeyToName = (key) => new MultiHash(key.FromBase32()),
-                        Serialize = (stream, cid, block, cancel) => Task.CompletedTask,
-                        Deserialize = (stream, cid, cancel) => Task.FromResult(Pin.Default)
+                        KeyToName = (key) => new MultiHash(key.FromBase32())
                     };
                 }
                 return store;
@@ -61,7 +60,7 @@ namespace Ipfs.Engine.CoreApi
                 var current = todos.Pop();
 
                 // Add CID to PIN database.
-                await Store.PutAsync(current, Pin.Default).ConfigureAwait(false);
+                await Store.PutAsync(current, new Pin { Id = current }).ConfigureAwait(false);
 
                 // Make sure that the content is stored locally.
                 await ipfs.Block.GetAsync(current, cancel).ConfigureAwait(false);
@@ -84,8 +83,9 @@ namespace Ipfs.Engine.CoreApi
 
         public Task<IEnumerable<Cid>> ListAsync(CancellationToken cancel = default(CancellationToken))
         {
-            var cids = Store.Names.ToArray();
-            return Task.FromResult((IEnumerable<Cid>)cids);
+            var cids = Store.Values
+                .Select(pin => pin.Id);
+            return Task.FromResult(cids);
         }
 
         public async Task<IEnumerable<Cid>> RemoveAsync(Cid id, bool recursive = true, CancellationToken cancel = default(CancellationToken))

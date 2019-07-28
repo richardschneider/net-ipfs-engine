@@ -28,5 +28,19 @@ namespace Ipfs.Engine
             Assert.AreEqual(stats.Version, version);
         }
 
+        [TestMethod]
+        public async Task GarbageCollection()
+        {
+            var pinned = await ipfs.Block.PutAsync(new byte[256], pin: true);
+            var unpinned = await ipfs.Block.PutAsync(new byte[512], pin: false);
+            Assert.AreNotEqual(pinned, unpinned);
+            Assert.IsNotNull(await ipfs.Block.StatAsync(pinned));
+            Assert.IsNotNull(await ipfs.Block.StatAsync(unpinned));
+
+            await ipfs.BlockRepository.RemoveGarbageAsync();
+            Assert.IsNotNull(await ipfs.Block.StatAsync(pinned));
+            Assert.IsNull(await ipfs.Block.StatAsync(unpinned));
+        }
+
     }
 }

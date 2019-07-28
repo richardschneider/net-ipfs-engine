@@ -20,9 +20,17 @@ namespace Ipfs.Engine.CoreApi
             this.ipfs = ipfs;
         }
 
-        public Task RemoveGarbageAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task RemoveGarbageAsync(CancellationToken cancel = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var blockApi = (BlockApi)ipfs.Block;
+            var pinApi = (PinApi)ipfs.Pin;
+            foreach (var cid in blockApi.Store.Names)
+            {
+                if (!await pinApi.IsPinnedAsync(cid, cancel).ConfigureAwait(false))
+                {
+                    await ipfs.Block.RemoveAsync(cid, ignoreNonexistent: true, cancel: cancel).ConfigureAwait(false);
+                }
+            }
         }
 
         public Task<RepositoryData> StatisticsAsync(CancellationToken cancel = default(CancellationToken))
@@ -66,5 +74,6 @@ namespace Ipfs.Engine.CoreApi
                 GetDirStats(dir, data, cancel);
             }
         }
+
     }
 }

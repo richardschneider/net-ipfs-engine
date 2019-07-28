@@ -114,5 +114,10 @@ namespace Ipfs.Engine.CoreApi
 
             return dones;
         }
+
+        public async Task<bool> IsPinnedAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+        {
+            return await Store.ExistsAsync(id, cancel).ConfigureAwait(false);
+        }
     }
 }

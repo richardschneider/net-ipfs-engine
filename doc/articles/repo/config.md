@@ -1,11 +1,11 @@
 ﻿# Configuration
 
 The configuration file is JSON formatted and is a general store for the 
-various [API](../core-api.md) settings.
+various [API](../core-api.md) settings.  The file can be changed manually
+or the [Config API](xref:Ipfs.CoreApi.IConfigApi) can be used.
 
-## Location
-
-TODO
+The `config` file is located in the repository folder.  The path is typically
+`$HOME/.csipfs/config`.
 
 ## Keys
 

@@ -97,15 +97,23 @@ namespace Ipfs.Engine.CoreApi
             while (todos.Count > 0)
             {
                 var current = todos.Pop();
-                // TODO: exists is never set to true!
-                bool exists = false;
                 await Store.RemoveAsync(current, cancel).ConfigureAwait(false);
-                if (exists && recursive)
+                if (recursive)
                 {
-                    var links = await ipfs.Object.LinksAsync(current, cancel).ConfigureAwait(false);
-                    foreach (var link in links)
+                    if (null != await ipfs.Block.StatAsync(current, cancel).ConfigureAwait(false))
                     {
-                        todos.Push(link.Id);
+                        try
+                        {
+                            var links = await ipfs.Object.LinksAsync(current, cancel).ConfigureAwait(false);
+                            foreach (var link in links)
+                            {
+                                todos.Push(link.Id);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // ignore if current is not an objcet.
+                        }
                     }
                 }
                 dones.Add(current);

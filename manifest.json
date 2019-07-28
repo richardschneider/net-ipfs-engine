@@ -729,7 +729,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/repo/block.html",
-          "hash": "YPQ2RpRKkPrhxsL8Br3W0w=="
+          "hash": "425+otZnA6lgjyeFQIplsw=="
         }
       },
       "is_incremental": false,
@@ -741,7 +741,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/repo/config.html",
-          "hash": "iwruLOGhZl5brwP9mkPx1A=="
+          "hash": "/KKgv9eyVdu7FO9tRhlUaQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/repo/gc.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/repo/gc.html",
+          "hash": "h66B5AdEIBvwF7ybyzl4pA=="
         }
       },
       "is_incremental": false,
@@ -761,11 +773,23 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/repo/pin.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/repo/pin.html",
+          "hash": "MnGJZOEeTmDbusCUEpMkWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/repository.md",
       "output": {
         ".html": {
           "relative_path": "articles/repository.html",
-          "hash": "rx6wy6ehp6uEtOsVrmZPvA=="
+          "hash": "yQm1Yxf7I2gxmsNApnagkQ=="
         }
       },
       "is_incremental": false,
@@ -777,7 +801,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "rt3SVVXXsc+b6aUQBbtMvA=="
+          "hash": "o/tpTyd+vI1BfKMhqJj46Q=="
         }
       },
       "is_incremental": false,
@@ -881,16 +905,16 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 29,
-          "skipped_file_count": 0
-        },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 35,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 31,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {

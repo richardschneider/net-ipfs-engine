@@ -32,12 +32,11 @@ namespace Ipfs.Engine.CoreApi
                     var folder = Path.Combine(ipfs.Options.Repository.Folder, "pins");
                     if (!Directory.Exists(folder))
                         Directory.CreateDirectory(folder);
-                    // TODO: Need cid.Encode("base32")
                     store = new FileStore<Cid, Pin>
                     {
                         Folder = folder,
-                        NameToKey = (cid) => cid.Encode(),
-                        KeyToName = (key) => Cid.Decode(key),
+                        NameToKey = (cid) => cid.Hash.ToBase32(),
+                        KeyToName = (key) => new MultiHash(key.FromBase32()),
                         Serialize = (stream, cid, block, cancel) => Task.CompletedTask,
                         Deserialize = (stream, cid, cancel) => Task.FromResult(Pin.Default)
                     };

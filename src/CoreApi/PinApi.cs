@@ -32,7 +32,6 @@ namespace Ipfs.Engine.CoreApi
                     var folder = Path.Combine(ipfs.Options.Repository.Folder, "pins");
                     if (!Directory.Exists(folder))
                         Directory.CreateDirectory(folder);
-                    // TODO: Need cid.Encode("base32")
                     store = new FileStore<Cid, Pin>
                     {
                         Folder = folder,

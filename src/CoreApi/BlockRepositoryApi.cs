@@ -33,19 +33,19 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
-        public Task<RepositoryData> StatisticsAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task<RepositoryData> StatisticsAsync(CancellationToken cancel = default(CancellationToken))
         {
             var data = new RepositoryData
             {
                 RepoPath = Path.GetFullPath(ipfs.Options.Repository.Folder),
-                Version = "1",
+                Version = await VersionAsync(cancel).ConfigureAwait(false),
                 StorageMax = 10000000000 // TODO: there is no storage max
             };
 
             var blockApi = (BlockApi)ipfs.Block;
             GetDirStats(blockApi.Store.Folder, data, cancel);
 
-            return Task.FromResult(data);
+            return data;
         }
 
         public Task VerifyAsync(CancellationToken cancel = default(CancellationToken))
@@ -55,8 +55,16 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<string> VersionAsync(CancellationToken cancel = default(CancellationToken))
         {
-            var stats = await StatisticsAsync(cancel).ConfigureAwait(false);
-            return stats.Version;
+            var path = Path.Combine(ipfs.Options.Repository.ExistingFolder(), "version");
+            if (File.Exists(path))
+            {
+                using (var reader = new StreamReader(path))
+                {
+                    return await reader.ReadLineAsync();
+                }
+            }
+
+            return "0";
         }
 
         void GetDirStats(string path, RepositoryData data, CancellationToken cancel)

@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections.Concurrent;
 using PeerTalk;
+using System.Globalization;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -53,18 +54,11 @@ namespace Ipfs.Engine.CoreApi
             throw new NotImplementedException();
         }
 
-        public async Task<string> VersionAsync(CancellationToken cancel = default(CancellationToken))
+        public Task<string> VersionAsync(CancellationToken cancel = default(CancellationToken))
         {
-            var path = Path.Combine(ipfs.Options.Repository.ExistingFolder(), "version");
-            if (File.Exists(path))
-            {
-                using (var reader = new StreamReader(path))
-                {
-                    return await reader.ReadLineAsync();
-                }
-            }
-
-            return "0";
+            return Task.FromResult(ipfs.MigrationManager
+                .CurrentVersion
+                .ToString(CultureInfo.InvariantCulture));
         }
 
         void GetDirStats(string path, RepositoryData data, CancellationToken cancel)

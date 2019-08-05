@@ -59,7 +59,7 @@ namespace Ipfs.Engine.CoreApi
                 var current = todos.Pop();
 
                 // Add CID to PIN database.
-                await Store.PutAsync(current, new Pin { Id = current }).ConfigureAwait(false);
+                await Store.PutAsync(current, new Pin { Id = current }, cancel).ConfigureAwait(false);
 
                 // Make sure that the content is stored locally.
                 await ipfs.Block.GetAsync(current, cancel).ConfigureAwait(false);

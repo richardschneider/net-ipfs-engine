@@ -3,6 +3,7 @@ using McMaster.Extensions.CommandLineUtils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -86,9 +87,14 @@ namespace Ipfs.Cli
     {
         RepoCommand Parent { get; set; }
 
-        [Argument(0, "version", "The version number of the repository")]
+        [Argument(0, "version", "The version # of the repository")]
         [Required]
         public int Version { get; set; }
+
+        protected override void GenerateFooter(CommandLineApplication application, TextWriter output)
+        {
+            output.WriteLine("Versions:");
+        }
 
         protected override async Task<int> OnExecute(CommandLineApplication app)
         {

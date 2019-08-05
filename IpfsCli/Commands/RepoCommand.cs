@@ -10,6 +10,7 @@ namespace Ipfs.Cli
 {
     [Command(Description = "Manage the IPFS repository")]
     [Subcommand("gc", typeof(RepoGCCommand))]
+    [Subcommand("migrate", typeof(RepoMigrateCommand))]
     [Subcommand("stat", typeof(RepoStatCommand))]
     [Subcommand("verify", typeof(RepoVerifyCommand))]
     [Subcommand("version", typeof(RepoVersionCommand))]
@@ -80,5 +81,24 @@ namespace Ipfs.Cli
         }
     }
 
+    [Command(Description = "Migrate to the version")]
+    class RepoMigrateCommand : CommandBase
+    {
+        RepoCommand Parent { get; set; }
+
+        [Argument(0, "version", "The version number of the repository")]
+        [Required]
+        public int Version { get; set; }
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            // TODO: Add option --pass
+            string passphrase = "this is not a secure pass phrase";
+            var ipfs = new IpfsEngine(passphrase.ToCharArray());
+
+            await ipfs.MigrationManager.MirgrateToVersionAsync(Version);
+            return 0;
+        }
+    }
 
 }

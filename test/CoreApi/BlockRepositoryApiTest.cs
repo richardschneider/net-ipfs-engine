@@ -42,5 +42,29 @@ namespace Ipfs.Engine
             Assert.IsNull(await ipfs.Block.StatAsync(unpinned));
         }
 
+        [TestMethod]
+        public async Task VersionFileMissing()
+        {
+            var versionPath = Path.Combine(ipfs.Options.Repository.ExistingFolder(), "version");
+            var versionBackupPath = versionPath + ".bak";
+
+            try
+            {
+                if (File.Exists(versionPath))
+                {
+                    File.Move(versionPath, versionBackupPath);
+                }
+
+                Assert.AreEqual("0", await ipfs.BlockRepository.VersionAsync());
+            }
+            finally
+            {
+                if (File.Exists(versionBackupPath))
+                {
+                    File.Move(versionBackupPath, versionPath);
+                }
+            }
+        }
+
     }
 }

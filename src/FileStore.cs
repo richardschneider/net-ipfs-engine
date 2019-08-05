@@ -326,9 +326,9 @@ namespace Ipfs.Engine
         }
 
         /// <summary>
-        ///   Local file system path of the name.
+        ///   Local file system path to the name.
         /// </summary>
-        string GetPath(TName name)
+        public string GetPath(TName name)
         {
             return Path.Combine(Folder, NameToKey(name));
         }

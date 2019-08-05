@@ -33,7 +33,7 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<JObject> GetAsync(CancellationToken cancel = default(CancellationToken))
         {
-            // If first time, load the confiuration into memory.
+            // If first time, load the configuration into memory.
             if (configuration == null)
             {
                 var path = Path.Combine(ipfs.Options.Repository.ExistingFolder(), "config");

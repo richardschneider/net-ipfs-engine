@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections.Concurrent;
 using PeerTalk;
+using System.Globalization;
 
 namespace Ipfs.Engine.CoreApi
 {
@@ -33,19 +34,19 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
-        public Task<RepositoryData> StatisticsAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task<RepositoryData> StatisticsAsync(CancellationToken cancel = default(CancellationToken))
         {
             var data = new RepositoryData
             {
                 RepoPath = Path.GetFullPath(ipfs.Options.Repository.Folder),
-                Version = "1",
+                Version = await VersionAsync(cancel).ConfigureAwait(false),
                 StorageMax = 10000000000 // TODO: there is no storage max
             };
 
             var blockApi = (BlockApi)ipfs.Block;
             GetDirStats(blockApi.Store.Folder, data, cancel);
 
-            return Task.FromResult(data);
+            return data;
         }
 
         public Task VerifyAsync(CancellationToken cancel = default(CancellationToken))
@@ -53,10 +54,11 @@ namespace Ipfs.Engine.CoreApi
             throw new NotImplementedException();
         }
 
-        public async Task<string> VersionAsync(CancellationToken cancel = default(CancellationToken))
+        public Task<string> VersionAsync(CancellationToken cancel = default(CancellationToken))
         {
-            var stats = await StatisticsAsync(cancel).ConfigureAwait(false);
-            return stats.Version;
+            return Task.FromResult(ipfs.MigrationManager
+                .CurrentVersion
+                .ToString(CultureInfo.InvariantCulture));
         }
 
         void GetDirStats(string path, RepositoryData data, CancellationToken cancel)

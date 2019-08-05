@@ -63,14 +63,14 @@ namespace Ipfs.Engine.CoreApi
             return ipfs.StopAsync();
         }
 
-        public Task<Dictionary<string, string>> VersionAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task<Dictionary<string, string>> VersionAsync(CancellationToken cancel = default(CancellationToken))
         {
             var version = typeof(GenericApi).GetTypeInfo().Assembly.GetName().Version;
-            return Task.FromResult(new Dictionary<string, string>
+            return new Dictionary<string, string>
             {
                 { "Version", $"{version.Major}.{version.Minor}.{version.Revision}" },
-                { "Repo", "0" }
-            });
+                { "Repo", await ipfs.BlockRepository.VersionAsync() }
+            };
         }
     }
 }

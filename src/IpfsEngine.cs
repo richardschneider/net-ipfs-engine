@@ -10,6 +10,7 @@ using System.Threading;
 using Ipfs.CoreApi;
 using Ipfs.Engine.CoreApi;
 using Ipfs.Engine.Cryptography;
+using Ipfs.Engine.Migration;
 using PeerTalk;
 using System.Reflection;
 using PeerTalk.Discovery;
@@ -117,6 +118,8 @@ namespace Ipfs.Engine
             Stats = new StatsApi(this);
             Swarm = new SwarmApi(this);
 
+            MigrationManager = new MigrationManager(this);
+
             // Async properties
             LocalPeer = new AsyncLazy<Peer>(async () =>
             {
@@ -209,6 +212,11 @@ namespace Ipfs.Engine
         ///   The configuration options.
         /// </summary>
         public IpfsEngineOptions Options { get; set; } = new IpfsEngineOptions();
+
+        /// <summary>
+        ///   Manages the version of the repository.
+        /// </summary>
+        public MigrationManager MigrationManager { get; set; }
 
         /// <inheritdoc />
         public IBitswapApi Bitswap { get; set; }
@@ -358,6 +366,10 @@ namespace Ipfs.Engine
             {
                 throw new Exception("IPFS engine is already started.");
             }
+
+            // Repository must be at the correct version.
+            await MigrationManager.MirgrateToVersionAsync(MigrationManager.LatestVersion)
+                .ConfigureAwait(false);
 
             var localPeer = await LocalPeer.ConfigureAwait(false);
             log.Debug("starting " + localPeer.Id);

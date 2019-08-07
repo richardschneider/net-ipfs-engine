@@ -158,5 +158,35 @@ namespace Ipfs.Engine.CoreApi
             }
         }
 
+        [TestMethod]
+        public async Task Links_InlineCid()
+        {
+            var original = ipfs.Options.Block.AllowInlineCid;
+            try
+            {
+                ipfs.Options.Block.AllowInlineCid = true;
+
+                var node = await ipfs.FileSystem.AddTextAsync("hiya");
+                Assert.AreEqual(1, node.Id.Version);
+                Assert.IsTrue(node.Id.Hash.IsIdentityHash);
+
+                var links = await ipfs.Object.LinksAsync(node.Id);
+                Assert.AreEqual(0, links.Count());
+            }
+            finally
+            {
+                ipfs.Options.Block.AllowInlineCid = original;
+            }
+        }
+
+        [TestMethod]
+        public async Task Links_RawCid()
+        {
+            var blob = new byte[2048];
+            var cid = await ipfs.Block.PutAsync(blob, contentType: "raw");
+
+            var links = await ipfs.Object.LinksAsync(cid);
+            Assert.AreEqual(0, links.Count());
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,8 +50,16 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IEnumerable<IMerkleLink>> LinksAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            var node = await GetAsync(id, cancel).ConfigureAwait(false);
-            return node.Links;
+            var block = await ipfs.Block.GetAsync(id, cancel).ConfigureAwait(false);
+            try
+            {
+                var node = new DagNode(block.DataStream);
+                return node.Links;
+            }
+            catch
+            {
+                return Enumerable.Empty<IMerkleLink>();
+            }
         }
 
         public Task<DagNode> NewAsync(string template = null, CancellationToken cancel = default(CancellationToken))

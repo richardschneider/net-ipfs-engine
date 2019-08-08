@@ -63,7 +63,7 @@ after_test:
     - docfx doc\docfx.json --logLevel Warning --warningsAsErrors
     - 7z a -tzip docs.zip doc\_site
     - appveyor PushArtifact docs.zip
-    - if defined git_token npm install gh-pages -g
+    - if defined git_token npm install gh-pages@2.0 -g
     - if defined git_token gh-pages -d doc\_site -m "new docs %GitVersion_FullSemVer%"
 
 artifacts:

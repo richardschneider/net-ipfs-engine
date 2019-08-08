@@ -5,9 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Repository | IPFS Engine documentation </title>
+    <title>Namespace Ipfs.Engine.Migration
+   | IPFS Engine documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Repository | IPFS Engine documentation ">
+    <meta name="title" content="Namespace Ipfs.Engine.Migration
+   | IPFS Engine documentation ">
     <meta name="generator" content="docfx 2.42.0.0">
     
     <link rel="shortcut icon" href="../images/ipfs-favicon.ico">
@@ -66,63 +68,23 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="">
-<h1 id="repository">Repository</h1>
-
-<p>The repository is a local persistent store for IPFS data. By default, it is located 
-at <code>$HOME/.csipfs</code>.  If not present, the <a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html">IPFS Engine</a> 
-will create it with the factory defaults.</p>
-<p>To change its name and/or location use the <a href="envvars.html">environment variables</a> 
-or the <a class="xref" href="../api/Ipfs.Engine.RepositoryOptions.html">Repository Options</a>.</p>
-<p>The <a class="xref" href="https://richardschneider.github.io/net-ipfs-core/api/Ipfs.CoreApi.IBlockRepositoryApi.html">Block Repository API</a> manages the <a href="repo/block.html">blocks</a> in the repository.</p>
-<h2 id="creating">Creating</h2>
-<p>The repository will be automatically created if it does not already exist.  </p>
-<p>At creation time 
-a <a href="key.html">cryptograhic key</a> named <code>self</code> is created and is used to uniquely identify this node 
-in the IPFS network.  The <a class="xref" href="../api/Ipfs.Engine.Cryptography.KeyChainOptions.html">keychain options</a> are used to control the type of key that 
-is generated; by default it is RSA with 2048 bits.</p>
-<h2 id="contents">Contents</h2>
-<table>
-<thead>
-<tr>
-<th>File/Folder</th>
-<th>Usage</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>config</td>
-<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Config">Config API</a></td>
-<td>The <a href="repo/config.html">configuration</a> information</td>
-</tr>
-<tr>
-<td>blocks</td>
-<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Block">Block API</a></td>
-<td>A <a href="repo/block.html">Block</a> of data</td>
-</tr>
-<tr>
-<td>keys</td>
-<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Key">Key API</a></td>
-<td>Cryptographic <a href="repo/key.html">keys</a></td>
-</tr>
-<tr>
-<td>pins</td>
-<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Pin">Pin API</a></td>
-<td>A <a href="repo/block.html">Block</a> that is pinned to the local repository</td>
-</tr>
-<tr>
-<td>swarm.key</td>
-<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Swarm">Swarmp API</a></td>
-<td>The <a class="xref" href="https://richardschneider.github.io/peer-talk/api/PeerTalk.Cryptography.PreSharedKey.html">key</a> of the <a href="pnet.html">private network</a></td>
-</tr>
-<tr>
-<td>version</td>
-<td><a class="xref" href="../api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_BlockRepository">Repository API</a></td>
-<td>The version number of the repository</td>
-</tr>
-</tbody>
-</table>
+            <article class="content wrap" id="_content" data-uid="Ipfs.Engine.Migration">
+  
+  <h1 id="Ipfs_Engine_Migration" data-uid="Ipfs.Engine.Migration" class="text-break">Namespace Ipfs.Engine.Migration
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+    <h3 id="classes">Classes
+  </h3>
+      <h4><a class="xref" href="Ipfs.Engine.Migration.MigrationManager.html">MigrationManager</a></h4>
+      <section><p>Allows migration of the repository. </p>
+</section>
+    <h3 id="interfaces">Interfaces
+  </h3>
+      <h4><a class="xref" href="Ipfs.Engine.Migration.IMigration.html">IMigration</a></h4>
+      <section><p>Provides a migration path to the repository.</p>
+</section>
 </article>
           </div>
           
@@ -130,9 +92,6 @@ is generated; by default it is RSA with 2048 bits.</p>
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
-                  <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/doc/articles/repository.md/#L1" class="contribution-link">Improve this Doc</a>
-                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

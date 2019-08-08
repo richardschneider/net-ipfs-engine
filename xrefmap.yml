@@ -954,6 +954,23 @@ references:
   fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).GetAsync
   nameWithType: FileStore<TName, TValue>.GetAsync
   nameWithType.vb: FileStore(Of TName, TValue).GetAsync
+- uid: Ipfs.Engine.FileStore`2.GetPath(`0)
+  name: GetPath(TName)
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_GetPath__0_
+  commentId: M:Ipfs.Engine.FileStore`2.GetPath(`0)
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.GetPath(TName)
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).GetPath(TName)
+  nameWithType: FileStore<TName, TValue>.GetPath(TName)
+  nameWithType.vb: FileStore(Of TName, TValue).GetPath(TName)
+- uid: Ipfs.Engine.FileStore`2.GetPath*
+  name: GetPath
+  href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_GetPath_
+  commentId: Overload:Ipfs.Engine.FileStore`2.GetPath
+  isSpec: "True"
+  fullName: Ipfs.Engine.FileStore<TName, TValue>.GetPath
+  fullName.vb: Ipfs.Engine.FileStore(Of TName, TValue).GetPath
+  nameWithType: FileStore<TName, TValue>.GetPath
+  nameWithType.vb: FileStore(Of TName, TValue).GetPath
 - uid: Ipfs.Engine.FileStore`2.JsonDeserialize
   name: JsonDeserialize
   href: api/Ipfs.Engine.FileStore-2.html#Ipfs_Engine_FileStore_2_JsonDeserialize
@@ -1384,6 +1401,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.LocalPeer
   nameWithType: IpfsEngine.LocalPeer
+- uid: Ipfs.Engine.IpfsEngine.MigrationManager
+  name: MigrationManager
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_MigrationManager
+  commentId: P:Ipfs.Engine.IpfsEngine.MigrationManager
+  fullName: Ipfs.Engine.IpfsEngine.MigrationManager
+  nameWithType: IpfsEngine.MigrationManager
+- uid: Ipfs.Engine.IpfsEngine.MigrationManager*
+  name: MigrationManager
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_MigrationManager_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.MigrationManager
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.MigrationManager
+  nameWithType: IpfsEngine.MigrationManager
 - uid: Ipfs.Engine.IpfsEngine.Name
   name: Name
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_Name
@@ -1837,6 +1867,154 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.LinkedData.RawFormat.Serialize
   nameWithType: RawFormat.Serialize
+- uid: Ipfs.Engine.Migration
+  name: Ipfs.Engine.Migration
+  href: api/Ipfs.Engine.Migration.html
+  commentId: N:Ipfs.Engine.Migration
+  fullName: Ipfs.Engine.Migration
+  nameWithType: Ipfs.Engine.Migration
+- uid: Ipfs.Engine.Migration.IMigration
+  name: IMigration
+  href: api/Ipfs.Engine.Migration.IMigration.html
+  commentId: T:Ipfs.Engine.Migration.IMigration
+  fullName: Ipfs.Engine.Migration.IMigration
+  nameWithType: IMigration
+- uid: Ipfs.Engine.Migration.IMigration.CanDowngrade
+  name: CanDowngrade
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_CanDowngrade
+  commentId: P:Ipfs.Engine.Migration.IMigration.CanDowngrade
+  fullName: Ipfs.Engine.Migration.IMigration.CanDowngrade
+  nameWithType: IMigration.CanDowngrade
+- uid: Ipfs.Engine.Migration.IMigration.CanDowngrade*
+  name: CanDowngrade
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_CanDowngrade_
+  commentId: Overload:Ipfs.Engine.Migration.IMigration.CanDowngrade
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.IMigration.CanDowngrade
+  nameWithType: IMigration.CanDowngrade
+- uid: Ipfs.Engine.Migration.IMigration.CanUpgrade
+  name: CanUpgrade
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_CanUpgrade
+  commentId: P:Ipfs.Engine.Migration.IMigration.CanUpgrade
+  fullName: Ipfs.Engine.Migration.IMigration.CanUpgrade
+  nameWithType: IMigration.CanUpgrade
+- uid: Ipfs.Engine.Migration.IMigration.CanUpgrade*
+  name: CanUpgrade
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_CanUpgrade_
+  commentId: Overload:Ipfs.Engine.Migration.IMigration.CanUpgrade
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.IMigration.CanUpgrade
+  nameWithType: IMigration.CanUpgrade
+- uid: Ipfs.Engine.Migration.IMigration.DowngradeAsync(Ipfs.Engine.IpfsEngine,System.Threading.CancellationToken)
+  name: DowngradeAsync(IpfsEngine, CancellationToken)
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_DowngradeAsync_Ipfs_Engine_IpfsEngine_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Migration.IMigration.DowngradeAsync(Ipfs.Engine.IpfsEngine,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Migration.IMigration.DowngradeAsync(Ipfs.Engine.IpfsEngine, System.Threading.CancellationToken)
+  nameWithType: IMigration.DowngradeAsync(IpfsEngine, CancellationToken)
+- uid: Ipfs.Engine.Migration.IMigration.DowngradeAsync*
+  name: DowngradeAsync
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_DowngradeAsync_
+  commentId: Overload:Ipfs.Engine.Migration.IMigration.DowngradeAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.IMigration.DowngradeAsync
+  nameWithType: IMigration.DowngradeAsync
+- uid: Ipfs.Engine.Migration.IMigration.UpgradeAsync(Ipfs.Engine.IpfsEngine,System.Threading.CancellationToken)
+  name: UpgradeAsync(IpfsEngine, CancellationToken)
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_UpgradeAsync_Ipfs_Engine_IpfsEngine_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Migration.IMigration.UpgradeAsync(Ipfs.Engine.IpfsEngine,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Migration.IMigration.UpgradeAsync(Ipfs.Engine.IpfsEngine, System.Threading.CancellationToken)
+  nameWithType: IMigration.UpgradeAsync(IpfsEngine, CancellationToken)
+- uid: Ipfs.Engine.Migration.IMigration.UpgradeAsync*
+  name: UpgradeAsync
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_UpgradeAsync_
+  commentId: Overload:Ipfs.Engine.Migration.IMigration.UpgradeAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.IMigration.UpgradeAsync
+  nameWithType: IMigration.UpgradeAsync
+- uid: Ipfs.Engine.Migration.IMigration.Version
+  name: Version
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_Version
+  commentId: P:Ipfs.Engine.Migration.IMigration.Version
+  fullName: Ipfs.Engine.Migration.IMigration.Version
+  nameWithType: IMigration.Version
+- uid: Ipfs.Engine.Migration.IMigration.Version*
+  name: Version
+  href: api/Ipfs.Engine.Migration.IMigration.html#Ipfs_Engine_Migration_IMigration_Version_
+  commentId: Overload:Ipfs.Engine.Migration.IMigration.Version
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.IMigration.Version
+  nameWithType: IMigration.Version
+- uid: Ipfs.Engine.Migration.MigrationManager
+  name: MigrationManager
+  href: api/Ipfs.Engine.Migration.MigrationManager.html
+  commentId: T:Ipfs.Engine.Migration.MigrationManager
+  fullName: Ipfs.Engine.Migration.MigrationManager
+  nameWithType: MigrationManager
+- uid: Ipfs.Engine.Migration.MigrationManager.#ctor(Ipfs.Engine.IpfsEngine)
+  name: MigrationManager(IpfsEngine)
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager__ctor_Ipfs_Engine_IpfsEngine_
+  commentId: M:Ipfs.Engine.Migration.MigrationManager.#ctor(Ipfs.Engine.IpfsEngine)
+  fullName: Ipfs.Engine.Migration.MigrationManager.MigrationManager(Ipfs.Engine.IpfsEngine)
+  nameWithType: MigrationManager.MigrationManager(IpfsEngine)
+- uid: Ipfs.Engine.Migration.MigrationManager.#ctor*
+  name: MigrationManager
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager__ctor_
+  commentId: Overload:Ipfs.Engine.Migration.MigrationManager.#ctor
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.MigrationManager.MigrationManager
+  nameWithType: MigrationManager.MigrationManager
+- uid: Ipfs.Engine.Migration.MigrationManager.CurrentVersion
+  name: CurrentVersion
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager_CurrentVersion
+  commentId: P:Ipfs.Engine.Migration.MigrationManager.CurrentVersion
+  fullName: Ipfs.Engine.Migration.MigrationManager.CurrentVersion
+  nameWithType: MigrationManager.CurrentVersion
+- uid: Ipfs.Engine.Migration.MigrationManager.CurrentVersion*
+  name: CurrentVersion
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager_CurrentVersion_
+  commentId: Overload:Ipfs.Engine.Migration.MigrationManager.CurrentVersion
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.MigrationManager.CurrentVersion
+  nameWithType: MigrationManager.CurrentVersion
+- uid: Ipfs.Engine.Migration.MigrationManager.LatestVersion
+  name: LatestVersion
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager_LatestVersion
+  commentId: P:Ipfs.Engine.Migration.MigrationManager.LatestVersion
+  fullName: Ipfs.Engine.Migration.MigrationManager.LatestVersion
+  nameWithType: MigrationManager.LatestVersion
+- uid: Ipfs.Engine.Migration.MigrationManager.LatestVersion*
+  name: LatestVersion
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager_LatestVersion_
+  commentId: Overload:Ipfs.Engine.Migration.MigrationManager.LatestVersion
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.MigrationManager.LatestVersion
+  nameWithType: MigrationManager.LatestVersion
+- uid: Ipfs.Engine.Migration.MigrationManager.Migrations
+  name: Migrations
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager_Migrations
+  commentId: P:Ipfs.Engine.Migration.MigrationManager.Migrations
+  fullName: Ipfs.Engine.Migration.MigrationManager.Migrations
+  nameWithType: MigrationManager.Migrations
+- uid: Ipfs.Engine.Migration.MigrationManager.Migrations*
+  name: Migrations
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager_Migrations_
+  commentId: Overload:Ipfs.Engine.Migration.MigrationManager.Migrations
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.MigrationManager.Migrations
+  nameWithType: MigrationManager.Migrations
+- uid: Ipfs.Engine.Migration.MigrationManager.MirgrateToVersionAsync(System.Int32,System.Threading.CancellationToken)
+  name: MirgrateToVersionAsync(Int32, CancellationToken)
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager_MirgrateToVersionAsync_System_Int32_System_Threading_CancellationToken_
+  commentId: M:Ipfs.Engine.Migration.MigrationManager.MirgrateToVersionAsync(System.Int32,System.Threading.CancellationToken)
+  fullName: Ipfs.Engine.Migration.MigrationManager.MirgrateToVersionAsync(System.Int32, System.Threading.CancellationToken)
+  nameWithType: MigrationManager.MirgrateToVersionAsync(Int32, CancellationToken)
+- uid: Ipfs.Engine.Migration.MigrationManager.MirgrateToVersionAsync*
+  name: MirgrateToVersionAsync
+  href: api/Ipfs.Engine.Migration.MigrationManager.html#Ipfs_Engine_Migration_MigrationManager_MirgrateToVersionAsync_
+  commentId: Overload:Ipfs.Engine.Migration.MigrationManager.MirgrateToVersionAsync
+  isSpec: "True"
+  fullName: Ipfs.Engine.Migration.MigrationManager.MirgrateToVersionAsync
+  nameWithType: MigrationManager.MirgrateToVersionAsync
 - uid: Ipfs.Engine.RandomWalk
   name: RandomWalk
   href: api/Ipfs.Engine.RandomWalk.html

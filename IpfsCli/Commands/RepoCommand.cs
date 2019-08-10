@@ -91,11 +91,6 @@ namespace Ipfs.Cli
         [Required]
         public int Version { get; set; }
 
-        protected override void GenerateFooter(CommandLineApplication application, TextWriter output)
-        {
-            output.WriteLine("Versions:");
-        }
-
         protected override async Task<int> OnExecute(CommandLineApplication app)
         {
             // TODO: Add option --pass

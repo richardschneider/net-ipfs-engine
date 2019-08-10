@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [HelpOption("--help")]
-    abstract class CommandBase : DefaultHelpTextGenerator
+    
+    abstract class CommandBase
     {
         protected virtual Task<int> OnExecute(CommandLineApplication app)
         {

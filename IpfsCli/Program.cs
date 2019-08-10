@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using McMaster.Extensions.CommandLineUtils.HelpText;
 
 namespace Ipfs.Cli
 {
@@ -59,6 +60,7 @@ namespace Ipfs.Cli
 
         public static int Main(string[] args)
         {
+            var exitCode = -1;
             var startTime = DateTime.Now;
 
             // Need to setup common.logging early.
@@ -73,7 +75,10 @@ namespace Ipfs.Cli
 
             try
             {
-                CommandLineApplication.Execute<Program>(args);
+                var app = new CommandLineApplication<Program>();
+                app.Conventions.UseDefaultConventions();
+                app.HelpTextGenerator = new Help();
+                exitCode = app.Execute(args);
             }
             catch (Exception e)
             {
@@ -86,13 +91,13 @@ namespace Ipfs.Cli
                         Console.WriteLine(e.StackTrace);
                     }
                 }
-                return 1;
+                exitCode = 1;
             }
 
             var took = DateTime.Now - startTime;
             //Console.Write($"Took {took.TotalSeconds} seconds.");
 
-            return 0;
+            return exitCode;
         }
 
         [Option("--api <url>",  Description = "Use a specific API instance")]
@@ -174,6 +179,30 @@ namespace Ipfs.Cli
 
         private static string GetVersion()
             => typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+
+        /// <summary>
+        ///   Generate help text by using the default help text generated.
+        /// </summary>
+        /// <remarks>
+        ///   Allows the footer to be command specific.
+        /// </remarks>
+        class Help : DefaultHelpTextGenerator
+        {
+            public override void Generate(CommandLineApplication application, TextWriter output)
+            {
+//                base.Generate(application, output);
+            }
+
+            /// <summary>
+            ///   Use command specific footer.
+            /// </summary>
+            /// <param name="application"></param>
+            /// <param name="output"></param>
+            protected override void GenerateFooter(CommandLineApplication application, TextWriter output)
+            {
+                base.GenerateFooter(application, output);
+            }
+        }
     }
 
 }

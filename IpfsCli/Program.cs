@@ -76,8 +76,8 @@ namespace Ipfs.Cli
             try
             {
                 var app = new CommandLineApplication<Program>();
-                app.Conventions.UseDefaultConventions();
                 app.HelpTextGenerator = new Help();
+                app.Conventions.UseDefaultConventions();
                 exitCode = app.Execute(args);
             }
             catch (Exception e)
@@ -188,10 +188,6 @@ namespace Ipfs.Cli
         /// </remarks>
         class Help : DefaultHelpTextGenerator
         {
-            public override void Generate(CommandLineApplication application, TextWriter output)
-            {
-//                base.Generate(application, output);
-            }
 
             /// <summary>
             ///   Use command specific footer.
@@ -200,7 +196,7 @@ namespace Ipfs.Cli
             /// <param name="output"></param>
             protected override void GenerateFooter(CommandLineApplication application, TextWriter output)
             {
-                base.GenerateFooter(application, output);
+                // TODO
             }
         }
     }

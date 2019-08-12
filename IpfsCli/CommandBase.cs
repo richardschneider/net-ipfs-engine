@@ -1,4 +1,5 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
+using McMaster.Extensions.CommandLineUtils.HelpText;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [HelpOption("--help")]
-    abstract class CommandBase
+    
+    abstract class CommandBase : DefaultHelpTextGenerator
     {
         protected virtual Task<int> OnExecute(CommandLineApplication app)
         {

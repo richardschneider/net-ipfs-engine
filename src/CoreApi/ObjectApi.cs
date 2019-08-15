@@ -50,16 +50,14 @@ namespace Ipfs.Engine.CoreApi
 
         public async Task<IEnumerable<IMerkleLink>> LinksAsync(Cid id, CancellationToken cancel = default(CancellationToken))
         {
-            var block = await ipfs.Block.GetAsync(id, cancel).ConfigureAwait(false);
-            try
-            {
-                var node = new DagNode(block.DataStream);
-                return node.Links;
-            }
-            catch
+            if (id.ContentType != "dag-pb")
             {
                 return Enumerable.Empty<IMerkleLink>();
             }
+
+            var block = await ipfs.Block.GetAsync(id, cancel).ConfigureAwait(false);
+            var node = new DagNode(block.DataStream);
+            return node.Links;
         }
 
         public Task<DagNode> NewAsync(string template = null, CancellationToken cancel = default(CancellationToken))

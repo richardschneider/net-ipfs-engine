@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.2</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
     <DebugType>portable</DebugType>
@@ -17,15 +17,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" PrivateAssets="all" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" PrivateAssets="all" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" PrivateAssets="all" />
-    <PackageReference Include="coverlet.msbuild" Version="2.6.2" PrivateAssets="all" />
+    <PackageReference Include="coverlet.msbuild" Version="2.6.3" PrivateAssets="all" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="SharpZipLib" Version="1.1.0" />
+    <PackageReference Include="SharpZipLib" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

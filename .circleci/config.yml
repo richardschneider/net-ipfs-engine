@@ -7,7 +7,7 @@ jobs:
   build:
     working_directory: /temp
     docker:
-      - image: microsoft/dotnet:2.1-sdk
+      - image: microsoft/dotnet:2.2-sdk
     environment:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
@@ -15,9 +15,9 @@ jobs:
       - checkout
       - run: dotnet restore
       - run: dotnet build -c Release --no-restore --framework netstandard2 ./src
-      - run: dotnet build -c Release --no-restore --framework netcoreapp2.1 ./IpfsServer
-      - run: dotnet build -c Release --no-restore --framework netcoreapp2.1 ./IpfsCli
-      - run: dotnet test --logger "console;verbosity=normal" -c Release --no-restore --framework netcoreapp2.1 ./test --filter TestCategory!=IPv6
+      - run: dotnet build -c Release --no-restore --framework netcoreapp2.2 ./IpfsServer
+      - run: dotnet build -c Release --no-restore --framework netcoreapp2.2 ./IpfsCli
+      - run: dotnet test --logger "console;verbosity=normal" -c Release --no-restore --framework netcoreapp2.12 ./test --filter TestCategory!=IPv6
 
 # Circle CI does not completely support IPv6
 # see https://discuss.circleci.com/t/ipv6-support/13571

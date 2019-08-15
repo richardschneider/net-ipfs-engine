@@ -736,6 +736,40 @@ namespace Ipfs.Engine
         }
 
         [TestMethod]
+        public async Task AddDirectoryRecursive_ObjectLinks()
+        {
+            var ipfs = TestFixture.Ipfs;
+            var temp = MakeTemp();
+            try
+            {
+                var dir = await ipfs.FileSystem.AddDirectoryAsync(temp, true);
+                Assert.IsTrue(dir.IsDirectory);
+
+                var cid = dir.Id;
+                var i = 0;
+                var allLinks = new List<IMerkleLink>();
+                while (cid != null)
+                {
+                    var links = await ipfs.Object.LinksAsync(cid);
+                    allLinks.AddRange(links);
+                    cid = (i < allLinks.Count) ? allLinks[i++].Id : null;
+                }
+
+                Assert.AreEqual(6, allLinks.Count);
+                Assert.AreEqual("alpha.txt", allLinks[0].Name);
+                Assert.AreEqual("beta.txt", allLinks[1].Name);
+                Assert.AreEqual("x", allLinks[2].Name);
+                Assert.AreEqual("x.txt", allLinks[3].Name);
+                Assert.AreEqual("y", allLinks[4].Name);
+                Assert.AreEqual("y.txt", allLinks[5].Name);
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [TestMethod]
         [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74")]
         public async Task ReadTextFromNetwork()
         {

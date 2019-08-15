@@ -49,7 +49,7 @@ test_script:
 
 after_test: 
 # Generate coverage report
-    - dotnet test -c %CONFIGURATION% -f netcoreapp2.1 --no-build --no-restore test /p:CollectCoverage=true
+    - dotnet test -c %CONFIGURATION% -f netcoreapp2.2 --no-build --no-restore test /p:CollectCoverage=true
     - choco install codecov -y
     - codecov -f "test/coverage.opencover.xml"
     - dotnet tool install --global coveralls.net --version 1.0.0

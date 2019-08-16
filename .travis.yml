@@ -20,3 +20,6 @@ before_script:
 script:
   - dotnet build -c Release --no-restore --framework netstandard2 ./src
   - dotnet test --logger "console;verbosity=normal" -c Release --no-restore --framework netcoreapp2.2 ./test --filter TestCategory!=IPv6
+  - dotnet build -c Release --no-restore --framework netcoreapp2.2 ./IpfsCli
+  - dotnet tool install --global --add-source IpfsCli/bin/Release csipfs
+  - $HOME/.dotnet/tools/csipfs --help

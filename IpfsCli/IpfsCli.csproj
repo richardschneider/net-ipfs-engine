@@ -13,7 +13,11 @@
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <IsShippingPackage>true</IsShippingPackage>
-
+    <AllowedReferenceRelatedFileExtensions  Condition=" '$(Configuration)' == 'Release' ">
+      <!-- Prevent default XML and PDB files copied to output in RELEASE. Only *.allowedextension files will be included, which doesn't exist in my case. -->
+      *.pdb;
+      *.xml
+    </AllowedReferenceRelatedFileExtensions>
     <!-- developer build is always 0.42 -->
     <AssemblyVersion>0.42</AssemblyVersion>
     <Version>0.42</Version>

@@ -55,10 +55,11 @@ string text = await ipfs.FileSystem.ReadAllTextAsync(filename);
 
 ## Related projects
 
-- [IPFS Core](https://github.com/richardschneider/net-ipfs-core)
-- [IPFS HTTP Client](https://github.com/richardschneider/net-ipfs-http-client)
-- [IPFS HTTP Gateway](https://github.com/richardschneider/net-ipfs-http-gateway)
-- [Peer Talk](https://github.com/richardschneider/peer-talk)
+- [IPFS Core](https://github.com/richardschneider/net-ipfs-core) - Core IPFS objects and interfaces.
+- [IPFS DSL](https://github.com/cloveekprojeqt/ipfs-dsl) - A declarative embedded language for building compositional programs and protocols over the InterPlanetary File System.
+- [IPFS HTTP Client](https://github.com/richardschneider/net-ipfs-http-client) - A .Net client library for the IPFS HTTP API.
+- [IPFS HTTP Gateway](https://github.com/richardschneider/net-ipfs-http-gateway) - Serves IPFS files/directories via HTTP.
+- [Peer Talk](https://github.com/richardschneider/peer-talk) - Peer to peer communication.
 
 ## Sponsors
 <img src="doc/images/atlascity.io-logo.png" width="200" alt="https://atlascity.io" />

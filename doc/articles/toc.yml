@@ -7,6 +7,8 @@
       href: intro-ipfs.md
     - name: Questions
       href: questions.md
+    - name: IPFS command line
+      href: csipfs.md
 - name: Features
   href: core-api.md
 - name: File System

@@ -46,6 +46,8 @@ build_script:
 
 test_script:
   - dotnet test --logger "console;verbosity=normal" -c %CONFIGURATION% --no-build --no-restore test
+  - dotnet tool install --global --ignore-failed-sources --add-source .\IpfsCli\bin\Release csipfs
+  - csipfs --help
 
 after_test: 
 # Generate coverage report
@@ -67,9 +69,9 @@ after_test:
     - if defined git_token gh-pages -d doc\_site -m "new docs %GitVersion_FullSemVer%"
 
 artifacts:
-  - path: 'src/**/*.nupkg'
+  - path: './**/*.nupkg'
     name: nupkg
-  - path: 'src/**/*.snupkg'
+  - path: './**/*.snupkg'
     name: snupkg
 
 # publish NuGet package on tag build

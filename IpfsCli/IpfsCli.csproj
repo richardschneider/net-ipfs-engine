@@ -7,10 +7,32 @@
 
 	  <AssemblyName>csipfs</AssemblyName>
     <RootNamespace>Ipfs.Cli</RootNamespace>
-    
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>csipfs</ToolCommandName>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <IsShippingPackage>true</IsShippingPackage>
+    <AllowedReferenceRelatedFileExtensions  Condition=" '$(Configuration)' == 'Release' ">
+      <!-- Prevent default XML and PDB files copied to output in RELEASE. Only *.allowedextension files will be included, which doesn't exist in my case. -->
+      *.pdb;
+      *.xml
+    </AllowedReferenceRelatedFileExtensions>
     <!-- developer build is always 0.42 -->
     <AssemblyVersion>0.42</AssemblyVersion>
     <Version>0.42</Version>
+
+    <!-- Nuget specs -->
+    <PackageId>csipfs</PackageId>
+    <Authors>Richard Schneider</Authors>
+    <Title>C# IPFS CLI</Title>
+    <Description>The command line tool to IPFS engine for .Net</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>https://github.com/richardschneider/net-ipfs-engine/releases</PackageReleaseNotes>
+    <Copyright>© 2018-2019 Richard Schneider</Copyright>
+    <PackageTags>ipfs peer-to-peer p2p distributed file-system web</PackageTags>
+    <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-engine</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/richardschneider/net-ipfs-core/master/doc/images/ipfs-cs-logo-64x64.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>

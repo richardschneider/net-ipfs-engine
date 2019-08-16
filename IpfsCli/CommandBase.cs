@@ -11,7 +11,7 @@ namespace Ipfs.Cli
     {
         protected virtual Task<int> OnExecute(CommandLineApplication app)
         {
-            app.Error.WriteLine($"The command '{app.Name}' is not implemented.");
+            app.Error.WriteLine($"The command '{app.Name}' is not implemented yet.");
             return Task.FromResult(1);
         }
     }

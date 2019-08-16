@@ -8,9 +8,11 @@
 	  <AssemblyName>csipfs</AssemblyName>
     <RootNamespace>Ipfs.Cli</RootNamespace>
 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>csipfs</ToolCommandName>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <IsShippingPackage>true</IsShippingPackage>
 
     <!-- developer build is always 0.42 -->
     <AssemblyVersion>0.42</AssemblyVersion>
@@ -25,14 +27,8 @@
     <PackageReleaseNotes>https://github.com/richardschneider/net-ipfs-engine/releases</PackageReleaseNotes>
     <Copyright>© 2018-2019 Richard Schneider</Copyright>
     <PackageTags>ipfs peer-to-peer p2p distributed file-system web</PackageTags>
-    <IncludeSymbols>True</IncludeSymbols>
     <PackageProjectUrl>https://github.com/richardschneider/net-ipfs-engine</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/richardschneider/net-ipfs-core/master/doc/images/ipfs-cs-logo-64x64.png</PackageIconUrl>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

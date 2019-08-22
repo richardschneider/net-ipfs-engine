@@ -51,7 +51,7 @@ namespace Ipfs.Server.HttpApi.V0
         {
             Peer = peer.Id.ToString();
             Addr = peer.ConnectedAddress?.WithoutPeerId().ToString();
-            Latency = peer.Latency == null ? string.Empty : Duration.Stringify(peer.Latency.Value, string.Empty);
+            Latency = peer.Latency == null ? "n/a" : Duration.Stringify(peer.Latency.Value, string.Empty);
         }
     }
 

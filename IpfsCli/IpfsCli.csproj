@@ -13,7 +13,7 @@
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <IsShippingPackage>true</IsShippingPackage>
-    <AllowedReferenceRelatedFileExtensions  Condition=" '$(Configuration)' == 'Release' ">
+    <AllowedReferenceRelatedFileExtensions Condition=" '$(Configuration)' == 'Release' ">
       <!-- Prevent default XML and PDB files copied to output in RELEASE. Only *.allowedextension files will be included, which doesn't exist in my case. -->
       *.pdb;
       *.xml
@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="Common.Logging" Version="3.4.1" />
-    <PackageReference Include="Ipfs.Http.Client" Version="0.31.0" />
+    <PackageReference Include="Ipfs.Http.Client" Version="0.32.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.9.0" />

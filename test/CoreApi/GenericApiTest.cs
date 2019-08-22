@@ -34,7 +34,7 @@ namespace Ipfs.Engine
             var marsAddr = $"/ip6/::1/p2p/{marsId}";
             var ipfs = TestFixture.Ipfs;
             var swarm = await ipfs.SwarmService;
-            var mars = await swarm.RegisterPeerAsync(marsAddr);
+            var mars = swarm.RegisterPeerAddress(marsAddr);
 
             var peer = await ipfs.Generic.IdAsync(marsId);
             Assert.AreEqual(mars.Id, peer.Id);

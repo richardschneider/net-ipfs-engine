@@ -97,12 +97,7 @@ namespace Ipfs.Engine.CoreApi
             var strings = addrs.Select(a => a.ToString());
             await ipfs.Config.SetAsync("Swarm.AddrFilters", JToken.FromObject(strings), cancel).ConfigureAwait(false);
 
-            var bag = new WhiteList<MultiAddress>();
-            foreach (var a in addrs)
-            {
-                bag.Add(a);
-            }
-            (await ipfs.SwarmService.ConfigureAwait(false)).WhiteList = bag;
+            (await ipfs.SwarmService.ConfigureAwait(false)).WhiteList.Remove(address);
 
             return address;
         }

@@ -27,7 +27,7 @@ namespace Ipfs.Engine.CoreApi
             return await ipfs.Dht.FindPeerAsync(peer, cancel).ConfigureAwait(false);
         }
 
-        public async Task<string> ResolveAsync(string name, bool recursive = false, CancellationToken cancel = default(CancellationToken))
+        public async Task<string> ResolveAsync(string name, bool recursive = true, CancellationToken cancel = default(CancellationToken))
         {
             var path = name;
             if (path.StartsWith("/ipns/"))

@@ -382,6 +382,13 @@ namespace Ipfs.Engine
             });
             await swarm.StartAsync().ConfigureAwait(false);
 
+            var peerManager = new PeerManager { Swarm = swarm };
+            await peerManager.StartAsync().ConfigureAwait(false);
+            stopTasks.Add(async () =>
+            {
+                await peerManager.StopAsync().ConfigureAwait(false);
+            });
+
             // Start the primary services.
             var tasks = new List<Func<Task>>
             {

@@ -32,7 +32,7 @@ namespace Ipfs.Engine.CoreApi
                         FindAsync(name, cts.Token),
                         FindAsync("_dnslink." + name, cts.Token)
                     };
-                    link = await TaskHelper.WhenAnyResult(attempts, cancel).ConfigureAwait(false);
+                    link = await TaskHelper.WhenAnyResultAsync(attempts, cancel).ConfigureAwait(false);
                     cts.Cancel();
                 }
                 catch (Exception e)

@@ -27,6 +27,16 @@ namespace Ipfs.Engine.CoreApi
             return await ipfs.Dht.FindPeerAsync(peer, cancel).ConfigureAwait(false);
         }
 
+        public Task<IEnumerable<PingResult>> PingAsync(MultiHash peer, int count = 10, CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<PingResult>> PingAsync(MultiAddress address, int count = 10, CancellationToken cancel = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<string> ResolveAsync(string name, bool recursive = true, CancellationToken cancel = default(CancellationToken))
         {
             var path = name;

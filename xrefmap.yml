@@ -2448,19 +2448,6 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.UnixFileSystem.FileSystemLink.Id
   nameWithType: FileSystemLink.Id
-- uid: Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory
-  name: IsDirectory
-  href: api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html#Ipfs_Engine_UnixFileSystem_FileSystemLink_IsDirectory
-  commentId: P:Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory
-  fullName: Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory
-  nameWithType: FileSystemLink.IsDirectory
-- uid: Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory*
-  name: IsDirectory
-  href: api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html#Ipfs_Engine_UnixFileSystem_FileSystemLink_IsDirectory_
-  commentId: Overload:Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory
-  isSpec: "True"
-  fullName: Ipfs.Engine.UnixFileSystem.FileSystemLink.IsDirectory
-  nameWithType: FileSystemLink.IsDirectory
 - uid: Ipfs.Engine.UnixFileSystem.FileSystemLink.Name
   name: Name
   href: api/Ipfs.Engine.UnixFileSystem.FileSystemLink.html#Ipfs_Engine_UnixFileSystem_FileSystemLink_Name

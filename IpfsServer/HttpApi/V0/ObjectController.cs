@@ -10,6 +10,41 @@ using System.Text;
 
 namespace Ipfs.Server.HttpApi.V0
 {
+    /// <summary>
+    ///   Stats for an object.
+    /// </summary>
+    public class ObjectStatDto
+    {
+        /// <summary>
+        ///   The CID of the object.
+        /// </summary>
+        public string Hash;
+
+        /// <summary>
+        ///   Number of links.
+        /// </summary>
+        public int NumLinks { get; set; }
+
+        /// <summary>
+        ///   Size of the links segment.
+        /// </summary>
+        public long LinksSize { get; set; }
+
+        /// <summary>
+        ///   Size of the raw, encoded data.
+        /// </summary>
+        public long BlockSize { get; set; }
+
+        /// <summary>
+        ///   Siz of the data segment.
+        /// </summary>
+        public long DataSize { get; set; }
+
+        /// <summary>
+        ///   Size of object and its references
+        /// </summary>
+        public long CumulativeSize { get; set; }
+    }
 
     /// <summary>
     ///  A link to a file.
@@ -49,7 +84,7 @@ namespace Ipfs.Server.HttpApi.V0
     }
 
     /// <summary>
-    ///   Dat and link details on an object.
+    ///   Data and link details on an object.
     /// </summary>
     public class ObjectDataDetailDto : ObjectLinkDetailDto
     {
@@ -223,6 +258,29 @@ namespace Ipfs.Server.HttpApi.V0
             var stream = await IpfsCore.Object.DataAsync(cid, Cancel);
 
             return File(stream, "text/plain");
+        }
+
+        /// <summary>
+        ///   Get the stats of an object.
+        /// </summary>
+        /// <param name="arg">
+        ///   The object's CID.
+        /// </param>
+        [HttpGet, HttpPost, Route("object/stat")]
+        public async Task<ObjectStatDto> Stat(
+            string arg)
+        {
+            var info = await IpfsCore.Object.StatAsync(arg, Cancel);
+            Immutable();
+            return new ObjectStatDto
+            {
+                Hash = arg,
+                BlockSize = info.BlockSize,
+                CumulativeSize = info.CumulativeSize,
+                DataSize = info.DataSize,
+                LinksSize = info.LinkSize,
+                NumLinks = info.LinkCount
+            };
         }
 
     }

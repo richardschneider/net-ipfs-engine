@@ -99,7 +99,6 @@ namespace Ipfs.Engine.CoreApi
             Assert.AreEqual(beta.Links.First().Size, links.First().Size);
         }
 
-#if false
         [TestMethod]
         public async Task Stat()
         {
@@ -109,14 +108,12 @@ namespace Ipfs.Engine.CoreApi
             var node1 = await ipfs.Object.PutAsync(data1,
                 new[] { node2.ToLink("some-link") });
             var info = await ipfs.Object.StatAsync(node1.Id);
-            Assert.AreEqual("QmPR7W4kaADkAo4GKEVVPQN81EDUFCHJtqejQZ5dEG7pBC", info.Hash);
-            Assert.AreEqual(1, info.NumLinks);
-            Assert.AreEqual(64, info.BlockSize);
-            Assert.AreEqual(53, info.LinksSize);
+            Assert.AreEqual(1, info.LinkCount);
             Assert.AreEqual(11, info.DataSize);
+            Assert.AreEqual(64, info.BlockSize);
+            Assert.AreEqual(53, info.LinkSize);
             Assert.AreEqual(77, info.CumulativeSize);
         }
-#endif
 
         [TestMethod]
         public async Task Get_Nonexistent()

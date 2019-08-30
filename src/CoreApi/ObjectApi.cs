@@ -89,5 +89,19 @@ namespace Ipfs.Engine.CoreApi
             node.Id = await ipfs.Block.PutAsync(node.ToArray(), cancel: cancel).ConfigureAwait(false);
             return node;
         }
+
+        public async Task<ObjectStat> StatAsync(Cid id, CancellationToken cancel = default(CancellationToken))
+        {
+            var block = await ipfs.Block.GetAsync(id, cancel).ConfigureAwait(false);
+            var node = new DagNode(block.DataStream);
+            return new ObjectStat
+            {
+                BlockSize = block.Size,
+                DataSize = node.DataBytes.Length,
+                LinkCount = node.Links.Count(),
+                LinkSize = block.Size - node.DataBytes.Length,
+                CumulativeSize = block.Size + node.Links.Sum(link => link.Size)
+            };
+        }
     }
 }

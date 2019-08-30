@@ -13,6 +13,7 @@ namespace Ipfs.Cli
     [Subcommand("links", typeof(ObjectLinksCommand))]
     [Subcommand("get", typeof(ObjectGetCommand))]
     [Subcommand("dump", typeof(ObjectDumpCommand))]
+    [Subcommand("stat", typeof(ObjectStatCommand))]
     class ObjectCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -90,6 +91,24 @@ namespace Ipfs.Cli
             node.DataMessage = ProtoBuf.Serializer.Deserialize<DataMessage>(node.Dag.DataStream);
 
             return Program.Output(app, node, null);
+        }
+    }
+
+    [Command(Description = "Stats for the DAG node")]
+    class ObjectStatCommand : CommandBase
+    {
+        [Argument(0, "cid", "The content ID of the object")]
+        [Required]
+        public string Cid { get; set; }
+
+        ObjectCommand Parent { get; set; }
+
+        protected override async Task<int> OnExecute(CommandLineApplication app)
+        {
+            var Program = Parent.Parent;
+            var stat = await Program.CoreApi.Object.StatAsync(Cid);
+
+            return Program.Output(app, stat, null);
         }
     }
 }

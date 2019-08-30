@@ -626,8 +626,6 @@ namespace Ipfs.Engine
                 Assert.AreEqual(2, files.Length);
                 Assert.AreEqual("alpha.txt", files[0].Name);
                 Assert.AreEqual("beta.txt", files[1].Name);
-                Assert.IsFalse(files[0].IsDirectory);
-                Assert.IsFalse(files[1].IsDirectory);
 
                 Assert.AreEqual("alpha", ipfs.FileSystem.ReadAllTextAsync(files[0].Id).Result);
                 Assert.AreEqual("beta", ipfs.FileSystem.ReadAllTextAsync(files[1].Id).Result);
@@ -656,9 +654,6 @@ namespace Ipfs.Engine
                 Assert.AreEqual("alpha.txt", files[0].Name);
                 Assert.AreEqual("beta.txt", files[1].Name);
                 Assert.AreEqual("x", files[2].Name);
-                Assert.IsFalse(files[0].IsDirectory);
-                Assert.IsFalse(files[1].IsDirectory);
-                Assert.IsTrue(files[2].IsDirectory);
                 Assert.AreNotEqual(0, files[0].Size);
                 Assert.AreNotEqual(0, files[1].Size);
 
@@ -676,7 +671,6 @@ namespace Ipfs.Engine
                 var yfiles = ipfs.FileSystem.ListFileAsync(xfiles[1].Id).Result.Links.ToArray();
                 Assert.AreEqual(1, yfiles.Length);
                 Assert.AreEqual("y.txt", yfiles[0].Name);
-                Assert.IsFalse(yfiles[0].IsDirectory);
 
                 Assert.AreEqual("x", ipfs.FileSystem.ReadAllTextAsync(dir.Id + "/x/x.txt").Result);
                 Assert.AreEqual("y", ipfs.FileSystem.ReadAllTextAsync(dir.Id + "/x/y/y.txt").Result);

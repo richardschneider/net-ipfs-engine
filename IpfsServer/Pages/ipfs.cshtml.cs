@@ -71,21 +71,10 @@ namespace Ipfs.Server.Pages
         {
             get
             {
-                return node.Links.Where(l => !l.IsDirectory);
+                return node.Links;
             }
         }
 
-        /// <summary>
-        ///   A sequence of sub-directories for the directory.
-        /// </summary>
-        public IEnumerable<IFileSystemLink> Directories
-        {
-            get
-            {
-                return node.Links.Where(l => l.IsDirectory);
-            }
-        }
-        
         /// <summary>
         ///   Get the file or directory.
         /// </summary>

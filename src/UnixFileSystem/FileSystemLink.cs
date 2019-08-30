@@ -17,9 +17,6 @@ namespace Ipfs.Engine.UnixFileSystem
         public static readonly FileSystemLink[] None = new FileSystemLink[0];
 
         /// <inheritdoc />
-        public bool IsDirectory { get; set; }
-
-        /// <inheritdoc />
         public string Name { get; set; }
 
         /// <inheritdoc />

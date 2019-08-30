@@ -51,11 +51,6 @@ namespace Ipfs.Server.HttpApi.V0
         ///   The file size.
         /// </summary>
         public long Size;
-
-        /// <summary>
-        ///   "File" or "Directory"
-        /// </summary>
-        public string Type;
     }
 
     /// <summary>
@@ -203,8 +198,7 @@ namespace Ipfs.Server.HttpApi.V0
                     {
                         Hash = link.Id,
                         Name = link.Name,
-                        Size = link.Size,
-                        Type = link.IsDirectory ? "Directory" : "File"
+                        Size = link.Size
                     })
                     .ToArray()
             };

@@ -57,8 +57,7 @@ namespace Ipfs.Engine.UnixFileSystem
             {
                 Name = String.IsNullOrWhiteSpace(name) ? Name : name,
                 Id = Id,
-                Size = DagSize,
-                IsDirectory = IsDirectory
+                Size = DagSize
             };
         }
     }

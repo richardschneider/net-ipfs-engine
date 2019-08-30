@@ -17,15 +17,6 @@
             </td>
         </tr>
         }
-        @foreach (var f in @Model.Directories)
-        {
-        <tr>
-            <td>
-                <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-                <a href="/ipfs/@Model.Path/@f.Name">@f.Name</a>
-            </td>
-        </tr>
-        }
         @foreach (var f in @Model.Files)
         {
         <tr>

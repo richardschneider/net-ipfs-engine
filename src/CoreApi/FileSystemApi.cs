@@ -259,18 +259,6 @@ namespace Ipfs.Engine.CoreApi
                 Size = (long)(dm.FileSize ?? 0)
             };
 
-            // Cannot determine if a link points to a directory.  The link's block must be
-            // read to get this info.
-            if (fsn.IsDirectory)
-            {
-                foreach (FileSystemLink link in fsn.Links)
-                {
-                    var lblock = await ipfs.Block.GetAsync(link.Id, cancel).ConfigureAwait(false);
-                    var ldag = new DagNode(lblock.DataStream);
-                    var ldm = Serializer.Deserialize<DataMessage>(ldag.DataStream);
-                    link.IsDirectory = ldm.Type == DataType.Directory;
-                }
-            }
 
             return fsn;
         }

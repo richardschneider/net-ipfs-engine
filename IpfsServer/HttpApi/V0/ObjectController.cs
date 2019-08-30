@@ -200,16 +200,19 @@ namespace Ipfs.Server.HttpApi.V0
         /// <param name="arg">
         ///   The object's CID.
         /// </param>
+        /// <param name="dataEncoding">
+        ///   The encoding of the object's data; "text" (default) or "base64".
+        /// </param>
         [HttpGet, HttpPost, Route("object/get")]
         public async Task<ObjectDataDetailDto> Get(
-            string arg)
+            string arg,
+            [ModelBinder(Name = "data-encoding")] string dataEncoding)
         {
             var node = await IpfsCore.Object.GetAsync(arg, Cancel);
             Immutable();
-            return new ObjectDataDetailDto
+            var dto = new ObjectDataDetailDto
             {
                 Hash = arg,
-                Data = Encoding.UTF8.GetString(node.DataBytes),
                 Links = node.Links.Select(link => new ObjectLinkDto
                 {
                     Hash = link.Id,
@@ -217,6 +220,17 @@ namespace Ipfs.Server.HttpApi.V0
                     Size = link.Size
                 })
             };
+            switch (dataEncoding)
+            {
+                case "base64":
+                    dto.Data = Convert.ToBase64String(node.DataBytes);
+                    break;
+                case "text":
+                default:
+                    dto.Data = Encoding.UTF8.GetString(node.DataBytes);
+                    break;
+            }
+            return dto;
         }
 
         /// <summary>

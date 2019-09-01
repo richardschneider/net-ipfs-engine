@@ -192,6 +192,16 @@ namespace Ipfs.Engine
                 log.Debug("Built DHT service");
                 return dht;
             });
+            PingService = new AsyncLazy<PeerTalk.Protocols.Ping1>(async () =>
+            {
+                log.Debug("Building Ping service");
+                var ping = new PeerTalk.Protocols.Ping1
+                {
+                    Swarm = await SwarmService.ConfigureAwait(false)
+                };
+                log.Debug("Built Ping service");
+                return ping;
+            });
             PubSubService = new AsyncLazy<PeerTalk.PubSub.NotificationService>(async () =>
             {
                 log.Debug("Building PubSub service");
@@ -406,6 +416,12 @@ namespace Ipfs.Engine
                 },
                 async () =>
                 {
+                    var ping = await PingService.ConfigureAwait(false);
+                    stopTasks.Add(async () => await ping.StopAsync().ConfigureAwait(false));
+                    await ping.StartAsync().ConfigureAwait(false);
+                },
+                async () =>
+                {
                     var pubsub = await PubSubService.ConfigureAwait(false);
                     stopTasks.Add(async () => await pubsub.StopAsync().ConfigureAwait(false));
                     await pubsub.StartAsync().ConfigureAwait(false);
@@ -617,7 +633,12 @@ namespace Ipfs.Engine
         /// </summary>
         public AsyncLazy<PeerTalk.Routing.Dht1> DhtService { get; private set; }
 
-#pragma warning disable VSTHRD100 // Avoid async void methods
+        /// <summary>
+        ///   Determines latency to a peer.
+        /// </summary>
+        public AsyncLazy<PeerTalk.Protocols.Ping1> PingService { get; private set; }
+
+        #pragma warning disable VSTHRD100 // Avoid async void methods
         /// <summary>
         ///   Fired when a peer is discovered.
         /// </summary>

@@ -1466,6 +1466,19 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.IpfsEngine.Pin
   nameWithType: IpfsEngine.Pin
+- uid: Ipfs.Engine.IpfsEngine.PingService
+  name: PingService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_PingService
+  commentId: P:Ipfs.Engine.IpfsEngine.PingService
+  fullName: Ipfs.Engine.IpfsEngine.PingService
+  nameWithType: IpfsEngine.PingService
+- uid: Ipfs.Engine.IpfsEngine.PingService*
+  name: PingService
+  href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_PingService_
+  commentId: Overload:Ipfs.Engine.IpfsEngine.PingService
+  isSpec: "True"
+  fullName: Ipfs.Engine.IpfsEngine.PingService
+  nameWithType: IpfsEngine.PingService
 - uid: Ipfs.Engine.IpfsEngine.PubSub
   name: PubSub
   href: api/Ipfs.Engine.IpfsEngine.html#Ipfs_Engine_IpfsEngine_PubSub

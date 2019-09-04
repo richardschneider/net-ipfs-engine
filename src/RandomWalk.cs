@@ -14,13 +14,12 @@ namespace Ipfs.Engine
     ///   Periodically queries the DHT to discover new peers.
     /// </summary>
     /// <remarks>
-    ///   This is a background task that runs every <see cref="Period"/>.
+    ///   A backgroud task is created to query the DHT.  It is designed
+    ///   to run often at startup and then less often at time increases.
     /// </remarks>
     public class RandomWalk : IService
     {
         static ILog log = LogManager.GetLogger(typeof(RandomWalk));
-        Random rng = new Random();
-        Thread thread;
         CancellationTokenSource cancel;
 
         /// <summary>
@@ -29,40 +28,34 @@ namespace Ipfs.Engine
         public IDhtApi Dht { get; set; }
 
         /// <summary>
-        ///   How often the query should be run.
+        ///   The time to wait until running the query.
         /// </summary>
-        /// <value>
-        ///   The default is 20 minutes.
-        /// </value>
-        public TimeSpan Period = TimeSpan.FromMinutes(20);
+        public TimeSpan Delay = TimeSpan.FromSeconds(5);
 
         /// <summary>
-        ///   How long a query should be run.
+        ///   The time to add to the <see cref="Delay"/>.
         /// </summary>
-        /// <value>
-        ///   The default is 5 minutes.
-        /// </value>
-        public TimeSpan QueryTime = TimeSpan.FromMinutes(5);
+        public TimeSpan DelayIncrement = TimeSpan.FromSeconds(10);
+
+        /// <summary>
+        ///   The maximum <see cref="Delay"/>.
+        /// </summary>
+        public TimeSpan DelayMax = TimeSpan.FromMinutes(9);
 
         /// <summary>
         ///   Start a background process that will run a random
-        ///   walk every <see cref="Period"/>.
+        ///   walk every <see cref="Delay"/>.
         /// </summary>
         public Task StartAsync()
         {
-            if (thread != null)
+            if (cancel != null)
             {
                 throw new Exception("Already started.");
             }
-
-            thread = new Thread(Runner)
-            {
-                IsBackground = true
-            };
             cancel = new CancellationTokenSource();
-            thread.Start();
-            log.Debug("started");
+            _ = RunnerAsync(cancel.Token);
 
+            log.Debug("started");
             return Task.CompletedTask;
         }
 
@@ -74,47 +67,57 @@ namespace Ipfs.Engine
             cancel?.Cancel();
             cancel?.Dispose();
             cancel = null;
-            thread = null;
 
             log.Debug("stopped");
-
             return Task.CompletedTask;
         }
 
         /// <summary>
         ///   The background process.
         /// </summary>
-        void Runner()
+        async Task RunnerAsync(CancellationToken cancellation)
         {
-            while (true)
+            while (!cancellation.IsCancellationRequested)
             {
                 try
                 {
-                    RunQuery();
+                    await Task.Delay(Delay, cancellation);
+                    await RunQueryAsync(cancellation).ConfigureAwait(false);
+                    log.Debug("query finished");
+                    Delay += DelayIncrement;
+                    if (Delay > DelayMax)
+                    {
+                        Delay = DelayMax;
+                    }
                 }
-                catch (Exception)
+                catch (TaskCanceledException)
                 {
+                    // eat it.
+                }
+                catch (Exception e)
+                {
+                    log.Error("run query failed", e);
                     // eat all exceptions
                 }
-                Thread.Sleep(Period);
             }
         }
 
-        void RunQuery()
+        async Task RunQueryAsync(CancellationToken cancel = default(CancellationToken))
         {
+            // Tests may not set a DHT.
+            if (Dht == null)
+            {
+                return;
+            }
             log.Debug("Running a query");
 
             // Get a random peer id.
-            byte[] x = new byte[32];
+            var x = new byte[32];
+            var rng = new Random();
             rng.NextBytes(x);
             var id = MultiHash.ComputeHash(x);
 
-            // Run the query for a while.
-            using (var timeout = new CancellationTokenSource(QueryTime))
-            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancel.Token))
-            {
-                var _ = Dht.FindPeerAsync(id, cts.Token).ConfigureAwait(false).GetAwaiter().GetResult();
-            }
+            await Dht.FindPeerAsync(id, cancel).ConfigureAwait(false);
         }
 
     }

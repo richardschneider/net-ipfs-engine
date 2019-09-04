@@ -2034,6 +2034,24 @@ references:
   commentId: T:Ipfs.Engine.RandomWalk
   fullName: Ipfs.Engine.RandomWalk
   nameWithType: RandomWalk
+- uid: Ipfs.Engine.RandomWalk.Delay
+  name: Delay
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Delay
+  commentId: F:Ipfs.Engine.RandomWalk.Delay
+  fullName: Ipfs.Engine.RandomWalk.Delay
+  nameWithType: RandomWalk.Delay
+- uid: Ipfs.Engine.RandomWalk.DelayIncrement
+  name: DelayIncrement
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_DelayIncrement
+  commentId: F:Ipfs.Engine.RandomWalk.DelayIncrement
+  fullName: Ipfs.Engine.RandomWalk.DelayIncrement
+  nameWithType: RandomWalk.DelayIncrement
+- uid: Ipfs.Engine.RandomWalk.DelayMax
+  name: DelayMax
+  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_DelayMax
+  commentId: F:Ipfs.Engine.RandomWalk.DelayMax
+  fullName: Ipfs.Engine.RandomWalk.DelayMax
+  nameWithType: RandomWalk.DelayMax
 - uid: Ipfs.Engine.RandomWalk.Dht
   name: Dht
   href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Dht
@@ -2047,18 +2065,6 @@ references:
   isSpec: "True"
   fullName: Ipfs.Engine.RandomWalk.Dht
   nameWithType: RandomWalk.Dht
-- uid: Ipfs.Engine.RandomWalk.Period
-  name: Period
-  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Period
-  commentId: F:Ipfs.Engine.RandomWalk.Period
-  fullName: Ipfs.Engine.RandomWalk.Period
-  nameWithType: RandomWalk.Period
-- uid: Ipfs.Engine.RandomWalk.QueryTime
-  name: QueryTime
-  href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_QueryTime
-  commentId: F:Ipfs.Engine.RandomWalk.QueryTime
-  fullName: Ipfs.Engine.RandomWalk.QueryTime
-  nameWithType: RandomWalk.QueryTime
 - uid: Ipfs.Engine.RandomWalk.StartAsync
   name: StartAsync()
   href: api/Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_StartAsync

@@ -116,24 +116,25 @@
     <pre><code class="lang-csharp hljs">public class RandomWalk : IService</code></pre>
   </div>
   <h5 id="Ipfs_Engine_RandomWalk_remarks"><strong>Remarks</strong></h5>
-  <div class="markdown level0 remarks"><p>This is a background task that runs every <a class="xref" href="Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Period">Period</a>.</p>
+  <div class="markdown level0 remarks"><p>A backgroud task is created to query the DHT.  It is designed
+to run often at startup and then less often at time increases.</p>
 </div>
   <h3 id="fields">Fields
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk_Period.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk.Period%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk_Delay.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk.Delay%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L37">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L33">View Source</a>
   </span>
-  <h4 id="Ipfs_Engine_RandomWalk_Period" data-uid="Ipfs.Engine.RandomWalk.Period">Period</h4>
-  <div class="markdown level1 summary"><p>How often the query should be run.</p>
+  <h4 id="Ipfs_Engine_RandomWalk_Delay" data-uid="Ipfs.Engine.RandomWalk.Delay">Delay</h4>
+  <div class="markdown level1 summary"><p>The time to wait until running the query.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TimeSpan Period</code></pre>
+    <pre><code class="lang-csharp hljs">public TimeSpan Delay</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -146,25 +147,24 @@
     <tbody>
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></td>
-        <td><p>The default is 20 minutes.</p>
-</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk_QueryTime.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk.QueryTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk_DelayIncrement.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk.DelayIncrement%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L45">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L38">View Source</a>
   </span>
-  <h4 id="Ipfs_Engine_RandomWalk_QueryTime" data-uid="Ipfs.Engine.RandomWalk.QueryTime">QueryTime</h4>
-  <div class="markdown level1 summary"><p>How long a query should be run.</p>
+  <h4 id="Ipfs_Engine_RandomWalk_DelayIncrement" data-uid="Ipfs.Engine.RandomWalk.DelayIncrement">DelayIncrement</h4>
+  <div class="markdown level1 summary"><p>The time to add to the <a class="xref" href="Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Delay">Delay</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TimeSpan QueryTime</code></pre>
+    <pre><code class="lang-csharp hljs">public TimeSpan DelayIncrement</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -177,8 +177,37 @@
     <tbody>
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></td>
-        <td><p>The default is 5 minutes.</p>
-</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk_DelayMax.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk.DelayMax%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L43">View Source</a>
+  </span>
+  <h4 id="Ipfs_Engine_RandomWalk_DelayMax" data-uid="Ipfs.Engine.RandomWalk.DelayMax">DelayMax</h4>
+  <div class="markdown level1 summary"><p>The maximum <a class="xref" href="Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Delay">Delay</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan DelayMax</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -189,7 +218,7 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk_Dht.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk.Dht%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L29">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L28">View Source</a>
   </span>
   <a id="Ipfs_Engine_RandomWalk_Dht_" data-uid="Ipfs.Engine.RandomWalk.Dht*"></a>
   <h4 id="Ipfs_Engine_RandomWalk_Dht" data-uid="Ipfs.Engine.RandomWalk.Dht">Dht</h4>
@@ -222,12 +251,12 @@
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk_StartAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk.StartAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L51">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L49">View Source</a>
   </span>
   <a id="Ipfs_Engine_RandomWalk_StartAsync_" data-uid="Ipfs.Engine.RandomWalk.StartAsync*"></a>
   <h4 id="Ipfs_Engine_RandomWalk_StartAsync" data-uid="Ipfs.Engine.RandomWalk.StartAsync">StartAsync()</h4>
   <div class="markdown level1 summary"><p>Start a background process that will run a random
-walk every <a class="xref" href="Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Period">Period</a>.</p>
+walk every <a class="xref" href="Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomWalk_Delay">Delay</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -254,7 +283,7 @@ walk every <a class="xref" href="Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomW
     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk_StopAsync.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk.StopAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L72">View Source</a>
+    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L65">View Source</a>
   </span>
   <a id="Ipfs_Engine_RandomWalk_StopAsync_" data-uid="Ipfs.Engine.RandomWalk.StopAsync*"></a>
   <h4 id="Ipfs_Engine_RandomWalk_StopAsync" data-uid="Ipfs.Engine.RandomWalk.StopAsync">StopAsync()</h4>
@@ -295,7 +324,7 @@ walk every <a class="xref" href="Ipfs.Engine.RandomWalk.html#Ipfs_Engine_RandomW
                     <a href="https://github.com/richardschneider/net-ipfs-engine/new/master/apiSpec/new?filename=Ipfs_Engine_RandomWalk.md&amp;value=---%0Auid%3A%20Ipfs.Engine.RandomWalk%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L19" class="contribution-link">View Source</a>
+                    <a href="https://github.com/richardschneider/net-ipfs-engine/blob/master/src/RandomWalk.cs/#L20" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

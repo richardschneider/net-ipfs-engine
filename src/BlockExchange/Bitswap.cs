@@ -266,12 +266,8 @@ namespace Ipfs.Engine.BlockExchange
             // If first time, tell other peers.
             if (want.Consumers.Count == 1)
             {
-                BlockNeeded?.Invoke(this, new CidEventArgs { Id = want.Id });
-            }
-            if (peer == Swarm.LocalPeer.Id)
-            {
-                // Fire and forget.
                 var _ = SendWantListToAllAsync(new[] { want }, full: false);
+                BlockNeeded?.Invoke(this, new CidEventArgs { Id = want.Id });
             }
 
             return tsc.Task;
@@ -499,9 +495,9 @@ namespace Ipfs.Engine.BlockExchange
                     }
                     return;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    log.Debug($"{peer} refused {protocol}", e);
+                    log.Debug($"{peer} refused {protocol}");
                 }
             }
 

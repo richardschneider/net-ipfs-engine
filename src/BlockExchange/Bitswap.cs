@@ -164,14 +164,18 @@ namespace Ipfs.Engine.BlockExchange
         async void Swarm_ConnectionEstablished(object sender, PeerConnection connection)
 #pragma warning restore VSTHRD100 // Avoid async void methods
         {
+            if (wants.Count == 0)
+            {
+                return;
+            }
             try
             {
                 // There is a race condition between getting the remote identity and
                 // the remote sending the first wantlist.
-                await connection.IdentityEstablished.Task.ConfigureAwait(false);
+                var peer = await connection.IdentityEstablished.Task.ConfigureAwait(false);
 
                 // Fire and forget.
-                var _ = SendWantListAsync(connection.RemotePeer);
+                var _ = SendWantListAsync(peer, wants.Values, true);
             }
             catch (Exception e)
             {
@@ -241,7 +245,10 @@ namespace Ipfs.Engine.BlockExchange
         /// </remarks>
         public Task<IDataBlock> WantAsync(Cid id, MultiHash peer, CancellationToken cancel)
         {
-            log.Trace($"{peer} wants {id}");
+            if (log.IsDebugEnabled)
+            {
+                log.Debug($"{peer} wants {id}");
+            }
 
             var tsc = new TaskCompletionSource<IDataBlock>();
             var want = wants.AddOrUpdate(
@@ -288,6 +295,11 @@ namespace Ipfs.Engine.BlockExchange
         /// </remarks>
         public void Unwant(Cid id)
         {
+            if (log.IsDebugEnabled)
+            {
+                log.Debug($"Unwant {id}");
+            }
+
             if (wants.TryRemove(id, out WantedBlock block))
             {
                 foreach (var consumer in block.Consumers)
@@ -295,6 +307,8 @@ namespace Ipfs.Engine.BlockExchange
                     consumer.SetCanceled();
                 }
             }
+
+            // TODO: Tell the swarm
         }
 
         /// <summary>
@@ -451,32 +465,31 @@ namespace Ipfs.Engine.BlockExchange
             return 0;
         }
 
-        Task SendWantListAsync(Peer peer)
-        {
-            var myWants = PeerWants(Swarm.LocalPeer.Id);
-            if (myWants.Count() > 0)
-            {
-                return SendWantListAsync(peer, wants.Values, true);
-            }
-
-            return Task.CompletedTask;
-
-        }
-
         /// <summary>
         ///   Send our want list to the connected peers.
         /// </summary>
-        Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
+        async Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
         {
             if (Swarm == null)
-                return Task.CompletedTask;
+                return;
 
-            var tasks = Swarm.KnownPeers
-                .Where(p => p.ConnectedAddress != null)
-                .Select(p => SendWantListAsync(p, wants, full));
-            if (log.IsDebugEnabled)
-                log.Debug($"Spamming {tasks.Count()} connected peers");
-            return Task.WhenAll(tasks);
+            try
+            {
+                var tasks = Swarm.KnownPeers
+                    .Where(p => p.ConnectedAddress != null)
+                    .Select(p => SendWantListAsync(p, wants, full))
+                    .ToArray();
+                if (log.IsDebugEnabled)
+                    log.Debug($"Spamming {tasks.Count()} connected peers");
+                await Task.WhenAll(tasks).ConfigureAwait(false);
+
+                if (log.IsDebugEnabled)
+                    log.Debug($"Spam {tasks.Count()} connected peers done");
+            }
+            catch (Exception e)
+            {
+                log.Debug("sending to all failed", e);
+            }
         }
 
         async Task SendWantListAsync(Peer peer, IEnumerable<WantedBlock> wants, bool full)

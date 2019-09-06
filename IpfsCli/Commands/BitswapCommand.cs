@@ -26,12 +26,18 @@ namespace Ipfs.Cli
     [Command(Description = "Show blocks currently on the wantlist")]
     class BitswapWantListCommand : CommandBase
     {
+        [Option("-p|--peer", Description = "Peer to show wantlist for. Default: self.")]
+        public string PeerId { get; set; }
+
         BitswapCommand Parent { get; set; }
 
         protected override async Task<int> OnExecute(CommandLineApplication app)
         {
             var Program = Parent.Parent;
-            var cids = await Program.CoreApi.Bitswap.WantsAsync();
+            var peer = PeerId == null
+                ? null
+                : new MultiHash(PeerId);
+            var cids = await Program.CoreApi.Bitswap.WantsAsync(peer);
             return Program.Output(app, cids, (data, writer) =>
             {
                 foreach (var cid in data)

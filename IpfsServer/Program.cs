@@ -71,7 +71,7 @@ namespace Ipfs.Server
                 .UseStartup<Startup>()
                 .ConfigureLogging(logging =>
                 {
-                    //logging.ClearProviders();
+                    logging.ClearProviders();
                 })
                 .UseUrls(urls)
                 .Build();

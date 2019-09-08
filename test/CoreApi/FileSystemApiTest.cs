@@ -796,6 +796,7 @@ namespace Ipfs.Engine
 
                 // Start bootstrap node.
                 b.Options.Discovery.DisableMdns = true;
+                b.Options.Discovery.DisableRandomWalk = true;
                 b.Options.Swarm.MinConnections = 0;
                 b.Options.Swarm.PrivateNetworkKey = psk;
                 b.Options.Discovery.BootstrapPeers = new MultiAddress[0];
@@ -808,6 +809,7 @@ namespace Ipfs.Engine
 
                 // Node that has the content.
                 c.Options.Discovery.DisableMdns = true;
+                c.Options.Discovery.DisableRandomWalk = true;
                 c.Options.Swarm.MinConnections = 0;
                 c.Options.Swarm.PrivateNetworkKey = psk;
                 c.Options.Discovery.BootstrapPeers = bootstrapPeers;
@@ -820,10 +822,12 @@ namespace Ipfs.Engine
 
                 // Node that reads the content.
                 a.Options.Discovery.DisableMdns = true;
+                a.Options.Discovery.DisableRandomWalk = true;
                 a.Options.Swarm.MinConnections = 0;
                 a.Options.Swarm.PrivateNetworkKey = psk;
                 a.Options.Discovery.BootstrapPeers = bootstrapPeers;
                 await a.StartAsync();
+                await a.Swarm.ConnectAsync(bootstrapPeers[0]);
                 Console.WriteLine($"A is {await a.LocalPeer}");
                 var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
                 var content = await a.FileSystem.ReadAllTextAsync(cid, cts.Token);

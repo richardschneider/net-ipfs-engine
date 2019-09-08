@@ -3,6 +3,7 @@ using Ipfs.CoreApi;
 using PeerTalk;
 using PeerTalk.Protocols;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,7 +176,7 @@ namespace Ipfs.Engine.BlockExchange
                 var peer = await connection.IdentityEstablished.Task.ConfigureAwait(false);
 
                 // Fire and forget.
-                var _ = SendWantListAsync(peer, wants.Values, true);
+                var _ = SendWantListAsync(peer, wants.Keys, Enumerable.Empty<Cid>(), true);
             }
             catch (Exception e)
             {
@@ -273,7 +274,10 @@ namespace Ipfs.Engine.BlockExchange
             // If first time, tell other peers.
             if (want.Consumers.Count == 1)
             {
-                var _ = SendWantListToAllAsync(new[] { want }, full: false);
+                var _ = SendWantListToAllAsync(
+                    new[] { id }, 
+                    Enumerable.Empty<Cid>(),
+                    full: false);
                 BlockNeeded?.Invoke(this, new CidEventArgs { Id = want.Id });
             }
 
@@ -306,9 +310,14 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     consumer.SetCanceled();
                 }
+
+                // Tell the swarm.
+                var _ = SendWantListToAllAsync(
+                    Enumerable.Empty<Cid>(), 
+                    new[] { block.Id },
+                    false);
             }
 
-            // TODO: Tell the swarm
         }
 
         /// <summary>
@@ -459,6 +468,13 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     consumer.SetResult(block);
                 }
+
+                // Tell the swarm.
+                var _ = SendWantListToAllAsync(
+                    Enumerable.Empty<Cid>(),
+                    new[] { block.Id },
+                    false);
+
                 return want.Consumers.Count;
             }
 
@@ -468,7 +484,10 @@ namespace Ipfs.Engine.BlockExchange
         /// <summary>
         ///   Send our want list to the connected peers.
         /// </summary>
-        async Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
+        async Task SendWantListToAllAsync(
+            IEnumerable<Cid> wants,
+            IEnumerable<Cid> cancels,
+            bool full)
         {
             if (Swarm == null)
                 return;
@@ -477,7 +496,7 @@ namespace Ipfs.Engine.BlockExchange
             {
                 var tasks = Swarm.KnownPeers
                     .Where(p => p.ConnectedAddress != null)
-                    .Select(p => SendWantListAsync(p, wants, full))
+                    .Select(p => SendWantListAsync(p, wants, cancels, full))
                     .ToArray();
                 if (log.IsDebugEnabled)
                     log.Debug($"Spamming {tasks.Count()} connected peers");
@@ -492,7 +511,11 @@ namespace Ipfs.Engine.BlockExchange
             }
         }
 
-        async Task SendWantListAsync(Peer peer, IEnumerable<WantedBlock> wants, bool full)
+        async Task SendWantListAsync(
+            Peer peer, 
+            IEnumerable<Cid> wants,
+            IEnumerable<Cid> cancels,
+            bool full)
         {
             log.Debug($"sending want list to {peer}");
 
@@ -504,7 +527,7 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     using (var stream = await Swarm.DialAsync(peer, protocol.ToString()).ConfigureAwait(false))
                     {
-                        await protocol.SendWantsAsync(stream, wants, full: full).ConfigureAwait(false);
+                        await protocol.SendWantsAsync(stream, wants, cancels, full: full).ConfigureAwait(false);
                     }
                     return;
                 }

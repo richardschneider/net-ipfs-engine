@@ -117,24 +117,27 @@ namespace Ipfs.Engine.BlockExchange
         /// <inheritdoc />
         public async Task SendWantsAsync(
             Stream stream,
-            IEnumerable<WantedBlock> wants,
+            IEnumerable<Cid> wants,
+            IEnumerable<Cid> cancels,
             bool full = true,
             CancellationToken cancel = default(CancellationToken)
             )
         {
-            log.Debug("Sending want list");
-
+            var entries = new List<Entry>();
+            foreach (var cid in wants)
+            {
+                entries.Add(new Entry { block = cid.ToArray() });
+            }
+            foreach (var cid in cancels)
+            {
+                entries.Add(new Entry { block = cid.ToArray(), cancel = true });
+            }
             var message = new Message
             {
                 wantlist = new Wantlist
                 {
                     full = full,
-                    entries = wants
-                        .Select(w => new Entry
-                        {
-                            block = w.Id.Hash.ToArray()
-                        })
-                        .ToArray()
+                    entries = entries.ToArray(),
                 }
             };
 

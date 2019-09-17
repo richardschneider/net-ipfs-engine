@@ -16,19 +16,18 @@ namespace Ipfs.Engine.BlockExchange
     public class WantedBlock
     {
         /// <summary>
-        ///   The content ID of the block;
+        ///   The content ID of the block.
         /// </summary>
         public Cid Id;
 
         /// <summary>
-        ///   The peers that want the block.
-        /// </summary>
-        public List<MultiHash> Peers;
-
-        /// <summary>
         ///   The consumers that are waiting for the block.
         /// </summary>
-        public List<TaskCompletionSource<IDataBlock>> Consumers;
+        /// <remarks>
+        ///   The keys is a TaskCompletionSource and the value is
+        ///   the peer ID.
+        /// </remarks>
+        public ConcurrentDictionary<TaskCompletionSource<IDataBlock>, MultiHash> Tasks;
     }
 
 }

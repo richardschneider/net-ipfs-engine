@@ -215,7 +215,7 @@ namespace Ipfs.Engine.BlockExchange
         public IEnumerable<Cid> PeerWants(MultiHash peer)
         {
             return wants.Values
-                .Where(w => w.Peers.Contains(peer))
+                .Where(w => w.Tasks.Values.Contains(peer))
                 .Select(w => w.Id);
         }
 
@@ -241,7 +241,7 @@ namespace Ipfs.Engine.BlockExchange
         ///   someone will forward it to us.
         ///   <para>
         ///   Besides using <paramref name="cancel"/> for cancellation, the 
-        ///   <see cref="Unwant"/> method will also cancel the operation.
+        ///   <see cref="Unwant(Cid, MultiHash)"/> method will also cancel the operation.
         ///   </para>
         /// </remarks>
         public Task<IDataBlock> WantAsync(Cid id, MultiHash peer, CancellationToken cancel)
@@ -254,25 +254,27 @@ namespace Ipfs.Engine.BlockExchange
             var tsc = new TaskCompletionSource<IDataBlock>();
             var want = wants.AddOrUpdate(
                 id,
-                (key) => new WantedBlock
-                {
-                    Id = id,
-                    Consumers = new List<TaskCompletionSource<IDataBlock>> { tsc },
-                    Peers = new List<MultiHash> { peer }
+                (key) => {
+                    var block = new WantedBlock
+                    {
+                        Id = id,
+                        Tasks = new ConcurrentDictionary<TaskCompletionSource<IDataBlock>, MultiHash>()
+                    };
+                    block.Tasks.TryAdd(tsc, peer);
+                    return block;
                 },
                 (key, block) =>
                 {
-                    block.Peers.Add(peer);
-                    block.Consumers.Add(tsc);
+                    block.Tasks.TryAdd(tsc, peer);
                     return block;
                 }
             );
 
             // If cancelled, then the block is unwanted.
-            cancel.Register(() => Unwant(id));
+            cancel.Register(() => Unwant(id, peer));
 
             // If first time, tell other peers.
-            if (want.Consumers.Count == 1)
+            if (want.Tasks.Count == 1 && peer == Swarm.LocalPeer.Id)
             {
                 var _ = SendWantListToAllAsync(
                     new[] { id }, 
@@ -306,9 +308,9 @@ namespace Ipfs.Engine.BlockExchange
 
             if (wants.TryRemove(id, out WantedBlock block))
             {
-                foreach (var consumer in block.Consumers)
+                foreach (var task in block.Tasks.Keys)
                 {
-                    consumer.SetCanceled();
+                    task.TrySetCanceled();
                 }
 
                 // Tell the swarm.
@@ -317,7 +319,69 @@ namespace Ipfs.Engine.BlockExchange
                     new[] { block.Id },
                     false);
             }
+        }
 
+        /// <summary>
+        ///   Removes the block from the want list.
+        /// </summary>
+        /// <param name="id">
+        ///   The CID of the block to remove from the want list.
+        /// </param>
+        /// <param name="peer">
+        ///   The id of the peer that no longer wants the block.
+        /// </param>
+        /// <remarks>
+        ///   Any tasks from the <paramref name="peer"/> waiting for the block are cancelled.
+        ///   <para>
+        ///   No exception is thrown if the <paramref name="id"/> is not
+        ///   on the want list.
+        ///   </para>
+        /// </remarks>
+        public void Unwant(Cid id, MultiHash peer)
+        {
+            if (log.IsDebugEnabled)
+            {
+                log.Debug($"Unwant {id} for {peer}");
+            }
+
+            // Short curcuit if id is not not wanted or not wanted by
+            // the peer.
+            if (!wants.TryGetValue(id, out WantedBlock want))
+            {
+                return;
+            }
+            if (!want.Tasks.Values.Contains(peer))
+            {
+                return;
+            }
+
+            // Get the tasks that want the CID for the peer.
+            var tasks = want.Tasks
+                .Where(t => t.Value == peer)
+                .Select(t => t.Key)
+                .ToArray();
+            foreach (var task in tasks)
+            {
+                log.Debug($"cancel {id} for {peer}");
+                task.TrySetCanceled();
+                want.Tasks.TryRemove(task, out _);
+            }
+            if (peer == Swarm.LocalPeer.Id)
+            {
+                log.Debug($"sending cancel {id}");
+                // Tell the swarm.
+                var _ = SendWantListToAllAsync(
+                    Enumerable.Empty<Cid>(),
+                    new[] { id },
+                    false);
+            }
+
+            // If no other peer wants the CID, then remove it
+            // from the want list.
+            if (want.Tasks.Count == 0)
+            {
+                wants.TryRemove(id, out _);
+            }
         }
 
         /// <summary>
@@ -464,9 +528,9 @@ namespace Ipfs.Engine.BlockExchange
         {
             if (wants.TryRemove(block.Id, out WantedBlock want))
             {
-                foreach (var consumer in want.Consumers)
+                foreach (var task in want.Tasks.Keys)
                 {
-                    consumer.SetResult(block);
+                    task.SetResult(block);
                 }
 
                 // Tell the swarm.
@@ -475,7 +539,7 @@ namespace Ipfs.Engine.BlockExchange
                     new[] { block.Id },
                     false);
 
-                return want.Consumers.Count;
+                return want.Tasks.Count;
             }
 
             return 0;

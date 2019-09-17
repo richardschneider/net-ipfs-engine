@@ -17,6 +17,11 @@ namespace Ipfs.Engine.BlockExchange
             Id = "QmXK9VBxaXFuuT29AaPUTgW3jBWZ9JgLVZYdMYTHC6LLAH",
             PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQCC5r4nQBtnd9qgjnG8fBN5+gnqIeWEIcUFUdCG4su/vrbQ1py8XGKNUBuDjkyTv25Gd3hlrtNJV3eOKZVSL8ePAgMBAAE="
         };
+        Peer other = new Peer
+        {
+            Id = "QmXK9VBxaXFuuT29AaPUTgW3jBWZ9JgLVZYdMYTHC6LLAX",
+            PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQCC5r4nQBtnd9qgjnG8fBN5+gnqIeWEIcUFUdCG4su/vrbQ1py8XGKNUBuDjkyTv25Gd3hlrtNJV3eOKZVSL8ePAgMBAAE="
+        };
 
         [TestMethod]
         public void WantList()
@@ -86,6 +91,28 @@ namespace Ipfs.Engine.BlockExchange
             bitswap.Unwant(cid);
             Assert.IsTrue(task.IsCanceled);
             CollectionAssert.DoesNotContain(bitswap.PeerWants(self.Id).ToArray(), cid);
+        }
+
+        [TestMethod]
+        public void Want_Unwant_PeerSpecific()
+        {
+            var bitswap = new Bitswap { Swarm = new Swarm { LocalPeer = self } };
+            var cid = new DagNode(Encoding.UTF8.GetBytes("Want_Unwant_PeerSpecific unknown block")).Id;
+            var cts = new CancellationTokenSource();
+            var task1 = bitswap.WantAsync(cid, self.Id, cts.Token);
+            var cts2 = new CancellationTokenSource();
+            var task2 = bitswap.WantAsync(cid, other.Id, cts.Token);
+
+            CollectionAssert.Contains(bitswap.PeerWants(self.Id).ToArray(), cid);
+            CollectionAssert.Contains(bitswap.PeerWants(other.Id).ToArray(), cid);
+
+            bitswap.Unwant(cid, self.Id);
+            CollectionAssert.DoesNotContain(bitswap.PeerWants(self.Id).ToArray(), cid);
+            CollectionAssert.Contains(bitswap.PeerWants(other.Id).ToArray(), cid);
+
+            bitswap.Unwant(cid, other.Id);
+            CollectionAssert.DoesNotContain(bitswap.PeerWants(self.Id).ToArray(), cid);
+            CollectionAssert.DoesNotContain(bitswap.PeerWants(other.Id).ToArray(), cid);
         }
 
         [TestMethod]

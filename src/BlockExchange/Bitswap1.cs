@@ -61,8 +61,7 @@ namespace Ipfs.Engine.BlockExchange
                     Cid cid = s;
                     if (entry.cancel)
                     {
-                        // TODO: Unwant specific to remote peer
-                        Bitswap.Unwant(cid);
+                        Bitswap.Unwant(cid, connection.RemotePeer.Id);
                     }
                     else
                     {

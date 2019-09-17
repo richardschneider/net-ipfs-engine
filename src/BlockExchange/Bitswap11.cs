@@ -57,10 +57,10 @@ namespace Ipfs.Engine.BlockExchange
                     foreach (var entry in request.wantlist.entries)
                     {
                         var cid = Cid.Read(entry.block);
+                        log.Debug($"entry {cid} cancel {entry.cancel}");
                         if (entry.cancel)
                         {
-                            // TODO: Unwant specific to remote peer
-                            Bitswap.Unwant(cid);
+                            Bitswap.Unwant(cid, connection.RemotePeer.Id);
                         }
                         else
                         {

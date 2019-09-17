@@ -155,6 +155,59 @@ namespace Ipfs.Engine
                 Assert.IsTrue(wants != null && wants.Contains(cid), "want list not sent");
 
                 // Send the cancel list.
+                //cts.Cancel();
+                await ipfs.Bitswap.UnwantAsync(cid);
+                endTime = DateTime.Now.AddSeconds(10);
+                wants = null;
+                while (DateTime.Now < endTime && (wants == null || wants.Contains(cid)))
+                {
+                    wants = await ipfsOther.Bitswap.WantsAsync(local.Id);
+                    await Task.Delay(200);
+                }
+                Assert.IsTrue(wants != null && !wants.Contains(cid), "cancel list not sent");
+            }
+            finally
+            {
+                await ipfsOther.StopAsync();
+                await ipfs.StopAsync();
+
+                ipfs.Options.Discovery = new DiscoveryOptions();
+                ipfsOther.Options.Discovery = new DiscoveryOptions();
+            }
+        }
+
+        [TestMethod]
+        public async Task Sends_Cancel_on_Cancellation()
+        {
+            ipfs.Options.Discovery.DisableMdns = true;
+            ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+            await ipfs.StartAsync();
+
+            ipfsOther.Options.Discovery.DisableMdns = true;
+            ipfsOther.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+            await ipfsOther.StartAsync();
+            try
+            {
+                var local = await ipfs.LocalPeer;
+                var remote = await ipfsOther.LocalPeer;
+
+                var data = Guid.NewGuid().ToByteArray();
+                var cid = new Cid { Hash = MultiHash.ComputeHash(data) };
+                var cts = new CancellationTokenSource();
+                var _ = ipfs.Block.GetAsync(cid, cts.Token);
+                await ipfs.Swarm.ConnectAsync(remote.Addresses.First());
+
+                // Send the want list.
+                var endTime = DateTime.Now.AddSeconds(10);
+                IEnumerable<Cid> wants = null;
+                while (DateTime.Now < endTime && (wants == null || !wants.Contains(cid)))
+                {
+                    wants = await ipfsOther.Bitswap.WantsAsync(local.Id);
+                    await Task.Delay(200);
+                }
+                Assert.IsTrue(wants != null && wants.Contains(cid), "want list not sent");
+
+                // Send the cancel list.
                 cts.Cancel();
                 endTime = DateTime.Now.AddSeconds(10);
                 wants = null;

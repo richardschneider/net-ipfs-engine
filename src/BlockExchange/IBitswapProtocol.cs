@@ -21,7 +21,10 @@ namespace Ipfs.Engine.BlockExchange
         ///   The destination of the want list.
         /// </param>
         /// <param name="wants">
-        ///   A sequence of <see cref="WantedBlock"/>.
+        ///   A sequence of <see cref="Cid"/> that is wanted.
+        /// </param>
+        /// <param name="cancels">
+        ///   A sequence of <see cref="Cid"/> that is not wanted.
         /// </param>
         /// <param name="full">
         ///   <b>true</b> if <paramref name="wants"/> is the full want list.
@@ -35,7 +38,8 @@ namespace Ipfs.Engine.BlockExchange
         Task SendWantsAsync
         (
             Stream stream,
-            IEnumerable<WantedBlock> wants,
+            IEnumerable<Cid> wants,
+            IEnumerable<Cid> cancels,
             bool full = true,
             CancellationToken cancel = default(CancellationToken)
         );

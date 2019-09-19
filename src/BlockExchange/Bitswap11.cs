@@ -57,10 +57,10 @@ namespace Ipfs.Engine.BlockExchange
                     foreach (var entry in request.wantlist.entries)
                     {
                         var cid = Cid.Read(entry.block);
+                        log.Debug($"entry {cid} cancel {entry.cancel}");
                         if (entry.cancel)
                         {
-                            // TODO: Unwant specific to remote peer
-                            Bitswap.Unwant(cid);
+                            Bitswap.Unwant(cid, connection.RemotePeer.Id);
                         }
                         else
                         {
@@ -126,24 +126,27 @@ namespace Ipfs.Engine.BlockExchange
         /// <inheritdoc />
         public async Task SendWantsAsync(
             Stream stream,
-            IEnumerable<WantedBlock> wants,
+            IEnumerable<Cid> wants,
+            IEnumerable<Cid> cancels,
             bool full = true,
             CancellationToken cancel = default(CancellationToken)
             )
         {
+            var entries = new List<Entry>();
+            foreach (var cid in wants)
+            {
+                entries.Add(new Entry { block = cid.ToArray() });
+            }
+            foreach (var cid in cancels)
+            {
+                entries.Add(new Entry { block = cid.ToArray(), cancel = true });
+            }
             var message = new Message
             {
                 wantlist = new Wantlist
                 {
                     full = full,
-                    entries = wants
-                        .Select(w => {
-                            return new Entry
-                            {
-                                block = w.Id.ToArray()
-                            };
-                         })
-                        .ToArray()
+                    entries = entries.ToArray(),
                 },
                 payload = new List<Block>(0)
             };

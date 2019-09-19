@@ -3,6 +3,7 @@ using Ipfs.CoreApi;
 using PeerTalk;
 using PeerTalk.Protocols;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,7 +176,7 @@ namespace Ipfs.Engine.BlockExchange
                 var peer = await connection.IdentityEstablished.Task.ConfigureAwait(false);
 
                 // Fire and forget.
-                var _ = SendWantListAsync(peer, wants.Values, true);
+                var _ = SendWantListAsync(peer, wants.Keys, Enumerable.Empty<Cid>(), true);
             }
             catch (Exception e)
             {
@@ -214,7 +215,7 @@ namespace Ipfs.Engine.BlockExchange
         public IEnumerable<Cid> PeerWants(MultiHash peer)
         {
             return wants.Values
-                .Where(w => w.Peers.Contains(peer))
+                .Where(w => w.Tasks.Values.Contains(peer))
                 .Select(w => w.Id);
         }
 
@@ -240,7 +241,7 @@ namespace Ipfs.Engine.BlockExchange
         ///   someone will forward it to us.
         ///   <para>
         ///   Besides using <paramref name="cancel"/> for cancellation, the 
-        ///   <see cref="Unwant"/> method will also cancel the operation.
+        ///   <see cref="Unwant(Cid, MultiHash)"/> method will also cancel the operation.
         ///   </para>
         /// </remarks>
         public Task<IDataBlock> WantAsync(Cid id, MultiHash peer, CancellationToken cancel)
@@ -253,27 +254,32 @@ namespace Ipfs.Engine.BlockExchange
             var tsc = new TaskCompletionSource<IDataBlock>();
             var want = wants.AddOrUpdate(
                 id,
-                (key) => new WantedBlock
-                {
-                    Id = id,
-                    Consumers = new List<TaskCompletionSource<IDataBlock>> { tsc },
-                    Peers = new List<MultiHash> { peer }
+                (key) => {
+                    var block = new WantedBlock
+                    {
+                        Id = id,
+                        Tasks = new ConcurrentDictionary<TaskCompletionSource<IDataBlock>, MultiHash>()
+                    };
+                    block.Tasks.TryAdd(tsc, peer);
+                    return block;
                 },
                 (key, block) =>
                 {
-                    block.Peers.Add(peer);
-                    block.Consumers.Add(tsc);
+                    block.Tasks.TryAdd(tsc, peer);
                     return block;
                 }
             );
 
             // If cancelled, then the block is unwanted.
-            cancel.Register(() => Unwant(id));
+            cancel.Register(() => Unwant(id, peer));
 
             // If first time, tell other peers.
-            if (want.Consumers.Count == 1)
+            if (want.Tasks.Count == 1 && peer == Swarm.LocalPeer.Id)
             {
-                var _ = SendWantListToAllAsync(new[] { want }, full: false);
+                var _ = SendWantListToAllAsync(
+                    new[] { id }, 
+                    Enumerable.Empty<Cid>(),
+                    full: false);
                 BlockNeeded?.Invoke(this, new CidEventArgs { Id = want.Id });
             }
 
@@ -302,13 +308,80 @@ namespace Ipfs.Engine.BlockExchange
 
             if (wants.TryRemove(id, out WantedBlock block))
             {
-                foreach (var consumer in block.Consumers)
+                foreach (var task in block.Tasks.Keys)
                 {
-                    consumer.SetCanceled();
+                    task.TrySetCanceled();
                 }
+
+                // Tell the swarm.
+                var _ = SendWantListToAllAsync(
+                    Enumerable.Empty<Cid>(), 
+                    new[] { block.Id },
+                    false);
+            }
+        }
+
+        /// <summary>
+        ///   Removes the block from the want list.
+        /// </summary>
+        /// <param name="id">
+        ///   The CID of the block to remove from the want list.
+        /// </param>
+        /// <param name="peer">
+        ///   The id of the peer that no longer wants the block.
+        /// </param>
+        /// <remarks>
+        ///   Any tasks from the <paramref name="peer"/> waiting for the block are cancelled.
+        ///   <para>
+        ///   No exception is thrown if the <paramref name="id"/> is not
+        ///   on the want list.
+        ///   </para>
+        /// </remarks>
+        public void Unwant(Cid id, MultiHash peer)
+        {
+            if (log.IsDebugEnabled)
+            {
+                log.Debug($"Unwant {id} for {peer}");
             }
 
-            // TODO: Tell the swarm
+            // Short curcuit if id is not not wanted or not wanted by
+            // the peer.
+            if (!wants.TryGetValue(id, out WantedBlock want))
+            {
+                return;
+            }
+            if (!want.Tasks.Values.Contains(peer))
+            {
+                return;
+            }
+
+            // Get the tasks that want the CID for the peer.
+            var tasks = want.Tasks
+                .Where(t => t.Value == peer)
+                .Select(t => t.Key)
+                .ToArray();
+            foreach (var task in tasks)
+            {
+                log.Debug($"cancel {id} for {peer}");
+                task.TrySetCanceled();
+                want.Tasks.TryRemove(task, out _);
+            }
+            if (peer == Swarm.LocalPeer.Id)
+            {
+                log.Debug($"sending cancel {id}");
+                // Tell the swarm.
+                var _ = SendWantListToAllAsync(
+                    Enumerable.Empty<Cid>(),
+                    new[] { id },
+                    false);
+            }
+
+            // If no other peer wants the CID, then remove it
+            // from the want list.
+            if (want.Tasks.Count == 0)
+            {
+                wants.TryRemove(id, out _);
+            }
         }
 
         /// <summary>
@@ -455,11 +528,18 @@ namespace Ipfs.Engine.BlockExchange
         {
             if (wants.TryRemove(block.Id, out WantedBlock want))
             {
-                foreach (var consumer in want.Consumers)
+                foreach (var task in want.Tasks.Keys)
                 {
-                    consumer.SetResult(block);
+                    task.SetResult(block);
                 }
-                return want.Consumers.Count;
+
+                // Tell the swarm.
+                var _ = SendWantListToAllAsync(
+                    Enumerable.Empty<Cid>(),
+                    new[] { block.Id },
+                    false);
+
+                return want.Tasks.Count;
             }
 
             return 0;
@@ -468,7 +548,10 @@ namespace Ipfs.Engine.BlockExchange
         /// <summary>
         ///   Send our want list to the connected peers.
         /// </summary>
-        async Task SendWantListToAllAsync(IEnumerable<WantedBlock> wants, bool full)
+        async Task SendWantListToAllAsync(
+            IEnumerable<Cid> wants,
+            IEnumerable<Cid> cancels,
+            bool full)
         {
             if (Swarm == null)
                 return;
@@ -477,7 +560,7 @@ namespace Ipfs.Engine.BlockExchange
             {
                 var tasks = Swarm.KnownPeers
                     .Where(p => p.ConnectedAddress != null)
-                    .Select(p => SendWantListAsync(p, wants, full))
+                    .Select(p => SendWantListAsync(p, wants, cancels, full))
                     .ToArray();
                 if (log.IsDebugEnabled)
                     log.Debug($"Spamming {tasks.Count()} connected peers");
@@ -492,7 +575,11 @@ namespace Ipfs.Engine.BlockExchange
             }
         }
 
-        async Task SendWantListAsync(Peer peer, IEnumerable<WantedBlock> wants, bool full)
+        async Task SendWantListAsync(
+            Peer peer, 
+            IEnumerable<Cid> wants,
+            IEnumerable<Cid> cancels,
+            bool full)
         {
             log.Debug($"sending want list to {peer}");
 
@@ -504,7 +591,7 @@ namespace Ipfs.Engine.BlockExchange
                 {
                     using (var stream = await Swarm.DialAsync(peer, protocol.ToString()).ConfigureAwait(false))
                     {
-                        await protocol.SendWantsAsync(stream, wants, full: full).ConfigureAwait(false);
+                        await protocol.SendWantsAsync(stream, wants, cancels, full: full).ConfigureAwait(false);
                     }
                     return;
                 }

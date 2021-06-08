@@ -1,7 +1,7 @@
 ﻿# IPFS PubSub system
 
 The publish/subscribe system allows a `message` to be sent to a group of peers that 
-are subsctibed to a `topic` via the [PubAub API](xref:Ipfs.CoreApi.IPubSubApi).
+are subscribed to a `topic` via the [PubAub API](xref:Ipfs.CoreApi.IPubSubApi).
 The `topic` is just a name that indicates a group of related messages. 
 The [message](xref:Ipfs.IPublishedMessage) contains the author, topic(s), 
 sequence number and content.
